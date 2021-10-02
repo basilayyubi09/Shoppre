@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoppre">
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUp_Valid"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
