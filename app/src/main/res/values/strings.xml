@@ -7,4 +7,18 @@
     <string name="email_id_string">Email Id</string>
     <string name="password_string">Password</string>
     <string name="confirm_password_string">Confirm Password</string>
+
+    <string name="worry_not_w">
+
+Worry not! We’ve got your back.\nEnter your registered email address and we’ll send you a message to help you reset your password.
+</string>
+    <string name="send_reset_link_string">Send Reset Link</string>
+    <string name="shoppre_logo_string">Shoppre Logo</string>
+    <string name="forgot_password_2_image">Forgot Password 2 Image</string>
+    <string name="check_your_email_string">Check Your Email</string>
+    <string name="we_ve_sent_string">We’ve sent you an email to help you reset your password. Remember to check you spam inbox if you can’t find it.</string>
+    <string name="back_to_login_string">Back To Login</string>
+    <string name="new_password_string">New Password</string>
+    <string name="confirm_new_password_string">Confirm New Password</string>
+    <string name="reset_password_string">Reset Password</string>
 </resources>

@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoppre">
         <activity
+            android:name=".UI.ResetPassword"
+            android:exported="true" />
+        <activity
+            android:name=".UI.ForgotPasswordMessage"
+            android:exported="true" />
+        <activity
+            android:name=".UI.ForgetPassword"
+            android:exported="true" />
+        <activity
             android:name=".SignUp_Valid"
             android:exported="true">
             <intent-filter>

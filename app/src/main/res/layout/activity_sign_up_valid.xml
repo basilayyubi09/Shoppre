@@ -64,7 +64,8 @@
         app:boxStrokeWidthFocused="0dp"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false"
-        android:id="@+id/fullName">
+        android:id="@+id/fullName"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -75,7 +76,8 @@
             android:textColorHint="@color/hint_color"
             android:textSize="12sp"
             app:boxStrokeColor="@color/box_background_color"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

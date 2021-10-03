@@ -10,4 +10,5 @@
     <color name="button_blue">#2D8DFF</color>
     <color name="box_background_color">#F3F6F9</color>
     <color name="hint_color">#AFADAD</color>
+    <color name="background">#E5E5E5</color>
 </resources>
