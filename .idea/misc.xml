@@ -14,10 +14,11 @@
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/input_layout.xml" value="0.25" />
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/login_sign_up_button.xml" value="0.33" />
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/shoppre_icon_image_view_layout.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/activity_sign_up_valid.xml" value="0.12685185185185185" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
