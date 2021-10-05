@@ -1,13 +1,11 @@
 package com.peceinfotech.shoppre;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,69 +13,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.recaptcha.Recaptcha;
-import com.google.android.gms.recaptcha.RecaptchaAction;
-import com.google.android.gms.recaptcha.RecaptchaActionType;
-import com.google.android.gms.recaptcha.RecaptchaHandle;
-import com.google.android.gms.recaptcha.RecaptchaResultData;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.peceinfotech.shoppre.UI.ForgetPassword;
+import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.LoginActivity;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
     protected EditText passwordField;
     TextView signUpValdAlrdyAcnt;
-    TextInputLayout firstlNameField, lastNameField , emailIdField ,
-            confirmPasswordField , referalCodeField;
-    String fullName , emailId , password , confirmPassword , referalCode , recaptuaToken , firstName , lastName;
+    TextInputLayout firstlNameField, lastNameField, emailIdField,
+            confirmPasswordField, referalCodeField;
+    String fullName, emailId, password, confirmPassword, referalCode, firstName, lastName;
     ImageView strengthImage;
-    private RecaptchaHandle handle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_valid);
-
-
-        //For Recaptcha Enterprise init()
-//       reCaptchaInit();
-
-//        Recaptcha.getClient(this)
-//                .init("6LeXcqocAAAAAAVFyDeCdInLWfl1C4eusLp1rJIr")
-//                .addOnSuccessListener(
-//                        this,
-//                        new OnSuccessListener<RecaptchaHandle>() {
-//                            @Override
-//                            public void onSuccess(RecaptchaHandle handle) {
-//                                // Handle success ...
-//                                SignUp_Valid.this.handle = handle;
-//                            }
-//                        })
-//                .addOnFailureListener(
-//                        this,
-//                        new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                if (e instanceof ApiException) {
-//                                    ApiException apiException = (ApiException) e;
-//                                    int apiErrorStatus = apiException.getStatusCode();
-//                                    // Handle api errors ...
-//                                } else {
-//                                    // Handle other failures ...
-//                                }
-//                            }
-//                        });
-
-
-
-        //Execute reCaptcha
-//       executeRecaptcha();
 
         //Hooks
 
@@ -96,16 +55,13 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (s.toString().length()==0){
+                if (s.toString().length() == 0) {
                     strengthImage.setVisibility(View.VISIBLE);
-                }
-                else if (s.toString().length()<=3){
+                } else if (s.toString().length() <= 3) {
                     strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                 else if (s.toString().length()>3 && s.toString().length()<7){
+                } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
+                } else {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -117,16 +73,13 @@ public class SignUp_Valid extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length()==0){
+                if (s.toString().length() == 0) {
                     strengthImage.setVisibility(View.GONE);
-                }
-                else if (s.toString().length()<=3){
+                } else if (s.toString().length() <= 3) {
                     strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                else if (s.toString().length()>3 && s.toString().length()<7){
+                } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
+                } else {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -137,7 +90,6 @@ public class SignUp_Valid extends AppCompatActivity {
         getStringFromFields();
 
 
-
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,16 +98,16 @@ public class SignUp_Valid extends AppCompatActivity {
                 //get texts from field
                 getStringFromFields();
 
-                if (!validateFirstName() || !validateLastlName() || !validateEmailField()
+                if (!validateFirstName() || !validateLastName() || !validateEmailField()
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
+                registerVerifyApi(fullName,
+                        emailId,
+                        password,
+                        referalCode,
+                        lastName);
 
-                //verifySignup(fullName , emailId , password , referalCode);
-
-                Toast.makeText(getApplicationContext(), fullName + "\n"
-                        + firstName + "\n"
-                        + lastName, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -163,72 +115,49 @@ public class SignUp_Valid extends AppCompatActivity {
         signUpValdAlrdyAcnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUp_Valid.this , LoginActivity.class));
+                startActivity(new Intent(SignUp_Valid.this, LoginActivity.class));
             }
         });
     }
 
+    private void registerVerifyApi(String fullName, String emailId, String password, String referalCode, String lastName) {
+        Call<RegisterVerifyResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .registerVerify(emailId,
+                        firstName,
+                        "https://www.shoppre.com/reviews",
+                        "shoppreglobal.com",
+                        lastName,
+                        password,
+                        "",
+                        referalCode,
+                        "https://www.google.com/");
 
-    private void executeRecaptcha() {
+        call.enqueue(new Callback<RegisterVerifyResponse>() {
+            @Override
+            public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    clearFields();
+                } else
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-        Recaptcha.getClient(this)
-                .execute(this.handle, new RecaptchaAction(new RecaptchaActionType(RecaptchaActionType.LOGIN)))
-                .addOnSuccessListener(
-                        this,
-                        new OnSuccessListener<RecaptchaResultData>() {
-                            @Override
-                            public void onSuccess(RecaptchaResultData response) {
-                                recaptuaToken = response.getTokenResult();
-                                // Handle success ...
-                                if (!recaptuaToken.isEmpty()) {
-                                    Log.d("", "reCAPTCHA response token: " + recaptuaToken);
-                                    // Validate the response token by following the instructions
-                                    // when creating an assessment.
-                                }
-                            }
-                        })
-                .addOnFailureListener(
-                        this,
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (e instanceof ApiException) {
-                                    ApiException apiException = (ApiException) e;
-                                    int apiErrorStatus = apiException.getStatusCode();
-                                    // Handle api errors ...
-                                } else {
-                                    // Handle other failures ...
-                                }
-                            }
-                        });
+            @Override
+            public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
-    private void reCaptchaInit() {
-        Recaptcha.getClient(this)
-                .init("6LfzxcwUAAAAAG4T4KzPdgMPv7Ovfax1aR6HsIww")
-                .addOnSuccessListener(
-                        this,
-                        new OnSuccessListener<RecaptchaHandle>() {
-                            @Override
-                            public void onSuccess(RecaptchaHandle handle) {
-                                // Handle success ...
-                                SignUp_Valid.this.handle = handle;
-                            }
-                        })
-                .addOnFailureListener(
-                        this,
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (e instanceof ApiException) {
-                                    ApiException apiException = (ApiException) e;
-                                    int apiErrorStatus = apiException.getStatusCode();
-                                    // Handle api errors ...
-                                } else {
-                                    // Handle other failures ...
-                                }
-                            }
-                        });
+    private void clearFields() {
+        firstlNameField.getEditText().setText("");
+        lastNameField.getEditText().setText("");
+        emailIdField.getEditText().setText("");
+        confirmPasswordField.getEditText().setText("");
+        referalCodeField.getEditText().setText("");
     }
 
 
@@ -239,8 +168,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
             firstlNameField.setError("Field Can't be Empty");
             return false;
-        }
-        else {
+        } else {
             firstlNameField.setError(null);
             firstlNameField.setErrorEnabled(false);
             return true;
@@ -248,15 +176,14 @@ public class SignUp_Valid extends AppCompatActivity {
 
     }
 
-    private Boolean validateLastlName() {
+    private Boolean validateLastName() {
 
 
         if (lastName.isEmpty()) {
 
             lastNameField.setError("Field Can't be empty");
             return false;
-        }
-        else {
+        } else {
             lastNameField.setError(null);
             lastNameField.setErrorEnabled(false);
             return true;
