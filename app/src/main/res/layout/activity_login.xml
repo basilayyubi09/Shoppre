@@ -127,6 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Email ID"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:singleLine="true"
             android:textColor="@color/black"
@@ -153,14 +154,13 @@
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintAnimationEnabled="false"
-        app:hintEnabled="false"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="#AFADAD">
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Password"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:singleLine="true"
             android:textColor="@color/black"
@@ -188,8 +188,8 @@
         android:layout_marginTop="32dp"
         android:backgroundTint="#2D8DFF"
         android:lineHeight="17sp"
-
-
+        android:paddingTop="10dp"
+        android:paddingBottom="11dp"
         android:text="Login"
         android:textAllCaps="false"
         android:textFontWeight="700"
@@ -197,31 +197,14 @@
         app:cornerRadius="5dp"
         app:elevation="4dp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/dont_have_acnt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="74dp"
+        android:text="@string/dont_have"
+        android:textSize="12sp"
         android:layout_marginTop="32dp"
-        android:layout_marginRight="74dp"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account yet?"
-            android:textColor="@color/black"
-            android:textFontWeight="600"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/signupnow_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Sign Up Now"
-            android:textColor="#2D8DFF"
-            android:textFontWeight="600"
-            android:textSize="12sp" />
-    </LinearLayout>
 
 </LinearLayout>

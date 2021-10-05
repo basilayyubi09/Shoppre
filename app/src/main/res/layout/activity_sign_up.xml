@@ -70,7 +70,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_centerVertical="true"
         android:layout_marginTop="42dp">
 
         <TextView
@@ -128,6 +128,7 @@
             android:layout_height="match_parent"
             android:hint="Email ID"
             android:padding="10dp"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColor="#AFADAD"
             android:textColorHint="#AFADAD"
@@ -145,8 +146,8 @@
         android:layout_marginTop="44dp"
         android:backgroundTint="#2D8DFF"
         android:lineHeight="17sp"
-
-
+        android:paddingTop="10dp"
+        android:paddingBottom="11dp"
         android:text="Get Started!"
         android:textAllCaps="false"
         android:textStyle="bold"
@@ -154,34 +155,14 @@
         app:cornerRadius="5dp"
         app:elevation="4dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/signup_already_acnt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="107dp"
+        android:text="@string/alreay_have"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="28dp"
-        android:layout_marginRight="106dp"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an account?"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textFontWeight="600" />
-
-        <TextView
-            android:id="@+id/already_acnt_login_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Login"
-            android:textColor="#2D8DFF"
-            android:textSize="12sp"
-            android:textFontWeight="600" />
-
-    </LinearLayout>
+        android:textSize="12sp"/>
 
 
 </LinearLayout>

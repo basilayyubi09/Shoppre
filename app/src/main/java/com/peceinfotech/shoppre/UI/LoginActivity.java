@@ -21,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //Hooks
-        signupNowText = findViewById(R.id.signupnow_text);
+        signupNowText = findViewById(R.id.dont_have_acnt);
         forgotPassword = findViewById(R.id.forgot_password);
 
         signupNowText.setOnClickListener(new View.OnClickListener() {
