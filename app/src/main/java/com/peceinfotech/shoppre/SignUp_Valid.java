@@ -30,7 +30,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
     EditText passwordField;
-    TextInputLayout fullNameField , emailIdField ,
+    TextInputLayout firstlNameField, lastNameField , emailIdField ,
             confirmPasswordField , referalCodeField;
     String fullName , emailId , password , confirmPassword , referalCode , recaptuaToken , firstName , lastName;
     ImageView strengthImage;
@@ -79,7 +79,8 @@ public class SignUp_Valid extends AppCompatActivity {
         //Hooks
 
         sendBtn = findViewById(R.id.signUpBtn);
-        fullNameField = findViewById(R.id.fullName);
+        firstlNameField = findViewById(R.id.firstName);
+        lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
         passwordField = findViewById(R.id.passwordField);
         confirmPasswordField = findViewById(R.id.confirmPassword);
@@ -141,7 +142,7 @@ public class SignUp_Valid extends AppCompatActivity {
                 //get texts from field
                 getStringFromFields();
 
-                if (!validateFullName() || !validateEmailField()
+                if (!validateFirstName() || !validateLastlName() || !validateEmailField()
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
@@ -220,16 +221,33 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
 
-    private Boolean validateFullName() {
+    private Boolean validateFirstName() {
 
 
-        if (fullName.isEmpty()) {
+        if (firstName.isEmpty()) {
 
-            fullNameField.setError("Field Can't be empty");
+            firstlNameField.setError("Field Can't be Empty");
             return false;
-        } else {
-            fullNameField.setError(null);
-            fullNameField.setErrorEnabled(false);
+        }
+        else {
+            firstlNameField.setError(null);
+            firstlNameField.setErrorEnabled(false);
+            return true;
+        }
+
+    }
+
+    private Boolean validateLastlName() {
+
+
+        if (lastName.isEmpty()) {
+
+            lastNameField.setError("Field Can't be empty");
+            return false;
+        }
+        else {
+            lastNameField.setError(null);
+            lastNameField.setErrorEnabled(false);
             return true;
         }
 
@@ -285,21 +303,14 @@ public class SignUp_Valid extends AppCompatActivity {
 
     private void getStringFromFields() {
 
-        fullName = fullNameField.getEditText().getText().toString();
-        emailId = emailIdField.getEditText().getText().toString();
-        password = passwordField.getText().toString();
-        confirmPassword = confirmPasswordField.getEditText().getText().toString();
-        referalCode = referalCodeField.getEditText().getText().toString();
+        firstName = firstlNameField.getEditText().getText().toString().trim();
+        lastName = lastNameField.getEditText().getText().toString().trim();
+        emailId = emailIdField.getEditText().getText().toString().trim();
+        password = passwordField.getText().toString().trim();
+        confirmPassword = confirmPasswordField.getEditText().getText().toString().trim();
+        referalCode = referalCodeField.getEditText().getText().toString().trim();
 
-        if (fullName.split("\\w+").length > 1) {
 
-            int firstSpace = fullName.indexOf(" "); // detect the first space character
-            firstName = fullName.substring(0, firstSpace);  // get everything upto the first space character
-            lastName = fullName.substring(firstSpace).trim(); //
-        } else {
-            firstName = fullName;
-            lastName = "";
-        }
     }
 
 }

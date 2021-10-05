@@ -197,32 +197,15 @@
         app:cornerRadius="5dp"
         app:elevation="4dp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/dont_have_acnt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="107dp"
+        android:text="@string/dont_have"
+        android:textSize="12sp"
         android:layout_marginTop="32dp"
-        android:layout_marginRight="106dp"
-        android:orientation="horizontal"
-        android:textAlignment="center">
+        android:layout_marginRight="74dp"
+        android:layout_marginLeft="74dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account yet?"
-            android:textColor="@color/black"
-            android:textFontWeight="600"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/signupnow_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Sign Up Now"
-            android:textColor="#2D8DFF"
-            android:textFontWeight="600"
-            android:textSize="12sp" />
-    </LinearLayout>
 
 </LinearLayout>

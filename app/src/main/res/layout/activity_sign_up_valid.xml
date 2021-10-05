@@ -12,7 +12,7 @@
         android:layout_width="164dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="38dp"
         android:contentDescription="Shoppre Logo"
         android:src="@mipmap/shoppre_logo" />
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="53dp">
+        android:layout_marginTop="28dp">
 
         <ImageView
             android:id="@+id/backArrow"
@@ -44,9 +44,11 @@
     </LinearLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout xmlns:app="http://schemas.android.com/apk/res-auto"
 
-        android:id="@+id/fullName"
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:id="@+id/firstName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,15 +62,16 @@
         app:boxCornerRadiusTopEnd="5dp"
         app:boxCornerRadiusTopStart="5dp"
         app:boxStrokeColor="@color/box_background_color"
-        app:errorEnabled="true"
         app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/full_name_string"
+            android:hint="First Name"
             android:padding="10dp"
             android:singleLine="true"
             android:textColor="@color/black"
@@ -77,24 +80,62 @@
             app:boxStrokeColor="@color/box_background_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+
     <com.google.android.material.textfield.TextInputLayout
 
+        android:id="@+id/lastName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="38dp"
+        app:boxBackgroundColor="@color/box_background_color"
+        app:boxCornerRadiusBottomEnd="5dp"
+        app:boxCornerRadiusBottomStart="5dp"
+        app:boxCornerRadiusTopEnd="5dp"
+        app:boxCornerRadiusTopStart="5dp"
+        app:boxStrokeColor="@color/box_background_color"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:errorEnabled="true"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Last Name"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/hint_color"
+            android:textSize="12sp"
+            app:boxStrokeColor="@color/box_background_color" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailId"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         app:boxBackgroundColor="@color/box_background_color"
         app:boxCornerRadiusBottomEnd="5dp"
         app:boxCornerRadiusBottomStart="5dp"
         app:boxCornerRadiusTopEnd="5dp"
-        app:boxStrokeWidth="0dp"
         app:boxCornerRadiusTopStart="5dp"
         app:boxStrokeColor="@color/box_background_color"
+        app:boxStrokeWidth="0dp"
         app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">
@@ -104,6 +145,7 @@
             android:layout_height="match_parent"
             android:hint="@string/email_id_string"
             android:padding="10dp"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textColorHint="@color/hint_color"
@@ -111,16 +153,18 @@
             app:boxStrokeColor="@color/box_background_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:strokeColor="@color/box_background_color"
         android:layout_marginLeft="40dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         app:cardBackgroundColor="@color/box_background_color"
-        android:layout_marginTop="22dp"
         app:cardCornerRadius="5dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:strokeColor="@color/box_background_color">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,42 +174,45 @@
                 android:id="@+id/passwordField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_weight="0.6"
-                android:hint="Password"
-                android:textColorHint="@color/hint_color"
-                android:paddingLeft="13dp"
-                android:paddingBottom="12dp"
                 android:layout_gravity="center"
+                android:layout_weight="0.6"
+                android:background="@null"
+                android:hint="Password"
+                android:paddingLeft="13dp"
                 android:paddingTop="11dp"
+                android:paddingBottom="12dp"
                 android:textColor="@color/black"
-                android:textSize="12sp"/>
+                android:textColorHint="@color/hint_color"
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/strengthImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:src="@drawable/ic_strong"
-                android:visibility="gone"
                 android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:layout_weight="0.4"
                 android:paddingRight="15dp"
-                android:layout_marginRight="3dp"/>
+                android:src="@drawable/ic_strong"
+                android:visibility="gone" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="12dp"
-        android:textFontWeight="500"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="38dp"
         android:text="@string/helper_text"
         android:textColor="@color/hint_color"
+        android:textFontWeight="500"
         android:textSize="10sp" />
+
+
 
     <com.google.android.material.textfield.TextInputLayout
 
@@ -182,9 +229,10 @@
         app:boxCornerRadiusBottomStart="5dp"
         app:boxCornerRadiusTopEnd="5dp"
         app:boxCornerRadiusTopStart="5dp"
-        app:boxStrokeWidth="0dp"
         app:boxStrokeColor="@color/box_background_color"
-       app:errorEnabled="true"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">
 
@@ -210,7 +258,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         app:boxBackgroundColor="@color/box_background_color"
         app:boxCornerRadiusBottomEnd="5dp"
@@ -239,12 +287,14 @@
             app:boxStrokeColor="@color/box_background_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         android:text="@string/by_signing_"
         android:textColor="@color/hint_color"

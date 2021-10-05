@@ -154,34 +154,14 @@
         app:cornerRadius="5dp"
         app:elevation="4dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/already_acnt_login_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="107dp"
+        android:text="@string/alreay_have"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="28dp"
-        android:layout_marginRight="106dp"
-        android:orientation="horizontal"
-        android:textAlignment="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an account?"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textFontWeight="600" />
-
-        <TextView
-            android:id="@+id/already_acnt_login_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Login"
-            android:textColor="#2D8DFF"
-            android:textSize="12sp"
-            android:textFontWeight="600" />
-
-    </LinearLayout>
+        android:textSize="12sp"/>
 
 
 </LinearLayout>
