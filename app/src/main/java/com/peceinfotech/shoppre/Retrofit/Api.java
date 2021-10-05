@@ -23,4 +23,5 @@ public interface Api {
             @Field("referral_code") String referral_code,
             @Field("referrer") String referrer
     );
+
 }

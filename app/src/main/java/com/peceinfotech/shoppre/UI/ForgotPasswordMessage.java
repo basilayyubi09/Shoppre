@@ -2,6 +2,7 @@ package com.peceinfotech.shoppre.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ public class ForgotPasswordMessage extends AppCompatActivity {
         backToLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Back To Login Is Clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ForgotPasswordMessage.this , LoginActivity.class));
             }
         });
     }
