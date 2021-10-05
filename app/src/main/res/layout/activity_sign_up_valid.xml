@@ -318,7 +318,7 @@
         android:layout_height="wrap_content"
         android:text="@string/alreay_have"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="28dp"
         android:paddingBottom="22dp"
         android:textSize="12sp"/>
 
