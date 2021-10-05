@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context=".SignUp_Valid">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <ImageView
         android:layout_width="164dp"
         android:layout_height="50dp"
@@ -171,7 +179,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/passwordField"
+                android:id="@+id/pf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -304,5 +312,15 @@
         android:id="@+id/signUpBtn"
         layout="@layout/login_sign_up_button" />
 
+    <TextView
+        android:id="@+id/signup_vld_alrdy_acnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alreay_have"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="28dp"
+        android:textSize="12sp"/>
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

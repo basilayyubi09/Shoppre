@@ -22,7 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         //Hooks
-        loginText = findViewById(R.id.already_acnt_login_text);
+        loginText = findViewById(R.id.signup_already_acnt);
         getStarttedBtn = findViewById(R.id.get_started_btn);
 
 

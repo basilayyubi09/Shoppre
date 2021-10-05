@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
@@ -25,11 +26,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.peceinfotech.shoppre.UI.ForgetPassword;
+import com.peceinfotech.shoppre.UI.LoginActivity;
 
 public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
-    EditText passwordField;
+    protected EditText passwordField;
+    TextView signUpValdAlrdyAcnt;
     TextInputLayout firstlNameField, lastNameField , emailIdField ,
             confirmPasswordField , referalCodeField;
     String fullName , emailId , password , confirmPassword , referalCode , recaptuaToken , firstName , lastName;
@@ -82,10 +85,11 @@ public class SignUp_Valid extends AppCompatActivity {
         firstlNameField = findViewById(R.id.firstName);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
-        passwordField = findViewById(R.id.passwordField);
+        passwordField = findViewById(R.id.pf);
         confirmPasswordField = findViewById(R.id.confirmPassword);
         referalCodeField = findViewById(R.id.referalCode);
         strengthImage = findViewById(R.id.strengthImage);
+        signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
 
 
         passwordField.addTextChangedListener(new TextWatcher() {
@@ -114,7 +118,7 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length()==0){
-                    strengthImage.setVisibility(View.VISIBLE);
+                    strengthImage.setVisibility(View.GONE);
                 }
                 else if (s.toString().length()<=3){
                     strengthImage.setImageResource(R.drawable.ic_weak);
@@ -153,6 +157,13 @@ public class SignUp_Valid extends AppCompatActivity {
                         + firstName + "\n"
                         + lastName, Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+        signUpValdAlrdyAcnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUp_Valid.this , LoginActivity.class));
             }
         });
     }
