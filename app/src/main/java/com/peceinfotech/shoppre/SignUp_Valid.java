@@ -43,7 +43,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
         //For Recaptcha Enterprise init()
-//       reCaptchaInit();
+       reCaptchaInit();
 
 //        Recaptcha.getClient(this)
 //                .init("6LeXcqocAAAAAAVFyDeCdInLWfl1C4eusLp1rJIr")
@@ -87,45 +87,45 @@ public class SignUp_Valid extends AppCompatActivity {
         strengthImage = findViewById(R.id.strengthImage);
 
 
-        passwordField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                if (s.toString().length()==0){
-                    strengthImage.setVisibility(View.VISIBLE);
-                }
-                else if (s.toString().length()<=3){
-                    strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                 else if (s.toString().length()>3 && s.toString().length()<7){
-                    strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
-                    strengthImage.setImageResource(R.drawable.ic_strong);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length()==0){
-                    strengthImage.setVisibility(View.VISIBLE);
-                }
-                else if (s.toString().length()<=3){
-                    strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                else if (s.toString().length()>3 && s.toString().length()<7){
-                    strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
-                    strengthImage.setImageResource(R.drawable.ic_strong);
-                }
-            }
-        });
+//        passwordField.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                if (s.toString().length()==0){
+//                    strengthImage.setVisibility(View.VISIBLE);
+//                }
+//                else if (s.toString().length()<=3){
+//                    strengthImage.setImageResource(R.drawable.ic_weak);
+//                }
+//                 else if (s.toString().length()>3 && s.toString().length()<7){
+//                    strengthImage.setImageResource(R.drawable.ic_medium);
+//                }
+//                else {
+//                    strengthImage.setImageResource(R.drawable.ic_strong);
+//                }
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().length()==0){
+//                    strengthImage.setVisibility(View.VISIBLE);
+//                }
+//                else if (s.toString().length()<=3){
+//                    strengthImage.setImageResource(R.drawable.ic_weak);
+//                }
+//                else if (s.toString().length()>3 && s.toString().length()<7){
+//                    strengthImage.setImageResource(R.drawable.ic_medium);
+//                }
+//                else {
+//                    strengthImage.setImageResource(R.drawable.ic_strong);
+//                }
+//            }
+//        });
 
 
         //get text from field
@@ -147,6 +147,8 @@ public class SignUp_Valid extends AppCompatActivity {
                 }
 
                 //verifySignup(fullName , emailId , password , referalCode);
+
+                executeRecaptcha();
 
                 Toast.makeText(getApplicationContext(), fullName + "\n"
                         + firstName + "\n"
