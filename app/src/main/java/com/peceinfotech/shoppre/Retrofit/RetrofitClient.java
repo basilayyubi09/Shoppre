@@ -5,9 +5,10 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://staging-login.shoppre.com/api/";
+    private static final String BASE_URL = "https://staging-login.shoppre.com/";
     private static RetrofitClient myClient;
     private Retrofit retrofit;
 
@@ -15,6 +16,7 @@ public class RetrofitClient {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

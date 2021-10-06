@@ -104,7 +104,7 @@
     </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_email"
+        android:id="@+id/emailIdField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_password"
+        android:id="@+id/passwordField"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -174,14 +174,14 @@
         android:id="@+id/forgot_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginRight="39dp"
         android:gravity="right"
         android:text="Forgot Password"
         android:textColor="#AFADAD" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_btn"
+        android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="82dp"
@@ -190,6 +190,8 @@
         android:lineHeight="17sp"
         android:paddingTop="10dp"
         android:paddingBottom="11dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="Login"
         android:textAllCaps="false"
         android:textFontWeight="700"

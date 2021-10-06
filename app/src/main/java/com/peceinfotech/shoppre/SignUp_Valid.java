@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,11 @@ import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.LoginActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +35,7 @@ public class SignUp_Valid extends AppCompatActivity {
     TextView signUpValdAlrdyAcnt;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String fullName, emailId, password, confirmPassword, referalCode, firstName, lastName;
+    String  emailId, password, confirmPassword, referalCode, firstName, lastName;
     ImageView strengthImage;
 
 
@@ -102,11 +108,15 @@ public class SignUp_Valid extends AppCompatActivity {
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
-                registerVerifyApi(fullName,
-                        emailId,
-                        password,
-                        referalCode,
-                        lastName);
+                try {
+                    registerVerifyApi(firstName,
+                            emailId,
+                            password,
+                            referalCode,
+                            lastName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
             }
@@ -120,42 +130,63 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
-    private void registerVerifyApi(String fullName, String emailId, String password, String referalCode, String lastName) {
-        Call<RegisterVerifyResponse> call = RetrofitClient
-                .getInstance()
-                .getApi()
-                .registerVerify(emailId,
-                        firstName,
-                        "https://www.shoppre.com/reviews",
-                        "shoppreglobal.com",
-                        lastName,
-                        password,
-                        "",
-                        referalCode,
-                        "https://www.google.com/");
+    private void registerVerifyApi(String fullName,
+                                   String emailId,
+                                   String password,
+                                   String referalCode,
+                                   String lastName) throws JSONException {
 
-        call.enqueue(new Callback<RegisterVerifyResponse>() {
-            @Override
-            public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    clearFields();
-                } else
-                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-            }
+        // prepare call in Retrofit 2.0
 
-            @Override
-            public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            JSONObject paramObject = new JSONObject();
+            paramObject.put("email", emailId);
+            paramObject.put("first_name", firstName);
+            paramObject.put("first_name", "https://www.shoppre.com/reviews");
+            paramObject.put("from_domain", "shoppreglobal.com");
+            paramObject.put("last_name", lastName);
+            paramObject.put("password", password);
+            paramObject.put("referral_code", emailId);
+            paramObject.put("referrer", "https://www.google.com/");
 
-            }
-        });
+
+            Call<RegisterVerifyResponse> call = RetrofitClient
+                    .getInstance()
+                    .getApi()
+                    .registerVerify(paramObject.toString());
+            call.enqueue(new Callback<RegisterVerifyResponse>() {
+                @Override
+                public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
+
+                    RegisterVerifyResponse registerVerifyResponse = response.body();
+
+                    String c = String.valueOf(registerVerifyResponse.getCustomerId());
+                    if (response.isSuccessful()){
+
+                        if (c != null){
+                        Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        clearFields();}
+                        else{
+                            Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
     }
+
+
 
     private void clearFields() {
         firstlNameField.getEditText().setText("");
         lastNameField.getEditText().setText("");
         emailIdField.getEditText().setText("");
+        passwordField.setText("");
         confirmPasswordField.getEditText().setText("");
         referalCodeField.getEditText().setText("");
     }
@@ -165,8 +196,8 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
         if (firstName.isEmpty()) {
-
-            firstlNameField.setError("Field Can't be Empty");
+            firstlNameField.setBoxStrokeWidth(2);
+            firstlNameField.setError("This is a required field");
             return false;
         } else {
             firstlNameField.setError(null);
@@ -180,8 +211,8 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
         if (lastName.isEmpty()) {
-
-            lastNameField.setError("Field Can't be empty");
+            lastNameField.setBoxStrokeWidth(2);
+            lastNameField.setError("This is a required field");
             return false;
         } else {
             lastNameField.setError(null);
@@ -195,10 +226,11 @@ public class SignUp_Valid extends AppCompatActivity {
 
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
-
-            emailIdField.setError("Email Can't be empty");
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setError("This is a required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
+            emailIdField.setBoxStrokeWidth(2);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
@@ -212,7 +244,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
         if (password.isEmpty()) {
 
-            passwordField.setError("Password Field Can't be empty");
+            passwordField.setError("This is a required field");
             return false;
         } else {
             passwordField.setError(null);
@@ -226,9 +258,11 @@ public class SignUp_Valid extends AppCompatActivity {
 
         if (confirmPassword.isEmpty()) {
 
-            confirmPasswordField.setError("Please confirm password");
+            confirmPasswordField.setBoxStrokeWidth(2);
+            confirmPasswordField.setError("This is a required field");
             return false;
         } else if (!confirmPassword.equals(password)) {
+            confirmPasswordField.setBoxStrokeWidth(2);
             confirmPasswordField.setError("Password does not match");
             return false;
 
@@ -252,3 +286,4 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
 }
+
