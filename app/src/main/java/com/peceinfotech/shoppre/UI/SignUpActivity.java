@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.SignUp_Valid;
+import com.peceinfotech.shoppre.UI.OnBoarding.OnBoarding;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -36,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         getStarttedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this , SignUp_Valid.class));
+                startActivity(new Intent(SignUpActivity.this , OnBoarding.class));
             }
         });
 

@@ -17,4 +17,5 @@
 
     <color name="onboarding_header">#1B274E</color>
     <color name="skipcolor">#3A5FD8</color>
+    <color name="button_color">#17B28F</color>
 </resources>

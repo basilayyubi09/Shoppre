@@ -8,42 +8,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
 
-import org.w3c.dom.Text;
+public class FourthOnBoarding extends Fragment {
 
-public class FirstOnBoarding extends Fragment {
-
-    private Button nextBtn1;
-    TextView skip1;
+    private Button unlockBtn;
+    ImageView backBtn3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_first_on_boarding, container, false);
+        View view = inflater.inflate(R.layout.fragment_fourth_on_boarding, container, false);
 
-        nextBtn1 = view.findViewById(R.id.next_btn_1);
-        skip1 = view.findViewById(R.id.skip1);
+        unlockBtn = view.findViewById(R.id.unlock_btn);
+        backBtn3 = view.findViewById(R.id.back_arrow3);
 
-        nextBtn1.setOnClickListener(new View.OnClickListener() {
+        unlockBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 OnBoarding.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_right_to_left, R.anim.exit_right_to_left, R.anim.entry_left_to_right, R.anim.exit_left_to_right)
-                        .replace(R.id.onboarding_container,new SecoundOnBoarding(),null).addToBackStack(null).commit();
+                        .replace(R.id.onboarding_container,new FifthOnBoarding(),null).addToBackStack(null).commit();
+
             }
         });
 
-        skip1.setOnClickListener(new View.OnClickListener() {
+        backBtn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 OnBoarding.fragmentManager.beginTransaction()
-                        .replace(R.id.onboarding_container, new FourthOnBoarding(),null).addToBackStack(null)
-                        .commit();
+                        .setCustomAnimations(R.anim.entry_left_to_right, R.anim.exit_left_to_right, R.anim.entry_right_to_left, R.anim.exit_right_to_left)
+                        .replace(R.id.onboarding_container,new ThirdOnBoarding(),null).commit();
             }
         });
 

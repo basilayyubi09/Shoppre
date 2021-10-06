@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/first_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.OnBoarding.FirstOnBoarding">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.OnBoarding.SecoundOnBoarding">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -15,17 +14,29 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/back_arrow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_arrow"/>
+
 
         <TextView
-            android:id="@+id/skip1"
+            android:id="@+id/skip2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
             android:text="SKIP"
             android:textColor="@color/skipcolor"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,7 +45,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/onboarding1" />
+                android:src="@drawable/onboarding2" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -43,26 +54,27 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="49dp"
-                android:layout_marginTop="410dp"
-                android:layout_marginEnd="50dp"
-                android:textStyle="bold"
-                android:layout_marginBottom="170dp"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="343dp"
+                android:layout_marginEnd="47dp"
+                android:layout_marginBottom="156dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/get_a_unique_indian_virtual_address_to_shop"
+                android:text="@string/shop_from_1000_indian_websites_get_it_delivered_to_your_virtual_address"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/next_btn_1"
+                android:id="@+id/next_btn_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="47dp"
+                android:layout_marginTop="343dp"
                 android:backgroundTint="@color/button_color"
                 android:paddingTop="13dp"
                 android:paddingBottom="14dp"
