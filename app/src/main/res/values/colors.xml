@@ -11,4 +11,10 @@
     <color name="box_background_color">#F3F6F9</color>
     <color name="hint_color">#AFADAD</color>
     <color name="background">#E5E5E5</color>
+
+
+<!--    //Onboarding header color-->
+
+    <color name="onboarding_header">#1B274E</color>
+    <color name="skipcolor">#3A5FD8</color>
 </resources>

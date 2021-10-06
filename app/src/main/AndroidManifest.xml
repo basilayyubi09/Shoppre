@@ -13,15 +13,16 @@
         android:theme="@style/Theme.Shoppre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.OnBoarding.OnBoarding1"
+            android:exported="true" />
+        <activity
             android:name=".UI.SignUpActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UI.LoginActivity"
@@ -37,9 +38,7 @@
             android:exported="true" />
         <activity
             android:name=".SignUp_Valid"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

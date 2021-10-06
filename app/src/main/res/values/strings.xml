@@ -23,4 +23,6 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="reset_password_string">Reset Password</string>
     <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF"> Login</font></string>
     <string name="dont_have"><font color="#000000">Don\'t have an account?</font><font color="#2D8DFF"> Sign Up Now</font></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
