@@ -13,18 +13,10 @@
         android:theme="@style/Theme.Shoppre"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".UI.OnBoarding.OnBoarding"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:name=".UI.OrderActivity"
+            android:exported="true" />
         <activity
-            android:name=".UI.SignUpActivity"
+            android:name=".UI.OnBoarding.OnBoardingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,20 +25,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.LoginActivity"
+            android:name=".UI.SignupLogin.SignUpActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.SignupLogin.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".UI.ResetPassword"
+            android:name=".UI.SignupLogin.ResetPassword"
             android:exported="true" />
         <activity
-            android:name=".UI.ForgotPasswordMessage"
+            android:name=".UI.SignupLogin.ForgotPasswordMessage"
             android:exported="true" />
         <activity
-            android:name=".UI.ForgetPassword"
+            android:name=".UI.SignupLogin.ForgetPassword"
             android:exported="true" />
         <activity
-            android:name=".SignUp_Valid"
-            android:exported="true"></activity>
+            android:name=".UI.SignupLogin.SignUp_Valid"
+            android:exported="true" />
     </application>
 
 </manifest>

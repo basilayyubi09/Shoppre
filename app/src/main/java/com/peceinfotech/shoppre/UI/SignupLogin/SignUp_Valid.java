@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +23,8 @@ import com.google.android.gms.recaptcha.RecaptchaHandle;
 import com.google.android.gms.recaptcha.RecaptchaResultData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.peceinfotech.shoppre.UI.ForgetPassword;
-import com.peceinfotech.shoppre.UI.LoginActivity;
+import com.peceinfotech.shoppre.R;
 
 public class SignUp_Valid extends AppCompatActivity {
 

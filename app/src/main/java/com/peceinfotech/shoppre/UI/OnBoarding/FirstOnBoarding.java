@@ -10,10 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
-
-import org.w3c.dom.Text;
 
 public class FirstOnBoarding extends Fragment {
 
@@ -32,7 +29,7 @@ public class FirstOnBoarding extends Fragment {
         nextBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_right_to_left, R.anim.exit_right_to_left, R.anim.entry_left_to_right, R.anim.exit_left_to_right)
                         .replace(R.id.onboarding_container,new SecoundOnBoarding(),null).addToBackStack(null).commit();
             }
@@ -41,7 +38,7 @@ public class FirstOnBoarding extends Fragment {
         skip1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .replace(R.id.onboarding_container, new FourthOnBoarding(),null).addToBackStack(null)
                         .commit();
             }

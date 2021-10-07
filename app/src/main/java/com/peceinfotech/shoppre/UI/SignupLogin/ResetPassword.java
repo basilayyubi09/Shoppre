@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.UI;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 

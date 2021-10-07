@@ -34,7 +34,7 @@ public class SecoundOnBoarding extends Fragment {
             @Override
             public void onClick(View view) {
 
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_right_to_left, R.anim.exit_right_to_left, R.anim.entry_left_to_right, R.anim.exit_left_to_right)
                         .replace(R.id.onboarding_container,new ThirdOnBoarding(),null).addToBackStack(null).commit();
 
@@ -45,7 +45,7 @@ public class SecoundOnBoarding extends Fragment {
         skip2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .replace(R.id.onboarding_container, new FourthOnBoarding(),null).addToBackStack(null).commit();
             }
         });
@@ -53,7 +53,7 @@ public class SecoundOnBoarding extends Fragment {
         backBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_left_to_right, R.anim.exit_left_to_right, R.anim.entry_right_to_left, R.anim.exit_right_to_left)
                         .replace(R.id.onboarding_container,new FirstOnBoarding(),null).commit();
             }

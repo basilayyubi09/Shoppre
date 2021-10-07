@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.UI;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.SignUp_Valid;
-import com.peceinfotech.shoppre.UI.OnBoarding.OnBoarding;
+import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -37,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
         getStarttedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this , OnBoarding.class));
+                startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
             }
         });
 

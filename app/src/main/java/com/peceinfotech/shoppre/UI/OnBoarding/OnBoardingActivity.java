@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.peceinfotech.shoppre.R;
 
-public class OnBoarding extends AppCompatActivity {
+public class OnBoardingActivity extends AppCompatActivity {
 
     public static FragmentManager fragmentManager;
 

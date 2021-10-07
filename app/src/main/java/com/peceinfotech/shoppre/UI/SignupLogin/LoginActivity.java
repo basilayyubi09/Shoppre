@@ -1,15 +1,13 @@
-package com.peceinfotech.shoppre.UI;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.SignUp_Valid;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.SignUpActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
 
 public class FifthOnBoarding extends Fragment {
 
@@ -41,7 +40,7 @@ public class FifthOnBoarding extends Fragment {
         backBtn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OnBoarding.fragmentManager.beginTransaction()
+                OnBoardingActivity.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_left_to_right, R.anim.exit_left_to_right, R.anim.entry_right_to_left, R.anim.exit_right_to_left)
                         .replace(R.id.onboarding_container,new FourthOnBoarding(),null)
                         .commit();
