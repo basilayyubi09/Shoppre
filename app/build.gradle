@@ -43,4 +43,11 @@ dependencies {
 
     //recaptcha
     implementation 'com.google.android.gms:play-services-recaptcha:16.0.1'
+
+    //Facebook Login
+    implementation 'com.facebook.android:facebook-login:latest.release'
+
+    //Google Login
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
 }

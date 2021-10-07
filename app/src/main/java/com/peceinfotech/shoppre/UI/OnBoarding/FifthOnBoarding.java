@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
@@ -32,7 +33,7 @@ public class FifthOnBoarding extends Fragment {
         startShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext() , SignUpActivity.class));
+                Toast.makeText(getContext(), "Start Shopping Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
