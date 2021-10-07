@@ -1,19 +1,25 @@
 package com.peceinfotech.shoppre.AuthenticationModel;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class SignInDirectResponse {
-    String code , error , error_description;
 
-    public SignInDirectResponse(String code, String error, String error_description) {
-        this.code = code;
-        this.error = error;
-        this.error_description = error_description;
-    }
+    @SerializedName("code")
+    @Expose
+    private Integer code;
+    @SerializedName("error")
+    @Expose
+    private String error;
+    @SerializedName("error_description")
+    @Expose
+    private String errorDescription;
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -25,11 +31,12 @@ public class SignInDirectResponse {
         this.error = error;
     }
 
-    public String getError_description() {
-        return error_description;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 
-    public void setError_description(String error_description) {
-        this.error_description = error_description;
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
+
 }

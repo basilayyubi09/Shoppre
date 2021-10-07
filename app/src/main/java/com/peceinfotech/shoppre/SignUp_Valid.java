@@ -159,22 +159,16 @@ public class SignUp_Valid extends AppCompatActivity {
 
                     RegisterVerifyResponse registerVerifyResponse = response.body();
 
-                    String c = String.valueOf(registerVerifyResponse.getCustomerId());
                     if (response.isSuccessful()){
 
-                        if (c != null){
                         Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        clearFields();}
-                        else{
-                            Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
+                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
 

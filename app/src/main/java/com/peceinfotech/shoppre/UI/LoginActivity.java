@@ -75,15 +75,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 SignInDirectResponse signInDirectResponse = response.body();
 
-                int code = Integer.parseInt(signInDirectResponse.getCode());
+
+                int code = signInDirectResponse.getCode();
                 if (response.isSuccessful()) {
 
                     if(code != 400) {
-                        Toast.makeText(getApplicationContext(), signInDirectResponse.getError_description(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), signInDirectResponse.getErrorDescription(), Toast.LENGTH_SHORT).show();
                     }
                     else {
                         showError();
-                        Toast.makeText(getApplicationContext(), signInDirectResponse.getError_description(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), signInDirectResponse.getErrorDescription(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -25,6 +25,17 @@ public interface Api {
 
             @Body String body
 
+
+//            @Field("email") String email ,
+//            @Field("first_name") String first_name ,
+//            @Field("first_visit") String first_visit,
+//            @Field("from_domain") String from_domain,
+//            @Field("last_name") String last_name,
+//            @Field("password") String password ,
+//            @Field("referral_code") String referral_code,
+//            @Field("referrer") String referrer
+
+//            @Body HashMap registerApiPayload
     );
 
     //Forgot password Api
