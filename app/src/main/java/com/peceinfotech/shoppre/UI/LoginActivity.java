@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -73,33 +74,45 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInDirectResponse> call, Response<SignInDirectResponse> response) {
 
-                SignInDirectResponse signInDirectResponse = response.body();
 
+                int code = response.code();
 
-                int code = signInDirectResponse.getCode();
-                if (response.isSuccessful()) {
+                Log.d("abcd", String.valueOf(code));
+//                signInDirectResponse.getCode();
 
                     if(code != 400) {
-                        Toast.makeText(getApplicationContext(), signInDirectResponse.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                        SignInDirectResponse signInDirectResponse = response.body();
+
+                        clearFields();
+                        Toast.makeText(getApplicationContext(), "Successfully login", Toast.LENGTH_SHORT).show();
+
                     }
                     else {
-                        showError();
-                        Toast.makeText(getApplicationContext(), signInDirectResponse.getErrorDescription(), Toast.LENGTH_SHORT).show();
+
+                        showError("User credentials are invalid");
+                        Toast.makeText(getApplicationContext(), "User credentials are invalid", Toast.LENGTH_SHORT).show();
                     }
-                }
 
             }
 
             @Override
             public void onFailure(Call<SignInDirectResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
-    private void showError() {
-        emailIdField.setError("");
-        passwordField.setError(getString(R.string.password_error_string));
+    private void clearFields() {
+        emailIdField.getEditText().setText("");
+        passwordField.getEditText().setText("");
+    }
+
+    private void showError(String errorMessage) {
+        emailIdField.setBoxStrokeWidth(2);
+        passwordField.setBoxStrokeWidth(2);
+        emailIdField.setError(" ");
+        passwordField.setError(errorMessage);
     }
 
     private boolean validateEmailField() {

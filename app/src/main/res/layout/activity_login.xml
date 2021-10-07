@@ -121,7 +121,8 @@
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintAnimationEnabled="false"
-        app:hintEnabled="false">
+        app:hintEnabled="false"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -143,7 +144,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         app:boxBackgroundColor="#F3F6F9"
         app:boxCornerRadiusBottomEnd="5dp"
@@ -154,7 +155,8 @@
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:hintAnimationEnabled="false"
-        app:hintEnabled="false">
+        app:hintEnabled="false"
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -174,7 +176,7 @@
         android:id="@+id/forgot_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="17dp"
         android:layout_marginRight="39dp"
         android:gravity="right"
         android:text="Forgot Password"
@@ -185,7 +187,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="82dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="#2D8DFF"
         android:lineHeight="17sp"
         android:paddingTop="10dp"
@@ -201,12 +203,12 @@
 
     <TextView
         android:id="@+id/dont_have_acnt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dont_have"
         android:textSize="12sp"
-        android:layout_marginTop="32dp"
-        android:gravity="center_horizontal"/>
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"/>
 
 
 </LinearLayout>

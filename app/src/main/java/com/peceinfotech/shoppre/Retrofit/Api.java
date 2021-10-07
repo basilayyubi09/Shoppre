@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.Retrofit;
 
+import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
@@ -15,15 +16,16 @@ import retrofit2.http.POST;
 
 public interface Api {
 
-    //SignUp Direct Api
-    //https://staging-login.shoppreglobal.com/api/users/public/register/app
-//    Call<JsonElement> register(@Body HashMap registerApiPayload);
+    /*
+    SignUp Direct Api
+    https://staging-login.shoppreglobal.com/api/users/public/register/app
+    */
 
-    @Headers("Content-Type: application/json")
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/users/public/register/app")
     Call<RegisterVerifyResponse> registerVerify(
 
-            @Body String body
+            @Body String  jsonObject
 
 
 //            @Field("email") String email ,
@@ -47,6 +49,7 @@ public interface Api {
     );
 
     //SignIn Direct
+    //https://staging-login.shoppreglobal.com/oauth/token
     //https://staging-login.shoppreglobal.com/oauth/token
     @FormUrlEncoded
     @POST("oauth/token")

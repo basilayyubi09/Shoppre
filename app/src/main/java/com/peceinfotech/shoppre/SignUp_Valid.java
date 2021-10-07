@@ -15,15 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.LoginActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,8 +34,9 @@ public class SignUp_Valid extends AppCompatActivity {
     TextView signUpValdAlrdyAcnt;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String  emailId, password, confirmPassword, referalCode, firstName, lastName;
+    String emailId, password, confirmPassword, referalCode, firstName, lastName;
     ImageView strengthImage;
+
 
 
     @Override
@@ -108,15 +108,12 @@ public class SignUp_Valid extends AppCompatActivity {
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
-                try {
-                    registerVerifyApi(firstName,
-                            emailId,
-                            password,
-                            referalCode,
-                            lastName);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+                registerVerifyApi(firstName,
+                        emailId,
+                        password,
+                        referalCode,
+                        lastName);
 
 
             }
@@ -134,47 +131,93 @@ public class SignUp_Valid extends AppCompatActivity {
                                    String emailId,
                                    String password,
                                    String referalCode,
-                                   String lastName) throws JSONException {
+                                   String lastName) {
+
+
+
+        //For sending data in JSON
+        JsonObject paramObject = new JsonObject();
+
+        paramObject.addProperty("email", emailId);
+        paramObject.addProperty("first_name", firstName);
+        paramObject.addProperty("first_visit", "https://www.shoppre.com/reviews");
+        paramObject.addProperty("from_domain", "shoppreglobal.com");
+        paramObject.addProperty("last_name", lastName);
+        paramObject.addProperty("password", password);
+        paramObject.addProperty("referral_code", "");
+        paramObject.addProperty("referrer", "https://www.google.com/");
 
         // prepare call in Retrofit 2.0
 
-            JSONObject paramObject = new JSONObject();
-            paramObject.put("email", emailId);
-            paramObject.put("first_name", firstName);
-            paramObject.put("first_name", "https://www.shoppre.com/reviews");
-            paramObject.put("from_domain", "shoppreglobal.com");
-            paramObject.put("last_name", lastName);
-            paramObject.put("password", password);
-            paramObject.put("referral_code", emailId);
-            paramObject.put("referrer", "https://www.google.com/");
+        //calling RetrofitClient2 for different BASE_URL
+        Call<RegisterVerifyResponse> call = RetrofitClient2
+                .getInstance()
+                .getApi()
+                .registerVerify(paramObject.toString());
+        call.enqueue(new Callback<RegisterVerifyResponse>() {
+            @Override
+            public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
+
+                //print respone
+                Log.e(" Full json gson => ", String.valueOf(paramObject));
+                Log.e(" responce => ", response.toString());
+//                Log.e(" Message => ", response.body().getCustomerId().toString());
+                Log.e(" Message => ", response.body().toString());
 
 
-            Call<RegisterVerifyResponse> call = RetrofitClient
-                    .getInstance()
-                    .getApi()
-                    .registerVerify(paramObject.toString());
-            call.enqueue(new Callback<RegisterVerifyResponse>() {
-                @Override
-                public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
+                RegisterVerifyResponse registerVerifyResponse = response.body();
 
-                    RegisterVerifyResponse registerVerifyResponse = response.body();
 
-                    if (response.isSuccessful()){
+                if (registerVerifyResponse.getCustomerId() == 0) {
 
-                        Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
-
-                    Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+                else {
+                    clearFields();
+                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getCustomerId().toString(), Toast.LENGTH_SHORT).show();
                 }
-            });
+            }
+
+
+
+            @Override
+            public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
 
+    private JsonObject ApiJsonMap() {
+
+        JsonObject gsonObject = new JsonObject();
+        try {
+            JSONObject jsonObj = new JSONObject();
+
+            jsonObj.put("email", emailId);
+            jsonObj.put("first_name", firstName);
+            jsonObj.put("first_visit", "https://www.shoppre.com/reviews");
+            jsonObj.put("from_domain", "shoppreglobal.com");
+            jsonObj.put("last_name", lastName);
+            jsonObj.put("password", password);
+            jsonObj.put("referral_code", "");
+            jsonObj.put("referrer", "https://www.google.com/");
+
+
+            JsonParser jsonParser = new JsonParser();
+            gsonObject = (JsonObject) jsonParser.parse(jsonObj.toString());
+
+            //print parameter
+            Log.e("MY gson.JSON:  ", "AS PARAMETER  " + gsonObject);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return gsonObject;
+    }
 
     private void clearFields() {
         firstlNameField.getEditText().setText("");
@@ -242,7 +285,6 @@ public class SignUp_Valid extends AppCompatActivity {
             return false;
         } else {
             passwordField.setError(null);
-//            passwordField.setErrorEnabled(false);
             return true;
         }
 
