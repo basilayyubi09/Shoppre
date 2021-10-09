@@ -25,6 +25,8 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="dont_have"><font color="#000000">Don\'t have an account?</font><font color="#2D8DFF"> Sign Up Now</font></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    Onboarding text-->
     <string name="get_a_unique_indian_virtual_address_to_shop">Get a unique Indian Virtual Address to shop!</string>
     <string name="shop_from_1000_indian_websites_get_it_delivered_to_your_virtual_address">Shop from 1000+ Indian Websites &amp; get it delivered to your Virtual Address</string>
     <string name="we_ll_consolidate_ship_it_to_you">We\'ll consolidate &amp; ship it to you!</string>
@@ -33,8 +35,9 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="your_indian_virtual_address">Your Indian Virtual Address</string>
     <string name="locker_no_sa_29j17_122545_indian_shoppre_llp_182_1st_floor_2nd_cross_rd_7th_main_koramangala_1st_block_bengaluru_karnataka_560_034">Locker No. SA-29J17-122545,<br />Indian Shoppre LLP,<br />#182, 1st Floor, 2nd Cross Rd,<br />7th Main, Koramangala 1st Block,<br />Bengaluru, Karnataka - 560 034</string>
 
-
-    <!--    OnBoarding Screen text-->
+<!--    facebook -->
+    <string name="facebook_app_id">651881328327888</string>
+    <string name="fb_login_protocol_scheme">fb651881328327888</string>
 
 
 </resources>
