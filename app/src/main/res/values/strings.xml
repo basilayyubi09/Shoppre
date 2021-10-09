@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Shoppre</string>
-    <string name="helper_text"><![CDATA[Use 8 or more characters with a mix of letters, numbers & symbols]]></string>
+    <string name="helper_text">Use 8 or more characters with a mix of letters, numbers &amp; symbols</string>
     <string name="by_signing_"><![CDATA[By signing up, you agree to Shoppre\'s Terms of Use & Privacy Policy]]></string>
     <string name="create_your_account_string">Create Your Account</string>
     <string name="full_name_string">Full Name</string>

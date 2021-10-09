@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,18 +51,32 @@ public class ForgetPassword extends AppCompatActivity {
 
     private void forgotPasswordApi(String emailId) {
 
-        Call<ForgotPasswordResponse> call = RetrofitClient.getInstance().getApi().forgotPassword(emailId);
+        JsonObject jsonEmail = new JsonObject();
+        jsonEmail.addProperty("email",emailId);
+
+        Call<ForgotPasswordResponse> call = RetrofitClient2.getInstance().getApi().forgotPassword(jsonEmail.toString());
         call.enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), response.body().getError_description(), Toast.LENGTH_SHORT).show();
+
+                Log.e(" Full json gson => ", String.valueOf(jsonEmail));
+                Log.e(" response => ", response.toString());
+//                Log.e(" Message => ", response.body().getCustomerId().toString());
+//                Log.e(" Message => ", response.errorBody().toString());
+                Log.e(" Code => ", String.valueOf(response.code()));
+
+                int code  = response.code();
+                String errorDesc = "Sorry we couldn't find this Email ID in our records. Please try again!";
+
+                if(code == 401){
+                    emailIdField.setError(errorDesc);
+                    Toast.makeText(getApplicationContext(), errorDesc, Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    Toast.makeText(getApplicationContext(), response.body().getExpires(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(ForgetPassword.this , ForgotPasswordMessage.class));
                 }
-                else
-                    emailIdField.setError("Sorry we couldn't find this Email ID in our records. Please try again!");
-                    Toast.makeText(getApplicationContext(),  response.body().getError_description(), Toast.LENGTH_SHORT).show();
-
             }
 
             @Override

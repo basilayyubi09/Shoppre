@@ -71,7 +71,7 @@
         app:boxCornerRadiusTopStart="5dp"
         app:boxStrokeColor="@color/box_background_color"
         app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeWidthFocused="0dp"
         app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">
@@ -108,7 +108,7 @@
         app:boxCornerRadiusTopStart="5dp"
         app:boxStrokeColor="@color/box_background_color"
         app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeWidthFocused="0dp"
         app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">
@@ -210,8 +210,9 @@
 
 
     <TextView
+        android:id="@+id/helperText"
         android:layout_width="match_parent"
-        android:layout_height="12dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="38dp"
@@ -239,7 +240,7 @@
         app:boxCornerRadiusTopStart="5dp"
         app:boxStrokeColor="@color/box_background_color"
         app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeWidthFocused="0dp"
         app:errorEnabled="true"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false">

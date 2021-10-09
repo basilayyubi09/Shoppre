@@ -1,15 +1,18 @@
 package com.peceinfotech.shoppre.AuthenticationModel;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ForgotPasswordResponse {
-    String error , error_description;
-
-    public ForgotPasswordResponse() {
-    }
-
-    public ForgotPasswordResponse(String error, String error_description) {
-        this.error = error;
-        this.error_description = error_description;
-    }
+    @SerializedName("error")
+    @Expose
+    private String error;
+    @SerializedName("error_description")
+    @Expose
+    private String errorDescription;
+    @SerializedName("expires")
+    @Expose
+    private String expires;
 
     public String getError() {
         return error;
@@ -19,11 +22,19 @@ public class ForgotPasswordResponse {
         this.error = error;
     }
 
-    public String getError_description() {
-        return error_description;
+    public String getErrorDescription() {
+        return errorDescription;
     }
 
-    public void setError_description(String error_description) {
-        this.error_description = error_description;
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
+    }
+
+    public String getExpires() {
+        return expires;
+    }
+
+    public void setExpires(String expires) {
+        this.expires = expires;
     }
 }

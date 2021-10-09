@@ -21,6 +21,7 @@ public interface Api {
     https://staging-login.shoppreglobal.com/api/users/public/register/app
     */
 
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/users/public/register/app")
     Call<RegisterVerifyResponse> registerVerify(
@@ -42,10 +43,10 @@ public interface Api {
 
     //Forgot password Api
     //https://staging-login.shoppre.com/api/password_reset
-    @FormUrlEncoded
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/password_reset")
     Call<ForgotPasswordResponse> forgotPassword(
-      @Field("email") String email
+      @Body String email
     );
 
     //SignIn Direct
