@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/montserrat</item>
     </style>
+
+    //Dialogue Theme
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/purple_500</item>
+    </style>
 </resources>

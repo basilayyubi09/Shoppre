@@ -35,7 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="BAck Arrow"
-            android:src="@drawable/back_arrow" />
+            android:src="@drawable/back_arrow"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -172,7 +173,8 @@
         app:cardBackgroundColor="@color/box_background_color"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        app:strokeColor="@color/box_background_color">
+        app:strokeColor="@color/box_background_color"
+        android:id="@+id/passwordCard">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -208,6 +210,19 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+            <TextView
+                android:id="@+id/passwordErrorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="38dp"
+                android:text="A minimum 8 characters password contains a combination of uppercase and lowercase letter , symbol and number are required."
+                android:textColor="@color/design_default_color_error"
+                android:textFontWeight="500"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:visibility="gone"/>
 
     <TextView
         android:id="@+id/helperText"
@@ -219,7 +234,9 @@
         android:text="@string/helper_text"
         android:textColor="@color/hint_color"
         android:textFontWeight="500"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        android:gravity="start"
+        android:letterSpacing="0.03"/>
 
 
 
@@ -231,7 +248,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="38dp"
         app:boxBackgroundColor="@color/box_background_color"
         app:boxCornerRadiusBottomEnd="5dp"

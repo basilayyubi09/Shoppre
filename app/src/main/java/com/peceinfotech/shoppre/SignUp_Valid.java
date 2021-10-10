@@ -1,7 +1,5 @@
 package com.peceinfotech.shoppre;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,17 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.LoginActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,13 +34,11 @@ public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
     protected EditText passwordField;
-    TextView signUpValdAlrdyAcnt, helperText;
+    TextView signUpValdAlrdyAcnt, passwordErrorText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword, referalCode, firstName, lastName;
     ImageView strengthImage;
-
-
 
 
     @Override
@@ -54,7 +52,7 @@ public class SignUp_Valid extends AppCompatActivity {
         firstlNameField = findViewById(R.id.firstName);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
-        helperText = findViewById(R.id.helperText);
+        passwordErrorText = findViewById(R.id.passwordErrorText);
         passwordField = findViewById(R.id.pf);
         confirmPasswordField = findViewById(R.id.confirmPassword);
         referalCodeField = findViewById(R.id.referalCode);
@@ -106,7 +104,8 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                LoadingDialog.showLoadingDialog(getApplicationContext(),"Loading...");
+
+
                 //get texts from field
                 getStringFromFields();
 
@@ -121,9 +120,7 @@ public class SignUp_Valid extends AppCompatActivity {
                         password,
                         referalCode,
                         lastName);
-
-
-
+                LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
             }
         });
 
@@ -140,7 +137,6 @@ public class SignUp_Valid extends AppCompatActivity {
                                    String password,
                                    String referalCode,
                                    String lastName) {
-
 
 
         //For sending data in JSON
@@ -171,7 +167,7 @@ public class SignUp_Valid extends AppCompatActivity {
                 Log.e(" responce => ", response.toString());
 //                Log.e(" Message => ", response.body().getCustomerId().toString());
                 Log.e(" Message => ", response.body().toString());
-              //  Log.e(" customer_id => ", response.body().getCustomerId().toString());
+                //  Log.e(" customer_id => ", response.body().getCustomerId().toString());
 
                 String message = "Already User Is Registered, Please Verify Your email To Continue";
                 RegisterVerifyResponse registerVerifyResponse = response.body();
@@ -180,16 +176,14 @@ public class SignUp_Valid extends AppCompatActivity {
                 if (registerVerifyResponse.getMessage().equals(message)) {
 
 
-//                    LoadingDialog.cancelLoading();
+                    LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     clearFields();
-//                    LoadingDialog.cancelLoading();
+                    LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-
 
 
             @Override
@@ -292,20 +286,21 @@ public class SignUp_Valid extends AppCompatActivity {
     @SuppressLint("ResourceAsColor")
     private Boolean validatePasswordField() {
 
-        String passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.* [@#$%^&+=!])(?=\\\\S+$).{8,}$";
+
+        String passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
         if (password.isEmpty()) {
 
             passwordField.setError("This is a required field");
-
+            passwordErrorText.setVisibility(View.VISIBLE);
             return false;
 
-        } else if (!emailId.matches(passwordPattern)) {
+        } else if (!password.matches(passwordPattern)) {
+            passwordErrorText.setVisibility(View.VISIBLE);
 
-            helperText.setTextColor(R.color.design_default_color_error);
             return false;
-        }else {
+        } else {
+            passwordErrorText.setVisibility(View.GONE);
             passwordField.setError(null);
-            helperText.setTextColor(R.color.hint_color);
             return true;
         }
 

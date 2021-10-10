@@ -1,7 +1,5 @@
 package com.peceinfotech.shoppre.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 
 import retrofit2.Call;
@@ -38,6 +37,7 @@ public class ForgetPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+//                LoadingDialog.showLoadingDialog(getApplicationContext(),"Loading...");
                 emailId = emailIdField.getEditText().getText().toString().trim();
 
                 if(!validateEmailField()){
@@ -69,11 +69,13 @@ public class ForgetPassword extends AppCompatActivity {
                 String errorDesc = "Sorry we couldn't find this Email ID in our records. Please try again!";
 
                 if(code == 401){
+//                    LoadingDialog.cancelLoading();
                     emailIdField.setError(errorDesc);
                     Toast.makeText(getApplicationContext(), errorDesc, Toast.LENGTH_SHORT).show();
                 }
                 else{
 
+//                    LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.body().getExpires(), Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(ForgetPassword.this , ForgotPasswordMessage.class));
                 }
@@ -81,6 +83,7 @@ public class ForgetPassword extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -93,13 +96,16 @@ public class ForgetPassword extends AppCompatActivity {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
 
+            emailIdField.setBoxStrokeWidth(1);
             emailIdField.setError("Email Can't be empty");
             return false;
         } else if (!emailId.matches(emailPattern)) {
+            emailIdField.setBoxStrokeWidth(1);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
             emailIdField.setError(null);
+            emailIdField.setBoxStrokeWidth(0);
             emailIdField.setErrorEnabled(false);
             return true;
         }
