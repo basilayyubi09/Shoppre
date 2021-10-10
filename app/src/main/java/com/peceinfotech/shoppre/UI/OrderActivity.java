@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,9 @@ public class OrderActivity extends AppCompatActivity {
     Button logOut;
     GoogleSignInClient mGoogleSignInClient;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,9 @@ public class OrderActivity extends AppCompatActivity {
 //        userId = findViewById(R.id.userId);
 //        userImage = findViewById(R.id.userImage);
         logOut = findViewById(R.id.logoutBtn);
+
+
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

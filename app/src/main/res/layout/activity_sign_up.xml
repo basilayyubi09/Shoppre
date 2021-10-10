@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".UI.SignupLogin.SignUpActivity">
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="top"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -76,15 +83,6 @@
                 app:icon="@drawable/ic_fb"
                 app:iconSize="24dp"
                 app:iconTintMode="multiply" />
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/fb_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
