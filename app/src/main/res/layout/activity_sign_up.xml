@@ -8,12 +8,6 @@
     android:orientation="vertical"
     tools:context=".UI.SignupLogin.SignUpActivity">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login_button"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="top"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -158,7 +152,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/get_started_btn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="38dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textSize="12sp"
                 android:layout_marginHorizontal="82dp"
                 android:layout_marginTop="44dp"
                 android:backgroundTint="#2D8DFF"

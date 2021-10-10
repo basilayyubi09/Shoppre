@@ -3,7 +3,6 @@ package com.peceinfotech.shoppre.UI;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.peceinfotech.shoppre.R;
 
-public class OrderActivity extends AppCompatActivity {
+public class Sample extends AppCompatActivity {
 
     TextView userName, userEmail, userId;
     ImageView userImage;
@@ -33,7 +32,7 @@ public class OrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
+        setContentView(R.layout.sample);
 
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);

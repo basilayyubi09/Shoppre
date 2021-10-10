@@ -1,17 +1,10 @@
 package com.peceinfotech.shoppre.UI.SignupLogin;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,18 +26,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
-import com.peceinfotech.shoppre.UI.OrderActivity;
+import com.peceinfotech.shoppre.UI.Sample;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -64,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
         getStartedBtn = findViewById(R.id.get_started_btn);
         googleSignInButton = findViewById(R.id.signup_google_btn);
         fbSignInBtn = findViewById(R.id.signup_fb_btn);
-        fbLoginBtn = findViewById(R.id.fb_login_button);
+
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -114,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onSuccess(LoginResult loginResult)
                             {
                                 // App code
-                                startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                                startActivity(new Intent(SignUpActivity.this , Sample.class));
                                 Toast.makeText(SignUpActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             }
 
@@ -136,13 +125,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-
 
     ///Google
 
@@ -151,17 +133,22 @@ public class SignUpActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//            // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-//        if (requestCode == RC_SIGN_IN) {
-//            // The Task returned from this call is always completed, no need to attach
-//            // a listener.
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            handleSignInResult(task);
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //For Google
+            // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }else {
+            ///For Facebook
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
@@ -172,13 +159,11 @@ public class SignUpActivity extends AppCompatActivity {
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
                 String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
                 String personEmail = acct.getEmail();
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
             }
-            startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+            startActivity(new Intent(SignUpActivity.this , Sample.class));
             Toast.makeText(getApplicationContext(), "SignUp Successful", Toast.LENGTH_SHORT).show();
 
         } catch (ApiException e) {
@@ -193,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
-    ///Facebook values
+    ///Facebook User details
 
     AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
         @Override

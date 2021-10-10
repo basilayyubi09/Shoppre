@@ -50,4 +50,8 @@ dependencies {
     //Google Login
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
+    //Picaso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+
 }
