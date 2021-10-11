@@ -1,8 +1,6 @@
 package com.peceinfotech.shoppre.UI.SignupLogin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,67 +13,44 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.recaptcha.Recaptcha;
-import com.google.android.gms.recaptcha.RecaptchaAction;
-import com.google.android.gms.recaptcha.RecaptchaActionType;
-import com.google.android.gms.recaptcha.RecaptchaHandle;
-import com.google.android.gms.recaptcha.RecaptchaResultData;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import com.peceinfotech.shoppre.R;
 
 public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
     protected EditText passwordField;
-    TextView signUpValdAlrdyAcnt;
-    TextInputLayout firstlNameField, lastNameField , emailIdField ,
-            confirmPasswordField , referalCodeField;
-    String fullName , emailId , password , confirmPassword , referalCode , recaptuaToken , firstName , lastName;
+    TextView signUpValdAlrdyAcnt, passwordErrorText;
+    TextInputLayout firstlNameField, lastNameField, emailIdField,
+            confirmPasswordField, referalCodeField;
+    String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage;
-    private RecaptchaHandle handle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_valid);
-
-
-        //For Recaptcha Enterprise init()
-//       reCaptchaInit();
-
-//        Recaptcha.getClient(this)
-//                .init("6LeXcqocAAAAAAVFyDeCdInLWfl1C4eusLp1rJIr")
-//                .addOnSuccessListener(
-//                        this,
-//                        new OnSuccessListener<RecaptchaHandle>() {
-//                            @Override
-//                            public void onSuccess(RecaptchaHandle handle) {
-//                                // Handle success ...
-//                                SignUp_Valid.this.handle = handle;
-//                            }
-//                        })
-//                .addOnFailureListener(
-//                        this,
-//                        new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                if (e instanceof ApiException) {
-//                                    ApiException apiException = (ApiException) e;
-//                                    int apiErrorStatus = apiException.getStatusCode();
-//                                    // Handle api errors ...
-//                                } else {
-//                                    // Handle other failures ...
-//                                }
-//                            }
-//                        });
-
-
-
-        //Execute reCaptcha
-//       executeRecaptcha();
 
         //Hooks
 
@@ -83,27 +58,36 @@ public class SignUp_Valid extends AppCompatActivity {
         firstlNameField = findViewById(R.id.firstName);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
+        passwordErrorText = findViewById(R.id.passwordErrorText);
         passwordField = findViewById(R.id.pf);
         confirmPasswordField = findViewById(R.id.confirmPassword);
         referalCodeField = findViewById(R.id.referalCode);
         strengthImage = findViewById(R.id.strengthImage);
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
 
+        //get Email Id from previous activity
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            emailIdFromIntent = extras.getString("emailId");
+            //The key argument here must match that used in the other activity
+        }
 
+        //set Email received from intent on email field
+        emailIdField.getEditText().setText(emailIdFromIntent);
+
+
+        //Text Watcher on Password Field
         passwordField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (s.toString().length()==0){
+                if (s.toString().length() == 0) {
                     strengthImage.setVisibility(View.VISIBLE);
-                }
-                else if (s.toString().length()<=3){
+                } else if (s.toString().length() <= 3) {
                     strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                 else if (s.toString().length()>3 && s.toString().length()<7){
+                } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
+                } else {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -115,16 +99,13 @@ public class SignUp_Valid extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length()==0){
+                if (s.toString().length() == 0) {
                     strengthImage.setVisibility(View.GONE);
-                }
-                else if (s.toString().length()<=3){
+                } else if (s.toString().length() <= 3) {
                     strengthImage.setImageResource(R.drawable.ic_weak);
-                }
-                else if (s.toString().length()>3 && s.toString().length()<7){
+                } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                }
-                else {
+                } else {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -135,7 +116,6 @@ public class SignUp_Valid extends AppCompatActivity {
         getStringFromFields();
 
 
-
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,89 +124,100 @@ public class SignUp_Valid extends AppCompatActivity {
                 //get texts from field
                 getStringFromFields();
 
-                if (!validateFirstName() || !validateLastlName() || !validateEmailField()
+                //Validation functions
+                if (!validateFirstName() || !validateLastName() || !validateEmailField()
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
 
-                //verifySignup(fullName , emailId , password , referalCode);
+                ///registerVerify Api Call
+                registerVerifyApi(firstName,
+                        emailId,
+                        password,
+                        referalCode,
+                        lastName);
 
-                Toast.makeText(getApplicationContext(), fullName + "\n"
-                        + firstName + "\n"
-                        + lastName, Toast.LENGTH_SHORT).show();
-
+                //Show Alerts
+                LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
             }
         });
 
         signUpValdAlrdyAcnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUp_Valid.this , LoginActivity.class));
+                startActivity(new Intent(SignUp_Valid.this, LoginActivity.class));
             }
         });
     }
 
+    private void registerVerifyApi(String fullName,
+                                   String emailId,
+                                   String password,
+                                   String referalCode,
+                                   String lastName)
+    {
 
-    private void executeRecaptcha() {
+        //For sending data in JSON
+        JsonObject paramObject = new JsonObject();
 
-        Recaptcha.getClient(this)
-                .execute(this.handle, new RecaptchaAction(new RecaptchaActionType(RecaptchaActionType.LOGIN)))
-                .addOnSuccessListener(
-                        this,
-                        new OnSuccessListener<RecaptchaResultData>() {
-                            @Override
-                            public void onSuccess(RecaptchaResultData response) {
-                                recaptuaToken = response.getTokenResult();
-                                // Handle success ...
-                                if (!recaptuaToken.isEmpty()) {
-                                    Log.d("", "reCAPTCHA response token: " + recaptuaToken);
-                                    // Validate the response token by following the instructions
-                                    // when creating an assessment.
-                                }
-                            }
-                        })
-                .addOnFailureListener(
-                        this,
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (e instanceof ApiException) {
-                                    ApiException apiException = (ApiException) e;
-                                    int apiErrorStatus = apiException.getStatusCode();
-                                    // Handle api errors ...
-                                } else {
-                                    // Handle other failures ...
-                                }
-                            }
-                        });
+        paramObject.addProperty("email", emailId);
+        paramObject.addProperty("first_name", firstName);
+        paramObject.addProperty("first_visit", "https://www.shoppre.com/reviews");
+        paramObject.addProperty("from_domain", "shoppreglobal.com");
+        paramObject.addProperty("last_name", lastName);
+        paramObject.addProperty("password", password);
+        paramObject.addProperty("referral_code", "");
+        paramObject.addProperty("referrer", "https://www.google.com/");
+
+        // prepare call in Retrofit 2.0
+
+        //calling RetrofitClient2 for different BASE_URL
+        Call<RegisterVerifyResponse> call = RetrofitClient2
+                .getInstance()
+                .getApi()
+                .registerVerify(paramObject.toString());
+        call.enqueue(new Callback<RegisterVerifyResponse>() {
+            @Override
+            public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
+
+                //print respone
+                Log.e(" Full json gson => ", String.valueOf(paramObject));
+                Log.e(" responce => ", response.toString());
+                Log.e(" Message => ", response.body().toString());
+
+                String message = "Already User Is Registered, Please Verify Your email To Continue";
+
+                RegisterVerifyResponse registerVerifyResponse = response.body();
+
+                if (registerVerifyResponse.getMessage().equals(message))
+                {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    clearFields();
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<RegisterVerifyResponse> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    private void reCaptchaInit() {
-        Recaptcha.getClient(this)
-                .init("6LfzxcwUAAAAAG4T4KzPdgMPv7Ovfax1aR6HsIww")
-                .addOnSuccessListener(
-                        this,
-                        new OnSuccessListener<RecaptchaHandle>() {
-                            @Override
-                            public void onSuccess(RecaptchaHandle handle) {
-                                // Handle success ...
-                                SignUp_Valid.this.handle = handle;
-                            }
-                        })
-                .addOnFailureListener(
-                        this,
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (e instanceof ApiException) {
-                                    ApiException apiException = (ApiException) e;
-                                    int apiErrorStatus = apiException.getStatusCode();
-                                    // Handle api errors ...
-                                } else {
-                                    // Handle other failures ...
-                                }
-                            }
-                        });
+
+    private void clearFields() {
+        firstlNameField.getEditText().setText("");
+        lastNameField.getEditText().setText("");
+        emailIdField.getEditText().setText("");
+        passwordField.setText("");
+        confirmPasswordField.getEditText().setText("");
+        referalCodeField.getEditText().setText("");
     }
 
 
@@ -234,29 +225,30 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
         if (firstName.isEmpty()) {
-
-            firstlNameField.setError("Field Can't be Empty");
+            firstlNameField.setBoxStrokeWidth(2);
+            firstlNameField.setBoxStrokeWidthFocused(2);
+            firstlNameField.setError("This is a required field");
             return false;
-        }
-        else {
+        } else {
             firstlNameField.setError(null);
-            firstlNameField.setErrorEnabled(false);
+            firstlNameField.setBoxStrokeWidth(0);
+
             return true;
         }
 
     }
 
-    private Boolean validateLastlName() {
+    private Boolean validateLastName() {
 
 
         if (lastName.isEmpty()) {
-
-            lastNameField.setError("Field Can't be empty");
+            lastNameField.setBoxStrokeWidth(2);
+            lastNameField.setBoxStrokeWidthFocused(2);
+            lastNameField.setError("This is a required field");
             return false;
-        }
-        else {
+        } else {
             lastNameField.setError(null);
-            lastNameField.setErrorEnabled(false);
+            lastNameField.setBoxStrokeWidth(0);
             return true;
         }
 
@@ -266,28 +258,40 @@ public class SignUp_Valid extends AppCompatActivity {
 
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
-
-            emailIdField.setError("Email Can't be empty");
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
+            emailIdField.setError("This is a required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
             emailIdField.setError(null);
-            emailIdField.setErrorEnabled(false);
+            emailIdField.setBoxStrokeWidth(0);
             return true;
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private Boolean validatePasswordField() {
 
+
+        String passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
         if (password.isEmpty()) {
 
-            passwordField.setError("Password Field Can't be empty");
+            passwordField.setError("This is a required field");
+            passwordErrorText.setVisibility(View.VISIBLE);
+            return false;
+
+        } else if (!password.matches(passwordPattern)) {
+            passwordErrorText.setVisibility(View.VISIBLE);
+
             return false;
         } else {
+            passwordErrorText.setVisibility(View.GONE);
             passwordField.setError(null);
-//            passwordField.setErrorEnabled(false);
             return true;
         }
 
@@ -297,15 +301,19 @@ public class SignUp_Valid extends AppCompatActivity {
 
         if (confirmPassword.isEmpty()) {
 
-            confirmPasswordField.setError("Please confirm password");
+            confirmPasswordField.setBoxStrokeWidth(2);
+            confirmPasswordField.setBoxStrokeWidthFocused(2);
+            confirmPasswordField.setError("This is a required field");
             return false;
         } else if (!confirmPassword.equals(password)) {
+            confirmPasswordField.setBoxStrokeWidth(2);
+            confirmPasswordField.setBoxStrokeWidthFocused(2);
             confirmPasswordField.setError("Password does not match");
             return false;
 
         } else {
             confirmPasswordField.setError(null);
-            confirmPasswordField.setErrorEnabled(false);
+            confirmPasswordField.setBoxStrokeWidth(0);
             return true;
         }
     }
@@ -323,3 +331,4 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
 }
+

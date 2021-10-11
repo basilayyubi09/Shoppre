@@ -1,17 +1,15 @@
 package com.peceinfotech.shoppre.AuthenticationModel;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RegisterVerifyResponse {
     @SerializedName("message")
-    String message;
-
-    public RegisterVerifyResponse() {
-    }
-
-    public RegisterVerifyResponse(String message) {
-        this.message = message;
-    }
+    @Expose
+    private String message;
+    @SerializedName("customer_id")
+    @Expose
+    private Integer customerId;
 
     public String getMessage() {
         return message;
@@ -19,5 +17,13 @@ public class RegisterVerifyResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 }

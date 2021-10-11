@@ -8,12 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
-public class RetrofitClient {
-    private static final String BASE_URL = "https://staging-login.shoppreglobal.com/";
+public class RetrofitClient2 {
+    private static final String BASE_URL = "https://staging-login.shoppreglobal.com/api/";
     private static RetrofitClient myClient;
     private Retrofit retrofit;
 
-    RetrofitClient() {
+    RetrofitClient2() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
@@ -40,4 +40,3 @@ public class RetrofitClient {
         return retrofit.create(Api.class);
     }
 }
-

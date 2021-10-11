@@ -16,6 +16,7 @@
     app:cornerRadius="5dp"
     android:textFontWeight="700"
     android:letterSpacing="0.03"
-    android:textSize="14dp">
+    android:textSize="14sp"
+    >
 
 </Button>

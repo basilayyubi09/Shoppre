@@ -3,15 +3,32 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
+import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
+
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView signupNowText, forgotPassword;
+    TextView dont_have_acnt, forgotPassword;
+    TextInputLayout emailIdField, passwordField;
+    MaterialButton loginBtn;
+    String emailId, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,21 +36,126 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //Hooks
-        signupNowText = findViewById(R.id.dont_have_acnt);
+        dont_have_acnt = findViewById(R.id.dont_have_acnt);
         forgotPassword = findViewById(R.id.forgot_password);
+        emailIdField = findViewById(R.id.emailIdField);
+        passwordField = findViewById(R.id.passwordField);
+        loginBtn = findViewById(R.id.loginBtn);
 
-        signupNowText.setOnClickListener(new View.OnClickListener() {
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getTextFromField();
+                if (!validateEmailField() || !validatePasswordField()) {
+                    return;
+                } else {
+                    signInDirect();
+                    LoadingDialog.showLoadingDialog(LoginActivity.this , getString(R.string.Loading));
+                }
+            }
+        });
+
+        dont_have_acnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this , SignUp_Valid.class));
+                startActivity(new Intent(LoginActivity.this, SignUp_Valid.class));
             }
         });
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext() , ForgetPassword.class));
+                startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
             }
         });
     }
+
+    private void signInDirect() {
+        Call<SignInDirectResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .signInDirect(emailId, password);
+        call.enqueue(new Callback<SignInDirectResponse>() {
+            @Override
+            public void onResponse(Call<SignInDirectResponse> call, Response<SignInDirectResponse> response) {
+
+
+                int code = response.code();
+
+//                signInDirectResponse.getCode();
+                if (code != 400) {
+                    LoadingDialog.cancelLoading();
+                    clearFields();
+                    Toast.makeText(getApplicationContext(), "Successfully login", Toast.LENGTH_SHORT).show();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    showError("User credentials are invalid");
+                    Toast.makeText(getApplicationContext(), "User credentials are invalid", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SignInDirectResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void clearFields() {
+        emailIdField.getEditText().setText("");
+        passwordField.getEditText().setText("");
+    }
+
+    private void showError(String errorMessage) {
+        emailIdField.setBoxStrokeWidth(2);
+        passwordField.setBoxStrokeWidth(2);
+        emailIdField.setBoxStrokeWidthFocused(2);
+        passwordField.setBoxStrokeWidthFocused(2);
+        emailIdField.setError(" ");
+        passwordField.setError(errorMessage);
+    }
+
+    private boolean validateEmailField() {
+        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (emailId.isEmpty()) {
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
+            emailIdField.setError("This is a required field");
+            return false;
+        } else if (!emailId.matches(emailPattern)) {
+            emailIdField.setBoxStrokeWidthFocused(2);
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setError("Enter Valid email");
+            return false;
+        } else {
+            emailIdField.setError(null);
+            emailIdField.setBoxStrokeWidth(0);
+            return true;
+        }
+    }
+
+    private boolean validatePasswordField() {
+        if (password.isEmpty()) {
+            passwordField.setBoxStrokeWidth(2);
+            passwordField.setBoxStrokeWidthFocused(2);
+            passwordField.setError("This is a required field");
+            return false;
+        } else {
+            passwordField.setError(null);
+            passwordField.setBoxStrokeWidth(0);
+            return true;
+        }
+    }
+
+    private void getTextFromField() {
+        emailId = emailIdField.getEditText().getText().toString().trim();
+        password = passwordField.getEditText().getText().toString().trim();
+    }
+
 }
+
+
+

@@ -9,6 +9,7 @@
     tools:context=".UI.SignupLogin.SignUpActivity">
 
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,7 +24,7 @@
                 android:id="@+id/signup_shoppre_logo"
                 android:layout_width="164dp"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="125dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="77dp"
                 android:src="@drawable/shopprelogo" />
 
@@ -32,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="68dp"
-                android:layout_marginTop="181dp"
+                android:layout_marginTop="161dp"
                 android:backgroundTint="#F3F6F9"
                 android:fontFamily="@font/montserrat"
                 android:insetLeft="0dp"
@@ -115,7 +116,7 @@
             </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailId"
+                android:id="@+id/emailIdField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,12 +137,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="Email ID"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
                     android:singleLine="true"
-                    android:textColor="#AFADAD"
+                    android:textColor="@color/black"
                     android:textColorHint="#AFADAD"
                     android:textSize="12sp"
                     app:boxStrokeColor="#F3F6F9" />
@@ -155,19 +156,17 @@
                 android:layout_height="38dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:layout_marginHorizontal="82dp"
                 android:layout_marginTop="44dp"
                 android:backgroundTint="#2D8DFF"
-                android:lineHeight="17sp"
-                android:paddingTop="10dp"
-                android:paddingBottom="11dp"
                 android:text="Get Started!"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textFontWeight="700"
-                android:textStyle="bold"
                 app:cornerRadius="5dp"
-                app:elevation="4dp" />
+                app:elevation="4dp"
+                />
 
             <TextView
                 android:id="@+id/signup_already_acnt"

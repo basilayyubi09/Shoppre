@@ -14,4 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/montserrat</item>
     </style>
+<!--    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">-->
+<!--        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>-->
+<!--        <item name="DialogTitleText">Please Wait</item>-->
+<!--        <item name="DialogSpotColor">@color/hint_color</item>-->
+<!--        <item name="DialogSpotCount">8</item>-->
+<!--    </style>-->
 </resources>
