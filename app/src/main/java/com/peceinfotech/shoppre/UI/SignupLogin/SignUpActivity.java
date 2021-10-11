@@ -328,6 +328,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         } catch (ApiException e) {
 
+
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
