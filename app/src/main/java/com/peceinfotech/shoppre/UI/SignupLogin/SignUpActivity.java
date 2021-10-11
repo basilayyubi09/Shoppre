@@ -219,6 +219,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
                     }
                     else if (signUpGoogleResponse.getCode()==409){
+                        LoadingDialog.cancelLoading();
                         Toast.makeText(getApplicationContext(), "Already Register", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -226,6 +227,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SignUpGoogleResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -361,6 +363,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
                     }
                     else if (signUpGoogleResponse.getCode()==409){
+                        LoadingDialog.cancelLoading();
                         Toast.makeText(getApplicationContext(), "Already Register", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -368,7 +371,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SignUpGoogleResponse> call, Throwable t) {
-
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
