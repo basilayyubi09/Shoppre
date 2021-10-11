@@ -38,13 +38,13 @@ import com.peceinfotech.shoppre.R;
 
 public class SignUp_Valid extends AppCompatActivity {
 
-    Button sendBtn;
+    Button sendBtn ;
     protected EditText passwordField;
     TextView signUpValdAlrdyAcnt, passwordErrorText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
-    ImageView strengthImage;
+    ImageView strengthImage, backArrow;
 
 
     @Override
@@ -55,6 +55,7 @@ public class SignUp_Valid extends AppCompatActivity {
         //Hooks
 
         sendBtn = findViewById(R.id.signUpBtn);
+        backArrow = findViewById(R.id.backArrow);
         firstlNameField = findViewById(R.id.firstName);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
@@ -64,6 +65,7 @@ public class SignUp_Valid extends AppCompatActivity {
         referalCodeField = findViewById(R.id.referalCode);
         strengthImage = findViewById(R.id.strengthImage);
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
+
 
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
@@ -75,6 +77,13 @@ public class SignUp_Valid extends AppCompatActivity {
         //set Email received from intent on email field
         emailIdField.getEditText().setText(emailIdFromIntent);
 
+        //Back Arrow Click listener
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //Text Watcher on Password Field
         passwordField.addTextChangedListener(new TextWatcher() {
