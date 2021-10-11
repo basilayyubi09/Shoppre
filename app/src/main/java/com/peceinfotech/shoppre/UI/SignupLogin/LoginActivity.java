@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.UI;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +15,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
-import com.peceinfotech.shoppre.SignUp_Valid;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +48,10 @@ public class LoginActivity extends AppCompatActivity {
                 getTextFromField();
                 if (!validateEmailField() || !validatePasswordField()) {
                     return;
-                } else signInDirect();
+                } else {
+                    signInDirect();
+                    LoadingDialog.showLoadingDialog(LoginActivity.this , getString(R.string.Loading));
+                }
             }
         });
 
@@ -77,26 +82,22 @@ public class LoginActivity extends AppCompatActivity {
 
                 int code = response.code();
 
-                Log.d("abcd", String.valueOf(code));
 //                signInDirectResponse.getCode();
-
-                    if(code != 400) {
-                        SignInDirectResponse signInDirectResponse = response.body();
-
-                        clearFields();
-                        Toast.makeText(getApplicationContext(), "Successfully login", Toast.LENGTH_SHORT).show();
-
-                    }
-                    else {
-
-                        showError("User credentials are invalid");
-                        Toast.makeText(getApplicationContext(), "User credentials are invalid", Toast.LENGTH_SHORT).show();
-                    }
+                if (code != 400) {
+                    LoadingDialog.cancelLoading();
+                    clearFields();
+                    Toast.makeText(getApplicationContext(), "Successfully login", Toast.LENGTH_SHORT).show();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    showError("User credentials are invalid");
+                    Toast.makeText(getApplicationContext(), "User credentials are invalid", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             @Override
             public void onFailure(Call<SignInDirectResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -111,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
     private void showError(String errorMessage) {
         emailIdField.setBoxStrokeWidth(2);
         passwordField.setBoxStrokeWidth(2);
+        emailIdField.setBoxStrokeWidthFocused(2);
+        passwordField.setBoxStrokeWidthFocused(2);
         emailIdField.setError(" ");
         passwordField.setError(errorMessage);
     }
@@ -119,15 +122,17 @@ public class LoginActivity extends AppCompatActivity {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
             emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("This is a required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setBoxStrokeWidth(2);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
             emailIdField.setError(null);
-            emailIdField.setErrorEnabled(false);
+            emailIdField.setBoxStrokeWidth(0);
             return true;
         }
     }
@@ -135,11 +140,12 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validatePasswordField() {
         if (password.isEmpty()) {
             passwordField.setBoxStrokeWidth(2);
+            passwordField.setBoxStrokeWidthFocused(2);
             passwordField.setError("This is a required field");
             return false;
         } else {
             passwordField.setError(null);
-            passwordField.setErrorEnabled(false);
+            passwordField.setBoxStrokeWidth(0);
             return true;
         }
     }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.OnBoarding.SecoundOnBoarding">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="17dp"
+        android:layout_marginVertical="28dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/back_arrow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_arrow"/>
+
+
+        <TextView
+            android:id="@+id/skip2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKIP"
+            android:textColor="@color/skipcolor"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="318dp"
+                android:layout_height="318dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginHorizontal="31dp"
+                android:src="@mipmap/img" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="343dp"
+                android:layout_marginEnd="47dp"
+                android:layout_marginBottom="156dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/shop_from_1000_indian_websites_get_it_delivered_to_your_virtual_address"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textFontWeight="700"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/next_btn_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="47dp"
+                android:layout_marginTop="343dp"
+                android:backgroundTint="@color/button_color"
+                android:paddingTop="13dp"
+                android:paddingBottom="14dp"
+                android:text="Next"
+                android:textFontWeight="700"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:icon="@mipmap/button_arrow"
+                app:iconGravity="textEnd"
+                app:iconSize="24dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

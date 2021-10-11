@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,12 +15,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.common.api.ApiException;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
-import com.peceinfotech.shoppre.UI.LoginActivity;
+
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
@@ -30,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.peceinfotech.shoppre.R;
+
 public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
@@ -37,7 +43,7 @@ public class SignUp_Valid extends AppCompatActivity {
     TextView signUpValdAlrdyAcnt, passwordErrorText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String emailId, password, confirmPassword, referalCode, firstName, lastName;
+    String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage;
 
 
@@ -59,7 +65,18 @@ public class SignUp_Valid extends AppCompatActivity {
         strengthImage = findViewById(R.id.strengthImage);
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
 
+        //get Email Id from previous activity
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            emailIdFromIntent = extras.getString("emailId");
+            //The key argument here must match that used in the other activity
+        }
 
+        //set Email received from intent on email field
+        emailIdField.getEditText().setText(emailIdFromIntent);
+
+
+        //Text Watcher on Password Field
         passwordField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,22 +121,23 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-
                 //get texts from field
                 getStringFromFields();
 
+                //Validation functions
                 if (!validateFirstName() || !validateLastName() || !validateEmailField()
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     return;
                 }
 
-
+                ///registerVerify Api Call
                 registerVerifyApi(firstName,
                         emailId,
                         password,
                         referalCode,
                         lastName);
+
+                //Show Alerts
                 LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
             }
         });
@@ -136,8 +154,8 @@ public class SignUp_Valid extends AppCompatActivity {
                                    String emailId,
                                    String password,
                                    String referalCode,
-                                   String lastName) {
-
+                                   String lastName)
+    {
 
         //For sending data in JSON
         JsonObject paramObject = new JsonObject();
@@ -165,17 +183,14 @@ public class SignUp_Valid extends AppCompatActivity {
                 //print respone
                 Log.e(" Full json gson => ", String.valueOf(paramObject));
                 Log.e(" responce => ", response.toString());
-//                Log.e(" Message => ", response.body().getCustomerId().toString());
                 Log.e(" Message => ", response.body().toString());
-                //  Log.e(" customer_id => ", response.body().getCustomerId().toString());
 
                 String message = "Already User Is Registered, Please Verify Your email To Continue";
+
                 RegisterVerifyResponse registerVerifyResponse = response.body();
 
-
-                if (registerVerifyResponse.getMessage().equals(message)) {
-
-
+                if (registerVerifyResponse.getMessage().equals(message))
+                {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -196,35 +211,6 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
 
-    private JsonObject ApiJsonMap() {
-
-        JsonObject gsonObject = new JsonObject();
-        try {
-            JSONObject jsonObj = new JSONObject();
-
-            jsonObj.put("email", emailId);
-            jsonObj.put("first_name", firstName);
-            jsonObj.put("first_visit", "https://www.shoppre.com/reviews");
-            jsonObj.put("from_domain", "shoppreglobal.com");
-            jsonObj.put("last_name", lastName);
-            jsonObj.put("password", password);
-            jsonObj.put("referral_code", "");
-            jsonObj.put("referrer", "https://www.google.com/");
-
-
-            JsonParser jsonParser = new JsonParser();
-            gsonObject = (JsonObject) jsonParser.parse(jsonObj.toString());
-
-            //print parameter
-            Log.e("MY gson.JSON:  ", "AS PARAMETER  " + gsonObject);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return gsonObject;
-    }
-
     private void clearFields() {
         firstlNameField.getEditText().setText("");
         lastNameField.getEditText().setText("");
@@ -240,11 +226,13 @@ public class SignUp_Valid extends AppCompatActivity {
 
         if (firstName.isEmpty()) {
             firstlNameField.setBoxStrokeWidth(2);
+            firstlNameField.setBoxStrokeWidthFocused(2);
             firstlNameField.setError("This is a required field");
             return false;
         } else {
             firstlNameField.setError(null);
-            firstlNameField.setErrorEnabled(false);
+            firstlNameField.setBoxStrokeWidth(0);
+
             return true;
         }
 
@@ -255,11 +243,12 @@ public class SignUp_Valid extends AppCompatActivity {
 
         if (lastName.isEmpty()) {
             lastNameField.setBoxStrokeWidth(2);
+            lastNameField.setBoxStrokeWidthFocused(2);
             lastNameField.setError("This is a required field");
             return false;
         } else {
             lastNameField.setError(null);
-            lastNameField.setErrorEnabled(false);
+            lastNameField.setBoxStrokeWidth(0);
             return true;
         }
 
@@ -270,15 +259,17 @@ public class SignUp_Valid extends AppCompatActivity {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
             emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("This is a required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
             emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
             emailIdField.setError(null);
-            emailIdField.setErrorEnabled(false);
+            emailIdField.setBoxStrokeWidth(0);
             return true;
         }
     }
@@ -311,16 +302,18 @@ public class SignUp_Valid extends AppCompatActivity {
         if (confirmPassword.isEmpty()) {
 
             confirmPasswordField.setBoxStrokeWidth(2);
+            confirmPasswordField.setBoxStrokeWidthFocused(2);
             confirmPasswordField.setError("This is a required field");
             return false;
         } else if (!confirmPassword.equals(password)) {
             confirmPasswordField.setBoxStrokeWidth(2);
+            confirmPasswordField.setBoxStrokeWidthFocused(2);
             confirmPasswordField.setError("Password does not match");
             return false;
 
         } else {
             confirmPasswordField.setError(null);
-            confirmPasswordField.setErrorEnabled(false);
+            confirmPasswordField.setBoxStrokeWidth(0);
             return true;
         }
     }

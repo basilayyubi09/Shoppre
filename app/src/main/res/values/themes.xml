@@ -16,7 +16,10 @@
     </style>
 
     //Dialogue Theme
-    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/purple_500</item>
-    </style>
+<!--    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">-->
+<!--        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>-->
+<!--        <item name="DialogTitleText">Please Wait</item>-->
+<!--        <item name="DialogSpotColor">@color/hint_color</item>-->
+<!--        <item name="DialogSpotCount">8</item>-->
+<!--    </style>-->
 </resources>

@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.UI;
+package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +25,7 @@ public class ForgetPassword extends AppCompatActivity {
     Button sendResendButton;
     TextInputLayout emailIdField;
     String emailId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,12 @@ public class ForgetPassword extends AppCompatActivity {
 //                LoadingDialog.showLoadingDialog(getApplicationContext(),"Loading...");
                 emailId = emailIdField.getEditText().getText().toString().trim();
 
-                if(!validateEmailField()){
+                if (!validateEmailField()) {
                     return;
-                }
-                else
+                } else {
                     forgotPasswordApi(emailId);
+                    LoadingDialog.showLoadingDialog(ForgetPassword.this, getString(R.string.Loading));
+                }
             }
         });
     }
@@ -52,7 +55,7 @@ public class ForgetPassword extends AppCompatActivity {
     private void forgotPasswordApi(String emailId) {
 
         JsonObject jsonEmail = new JsonObject();
-        jsonEmail.addProperty("email",emailId);
+        jsonEmail.addProperty("email", emailId);
 
         Call<ForgotPasswordResponse> call = RetrofitClient2.getInstance().getApi().forgotPassword(jsonEmail.toString());
         call.enqueue(new Callback<ForgotPasswordResponse>() {
@@ -61,29 +64,26 @@ public class ForgetPassword extends AppCompatActivity {
 
                 Log.e(" Full json gson => ", String.valueOf(jsonEmail));
                 Log.e(" response => ", response.toString());
-//                Log.e(" Message => ", response.body().getCustomerId().toString());
-//                Log.e(" Message => ", response.errorBody().toString());
                 Log.e(" Code => ", String.valueOf(response.code()));
 
-                int code  = response.code();
+                int code = response.code();
                 String errorDesc = "Sorry we couldn't find this Email ID in our records. Please try again!";
 
-                if(code == 401){
-//                    LoadingDialog.cancelLoading();
+                if (code == 401) {
+                    LoadingDialog.cancelLoading();
                     emailIdField.setError(errorDesc);
                     Toast.makeText(getApplicationContext(), errorDesc, Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
 
-//                    LoadingDialog.cancelLoading();
+                    LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.body().getExpires(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(ForgetPassword.this , ForgotPasswordMessage.class));
+                    startActivity(new Intent(ForgetPassword.this, ForgotPasswordMessage.class));
                 }
             }
 
             @Override
             public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
-//                LoadingDialog.cancelLoading();
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -96,17 +96,19 @@ public class ForgetPassword extends AppCompatActivity {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
 
-            emailIdField.setBoxStrokeWidth(1);
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("Email Can't be empty");
             return false;
         } else if (!emailId.matches(emailPattern)) {
-            emailIdField.setBoxStrokeWidth(1);
+            emailIdField.setBoxStrokeWidth(2);
+            emailIdField.setBoxStrokeWidthFocused(2);
             emailIdField.setError("Enter Valid email");
             return false;
         } else {
             emailIdField.setError(null);
             emailIdField.setBoxStrokeWidth(0);
-            emailIdField.setErrorEnabled(false);
+
             return true;
         }
     }
