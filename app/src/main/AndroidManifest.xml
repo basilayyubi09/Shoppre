@@ -13,14 +13,14 @@
         android:theme="@style/Theme.Shoppre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.AccountAndWallet.AccountWalletActivity"
+            android:exported="true" />
+        <activity
             android:name=".UI.Orders.OrderActivity"
             android:exported="true" />
         <activity
-            android:name=".UI.Sample"
-            android:exported="true" />
-        <activity
             android:name=".UI.OnBoarding.OnBoardingActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".UI.SignupLogin.SignUpActivity"
             android:exported="true">

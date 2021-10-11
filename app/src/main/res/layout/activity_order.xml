@@ -7,21 +7,7 @@
     android:orientation="vertical"
     tools:context=".UI.Orders.OrderActivity">
 
-    <include
-        android:id="@+id/OrderToolbar"
-        layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_navigation" />
-    </RelativeLayout>
 
 
 </LinearLayout>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/orderMenu"
         android:title="Order"
-        app:showAsAction="ifRoom"
         android:enabled="true"
         android:icon="@drawable/ic_orders___selected"/>
 
@@ -12,20 +10,17 @@
         android:id="@+id/lockerMenu"
         android:title="Locker"
         android:enabled="true"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_locker___selected"/>
 
     <item
         android:id="@+id/shipmentMenu"
         android:title="Shipment"
         android:enabled="true"
-        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_shipments___selected"/>
 
     <item
         android:id="@+id/accountMenu"
         android:title="Account"
-        app:showAsAction="ifRoom"
         android:enabled="true"
         android:icon="@drawable/ic_account___selected"/>
 </menu>
