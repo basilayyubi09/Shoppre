@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.peceinfotech.shoppre.R;
+
 public class AccountWalletActivity extends AppCompatActivity {
 
     @Override

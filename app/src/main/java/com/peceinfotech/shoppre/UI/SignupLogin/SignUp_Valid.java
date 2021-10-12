@@ -45,7 +45,7 @@ public class SignUp_Valid extends AppCompatActivity {
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage, backArrow;
-
+    String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{7,}$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class SignUp_Valid extends AppCompatActivity {
                     strengthImage.setImageResource(R.drawable.ic_weak);
                 } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                } else {
+                }else if(s.toString().length()>=7 && s.toString().matches(passwordPattern)){
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -114,7 +114,7 @@ public class SignUp_Valid extends AppCompatActivity {
                     strengthImage.setImageResource(R.drawable.ic_weak);
                 } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                } else {
+                } else if(s.toString().length()>=7 && s.toString().matches(passwordPattern)){
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -201,11 +201,14 @@ public class SignUp_Valid extends AppCompatActivity {
                 if (registerVerifyResponse.getMessage().equals(message))
                 {
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
+                    intent.putExtra("flag" , 1);
+                    startActivity(intent);
                 } else {
                     clearFields();
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -287,20 +290,19 @@ public class SignUp_Valid extends AppCompatActivity {
     private Boolean validatePasswordField() {
 
 
-        String passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
         if (password.isEmpty()) {
 
-            passwordField.setError("This is a required field");
+
             passwordErrorText.setVisibility(View.VISIBLE);
+            strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
 
         } else if (!password.matches(passwordPattern)) {
             passwordErrorText.setVisibility(View.VISIBLE);
-
+            strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
         } else {
             passwordErrorText.setVisibility(View.GONE);
-            passwordField.setError(null);
             return true;
         }
 
