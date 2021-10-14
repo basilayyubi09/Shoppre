@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Shoppre</string>
     <string name="helper_text"><![CDATA[Use 8 or more characters with a mix of letters, numbers & symbols]]></string>
-    <string name="by_signing_"><![CDATA[By signing up, you agree to Shoppre\'s Terms of Use & Privacy Policy]]></string>
+    <string name="by_signing_">By signing up, you agree to Shoppre\'s <u>Terms of Use</u> &amp; <u>Privacy Policy</u></string>
     <string name="create_your_account_string">Create Your Account</string>
     <string name="full_name_string">Full Name</string>
     <string name="email_id_string">Email Id</string>
@@ -21,13 +21,13 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="new_password_string">New Password</string>
     <string name="confirm_new_password_string">Confirm New Password</string>
     <string name="reset_password_string">Reset Password</string>
-    <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF"> Login</font></string>
+    <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF">Login</font></string>
     <string name="dont_have"><font color="#000000">Don\'t have an account?</font><font color="#2D8DFF"> Sign Up Now</font></string>
     <string name="password_error_string">Looks like the Email ID and Password you entered are incorrect. Please try again!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-<!--    Onboarding text-->
+    <!--    Onboarding text-->
     <string name="get_a_unique_indian_virtual_address_to_shop">Get a unique Indian Virtual Address to shop!</string>
     <string name="shop_from_1000_indian_websites_get_it_delivered_to_your_virtual_address">Shop from 1000+ Indian Websites &amp; get it delivered to your Virtual Address</string>
     <string name="we_ll_consolidate_ship_it_to_you">We\'ll consolidate &amp; ship it to you!</string>
@@ -36,10 +36,20 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="your_indian_virtual_address">Your Indian Virtual Address</string>
     <string name="locker_no_sa_29j17_122545_indian_shoppre_llp_182_1st_floor_2nd_cross_rd_7th_main_koramangala_1st_block_bengaluru_karnataka_560_034">Locker No. SA-29J17-122545,<br />Indian Shoppre LLP,<br />#182, 1st Floor, 2nd Cross Rd,<br />7th Main, Koramangala 1st Block,<br />Bengaluru, Karnataka - 560 034</string>
 
-<!--    facebook -->
+    <!--    facebook -->
     <string name="facebook_app_id">651881328327888</string>
     <string name="fb_login_protocol_scheme">fb651881328327888</string>
     <string name="Loading">Loading...</string>
+    <string name="enter_your_phone_number_to_get_regular_alerts">Enter your phone number to get regular alerts</string>
+    <string name="password_error_message"><![CDATA[A password with 8 or more characters with a mix of letters, numbers & symbols is required]]></string>
+    <string name="enable_whatsapp_update_string">Enable Whatsapp Update</string>
+    <string name="get_rs_350_">Get Rs. 350 cashback when your friend’s first package dispatches from our warehouse</string>
+    <string name="virtual_indian_address">Virtual Indian Address</string>
+    <string name="manage_addresses">Manage Addresses</string>
+    <string name="help_amp_faqs"><![CDATA[Help & FAQs]]></string>
+    <string name="contact_us">Contact Us</string>
+    <string name="wallet_transaction">Wallet Transaction</string>
+    <string name="share_the_unique">Share the unique code and invite your friends to ship with Shoppre and earn a cashback of Rs 350 when their first package dispatches.They get Rs. 350 too!</string>
 
 
 </resources>

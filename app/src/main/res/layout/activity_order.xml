@@ -4,62 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.OrderActivity"
-    android:orientation="vertical">
-
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/orderToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1B274E">
-
-        <ImageView
-            android:layout_width="116dp"
-            android:layout_height="35dp"
-            android:src="@drawable/shopprelogo"/>
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <ImageView
-        android:id="@+id/userImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:src="@drawable/shopprelogo"/>
+    android:orientation="vertical"
+    tools:context=".UI.Orders.OrderActivity">
 
 
 
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="20sp"/>
-
-
-    <TextView
-        android:id="@+id/userEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="20sp"/>
-
-    <TextView
-        android:id="@+id/userId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="id"
-        android:textSize="20sp"/>
-
-
-
-<Button
-    android:id="@+id/logoutBtn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Logout"
-    android:layout_gravity="center"
-    android:gravity="bottom"/>
 
 </LinearLayout>

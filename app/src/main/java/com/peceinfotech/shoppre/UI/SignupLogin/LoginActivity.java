@@ -26,9 +26,10 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     TextView dont_have_acnt, forgotPassword;
-    TextInputLayout emailIdField, passwordField;
+    TextInputLayout passwordField;
     MaterialButton loginBtn;
     String emailId, password;
+    TextInputLayout loginEmailIdField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,22 @@ public class LoginActivity extends AppCompatActivity {
         //Hooks
         dont_have_acnt = findViewById(R.id.dont_have_acnt);
         forgotPassword = findViewById(R.id.forgot_password);
-        emailIdField = findViewById(R.id.emailIdField);
+        loginEmailIdField = findViewById(R.id.emailIdField);
         passwordField = findViewById(R.id.passwordField);
         loginBtn = findViewById(R.id.loginBtn);
+
+        //get Email Id from previous activity
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            int flag = extras.getInt("flag");
+            if (flag == 1) {
+                setError("Looks like this user already exists! Please use a new Email ID");
+            }
+        }
+
+            //The key argument here must match that used in the other activity
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     LoadingDialog.cancelLoading();
                     showError("User credentials are invalid");
-                    Toast.makeText(getApplicationContext(), "User credentials are invalid", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -105,34 +118,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void clearFields() {
-        emailIdField.getEditText().setText("");
+        loginEmailIdField.getEditText().setText("");
         passwordField.getEditText().setText("");
     }
 
     private void showError(String errorMessage) {
-        emailIdField.setBoxStrokeWidth(2);
+        loginEmailIdField.setBoxStrokeWidth(2);
         passwordField.setBoxStrokeWidth(2);
-        emailIdField.setBoxStrokeWidthFocused(2);
+        loginEmailIdField.setBoxStrokeWidthFocused(2);
         passwordField.setBoxStrokeWidthFocused(2);
-        emailIdField.setError(" ");
+        loginEmailIdField.setError(" ");
         passwordField.setError(errorMessage);
     }
 
     private boolean validateEmailField() {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (emailId.isEmpty()) {
-            emailIdField.setBoxStrokeWidth(2);
-            emailIdField.setBoxStrokeWidthFocused(2);
-            emailIdField.setError("This is a required field");
+            loginEmailIdField.setBoxStrokeWidth(2);
+            loginEmailIdField.setBoxStrokeWidthFocused(2);
+            loginEmailIdField.setError("This is a required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
-            emailIdField.setBoxStrokeWidthFocused(2);
-            emailIdField.setBoxStrokeWidth(2);
-            emailIdField.setError("Enter Valid email");
+            loginEmailIdField.setBoxStrokeWidthFocused(2);
+            loginEmailIdField.setBoxStrokeWidth(2);
+            loginEmailIdField.setError("Enter Valid email");
             return false;
         } else {
-            emailIdField.setError(null);
-            emailIdField.setBoxStrokeWidth(0);
+            loginEmailIdField.setError(null);
+            loginEmailIdField.setBoxStrokeWidth(0);
             return true;
         }
     }
@@ -151,8 +164,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getTextFromField() {
-        emailId = emailIdField.getEditText().getText().toString().trim();
+        emailId = loginEmailIdField.getEditText().getText().toString().trim();
         password = passwordField.getEditText().getText().toString().trim();
+    }
+    public void setError(String message){
+        passwordField.setBoxStrokeWidth(2);
+        passwordField.setBoxStrokeWidthFocused(2);
+        passwordField.setError(" ");
+        loginEmailIdField.setBoxStrokeWidthFocused(2);
+        loginEmailIdField.setBoxStrokeWidth(2);
+        loginEmailIdField.setError(message);
+
     }
 
 }

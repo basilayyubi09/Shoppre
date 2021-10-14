@@ -41,7 +41,6 @@ import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
-import com.peceinfotech.shoppre.UI.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
@@ -328,7 +327,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         } catch (ApiException e) {
 
-
+            LoadingDialog.cancelLoading();
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
