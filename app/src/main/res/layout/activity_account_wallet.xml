@@ -12,23 +12,9 @@
         android:id="@+id/OrderToolbar"
         layout="@layout/toolbar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_alignParentBottom="true"
-            android:paddingVertical="9dp"
-            app:menu="@menu/bottom_navigation"
-            app:labelVisibilityMode="labeled"
-            />
-
-    </RelativeLayout>
-
+            android:id="@+id/frameLayout" />
 
 </LinearLayout>

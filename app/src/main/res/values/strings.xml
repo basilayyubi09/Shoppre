@@ -42,6 +42,14 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="Loading">Loading...</string>
     <string name="enter_your_phone_number_to_get_regular_alerts">Enter your phone number to get regular alerts</string>
     <string name="password_error_message"><![CDATA[A password with 8 or more characters with a mix of letters, numbers & symbols is required]]></string>
+    <string name="enable_whatsapp_update_string">Enable Whatsapp Update</string>
+    <string name="get_rs_350_">Get Rs. 350 cashback when your friend’s first package dispatches from our warehouse</string>
+    <string name="virtual_indian_address">Virtual Indian Address</string>
+    <string name="manage_addresses">Manage Addresses</string>
+    <string name="help_amp_faqs"><![CDATA[Help & FAQs]]></string>
+    <string name="contact_us">Contact Us</string>
+    <string name="wallet_transaction">Wallet Transaction</string>
+    <string name="share_the_unique">Share the unique code and invite your friends to ship with Shoppre and earn a cashback of Rs 350 when their first package dispatches.They get Rs. 350 too!</string>
 
 
 </resources>
