@@ -72,12 +72,12 @@ public class ForgetPassword extends AppCompatActivity {
                 if (code == 401) {
                     LoadingDialog.cancelLoading();
                     emailIdField.setError(errorDesc);
-                    Toast.makeText(getApplicationContext(), errorDesc, Toast.LENGTH_SHORT).show();
+
                 } else {
 
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.body().getExpires(), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(ForgetPassword.this, ForgotPasswordMessage.class));
+
                 }
             }
 
