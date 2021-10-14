@@ -25,6 +25,7 @@ import com.google.gson.JsonParser;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
@@ -148,6 +149,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
                 //Show Alerts
                 LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
+                startActivity(new Intent(SignUp_Valid.this , AccountWalletActivity.class));
             }
         });
 

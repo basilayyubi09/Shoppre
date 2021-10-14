@@ -4,23 +4,23 @@
         android:id="@+id/orderMenu"
         android:title="Order"
         android:enabled="true"
-        android:icon="@drawable/ic_orders___selected"/>
+        android:icon="@drawable/order_selector"/>
 
     <item
         android:id="@+id/lockerMenu"
         android:title="Locker"
         android:enabled="true"
-        android:icon="@drawable/ic_locker___selected"/>
+        android:icon="@drawable/locker_selector"/>
 
     <item
         android:id="@+id/shipmentMenu"
         android:title="Shipment"
         android:enabled="true"
-        android:icon="@drawable/ic_shipments___selected"/>
+        android:icon="@drawable/shipment_selector"/>
 
     <item
         android:id="@+id/accountMenu"
         android:title="Account"
         android:enabled="true"
-        android:icon="@drawable/ic_account___selected"/>
+        android:icon="@drawable/account_selector"/>
 </menu>
