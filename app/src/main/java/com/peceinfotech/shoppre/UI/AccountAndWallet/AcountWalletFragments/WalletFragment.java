@@ -56,15 +56,7 @@ public class WalletFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
 
 
-        readMoreLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AccountWalletActivity.fragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frameLayout, new ReferralFragment() , null)
-                        .addToBackStack(null).commit();
-            }
-        });
+
 
         list.add(new WalletTransactionDummyModel(R.mipmap.refferal_reward
                 , "05 Jan 2021"
