@@ -3,12 +3,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.AccountAndWallet.AcountWalletFragments.EmptyAddressBook">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address Book"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="23dp"
+            android:textSize="14sp"
+            android:textFontWeight="700"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_empty_book"
+            android:layout_marginTop="175dp"
+            android:layout_marginHorizontal="92dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addAddressBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="116dp"
+            android:layout_marginRight="117dp"
+            android:layout_marginBottom="31dp"
+            android:backgroundTint="@color/white"
+            app:strokeColor="#2D8DFF"
+            app:strokeWidth="1dp"
+            android:text="Add Address"
+            android:textColor="#2D8DFF"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            android:textFontWeight="600"
+            app:cornerRadius="5dp"/>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>
