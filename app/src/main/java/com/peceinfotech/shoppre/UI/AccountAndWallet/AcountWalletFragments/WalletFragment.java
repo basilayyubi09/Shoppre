@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.Adapters.WalletTransactionAdapter;
 import com.peceinfotech.shoppre.Models.WalletTransactionDummyModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class WalletFragment extends Fragment {
     WalletTransactionAdapter walletAdapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
+    RelativeLayout readMoreLayout;
 
     @Override
     public void onResume() {
@@ -46,12 +49,22 @@ public class WalletFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
         allSpinner = view.findViewById(R.id.allSpinner);
         recyclerView = view.findViewById(R.id.walletTransactionRecycle);
-
+        readMoreLayout = view.findViewById(R.id.readMoreLayout);
 
         //Initialize
         list = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getContext());
 
+
+        readMoreLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AccountWalletActivity.fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, new ReferralFragment() , null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         list.add(new WalletTransactionDummyModel(R.mipmap.refferal_reward
                 , "05 Jan 2021"
@@ -75,6 +88,7 @@ public class WalletFragment extends Fragment {
 
         walletAdapter = new WalletTransactionAdapter(getContext() , list);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         recyclerView.setAdapter(walletAdapter);
 
 

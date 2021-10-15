@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".UI.AccountAndWallet.AcountWalletFragments.ReferralFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,9 +30,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginHorizontal="23dp"
                     android:layout_marginTop="28dp"
-                    android:layout_marginHorizontal="23dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -53,75 +53,156 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/referral_banner"/>
+                            android:src="@drawable/referral_banner" />
                     </com.google.android.material.card.MaterialCardView>
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="31dp"
+                        android:gravity="center"
                         android:text="@string/share_the_unique"
                         android:textAlignment="center"
-                        android:textSize="13sp"
                         android:textColor="#818181"
                         android:textFontWeight="500"
+                        android:textSize="13sp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="48dp"
+                        android:layout_gravity="center_horizontal">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg"
+                            android:id="@+id/btnRelative">
+
+                            <TextView
+                                android:id="@+id/referralCodeText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:gravity="center"
+                                android:paddingHorizontal="24dp"
+                                android:text="NIK5XY12 "
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:layout_marginLeft="-5dp"
+                                android:layout_toRightOf="@+id/referralCodeText"
+                                android:backgroundTint="#2D8DFF"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:paddingStart="6dp"
+                                app:icon="@mipmap/clipboard"
+                                app:iconSize="20dp"
+                                app:iconTint="@color/black"
+                                />
+
+                        </RelativeLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="94dp"
+                            android:layout_height="34dp"
+                            android:layout_toRightOf="@id/btnRelative"
+                            android:layout_marginLeft="11dp"
+                            android:backgroundTint="#2D8DFF"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:letterSpacing="0.03"
+                            android:text="Share"
+                            android:textAllCaps="false"
+                            android:textFontWeight="600"
+                            android:textSize="12sp"
+                            app:icon="@mipmap/share"
+                            app:iconGravity="end"
+                            app:iconSize="18sp"
+                            app:iconTint="@color/white" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/haveARefCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="28dp"
+                android:background="@color/white"
+                android:visibility="gone"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/box_background_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="21dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="700"
+                        android:text="Have a referral code?"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/edittext_bg">
+
+                        <EditText
+                            android:layout_width="174dp"
+                            android:layout_height="34dp"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="34dp"
+                            android:layout_marginLeft="-5dp"
+                            android:backgroundTint="#17B28F"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:letterSpacing="0.03"
+                            android:padding="0dp"
+                            android:text="Submit"
+                            android:textAllCaps="false"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
                         android:gravity="center"
-                        android:layout_marginTop="31dp"/>
+                        android:text="@string/enter_the_referral_code_"
+                        android:textColor="#818181"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
 
-                   <RelativeLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_marginVertical="48dp">
-
-                       <RelativeLayout
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:background="@drawable/edittext_bg">
-
-                           <TextView
-                               android:id="@+id/referralCodeText"
-                               android:layout_width="wrap_content"
-                               android:layout_height="32dp"
-                               android:gravity="center"
-                               android:textSize="14sp"
-                               android:textColor="@color/black"
-                               android:textFontWeight="700"
-                               android:paddingHorizontal="34dp"
-                               android:text="NIK5XY12 " />
-
-                           <com.google.android.material.button.MaterialButton
-                               android:layout_width="34dp"
-                               android:layout_height="34dp"
-                               android:layout_marginLeft="-5dp"
-                               android:layout_toRightOf="@+id/referralCodeText"
-                               android:backgroundTint="#2D8DFF"
-                               android:insetTop="0dp"
-                               android:insetBottom="0dp"
-                               android:paddingStart="6dp"
-                               app:icon="@mipmap/clipboard"
-                               app:iconSize="20dp"
-                               app:iconTint="@color/black" />
-
-                       </RelativeLayout>
-
-                       <com.google.android.material.button.MaterialButton
-                           android:layout_width="94dp"
-                           android:layout_height="34dp"
-                           android:layout_alignParentRight="true"
-                           android:backgroundTint="#2D8DFF"
-                           android:layout_marginLeft="11dp"
-                           android:insetTop="0dp"
-                           android:insetBottom="0dp"
-                           android:letterSpacing="0.03"
-                           android:text="Share"
-                           android:textAllCaps="false"
-                           android:textFontWeight="600"
-                           android:textSize="12sp"
-                           app:icon="@mipmap/share"
-                           app:iconGravity="end"
-                           app:iconSize="18sp"
-                           app:iconTint="@color/white" />
-                   </RelativeLayout>
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginRight="26dp"
+                        android:gravity="right"
+                        android:text="*Available only for 7 days from Sign-up"
+                        android:textColor="#818181"
+                        android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -138,12 +219,158 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Referral History"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/emptyReferralLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/emptyReferralImage"
+                            android:layout_width="112dp"
+                            android:layout_height="112dp"
+
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/empty_referral_history" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="21dp"
+                            android:gravity="center"
+                            android:text="@string/you_have_not" />
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/referralRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp" />
+
+                    <LinearLayout
+                        android:id="@+id/showMoreLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp">
+
+                        <TextView
+                            android:id="@+id/showMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="Show More"
+                            android:textColor="#3A5FD8"
+                            android:textFontWeight="600"
+                            android:textSize="10sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="6dp"
+                            android:src="@mipmap/showmore" />
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginVertical="28dp"
+                android:background="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/box_background_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="22dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Referral FAQs"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/how_does_shoppre_referrals_work"
+                        android:textColor="#3A5FD8"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/how_can_i_invite_my_friends"
+                        android:textColor="#3A5FD8"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="@string/can_i_transfer_the_cashback_to_my_bank"
+                        android:textColor="#3A5FD8"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp">
+
+                        <TextView
+                            android:id="@+id/readMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:text="Read More"
+                            android:textColor="#3A5FD8"
+
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="6dp"
+                            android:layout_toRightOf="@+id/readMore"
+                            android:src="@mipmap/right_arrow" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

@@ -9,12 +9,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="ScrollViewSize">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -35,10 +37,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="My Wallet"
+                        android:text="@string/my_wallet"
                         android:textColor="@color/black"
                         android:textFontWeight="700"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:ignore="UnusedAttribute" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -49,25 +52,27 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/my_cash" />
+                            android:src="@drawable/my_cash"
+                            android:contentDescription="my cash" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="9dp"
-                            android:text="My Cash"
+                            android:layout_marginStart="9dp"
+                            android:text="@string/my_cash"
                             android:textColor="@color/black"
                             android:textFontWeight="600"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="UnusedAttribute" />
 
                         <TextView
-                            android:layout_width="fill_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="600"
-                            android:gravity="right"
-                            android:text="\u20B9 100"
+                            android:gravity="end"
+                            android:text="@string/u20b9_100"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -80,25 +85,27 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/rupees_icon" />
+                            android:src="@mipmap/rupees_icon"
+                            android:contentDescription="TODO" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="9dp"
-                            android:text="My Rewards"
+                            android:layout_marginStart="9dp"
+                            android:text="@string/my_rewards"
                             android:textColor="@color/black"
                             android:textFontWeight="600"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="UnusedAttribute" />
 
                         <TextView
-                            android:layout_width="fill_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="600"
-                            android:gravity="right"
-                            android:text="\u20B9 250"
+                            android:gravity="end"
+                            android:text="@string/u20b9_250"
                             android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
@@ -195,6 +202,7 @@
                             android:layout_height="20dp"
                             android:src="@mipmap/showmore"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -244,25 +252,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Wow can I use My Wallet balance?"
+                        android:text="@string/wow_can_i_use_my_wallet_balance"
                         android:textColor="#3A5FD8"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp">
+                        android:layout_marginTop="14dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/readMoreLayout">
 
                         <TextView
                             android:id="@+id/readMore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
+                            android:text="@string/read_more"
                             android:layout_centerVertical="true"
-                            android:text="Read More"
                             android:textColor="#3A5FD8"
-
                             android:textFontWeight="600"
                             android:textSize="12sp" />
 
@@ -270,9 +278,10 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_centerVertical="true"
-                            android:layout_marginLeft="6dp"
-                            android:layout_toRightOf="@+id/readMore"
-                            android:src="@mipmap/right_arrow" />
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@+id/readMore"
+                            android:src="@mipmap/right_arrow"
+                            android:contentDescription="TODO" />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -292,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="57dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="REFERRAL/ OFFERS/ COUPONS"
+                    android:text="@string/referral_offers_coupons"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
                     android:textSize="14sp"/>
