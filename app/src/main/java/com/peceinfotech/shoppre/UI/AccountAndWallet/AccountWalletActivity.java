@@ -25,8 +25,8 @@ public class AccountWalletActivity extends AppCompatActivity {
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        VertualAddress vertualAddress = new VertualAddress();
-        fragmentTransaction.add(R.id.accountWalletContainer, vertualAddress, null);
+        AddAddress addAddress = new AddAddress();
+        fragmentTransaction.add(R.id.accountWalletContainer, addAddress, null);
         fragmentTransaction.commit();
 
 
