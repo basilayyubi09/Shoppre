@@ -29,7 +29,7 @@ public class ViewProfile extends Fragment {
     EditText fullNameEditText , phoneNumberEditText;
     CircleImageView profileImage;
     SwitchCompat whatsappSwitch;
-    TextView profileName , lockerNo , profilePrice;
+    TextView profileName , lockerNo , profilePrice , wallet , manageAddresses , virtualIndianAddress;
     //For Title Spinner
     String[] title = { "Mr" , "Mrs" };
 
@@ -50,6 +50,9 @@ public class ViewProfile extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_view_profile, container, false);
 
+        wallet = view.findViewById(R.id.wallet);
+        manageAddresses = view.findViewById(R.id.manageAddresses);
+        virtualIndianAddress = view.findViewById(R.id.virtualIndianAddress);
         logoutBtn = view.findViewById(R.id.logoutBtn);
         inviteBtn = view.findViewById(R.id.inviteBtn);
         updateBtn = view.findViewById(R.id.updateBtn);
@@ -65,13 +68,42 @@ public class ViewProfile extends Fragment {
         lockerNo = view.findViewById(R.id.lockerNo);
 
 
-        updateBtn.setOnClickListener(new View.OnClickListener() {
+        inviteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 AccountWalletActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout , new WalletFragment() , null )
+                        .replace(R.id.frameLayout , new ReferralFragment() , null )
                         .addToBackStack(null).commit();
+            }
+        });
+
+        virtualIndianAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AccountWalletActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout , new VertualAddress() , null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        wallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AccountWalletActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout , new WalletFragment() , null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        manageAddresses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AccountWalletActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout , new AddAddress() , null)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
