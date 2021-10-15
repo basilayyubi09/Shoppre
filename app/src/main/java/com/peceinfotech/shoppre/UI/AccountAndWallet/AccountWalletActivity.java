@@ -7,29 +7,24 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddAddress;
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddressBook;
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
+import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 
 public class AccountWalletActivity extends AppCompatActivity {
 
-    FragmentManager fragmentManager = getSupportFragmentManager();
-
+    public static FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_wallet);
+        fragmentManager =  getSupportFragmentManager();
 
-        if(savedInstanceState!=null){
-            return;
-        }
-
+        if (savedInstanceState!=null) return;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        AddAddress addAddress = new AddAddress();
-        fragmentTransaction.add(R.id.accountWalletContainer, addAddress, null);
+        ViewProfile viewProfileFragment = new ViewProfile();
+        fragmentTransaction.add(R.id.frameLayout , viewProfileFragment , null);
         fragmentTransaction.commit();
 
 
-        }
-
     }
+}

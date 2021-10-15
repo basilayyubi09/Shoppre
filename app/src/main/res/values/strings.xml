@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Shoppre</string>
     <string name="helper_text"><![CDATA[Use 8 or more characters with a mix of letters, numbers & symbols]]></string>
-    <string name="by_signing_"><![CDATA[By signing up, you agree to Shoppre\'s Terms of Use & Privacy Policy]]></string>
+    <string name="by_signing_">By signing up, you agree to Shoppre\'s <u>Terms of Use</u> &amp; <u>Privacy Policy</u></string>
     <string name="create_your_account_string">Create Your Account</string>
     <string name="full_name_string">Full Name</string>
     <string name="email_id_string">Email Id</string>
@@ -21,7 +21,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="new_password_string">New Password</string>
     <string name="confirm_new_password_string">Confirm New Password</string>
     <string name="reset_password_string">Reset Password</string>
-    <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF"> Login</font></string>
+    <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF">Login</font></string>
     <string name="dont_have"><font color="#000000">Don\'t have an account?</font><font color="#2D8DFF"> Sign Up Now</font></string>
     <string name="password_error_string">Looks like the Email ID and Password you entered are incorrect. Please try again!</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -40,9 +40,33 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="facebook_app_id">651881328327888</string>
     <string name="fb_login_protocol_scheme">fb651881328327888</string>
     <string name="Loading">Loading...</string>
-    <string name="edit"><u>Edit</u></string>
+    <string name="enter_your_phone_number_to_get_regular_alerts">Enter your phone number to get regular alerts</string>
+    <string name="password_error_message"><![CDATA[A password with 8 or more characters with a mix of letters, numbers & symbols is required]]></string>
+    <string name="enable_whatsapp_update_string">Enable Whatsapp Update</string>
+    <string name="get_rs_350_">Get Rs. 350 cashback when your friend’s first package dispatches from our warehouse</string>
+    <string name="virtual_indian_address">Virtual Indian Address</string>
+    <string name="manage_addresses">Manage Addresses</string>
+    <string name="help_amp_faqs"><![CDATA[Help & FAQs]]></string>
+    <string name="contact_us">Contact Us</string>
+    <string name="wallet_transaction">Wallet Transaction</string>
+    <string name="share_the_unique">Share the unique code and invite your friends to ship with Shoppre and earn a cashback of Rs 350 when their first package dispatches.They get Rs. 350 too!</string>
+    <string name="you_have_not">You have not invited anybody yet. Share the referral with you friends and start earning now!</string>
+    <string name="can_i_transfer_the_cashback_to_my_bank">Can I Transfer the Cashback to My Bank?</string>
+    <string name="how_can_i_invite_my_friends">How Can I Invite My Friends?</string>
+    <string name="how_does_shoppre_referrals_work">How Does Shoppre Referrals Work?</string>
+    <string name="enter_the_referral_code_">Enter the referral code shared by your friend and get you referral reward</string>
+    <string name="my_wallet">My Wallet</string>
+    <string name="my_cash">My Cash</string>
+    <string name="u20b9_100">₹ 100</string>
+    <string name="my_rewards">My Rewards</string>
+    <string name="u20b9_250">₹ 250</string>
+    <string name="referral_offers_coupons">REFERRAL/ OFFERS/ COUPONS</string>
+    <string name="read_more">Read More</string>
+    <string name="wow_can_i_use_my_wallet_balance">Wow can I use My Wallet balance?</string>
     <string name="delete"><u>Delete</u></string>
-    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>
+    <string name="edit"><u>Edit</u></string>
+
+    <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 
 
 </resources>

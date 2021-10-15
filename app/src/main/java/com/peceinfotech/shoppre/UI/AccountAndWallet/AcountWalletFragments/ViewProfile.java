@@ -2,65 +2,82 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ViewProfile#newInstance} factory method to
- * create an instance of this fragment.
- */
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ViewProfile extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ViewProfile() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewProfile.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewProfile newInstance(String param1, String param2) {
-        ViewProfile fragment = new ViewProfile();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    MaterialAutoCompleteTextView ccpSpinners , titleSpinner;
+    MaterialButton logoutBtn , inviteBtn , updateBtn;
+    EditText fullNameEditText , phoneNumberEditText;
+    CircleImageView profileImage;
+    SwitchCompat whatsappSwitch;
+    TextView profileName , lockerNo , profilePrice;
+    //For Title Spinner
+    String[] title = { "Mr" , "Mrs" };
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onResume() {
+        super.onResume();
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
+        titleSpinner.setAdapter(arrayAdapter);
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_profile, container, false);
+        View view =  inflater.inflate(R.layout.fragment_view_profile, container, false);
+
+        logoutBtn = view.findViewById(R.id.logoutBtn);
+        inviteBtn = view.findViewById(R.id.inviteBtn);
+        updateBtn = view.findViewById(R.id.updateBtn);
+        fullNameEditText = view.findViewById(R.id.fullNameEditText);
+//        phoneNumberEditText = view.findViewById(R.id.phoneNumberEditText);
+        titleSpinner = view.findViewById(R.id.titleSpinner);
+        ccpSpinners = view.findViewById(R.id.ccpSpinners);
+//        ccpSpinner = view.findViewById(R.id.ccpSpinner);
+        profileImage = view.findViewById(R.id.profileImage);
+        whatsappSwitch = view.findViewById(R.id.whatsappSwitch);
+        profilePrice = view.findViewById(R.id.profilePrice);
+        profileName = view.findViewById(R.id.profileName);
+        lockerNo = view.findViewById(R.id.lockerNo);
+
+
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AccountWalletActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout , new WalletFragment() , null )
+                        .addToBackStack(null).commit();
+            }
+        });
+
+
+
+
+        return view;
     }
 }
