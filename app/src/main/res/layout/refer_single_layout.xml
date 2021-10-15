@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="28dp">
+    <ImageView
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:id="@+id/image"
+        android:src="@drawable/ic_account"
+        android:layout_gravity="center_vertical"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="14dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05 Jan 2021"
+            android:id="@+id/date"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:textFontWeight="500"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="christo@shoppreparcels.com "
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_weight="500"
+            android:id="@+id/mainText"
+            android:layout_marginTop="7dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
