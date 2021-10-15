@@ -63,8 +63,10 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="referral_offers_coupons">REFERRAL/ OFFERS/ COUPONS</string>
     <string name="read_more">Read More</string>
     <string name="wow_can_i_use_my_wallet_balance">Wow can I use My Wallet balance?</string>
+    <string name="delete"><u>Delete</u></string>
+    <string name="edit"><u>Edit</u></string>
 
-<!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
+    <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 
 
 </resources>
