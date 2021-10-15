@@ -19,6 +19,7 @@ public class AccountWalletActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_wallet);
         fragmentManager =  getSupportFragmentManager();
 
+        if (savedInstanceState!=null) return;
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ViewProfile viewProfileFragment = new ViewProfile();
         fragmentTransaction.add(R.id.frameLayout , viewProfileFragment , null);

@@ -40,28 +40,27 @@
                         android:text="Refer &amp; Earn"
                         android:textColor="@color/black"
                         android:textFontWeight="700"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:gravity="start"/>
 
-                    <com.google.android.material.card.MaterialCardView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="159dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="31dp"
-                        android:background="#EBF1F6"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp">
+                        android:background="@drawable/image_bg"
+                        >
 
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="160dp"
                             android:src="@drawable/referral_banner" />
-                    </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="31dp"
-                        android:gravity="center"
                         android:text="@string/share_the_unique"
                         android:textAlignment="center"
                         android:textColor="#818181"
@@ -102,8 +101,7 @@
                                 android:paddingStart="6dp"
                                 app:icon="@mipmap/clipboard"
                                 app:iconSize="20dp"
-                                app:iconTint="@color/black"
-                                />
+                                app:iconTint="@color/black" />
 
                         </RelativeLayout>
 
