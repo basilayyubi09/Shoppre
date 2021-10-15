@@ -42,6 +42,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="Loading">Loading...</string>
     <string name="edit"><u>Edit</u></string>
     <string name="delete"><u>Delete</u></string>
+    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>
 
 
 </resources>

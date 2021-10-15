@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddAddress;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddressBook;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 
 public class AccountWalletActivity extends AppCompatActivity {
 
@@ -19,10 +20,13 @@ public class AccountWalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_wallet);
 
+        if(savedInstanceState!=null){
+            return;
+        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        AddressBook addressBook = new AddressBook();
-        fragmentTransaction.add(R.id.accountWalletContainer, addressBook, null);
+        VertualAddress vertualAddress = new VertualAddress();
+        fragmentTransaction.add(R.id.accountWalletContainer, vertualAddress, null);
         fragmentTransaction.commit();
 
 
