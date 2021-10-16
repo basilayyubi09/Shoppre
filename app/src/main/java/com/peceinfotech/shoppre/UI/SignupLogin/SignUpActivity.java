@@ -313,8 +313,8 @@ public class SignUpActivity extends AppCompatActivity {
 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
-            String firstName = acct.getDisplayName();
-            String personGivenName = acct.getGivenName();
+            String fullName = acct.getDisplayName();
+            String firstName = acct.getGivenName();
             String lastName = acct.getFamilyName();
             String email = acct.getEmail();
             String personId = acct.getId();
@@ -324,21 +324,15 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 Toast.makeText(getApplicationContext(), "register " +firstName + "\n" + lastName
-                        + "\n" + personGivenName + "\n" +
-                        email + "\n" +
-                        personId, Toast.LENGTH_LONG).show();
-//                signInGoogle(email);
-
-            }
-            else if(acct == null){
-
-                Toast.makeText(getApplicationContext(), "not register"+firstName + "\n" + lastName
-                        + "\n" + personGivenName + "\n" +
+                        + "\n" + fullName + "\n" +
                         email + "\n" +
                         personId, Toast.LENGTH_LONG).show();
 
-//                signUpGoogle(email , firstName , lastName);
+//
+                signInGoogle(email , firstName , lastName);
+
             }
+
 
 
 
@@ -351,7 +345,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void signInGoogle(String email) {
+    private void signInGoogle(String email , String firstName , String lastName) {
 
         Call<SignInGoogleResponse> call = RetrofitClient
                 .getInstance()
@@ -360,12 +354,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 LoadingDialog.cancelLoading();
-                Log.d("aaaaaa" , response.toString());
+
                 if (response.code()==200){
                     Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
                 }
                 else if(response.code()==400){
-//                    Toast.makeText(getApplicationContext(), response.body().getErrorDescription()), Toast.LENGTH_SHORT).show();
+                    signUpGoogle(email , firstName , lastName);
                 }
             }
 
@@ -406,7 +400,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
                     }
                     else if (signUpGoogleResponse.getCode()==409){
-                      signInGoogle(email);
+                      signInGoogle(email , firstName , lastName);
                     }
                 }
             }
