@@ -257,8 +257,6 @@ public class SignUpActivity extends AppCompatActivity {
                 // Application code
                 try {
                     Log.i("Response", response.toString());
-
-
                     String firstName = response.getJSONObject().getString("first_name");
                     String lastName = response.getJSONObject().getString("last_name");
                     String email="";
