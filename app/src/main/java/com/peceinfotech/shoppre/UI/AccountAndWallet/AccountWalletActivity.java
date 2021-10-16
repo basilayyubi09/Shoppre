@@ -12,18 +12,12 @@ import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 
 public class AccountWalletActivity extends AppCompatActivity {
 
-    public static FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_wallet);
-        fragmentManager =  getSupportFragmentManager();
 
-        if (savedInstanceState!=null) return;
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ViewProfile viewProfileFragment = new ViewProfile();
-        fragmentTransaction.add(R.id.frameLayout , viewProfileFragment , null);
-        fragmentTransaction.commit();
 
 
     }

@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -72,7 +73,7 @@ public class ViewProfile extends Fragment {
             @Override
             public void onClick(View view) {
 
-                AccountWalletActivity.fragmentManager.beginTransaction()
+                OrderActivity.fragmentManager.beginTransaction()
                         .replace(R.id.frameLayout , new ReferralFragment() , null )
                         .addToBackStack(null).commit();
             }
@@ -81,7 +82,7 @@ public class ViewProfile extends Fragment {
         virtualIndianAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AccountWalletActivity.fragmentManager.beginTransaction()
+                OrderActivity.fragmentManager.beginTransaction()
                         .replace(R.id.frameLayout , new VertualAddress() , null)
                         .addToBackStack(null)
                         .commit();
@@ -90,8 +91,8 @@ public class ViewProfile extends Fragment {
         wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AccountWalletActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout , new WalletFragment() , null)
+                OrderActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.orderFrameLayout , new WalletFragment() , null)
                         .addToBackStack(null)
                         .commit();
             }
@@ -100,8 +101,8 @@ public class ViewProfile extends Fragment {
         manageAddresses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AccountWalletActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout , new AddAddress() , null)
+                OrderActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
                         .addToBackStack(null)
                         .commit();
             }
