@@ -37,8 +37,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -111,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,13 +312,22 @@ public class SignUpActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+
+            String firstName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String lastName = acct.getFamilyName();
+            String email = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+
             if (acct != null) {
-                String firstName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String lastName = acct.getFamilyName();
-                String email = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
+
+
+
+                signInGoogle(email);
+
+            }
+            else if(acct == null){
 
                 signUpGoogle(email , firstName , lastName);
             }
@@ -330,6 +341,30 @@ public class SignUpActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
         }
+    }
+
+    private void signInGoogle(String email) {
+
+        Call<SignInGoogleResponse> call = RetrofitClient
+                .getInstance()
+                .getApi().signInGoogle(email , "google");
+        call.enqueue(new Callback<SignInGoogleResponse>() {
+            @Override
+            public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
+                if (response.code()==200){
+                    Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
+                }
+                else if(response.code()==400){
+                    Toast.makeText(getApplicationContext(), response.body().getErrorDescription(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignInGoogleResponse> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void signUpGoogle(String email, String firstName, String lastName) {
@@ -361,8 +396,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
                     }
                     else if (signUpGoogleResponse.getCode()==409){
-                        LoadingDialog.cancelLoading();
-                        Toast.makeText(getApplicationContext(), "Already Register", Toast.LENGTH_SHORT).show();
+                      signInGoogle(email);
                     }
                 }
             }

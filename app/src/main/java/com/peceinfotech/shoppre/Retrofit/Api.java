@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.Retrofit;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
+import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 
 import retrofit2.Call;
@@ -71,4 +72,14 @@ public interface Api {
 
 
 
+    //SignIn Google
+    //https://staging-login.shoppreglobal.com/oauth/token/app
+
+    @FormUrlEncoded
+
+    @POST("oauth/token/app")
+    Call<SignInGoogleResponse> signInGoogle(
+            @Field("email") String email,
+            @Field("grant_type") String google
+    );
 }
