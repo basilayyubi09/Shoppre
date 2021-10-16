@@ -323,13 +323,21 @@ public class SignUpActivity extends AppCompatActivity {
             if (acct != null) {
 
 
-
-                signInGoogle(email);
+                Toast.makeText(getApplicationContext(), "register " +firstName + "\n" + lastName
+                        + "\n" + personGivenName + "\n" +
+                        email + "\n" +
+                        personId, Toast.LENGTH_LONG).show();
+//                signInGoogle(email);
 
             }
             else if(acct == null){
 
-                signUpGoogle(email , firstName , lastName);
+                Toast.makeText(getApplicationContext(), "not register"+firstName + "\n" + lastName
+                        + "\n" + personGivenName + "\n" +
+                        email + "\n" +
+                        personId, Toast.LENGTH_LONG).show();
+
+//                signUpGoogle(email , firstName , lastName);
             }
 
 
@@ -351,17 +359,19 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<SignInGoogleResponse>() {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
+                LoadingDialog.cancelLoading();
+                Log.d("aaaaaa" , response.toString());
                 if (response.code()==200){
                     Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
                 }
                 else if(response.code()==400){
-                    Toast.makeText(getApplicationContext(), response.body().getErrorDescription(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), response.body().getErrorDescription()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<SignInGoogleResponse> call, Throwable t) {
-
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
