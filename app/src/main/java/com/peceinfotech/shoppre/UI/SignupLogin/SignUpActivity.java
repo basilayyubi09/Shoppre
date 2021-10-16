@@ -351,6 +351,7 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<SignInGoogleResponse>() {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
+                LoadingDialog.cancelLoading();
                 if (response.code()==200){
                     Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
                 }
@@ -361,7 +362,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SignInGoogleResponse> call, Throwable t) {
-
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
