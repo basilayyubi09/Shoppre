@@ -13,7 +13,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
 
-public class OrderActivity extends AppCompatActivity {
+public class    OrderActivity extends AppCompatActivity {
 
     MaterialCardView locker , shipment , account , order;
     ImageView lockerImage  , orderImage , accountImage , shipmentImage;
