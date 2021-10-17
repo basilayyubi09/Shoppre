@@ -43,6 +43,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
@@ -356,7 +357,11 @@ public class SignUpActivity extends AppCompatActivity {
                 LoadingDialog.cancelLoading();
 
                 if (response.code()==200){
+
+                    ///Aamir
+                    startActivity(new Intent(getApplicationContext() , OrderActivity.class));
                     Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
+
                 }
                 else if(response.code()==400){
                     signUpGoogle(email , firstName , lastName);
@@ -398,6 +403,7 @@ public class SignUpActivity extends AppCompatActivity {
                     if (signUpGoogleResponse.getCode()==201){
                         LoadingDialog.cancelLoading();
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
+
                     }
                     else if (signUpGoogleResponse.getCode()==409){
                       signInGoogle(email , firstName , lastName);

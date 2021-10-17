@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/box_background_color"
     tools:context=".UI.Orders.OrderActivity">
 
 
@@ -18,22 +19,24 @@
         android:id="@+id/orderFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="60dp"
+        android:layout_below="@id/toolBar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:background="@color/hint_color"
-        android:gravity="bottom">
+        android:background="@color/box_background_color"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true">
 
         <com.google.android.material.card.MaterialCardView
-
+            app:rippleColor="@color/hint_color"
+            android:clickable="true"
             android:id="@+id/orderCard"
             android:layout_width="98dp"
             android:layout_height="match_parent"
             app:cardCornerRadius="0dp"
-            app:cardElevation="4dp">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,6 +64,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/lockerCard"
+            app:rippleColor="@color/hint_color"
+            android:clickable="true"
             android:layout_width="98dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -94,6 +99,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/shipmentCard"
+            app:rippleColor="@color/hint_color"
+            android:clickable="true"
             android:layout_width="98dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -127,6 +134,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/accountCard"
+            app:rippleColor="@color/hint_color"
+            android:clickable="true"
             android:layout_width="98dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -160,4 +169,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
