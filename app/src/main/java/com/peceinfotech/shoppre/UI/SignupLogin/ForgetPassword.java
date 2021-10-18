@@ -76,7 +76,7 @@ public class ForgetPassword extends AppCompatActivity {
                 } else {
 
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "Expirse "+response.body().getExpires(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Expire "+response.body().getExpires(), Toast.LENGTH_SHORT).show();
 
                 }
             }
