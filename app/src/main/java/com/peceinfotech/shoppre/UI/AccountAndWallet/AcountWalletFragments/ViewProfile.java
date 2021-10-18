@@ -107,7 +107,7 @@ public class ViewProfile extends Fragment {
 
                 if (savedInstanceState!=null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
+                        .replace(R.id.orderFrameLayout , new EmptyAddressBook() , null)
                         .addToBackStack(null).commit();
             }
         });

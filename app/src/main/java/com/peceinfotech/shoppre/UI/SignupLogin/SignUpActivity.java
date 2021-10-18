@@ -219,10 +219,12 @@ public class SignUpActivity extends AppCompatActivity {
                     if (signUpGoogleResponse.getCode()==201){
                         LoadingDialog.cancelLoading();
                         Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
                     }
                     else if (signUpGoogleResponse.getCode()==409){
                         LoadingDialog.cancelLoading();
                         Toast.makeText(getApplicationContext(), "Already Register", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
                     }
                 }
             }
@@ -360,7 +362,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                     ///Aamir
                     startActivity(new Intent(getApplicationContext() , OrderActivity.class));
-                    Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
 
                 }
                 else if(response.code()==400){
@@ -402,7 +403,8 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     if (signUpGoogleResponse.getCode()==201){
                         LoadingDialog.cancelLoading();
-                        Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext() , OrderActivity.class));
+
 
                     }
                     else if (signUpGoogleResponse.getCode()==409){

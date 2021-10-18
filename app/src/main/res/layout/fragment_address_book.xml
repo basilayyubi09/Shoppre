@@ -69,7 +69,7 @@
                                     android:text="Name"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp" />
+                                    android:textSize="12sp" />
 
 
                                 <TextView
@@ -78,7 +78,7 @@
                                     android:text="Nikkitha Shanker"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
 
                                     android:textStyle="bold" />
 
@@ -98,7 +98,7 @@
                                     android:text="Contact Number"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp" />
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                                     android:text="+9714702 4444"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -128,7 +128,7 @@
                                 android:text="Billing Address"
                                 android:textColor="@color/black"
                                 android:textFontWeight="500"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
 
                             <TextView
@@ -138,7 +138,7 @@
                                 android:text="Banks Residence, Bel-Air, \nLos Angeles,\nCalifornia, USA - 21014"
                                 android:textColor="@color/black"
                                 android:textFontWeight="500"
-                                android:textSize="10sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold" />
 
 
@@ -150,7 +150,7 @@
                                 android:text="@string/edit"
                                 android:textColor="#3A5FD8"
                                 android:textFontWeight="500"
-                                android:textSize="10sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
@@ -215,7 +215,7 @@
                                     app:hintEnabled="false">
 
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                                        android:id="@+id/allAddress"
+                                        android:id="@+id/allAddressSpinner"
                                         android:layout_width="wrap_content"
                                         android:layout_height="28dp"
                                         android:hint="All Address"
@@ -269,7 +269,7 @@
                                         android:text="Deliver To"
                                         android:textColor="@color/black"
                                         android:textFontWeight="400"
-                                        android:textSize="10sp" />
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -277,7 +277,7 @@
                                         android:text="Nikkitha Shanker"
                                         android:textColor="@color/black"
                                         android:textFontWeight="400"
-                                        android:textSize="10sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
@@ -295,7 +295,7 @@
                                         android:text="Contact Number"
                                         android:textColor="@color/black"
                                         android:textFontWeight="500"
-                                        android:textSize="10sp" />
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -303,7 +303,7 @@
                                         android:text="+9714702 4444"
                                         android:textColor="@color/black"
                                         android:textFontWeight="500"
-                                        android:textSize="10sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
 
 
@@ -341,7 +341,7 @@
                                 android:text="Deliver Address"
                                 android:textColor="@color/black"
                                 android:textFontWeight="400"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -350,7 +350,7 @@
                                 android:text="Delivery Address 24 Airport Rd -\nGarhoud - Dubai -\nUnited Arab Emirates"
                                 android:textColor="@color/black"
                                 android:textFontWeight="500"
-                                android:textSize="10sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold" />
 
 
@@ -366,7 +366,7 @@
                                     android:text="@string/edit"
                                     android:textColor="#3A5FD8"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -377,7 +377,7 @@
                                     android:text="@string/delete"
                                     android:textColor="#3A5FD8"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
 
@@ -416,7 +416,7 @@
                                     android:text="Deliver To"
                                     android:textColor="@color/black"
                                     android:textFontWeight="400"
-                                    android:textSize="10sp" />
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -424,7 +424,7 @@
                                     android:text="Nikkitha Shanker"
                                     android:textColor="@color/black"
                                     android:textFontWeight="400"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -442,7 +442,7 @@
                                     android:text="Contact Number"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp" />
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -450,7 +450,7 @@
                                     android:text="+9714702 4444"
                                     android:textColor="@color/black"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
 
@@ -472,7 +472,7 @@
                                 android:text="Deliver Address"
                                 android:textColor="@color/black"
                                 android:textFontWeight="400"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -497,7 +497,7 @@
                                     android:text="@string/edit"
                                     android:textColor="#3A5FD8"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -508,7 +508,7 @@
                                     android:text="@string/delete"
                                     android:textColor="#3A5FD8"
                                     android:textFontWeight="500"
-                                    android:textSize="10sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
@@ -572,87 +572,441 @@
 
                 </androidx.cardview.widget.CardView>
 
-<!--                <androidx.cardview.widget.CardView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="20dp"-->
-<!--                    android:layout_marginTop="27dp"-->
-<!--                    android:layout_marginBottom="24dp"-->
-<!--                    app:cardCornerRadius="10dp"-->
-<!--                    app:cardElevation="4dp">-->
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginBottom="24dp"
+                    android:paddingBottom="33dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp">
 
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:background="#11B5D2"-->
-<!--                            android:gravity="center_horizontal"-->
-<!--                            android:paddingHorizontal="33dp"-->
-<!--                            android:paddingTop="14dp"-->
-<!--                            android:paddingBottom="13dp"-->
-<!--                            android:text="Your Indian Virtual Address"-->
-<!--                            android:textColor="@color/white"-->
-<!--                            android:textFontWeight="700"-->
-<!--                            android:textSize="20sp" />-->
-
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginHorizontal="30dp"-->
-<!--                            android:layout_marginTop="22dp"-->
-<!--                            android:orientation="vertical">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Name"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textFontWeight="600"-->
-<!--                                android:textSize="18sp" />-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:background="@drawable/edit_text_bg">-->
-
-<!--                                <EditText-->
-<!--                                    android:layout_width="277dp"-->
-<!--                                    android:layout_height="34dp"-->
-<!--                                    android:background="@null"-->
-<!--                                    android:hint="John Doe"-->
-<!--                                    android:inputType="textPersonName"-->
-<!--                                    android:paddingLeft="7dp"-->
-<!--                                    android:singleLine="true"-->
-<!--                                    android:textColor="@color/black"-->
-<!--                                    android:textColorHint="@color/hint_color"-->
-<!--                                    android:textSize="12sp"-->
-<!--                                    app:boxStrokeColor="@color/hint_color" />-->
-
-<!--                                <com.google.android.material.button.MaterialButton-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="34dp"-->
-<!--                                    android:insetBottom="0dp"-->
-<!--                                    android:insetTop="0dp"-->
-<!--                                    android:backgroundTint="#F8F8F8"-->
-<!--                                    app:icon="@drawable/clipboard"-->
-<!--                                    app:iconSize="17dp"-->
-<!--                                    android:padding="0dp"/>-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Your Indian Virtual Address"
+                            android:gravity="center_horizontal"
+                            android:background="#11B5D2"
+                            android:paddingHorizontal="33dp"
+                            android:paddingTop="14dp"
+                            android:paddingBottom="13dp"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:textFontWeight="700"/>
 
 
-<!--                            </LinearLayout>-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="23dp"
+                            android:layout_marginTop="28dp"
+                            android:text="Billing Address"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="14sp" />
 
-<!--                        </LinearLayout>-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="30dp"
+                            android:layout_marginTop="25dp"
+                            android:orientation="vertical">
 
-<!--                    </LinearLayout>-->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
 
-<!--                </androidx.cardview.widget.CardView>-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="Nikkitha Shanker"
+                                    android:inputType="textPersonName"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="Address Line 1"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="SA-3L10-126387, #182, 2nd Cross Road"
+                                    android:inputType="textPostalAddress"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="Address Line 2"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:layout_weight="1"
+                                    android:background="@null"
+                                    android:hint="7th Main,Koramangala 1st Block"
+                                    android:inputType="textPostalAddress"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="Landmark"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="Near Seema English Nursery School"
+                                    android:inputType="text"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="City"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="Bengaluru"
+                                    android:inputType="text"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="State / Province"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="Karnataka"
+                                    android:inputType="text"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="Pincode"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:layout_weight="1"
+                                    android:background="@null"
+                                    android:hint="560034"
+                                    android:inputType="number"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:text="Delivery Phone Number"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
+
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="34dp"
+                                    android:background="@null"
+                                    android:layout_weight="1"
+                                    android:hint="+91-9148357733"
+                                    android:inputType="phone"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:layout_width="34dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/edit_text_bg_3"
+                                    android:insetTop="0dp"
+                                    android:paddingHorizontal="8dp"
+                                    android:insetBottom="0dp"
+                                    app:backgroundTint="@color/box_background_color"
+                                    app:backgroundTintMode="multiply"
+                                    app:icon="@drawable/clipboard"
+                                    app:iconSize="17dp"
+                                    app:iconTint="@color/black" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="7dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="This number is for delivery purposes only.\nWe will not provide customer service via this phone number."
+                                    android:textColor="#F35975"
+                                    android:textFontWeight="500"
+                                    android:textSize="10sp" />
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="18dp"
+                                    android:layout_marginBottom="33dp"
+                                    android:gravity="center_horizontal"
+                                    android:text="Note: Enter ‘HOME’ as address type"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
 
 
             </LinearLayout>
