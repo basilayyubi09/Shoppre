@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".UI.SignupLogin.LoginActivity">
 
@@ -59,8 +59,6 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:paddingLeft="19dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="11dp"
         android:text="Login with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/black"

@@ -76,7 +76,7 @@ public class ForgetPassword extends AppCompatActivity {
                 } else {
 
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), response.body().getExpires(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Expirse "+response.body().getExpires(), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -98,7 +98,7 @@ public class ForgetPassword extends AppCompatActivity {
 
             emailIdField.setBoxStrokeWidth(2);
             emailIdField.setBoxStrokeWidthFocused(2);
-            emailIdField.setError("Email Can't be empty");
+            emailIdField.setError("This is required field");
             return false;
         } else if (!emailId.matches(emailPattern)) {
             emailIdField.setBoxStrokeWidth(2);
