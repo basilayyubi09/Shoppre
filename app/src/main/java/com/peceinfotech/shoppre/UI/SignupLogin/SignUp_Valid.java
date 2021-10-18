@@ -26,6 +26,8 @@ import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
+import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import org.json.JSONException;
@@ -36,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class SignUp_Valid extends AppCompatActivity {
 
@@ -47,12 +50,21 @@ public class SignUp_Valid extends AppCompatActivity {
     String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage, backArrow;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{7,}$";
+    SharedPrefManager sharedPrefManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_valid);
 
+
+        //Shared Preference
+        sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
+        if (sharedPrefManager.checkLogin()){
+            startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
+            finish();
+        }
         //Hooks
 
         sendBtn = findViewById(R.id.signUpBtn);
@@ -149,7 +161,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
                 //Show Alerts
                 LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
-                startActivity(new Intent(SignUp_Valid.this , AccountWalletActivity.class));
+
             }
         });
 
@@ -200,16 +212,22 @@ public class SignUp_Valid extends AppCompatActivity {
 
                 RegisterVerifyResponse registerVerifyResponse = response.body();
 
+                //If user already register then send to login screen and show error in fields
                 if (registerVerifyResponse.getMessage().equals(message))
                 {
                     LoadingDialog.cancelLoading();
+
                     Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
                     intent.putExtra("flag" , 1);
                     startActivity(intent);
+                    finish();
                 } else {
                     clearFields();
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), registerVerifyResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    sharedPrefManager.storeEmail(emailId);
+                    sharedPrefManager.setLogin();
+                    startActivity(new Intent(SignUp_Valid.this , FirstOnBoarding.class));
+                    finish();
 
                 }
             }

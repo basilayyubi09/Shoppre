@@ -31,7 +31,11 @@ import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
+import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,11 +54,19 @@ public class SignUpActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        sharedPrefManager = new SharedPrefManager(SignUpActivity.this);
+        if (sharedPrefManager.checkLogin()){
+            startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+            finish();
+        }
+
 
         //Hooks
         loginText = findViewById(R.id.signup_already_acnt);
@@ -129,7 +141,6 @@ public class SignUpActivity extends AppCompatActivity {
                                         new GraphRequest.GraphJSONObjectCallback() {
                                             @Override
                                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                                LoadingDialog.cancelLoading();
                                                 // Application code
                                                 try {
                                                     Log.i("Response", response.toString());
@@ -145,11 +156,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                                                     //TODO put your code here
 
+
+//                                                    Toast.makeText(getApplicationContext(), email, Toast.LENGTH_SHORT).show();
                                                     signUpFacebook(email, firstName, lastName);
 
-                                                    Toast.makeText(getApplicationContext(), firstName + "\n"
-                                                            + lastName +
-                                                            "\n" + "email= " + email + "\n" + id, Toast.LENGTH_SHORT).show();
                                                 } catch (JSONException e) {
                                                     Toast.makeText(SignUpActivity.this, "Error occurred try again", Toast.LENGTH_SHORT).show();
                                                 }
@@ -240,7 +250,13 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (signUpGoogleResponse.getCode() == 201) {
                         LoadingDialog.cancelLoading();
-                        Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
+
+                        sharedPrefManager.storeEmail(email);
+                        sharedPrefManager.storeGrantType("facebook");
+                        sharedPrefManager.setLogin();
+                        startActivity(new Intent(SignUpActivity.this , FirstOnBoarding.class));
+                        finish();
+
                     } else if (signUpGoogleResponse.getCode() == 409) {
                         LoadingDialog.cancelLoading();
                         signInFacebook(email, firstName, lastName);
@@ -267,9 +283,11 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
+//                    sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.setLogin();
+                    startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                    finish();
                 } else if (response.code() == 400) {
-                    LoadingDialog.cancelLoading();
                     signUpFacebook(email, firstName, lastName);
                 }
             }
@@ -403,7 +421,10 @@ public class SignUpActivity extends AppCompatActivity {
                 LoadingDialog.cancelLoading();
 
                 if (response.code() == 200) {
-                    Toast.makeText(getApplicationContext(), "Sign In successfully", Toast.LENGTH_SHORT).show();
+                    sharedPrefManager.setLogin();
+                    sharedPrefManager.storeEmail(email);
+                    startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                    finish();
                 } else if (response.code() == 400) {
                     signUpGoogle(email, firstName, lastName);
                 }
@@ -442,7 +463,11 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (signUpGoogleResponse.getCode() == 201) {
                         LoadingDialog.cancelLoading();
-                        Toast.makeText(getApplicationContext(), "SignUp successful", Toast.LENGTH_SHORT).show();
+                        sharedPrefManager.storeEmail(email);
+                        sharedPrefManager.storeGrantType("google");
+                        sharedPrefManager.setLogin();
+                        startActivity(new Intent(SignUpActivity.this , FirstOnBoarding.class));
+                        finish();
                     } else if (signUpGoogleResponse.getCode() == 409) {
                         signInGoogle(email, firstName, lastName);
                     }
