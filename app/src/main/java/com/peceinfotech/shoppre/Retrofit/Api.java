@@ -82,4 +82,13 @@ public interface Api {
             @Field("email") String email,
             @Field("grant_type") String google
     );
+
+    //SignIn Facebook
+    //https://staging-login.shoppreglobal.com/oauth/token/app
+    @FormUrlEncoded
+    @POST("oauth/token/app")
+        Call<SignInGoogleResponse> signInFacebook(
+                @Field("email") String email,
+                @Field("grant_type") String facebook
+        );
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".UI.SignupLogin.LoginActivity">
 
@@ -29,7 +29,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_google_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginHorizontal="68dp"
         android:layout_marginTop="70dp"
         android:backgroundTint="#F3F6F9"
@@ -51,7 +51,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_fb_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginHorizontal="68dp"
         android:layout_marginTop="30dp"
         android:backgroundTint="#F3F6F9"
@@ -59,8 +59,6 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:paddingLeft="19dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="11dp"
         android:text="Login with Facebook"
         android:textAllCaps="false"
         android:textColor="@color/black"
