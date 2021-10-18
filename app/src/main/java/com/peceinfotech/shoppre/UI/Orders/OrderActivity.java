@@ -47,7 +47,7 @@ public class OrderActivity extends AppCompatActivity{
         fragmentTransaction = fragmentManager.beginTransaction();
         OrderFragment orderFragment = new OrderFragment();
         fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
-        fragmentTransaction.addToBackStack(null).commit();
+        fragmentTransaction.commit();
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
