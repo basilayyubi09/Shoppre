@@ -73,38 +73,42 @@ public class ViewProfile extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if (savedInstanceState!=null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout , new ReferralFragment() , null )
+                        .replace(R.id.orderFrameLayout , new ReferralFragment() , null )
                         .addToBackStack(null).commit();
             }
         });
 
+
         virtualIndianAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (savedInstanceState!=null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout , new VertualAddress() , null)
-                        .addToBackStack(null)
-                        .commit();
+                        .replace(R.id.orderFrameLayout , new VertualAddress() , null).addToBackStack(null).commit();
             }
         });
         wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (savedInstanceState!=null) return;
                 OrderActivity.fragmentManager.beginTransaction()
                         .replace(R.id.orderFrameLayout , new WalletFragment() , null)
-                        .addToBackStack(null)
-                        .commit();
+                        .addToBackStack(null).commit();
             }
         });
 
         manageAddresses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (savedInstanceState!=null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
-                        .addToBackStack(null)
-                        .commit();
+                        .replace(R.id.orderFrameLayout , new EmptyAddressBook() , null)
+                        .addToBackStack(null).commit();
             }
         });
 
