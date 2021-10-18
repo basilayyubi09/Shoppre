@@ -23,7 +23,6 @@ public class OrderActivity extends AppCompatActivity{
     FrameLayout frameLayout;
     public static FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    public static String SELECTED_TAB = "order";
 
 
     @Override
@@ -48,7 +47,7 @@ public class OrderActivity extends AppCompatActivity{
         fragmentTransaction = fragmentManager.beginTransaction();
         OrderFragment orderFragment = new OrderFragment();
         fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
-        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null).commit();
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
