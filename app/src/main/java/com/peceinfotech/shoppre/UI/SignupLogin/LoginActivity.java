@@ -39,6 +39,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
+import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
@@ -95,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         if (extras != null) {
             int flag = extras.getInt("flag");
             if (flag == 1) {
-                setError("Looks like this user already exists! Please use a new Email ID");
+                setError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
             }
         }
 
@@ -127,68 +128,68 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        fbLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
-
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
-                LoginManager.getInstance().registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-
-                                // setFacebookData(loginResult);
-
-                                GraphRequest request = GraphRequest.newMeRequest(
-                                        loginResult.getAccessToken(),
-                                        new GraphRequest.GraphJSONObjectCallback() {
-                                            @Override
-                                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                                // Application code
-                                                try {
-                                                    Log.i("Response", response.toString());
-
-                                                    String firstName = response.getJSONObject().getString("first_name");
-                                                    String lastName = response.getJSONObject().getString("last_name");
-                                                    String email = "";
-                                                    String id = response.getJSONObject().getString("id");
-
-                                                    if (object.has("email")) {
-                                                        email = object.getString("email");
-                                                    }
-
-                                                    //TODO put your code here
-
-                                                    signInFacebook(email, firstName, lastName);
-
-                                                } catch (JSONException e) {
-                                                    Toast.makeText(LoginActivity.this, "Error occurred try again", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                Bundle parameters = new Bundle();
-                                parameters.putString("fields", "id,email,first_name,last_name");
-                                request.setParameters(parameters);
-                                request.executeAsync();
-                            }
-
-                            @Override
-                            public void onCancel() {
-
-                                LoadingDialog.cancelLoading();
-                                // App code
-                            }
-
-                            @Override
-                            public void onError(FacebookException exception) {
-                                LoadingDialog.cancelLoading();
-                                // App code
-                            }
-                        });
-            }
-        });
+//        fbLoginBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+//
+//                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
+//                LoginManager.getInstance().registerCallback(callbackManager,
+//                        new FacebookCallback<LoginResult>() {
+//                            @Override
+//                            public void onSuccess(LoginResult loginResult) {
+//
+//                                // setFacebookData(loginResult);
+//
+//                                GraphRequest request = GraphRequest.newMeRequest(
+//                                        loginResult.getAccessToken(),
+//                                        new GraphRequest.GraphJSONObjectCallback() {
+//                                            @Override
+//                                            public void onCompleted(JSONObject object, GraphResponse response) {
+//                                                // Application code
+//                                                try {
+//                                                    Log.i("Response", response.toString());
+//
+//                                                    String firstName = response.getJSONObject().getString("first_name");
+//                                                    String lastName = response.getJSONObject().getString("last_name");
+//                                                    String email = "";
+//                                                    String id = response.getJSONObject().getString("id");
+//
+//                                                    if (object.has("email")) {
+//                                                        email = object.getString("email");
+//                                                    }
+//
+//                                                    //TODO put your code here
+//
+//                                                    signInFacebook(email, firstName, lastName);
+//
+//                                                } catch (JSONException e) {
+//                                                    Toast.makeText(LoginActivity.this, "Error occurred try again", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            }
+//                                        });
+//                                Bundle parameters = new Bundle();
+//                                parameters.putString("fields", "id,email,first_name,last_name");
+//                                request.setParameters(parameters);
+//                                request.executeAsync();
+//                            }
+//
+//                            @Override
+//                            public void onCancel() {
+//
+//                                LoadingDialog.cancelLoading();
+//                                // App code
+//                            }
+//
+//                            @Override
+//                            public void onError(FacebookException exception) {
+//                                LoadingDialog.cancelLoading();
+//                                // App code
+//                            }
+//                        });
+//            }
+//        });
 
         dont_have_acnt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
         paramObject.addProperty("password", "");
         paramObject.addProperty("domain", "app");
         paramObject.addProperty("login_type", "facebook");
-        paramObject.addProperty("is_email_verified", "true");
+        paramObject.addProperty("is_email_verified", true);
         paramObject.addProperty("referral_code", "");
 
 
@@ -235,10 +236,9 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPrefManager.setLogin();
                         sharedPrefManager.storeEmail(emailId);
                         sharedPrefManager.storeGrantType("facebook");
-                        startActivity(new Intent(LoginActivity.this , FirstOnBoarding.class));
+                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
                         LoadingDialog.cancelLoading();
                     } else if (signUpGoogleResponse.getCode() == 409) {
-                        LoadingDialog.cancelLoading();
                         signInFacebook(emailId, firstName, lastName);
                     }
                 }
@@ -252,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void signInFacebook(String emailId, String firstName, String lastName) {
+    private void signInFacebook(String email, String firstName, String lastName) {
 
         Call<SignInGoogleResponse> call = RetrofitClient
                 .getInstance()
@@ -265,11 +265,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(emailId);
+                    sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.storeGrantType("facebook");
                     startActivity(new Intent(LoginActivity.this , OrderActivity.class));
                 } else if (response.code() == 400) {
-                    LoadingDialog.cancelLoading();
-                    signUpFacebook(emailId, firstName, lastName);
+                    signUpFacebook(email, firstName, lastName);
                 }
             }
 
@@ -384,6 +384,7 @@ public class LoginActivity extends AppCompatActivity {
                     clearFields();
                     sharedPrefManager.setLogin();
                     sharedPrefManager.storeEmail(emailId);
+                    sharedPrefManager.storeGrantType("google");
                     startActivity(new Intent(LoginActivity.this , OrderActivity.class));
                 } else if (response.code() == 400) {
                     signUpGoogle(emailId, firstName, lastName);
@@ -427,7 +428,7 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPrefManager.setLogin();
                         sharedPrefManager.storeEmail(email);
                         sharedPrefManager.storeGrantType("google");
-                        startActivity(new Intent(LoginActivity.this , FirstOnBoarding.class));
+                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
                     } else if (signUpGoogleResponse.getCode() == 409) {
                         signInGoogle(email, firstName, lastName);
                     }

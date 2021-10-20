@@ -49,7 +49,7 @@ public class SignUp_Valid extends AppCompatActivity {
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage, backArrow;
-    String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{7,}$";
+    String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     SharedPrefManager sharedPrefManager;
 
 
@@ -149,6 +149,7 @@ public class SignUp_Valid extends AppCompatActivity {
                 //Validation functions
                 if (!validateFirstName() || !validateLastName() || !validateEmailField()
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
+                    getStringFromFields();
                     return;
                 }
 
@@ -224,10 +225,8 @@ public class SignUp_Valid extends AppCompatActivity {
                 } else {
                     clearFields();
                     LoadingDialog.cancelLoading();
-                    sharedPrefManager.storeEmail(emailId);
-                    sharedPrefManager.setLogin();
-                    startActivity(new Intent(SignUp_Valid.this , FirstOnBoarding.class));
-                    finish();
+                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
 
                 }
             }

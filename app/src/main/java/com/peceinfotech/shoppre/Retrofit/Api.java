@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.Retrofit;
 
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
+import com.peceinfotech.shoppre.AuthenticationModel.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
@@ -10,6 +11,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -91,4 +94,10 @@ public interface Api {
                 @Field("email") String email,
                 @Field("grant_type") String facebook
         );
+
+    //Me Api
+    //https://staging-app.shoppreglobal.com/api/users/me
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("api/users/me")
+    Call<MeResponse> getUser(@Header("Authorization") String auth);
 }
