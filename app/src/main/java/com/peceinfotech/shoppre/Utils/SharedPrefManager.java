@@ -37,7 +37,7 @@ public class SharedPrefManager {
         editor.putString("lastName" , lastname);
         editor.apply();
     }
-    public String getFLastName(){
+    public String getLastName(){
         return userSharedPref.getString("lastName","");
     }
     public void storeSalutation(String salutation){

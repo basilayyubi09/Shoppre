@@ -91,4 +91,10 @@ public interface Api {
                 @Field("email") String email,
                 @Field("grant_type") String facebook
         );
+
+
+    ///Get All Delivery Addressess
+
+
+
 }
