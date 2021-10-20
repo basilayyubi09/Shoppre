@@ -175,13 +175,13 @@ public class SignUpActivity extends AppCompatActivity {
 //                            public void onCancel() {
 //
 //                                LoadingDialog.cancelLoading();
-//                                // App code
+//                                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
 //                            }
 //
 //                            @Override
 //                            public void onError(FacebookException exception) {
 //                                LoadingDialog.cancelLoading();
-//                                // App code
+//                                Toast.makeText(getApplicationContext(), exception.toString(), Toast.LENGTH_LONG).show();
 //                            }
 //                        });
 //            }
@@ -223,18 +223,18 @@ public class SignUpActivity extends AppCompatActivity {
 //            request.executeAsync();
 //        }
 
-    private void signUpFacebook(String email, String firstName, String lastName) {
+    private void signUpFacebook(String emailId, String firstName, String lastName) {
         JsonObject paramObject = new JsonObject();
 
         paramObject.addProperty("salutation", "");
         paramObject.addProperty("first_name", firstName);
         paramObject.addProperty("last_name", lastName);
-        paramObject.addProperty("email", email);
+        paramObject.addProperty("email", emailId);
         paramObject.addProperty("phone", "");
         paramObject.addProperty("password", "");
         paramObject.addProperty("domain", "app");
         paramObject.addProperty("login_type", "facebook");
-        paramObject.addProperty("is_email_verified", "true");
+        paramObject.addProperty("is_email_verified", true);
         paramObject.addProperty("referral_code", "");
 
 
@@ -251,15 +251,14 @@ public class SignUpActivity extends AppCompatActivity {
                     if (signUpGoogleResponse.getCode() == 201) {
                         LoadingDialog.cancelLoading();
 
-                        sharedPrefManager.storeEmail(email);
+                        sharedPrefManager.storeEmail(emailId);
                         sharedPrefManager.storeGrantType("facebook");
                         sharedPrefManager.setLogin();
                         startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
                         finish();
 
                     } else if (signUpGoogleResponse.getCode() == 409) {
-                        LoadingDialog.cancelLoading();
-                        signInFacebook(email, firstName, lastName);
+                        signInFacebook(emailId, firstName, lastName);
                     }
                 }
             }
@@ -283,9 +282,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
-//                    sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.storeGrantType("facebook");
                     sharedPrefManager.setLogin();
-                    startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                    startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
                     finish();
                 } else if (response.code() == 400) {
                     signUpFacebook(email, firstName, lastName);
@@ -390,10 +390,10 @@ public class SignUpActivity extends AppCompatActivity {
             if (acct != null) {
 
 
-//                Toast.makeText(getApplicationContext(), "register " + firstName + "\n" + lastName
-//                        + "\n" + fullName + "\n" +
-//                        email + "\n" +
-//                        personId, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "register " + firstName + "\n" + lastName
+                        + "\n" + fullName + "\n" +
+                        email + "\n" +
+                        personId, Toast.LENGTH_LONG).show();
 
 //
                 signInGoogle(email, firstName, lastName);
@@ -423,6 +423,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     sharedPrefManager.setLogin();
                     sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.storeGrantType("google");
                     startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
                     finish();
                 } else if (response.code() == 400) {
@@ -466,7 +467,7 @@ public class SignUpActivity extends AppCompatActivity {
                         sharedPrefManager.storeEmail(email);
                         sharedPrefManager.storeGrantType("google");
                         sharedPrefManager.setLogin();
-                        startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                        startActivity(new Intent(SignUpActivity.this , FirstOnBoarding.class));
                         finish();
                     } else if (signUpGoogleResponse.getCode() == 409) {
                         signInGoogle(email, firstName, lastName);

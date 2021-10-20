@@ -20,6 +20,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +32,7 @@ public class ViewProfile extends Fragment {
     CircleImageView profileImage;
     SwitchCompat whatsappSwitch;
     TextView profileName , lockerNo , profilePrice , wallet , manageAddresses , virtualIndianAddress;
+    SharedPrefManager sharedPrefManager;
     //For Title Spinner
     String[] title = { "Mr" , "Mrs" };
 
@@ -51,6 +53,8 @@ public class ViewProfile extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_view_profile, container, false);
 
+        sharedPrefManager = new SharedPrefManager(getActivity());
+
         wallet = view.findViewById(R.id.wallet);
         manageAddresses = view.findViewById(R.id.manageAddresses);
         virtualIndianAddress = view.findViewById(R.id.virtualIndianAddress);
@@ -67,6 +71,24 @@ public class ViewProfile extends Fragment {
         profilePrice = view.findViewById(R.id.profilePrice);
         profileName = view.findViewById(R.id.profileName);
         lockerNo = view.findViewById(R.id.lockerNo);
+
+
+        //setValues of textViews from sharedPref
+        lockerNo.setText(sharedPrefManager.getVirtualAddressCode());
+
+            if (!sharedPrefManager.getFirstName().equals("")){
+                if (!sharedPrefManager.getLastName().equals("")){
+                    profileName.setText(sharedPrefManager.getFirstName()+" "+sharedPrefManager.getLastName());
+                }
+                else {
+                    profileName.setText(sharedPrefManager.getFirstName());
+                }
+            }
+            else
+            {
+                profileName.setText("User Name");
+            }
+
 
 
         inviteBtn.setOnClickListener(new View.OnClickListener() {

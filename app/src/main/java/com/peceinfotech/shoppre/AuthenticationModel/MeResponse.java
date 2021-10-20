@@ -5,15 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class MeResponse {
 
-    @SerializedName("code")
-    @Expose
-    private Integer code;
-    @SerializedName("error")
-    @Expose
-    private String error;
-    @SerializedName("error_description")
-    @Expose
-    private String errorDescription;
     @SerializedName("name")
     @Expose
     private String name;
@@ -22,7 +13,7 @@ public class MeResponse {
     private Integer id;
     @SerializedName("salutation")
     @Expose
-    private Object salutation;
+    private String salutation;
     @SerializedName("first_name")
     @Expose
     private String firstName;
@@ -34,22 +25,22 @@ public class MeResponse {
     private String email;
     @SerializedName("alternate_email")
     @Expose
-    private Object alternateEmail;
+    private String alternateEmail;
     @SerializedName("group_id")
     @Expose
     private Integer groupId;
     @SerializedName("phone")
     @Expose
-    private Object phone;
+    private String phone;
     @SerializedName("secondary_phone")
     @Expose
-    private Object secondaryPhone;
+    private String secondaryPhone;
     @SerializedName("profile_photo_url")
     @Expose
-    private Object profilePhotoUrl;
+    private String profilePhotoUrl;
     @SerializedName("survey")
     @Expose
-    private Object survey;
+    private String survey;
     @SerializedName("virtual_address_code")
     @Expose
     private String virtualAddressCode;
@@ -61,34 +52,10 @@ public class MeResponse {
     private Integer isMember;
     @SerializedName("membership_validity")
     @Expose
-    private Object membershipValidity;
+    private String membershipValidity;
     @SerializedName("membership_start_date")
     @Expose
-    private Object membershipStartDate;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
-    }
+    private String membershipStartDate;
 
     public String getName() {
         return name;
@@ -106,11 +73,11 @@ public class MeResponse {
         this.id = id;
     }
 
-    public Object getSalutation() {
+    public String getSalutation() {
         return salutation;
     }
 
-    public void setSalutation(Object salutation) {
+    public void setSalutation(String salutation) {
         this.salutation = salutation;
     }
 
@@ -138,11 +105,11 @@ public class MeResponse {
         this.email = email;
     }
 
-    public Object getAlternateEmail() {
+    public String getAlternateEmail() {
         return alternateEmail;
     }
 
-    public void setAlternateEmail(Object alternateEmail) {
+    public void setAlternateEmail(String alternateEmail) {
         this.alternateEmail = alternateEmail;
     }
 
@@ -154,35 +121,35 @@ public class MeResponse {
         this.groupId = groupId;
     }
 
-    public Object getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Object phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public Object getSecondaryPhone() {
+    public String getSecondaryPhone() {
         return secondaryPhone;
     }
 
-    public void setSecondaryPhone(Object secondaryPhone) {
+    public void setSecondaryPhone(String secondaryPhone) {
         this.secondaryPhone = secondaryPhone;
     }
 
-    public Object getProfilePhotoUrl() {
+    public String getProfilePhotoUrl() {
         return profilePhotoUrl;
     }
 
-    public void setProfilePhotoUrl(Object profilePhotoUrl) {
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
         this.profilePhotoUrl = profilePhotoUrl;
     }
 
-    public Object getSurvey() {
+    public String getSurvey() {
         return survey;
     }
 
-    public void setSurvey(Object survey) {
+    public void setSurvey(String survey) {
         this.survey = survey;
     }
 
@@ -210,19 +177,19 @@ public class MeResponse {
         this.isMember = isMember;
     }
 
-    public Object getMembershipValidity() {
+    public String getMembershipValidity() {
         return membershipValidity;
     }
 
-    public void setMembershipValidity(Object membershipValidity) {
+    public void setMembershipValidity(String membershipValidity) {
         this.membershipValidity = membershipValidity;
     }
 
-    public Object getMembershipStartDate() {
+    public String getMembershipStartDate() {
         return membershipStartDate;
     }
 
-    public void setMembershipStartDate(Object membershipStartDate) {
+    public void setMembershipStartDate(String membershipStartDate) {
         this.membershipStartDate = membershipStartDate;
     }
 }

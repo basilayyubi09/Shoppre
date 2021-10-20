@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.peceinfotech.shoppre.R;
 
@@ -24,6 +25,7 @@ public class AddAddress extends Fragment {
     AutoCompleteTextView spinnerPhoneNo;
     ImageView closeBtn;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class AddAddress extends Fragment {
         //Hooks
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
-        spinnerPhoneNo = view.findViewById(R.id.spinnerPhoneNo);
+
         closeBtn = view.findViewById(R.id.closeBtn);
 
         String[] titleValue = {"Mr." , "Mrs."};
@@ -53,6 +55,7 @@ public class AddAddress extends Fragment {
         ArrayList<String> phoneNoArrayList = new ArrayList<>(Arrays.asList(phoneNoValue));
         ArrayAdapter<String> phoneNoArrayAdapter = new ArrayAdapter<>(getContext() , R.layout.phone_no_spinner, phoneNoArrayList);
         spinnerPhoneNo.setAdapter(phoneNoArrayAdapter);
+
 
 
         closeBtn.setOnClickListener(new View.OnClickListener() {

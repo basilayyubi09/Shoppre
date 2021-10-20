@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
@@ -97,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         if (extras != null) {
             int flag = extras.getInt("flag");
             if (flag == 1) {
-                setError("Looks like this user already exists! Please use a new Email ID");
+                setError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
             }
         }
 
@@ -218,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
         paramObject.addProperty("password", "");
         paramObject.addProperty("domain", "app");
         paramObject.addProperty("login_type", "facebook");
-        paramObject.addProperty("is_email_verified", "true");
+        paramObject.addProperty("is_email_verified", true);
         paramObject.addProperty("referral_code", "");
 
 
@@ -240,7 +239,6 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
                         LoadingDialog.cancelLoading();
                     } else if (signUpGoogleResponse.getCode() == 409) {
-                        LoadingDialog.cancelLoading();
                         signInFacebook(emailId, firstName, lastName);
                     }
                 }
@@ -254,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void signInFacebook(String emailId, String firstName, String lastName) {
+    private void signInFacebook(String email, String firstName, String lastName) {
 
         Call<SignInGoogleResponse> call = RetrofitClient
                 .getInstance()
@@ -267,12 +265,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(emailId);
+                    sharedPrefManager.storeEmail(email);
+                    sharedPrefManager.storeGrantType("facebook");
                     startActivity(new Intent(LoginActivity.this , OrderActivity.class));
-                    finish();
                 } else if (response.code() == 400) {
-                    LoadingDialog.cancelLoading();
-                    signUpFacebook(emailId, firstName, lastName);
+                    signUpFacebook(email, firstName, lastName);
                 }
             }
 
@@ -387,8 +384,8 @@ public class LoginActivity extends AppCompatActivity {
                     clearFields();
                     sharedPrefManager.setLogin();
                     sharedPrefManager.storeEmail(emailId);
+                    sharedPrefManager.storeGrantType("google");
                     startActivity(new Intent(LoginActivity.this , OrderActivity.class));
-                    finish();
                 } else if (response.code() == 400) {
                     signUpGoogle(emailId, firstName, lastName);
                 }
@@ -431,8 +428,7 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPrefManager.setLogin();
                         sharedPrefManager.storeEmail(email);
                         sharedPrefManager.storeGrantType("google");
-                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
-                        finish();
+                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
                     } else if (signUpGoogleResponse.getCode() == 409) {
                         signInGoogle(email, firstName, lastName);
                     }

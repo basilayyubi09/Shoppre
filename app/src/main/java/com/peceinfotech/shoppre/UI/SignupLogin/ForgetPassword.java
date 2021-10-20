@@ -76,7 +76,8 @@ public class ForgetPassword extends AppCompatActivity {
                 } else {
 
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "Expire "+response.body().getExpires(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(ForgetPassword.this , ForgotPasswordMessage.class));
+                    finish();
 
                 }
             }
