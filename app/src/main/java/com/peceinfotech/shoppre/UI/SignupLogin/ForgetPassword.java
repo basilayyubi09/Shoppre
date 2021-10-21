@@ -71,6 +71,8 @@ public class ForgetPassword extends AppCompatActivity {
 
                 if (code == 401) {
                     LoadingDialog.cancelLoading();
+                    emailIdField.setBoxStrokeWidth(2);
+                    emailIdField.setBoxStrokeWidthFocused(2);
                     emailIdField.setError(errorDesc);
 
                 } else {
