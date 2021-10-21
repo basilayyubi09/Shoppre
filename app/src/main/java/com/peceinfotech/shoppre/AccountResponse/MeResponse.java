@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.AuthenticationModel;
+package com.peceinfotech.shoppre.AccountResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

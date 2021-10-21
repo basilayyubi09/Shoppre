@@ -34,6 +34,14 @@ public class SharedPrefManager {
         editor.commit();
     }
 
+    public void storeId(int id){
+        editor.putInt("id" , id);
+        editor.apply();
+    }
+    public int getId(){
+        return userSharedPref.getInt("id" , 0);
+    }
+
     public void storeFirstName(String firstname) {
         editor.putString("firstName", firstname);
         editor.apply();
