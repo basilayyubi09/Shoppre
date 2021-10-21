@@ -41,8 +41,8 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         Address address = list.get(position);
 
         holder.deliverToName.setText(address.getName());
-        holder.deliverToAdrs.setText(address.getAddress());
-        holder.deliverToContact.setText(address.getContactNo());
+        holder.deliverToAdrs.setText(address.getLine1());
+        holder.deliverToContact.setText(address.getPhone());
 
 
 

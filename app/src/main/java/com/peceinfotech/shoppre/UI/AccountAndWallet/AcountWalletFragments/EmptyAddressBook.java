@@ -21,6 +21,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,10 @@ public class EmptyAddressBook extends Fragment {
     RecyclerView deliveryRecyclerView;
     MaterialAutoCompleteTextView allAddressSpinner;
     String[] allAddress = {"All Address" , "International Address" , "Indian Address" };
+    SharedPrefManager sharedPrefManager;
+
+
+    String bearerToken;
 
 
     @Override
@@ -52,15 +57,22 @@ public class EmptyAddressBook extends Fragment {
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
 
 
+        sharedPrefManager = new SharedPrefManager(getContext());
+        bearerToken = sharedPrefManager.getBearerToken();
 
 
         ArrayList<Address> list = new ArrayList<>();
 
-        list.add(new Address("Aamir" ,"Mumbai" , "7020286762"));
-        list.add(new Address("Basil" , "Mumbai" , "1234567890"));
-        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
-        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
-        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
+
+        fetchAddress();
+
+
+
+//        list.add(new Address("Aamir" ,"Mumbai" , "7020286762"));
+//        list.add(new Address("Basil" , "Mumbai" , "1234567890"));
+//        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
+//        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
+//        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
 
 
         GetDeliveryAddrsAdapter adapter = new GetDeliveryAddrsAdapter(list , getContext());
@@ -101,6 +113,45 @@ public class EmptyAddressBook extends Fragment {
         });
 
         return view;
+    }
+
+    private void fetchAddress() {
+
+        Call<Address> call = RetrofitClient3
+                                        .getInstance3()
+                                        .getAppApi()
+                                        .getAddresses("Bearer " +bearerToken);
+
+        call.enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+
+                if (response.code()==200){
+
+                    Toast.makeText(getContext(), response.body().getName()
+                            +"\n" + response.body().getLine1()
+                            +"\n" + response.body().getPhone(), Toast.LENGTH_SHORT).show();
+                    Address addresses = response.body();
+
+                }else if (response.code()==401){
+
+                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 
     @Override

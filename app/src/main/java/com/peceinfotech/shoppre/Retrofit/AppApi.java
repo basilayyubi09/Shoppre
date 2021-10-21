@@ -23,9 +23,6 @@ public interface AppApi {
            @Header("Authorization") String auth
     );
 
-    @GET("api/addresses")
-    Call<Address> getAddresses();
-
     //Add Address
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
@@ -33,5 +30,13 @@ public interface AppApi {
     Call<AddAddressResponse> registerVerify(
             @Body String jsonObject
     );
+
+    //Get All delivery Address
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/addresses")
+    Call<Address> getAddresses(
+            @Header("Authorization") String auth
+    );
+
 
 }
