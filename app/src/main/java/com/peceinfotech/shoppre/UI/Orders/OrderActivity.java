@@ -1,7 +1,6 @@
 package com.peceinfotech.shoppre.UI.Orders;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -12,11 +11,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.card.MaterialCardView;
-import com.peceinfotech.shoppre.AuthenticationModel.MeResponse;
+import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
@@ -239,6 +237,7 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeLastName(response.body().getLastName());
                     sharedPrefManager.storeFullName(response.body().getName());
                     sharedPrefManager.storeEmail(response.body().getEmail());
+                    sharedPrefManager.storeId(response.body().getId());
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
 

@@ -66,7 +66,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_bg">
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_marginTop="3dp">
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -98,6 +99,7 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="28dp"
+                            android:id="@+id/name"
                             android:background="@null"
                             android:hint="John Doe"
                             android:paddingLeft="7dp"
@@ -121,8 +123,11 @@
 
 
                     <EditText
+                        android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
+
+                        android:id="@+id/addressLine1"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="1313 Disneyland Dr,"
                         android:paddingLeft="13dp"
@@ -142,8 +147,10 @@
 
 
                     <EditText
+                        android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
+                        android:id="@+id/addressLine2"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="5th Avenue"
                         android:paddingLeft="13dp"
@@ -163,8 +170,10 @@
 
 
                     <EditText
+                        android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
+                        android:id="@+id/city"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="Anaheim"
                         android:paddingLeft="13dp"
@@ -187,6 +196,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
+                        android:id="@+id/state"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="California"
                         android:paddingLeft="13dp"
@@ -209,7 +219,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_bg">
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_marginTop="3dp">
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -245,8 +256,10 @@
 
 
                     <EditText
+                        android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
+                        android:id="@+id/pinCode"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="92802"
                         android:inputType="number"
@@ -270,9 +283,29 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_bg">
+                        android:background="@drawable/edit_text_bg"
+                        android:layout_marginTop="3dp">
 
 
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="28dp"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:endIconTint="@color/hint_color"
+                            app:hintAnimationEnabled="false"
+                            app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/countryCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="28dp"
+                            android:hint="+91"
+                            android:inputType="none"
+                            android:padding="0dp"
+                            android:textSize="12sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <View
                             android:layout_width="1dp"
@@ -283,6 +316,7 @@
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="28dp"
+                            android:id="@+id/phoneNumber"
                             android:background="@null"
                             android:hint="714-956-6425"
                             android:paddingLeft="7dp"
@@ -301,11 +335,13 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="21dp"
                         android:hint="Make this my Default Address"
-                        android:textFontWeight="400" />
+                        android:textFontWeight="400"
+                        android:id="@+id/checkBox"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
+                        android:id="@+id/addAddressBtn"
                         android:layout_gravity="bottom"
                         android:layout_marginHorizontal="75dp"
                         android:layout_marginTop="21dp"
