@@ -204,6 +204,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     String bearerToken = response.body().getAccessToken();
                     callMeApi(bearerToken);
                 } else if (response.code() == 400) {
@@ -273,7 +274,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
-
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     String bearerToken = response.body().getAccessToken();
                     callMeApi(bearerToken);
                 } else if (response.code() == 400) {
