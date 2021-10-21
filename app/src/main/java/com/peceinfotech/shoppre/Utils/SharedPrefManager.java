@@ -47,6 +47,13 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void storeBearerToken(String bearer){
+        editor.putString("bearer" , bearer);
+        editor.apply();
+    }
+    public  String getBearerToken(){
+        return userSharedPref.getString("bearer" ,"");
+    }
     public String getFirstName() {
         return userSharedPref.getString("firstName", "");
     }
