@@ -303,7 +303,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else {
                     LoadingDialog.cancelLoading();
-                    showError("User credentials are invalid");
+                    showError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
                 }
 
             }
