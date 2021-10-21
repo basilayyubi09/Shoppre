@@ -18,7 +18,7 @@ public class AddressBook extends Fragment {
 
 
     MaterialAutoCompleteTextView allAddressSpinner;
-    String[] allAddress = {"All Address" , "International Address" , "Indian Address" };
+
 
 
 
@@ -33,11 +33,5 @@ public class AddressBook extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext() , R.layout.all_address_spinner , allAddress);
-        allAddressSpinner.setAdapter(arrayAdapter);
-    }
 }

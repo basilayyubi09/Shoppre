@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.Retrofit;
 
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
+import com.peceinfotech.shoppre.AuthenticationModel.Address;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +14,8 @@ public interface AppApi {
     Call<MeResponse> getUser(
            @Header("Authorization") String auth
     );
+
+    @GET("api/addresses")
+    Call<Address> getAddresses();
 
 }

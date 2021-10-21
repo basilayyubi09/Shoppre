@@ -20,10 +20,10 @@ import java.util.List;
 
 public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAddrsAdapter.viewHolder> {
 
-    List<Address> list;
+    ArrayList<Address> list;
     Context context;
 
-    public GetDeliveryAddrsAdapter(List<Address> list) {
+    public GetDeliveryAddrsAdapter(ArrayList<Address> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -38,9 +38,13 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.deliverToName.setText(list.get(position).getName());
-        holder.deliverToAdrs.setText(list.get(position).getLine1());
-        holder.deliverToContact.setText(list.get(position).getPhone());
+        Address address = list.get(position);
+
+        holder.deliverToName.setText(address.getName());
+        holder.deliverToAdrs.setText(address.getAddress());
+        holder.deliverToContact.setText(address.getContactNo());
+
+
 
     }
 
@@ -52,6 +56,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
     public class viewHolder extends RecyclerView.ViewHolder{
 
         TextView deliverToName , deliverToAdrs , deliverToContact;
+        RadioButton addrsRadioBtn;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +64,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
             deliverToName = itemView.findViewById(R.id.deliverToName);
             deliverToAdrs = itemView.findViewById(R.id.deliverToAddress);
             deliverToContact = itemView.findViewById(R.id.deliverToContact);
+            addrsRadioBtn = itemView.findViewById(R.id.addressRadioBtn);
 
         }
     }
