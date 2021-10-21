@@ -225,8 +225,9 @@ public class OrderActivity extends AppCompatActivity {
     private void callMeApi(String bearerToken) {
 
         Call<MeResponse> call = RetrofitClient3
-                .getInstance()
-                .getApi().getUser("Bearer "+bearerToken);
+               .getInstance3()
+                .getAppApi()
+                .getUser("Bearer "+bearerToken);
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
@@ -238,9 +239,11 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeLastName(response.body().getLastName());
                     sharedPrefManager.storeFullName(response.body().getName());
                     sharedPrefManager.storeEmail(response.body().getEmail());
+                    sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
 
-                    Toast.makeText(getApplicationContext(), response.body().getFirstName()+"\n" +
+                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
+                            +"\n"+response.body().getFirstName()+"\n" +
                             response.body().getLastName()+"\n"+
                             response.body().getName()+"\n"+
                             response.body().getEmail()+"\n"+

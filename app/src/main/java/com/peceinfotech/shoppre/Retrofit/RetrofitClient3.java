@@ -11,11 +11,11 @@ public class RetrofitClient3 {
 
 
     private static final String BASE_URL = "https://staging-app.shoppreglobal.com/";
-    private static RetrofitClient myClient;
-    private Retrofit retrofit;
+    private static RetrofitClient3 myClient3;
+    private Retrofit retrofit3;
 
     RetrofitClient3() {
-        retrofit = new Retrofit.Builder()
+        retrofit3 = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -28,16 +28,16 @@ public class RetrofitClient3 {
             .connectTimeout(60, TimeUnit.SECONDS)
             .build();
 
-    public static synchronized RetrofitClient getInstance() {
-        if (myClient == null) {
-            myClient = new RetrofitClient();
+    public static synchronized RetrofitClient3 getInstance3() {
+        if (myClient3 == null) {
+            myClient3 = new RetrofitClient3();
         }
-        return myClient;
+        return myClient3;
     }
 
 
 
-    public Api getApi() {
-        return retrofit.create(Api.class);
+    public AppApi getAppApi(){
+        return retrofit3.create(AppApi.class);
     }
 }
