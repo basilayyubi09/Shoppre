@@ -95,9 +95,5 @@ public interface Api {
                 @Field("grant_type") String facebook
         );
 
-    //Me Api
-    //https://staging-app.shoppreglobal.com/api/users/me
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("api/users/me")
-    Call<MeResponse> getUser(@Header("Authorization") String auth);
+
 }

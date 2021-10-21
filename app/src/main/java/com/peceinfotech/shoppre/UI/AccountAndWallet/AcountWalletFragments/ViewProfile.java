@@ -75,17 +75,32 @@ public class ViewProfile extends Fragment {
 
         //setValues of textViews from sharedPref
         lockerNo.setText(sharedPrefManager.getVirtualAddressCode());
+        String firstName , lastName , salutation;
+        salutation = sharedPrefManager.getSalutation();
+        firstName = sharedPrefManager.getFirstName();
+        lastName = sharedPrefManager.getLastName();
 
-            if (!sharedPrefManager.getFirstName().equals("")){
-                if (!sharedPrefManager.getLastName().equals("")){
-                    profileName.setText(sharedPrefManager.getFirstName()+" "+sharedPrefManager.getLastName());
-                }
-                else {
-                    profileName.setText(sharedPrefManager.getFirstName());
-                }
-            }
-            else
+            if (!firstName.equals("") && !lastName.equals("") && !salutation.equals(""))
             {
+                profileName.setText(salutation+" "+firstName+" "+lastName);
+            }
+            else if (!salutation.equals("") && !firstName.equals("")){
+                profileName.setText(salutation+" "+firstName);
+            }
+            else if (!salutation.equals("") && !lastName.equals("")){
+                profileName.setText(salutation+" "+lastName);
+            }
+            else if (!firstName.equals("") && !lastName.equals("")){
+                profileName.setText(firstName+" "+lastName);
+            }
+            else if (!firstName.equals("")){
+                profileName.setText(firstName);
+            }
+
+            else if (!lastName.equals("")){
+                profileName.setText(firstName);
+            }
+            else {
                 profileName.setText("User Name");
             }
 

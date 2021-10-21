@@ -51,10 +51,10 @@ public class AddAddress extends Fragment {
         spinnerCountry.setAdapter(countryArrayAdapter);
 
 
-        String[] phoneNoValue = {"+1" , "+91" , "+98" , "+92"};
-        ArrayList<String> phoneNoArrayList = new ArrayList<>(Arrays.asList(phoneNoValue));
-        ArrayAdapter<String> phoneNoArrayAdapter = new ArrayAdapter<>(getContext() , R.layout.phone_no_spinner, phoneNoArrayList);
-        spinnerPhoneNo.setAdapter(phoneNoArrayAdapter);
+//        String[] phoneNoValue = {"+1" , "+91" , "+98" , "+92"};
+//        ArrayList<String> phoneNoArrayList = new ArrayList<>(Arrays.asList(phoneNoValue));
+//        ArrayAdapter<String> phoneNoArrayAdapter = new ArrayAdapter<>(getContext() , R.layout.phone_no_spinner, phoneNoArrayList);
+//        spinnerPhoneNo.setAdapter(phoneNoArrayAdapter);
 
 
 
