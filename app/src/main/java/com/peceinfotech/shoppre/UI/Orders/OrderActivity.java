@@ -17,6 +17,7 @@ import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
@@ -223,7 +224,7 @@ public class OrderActivity extends AppCompatActivity {
 
     private void callMeApi(String bearerToken) {
 
-        Call<MeResponse> call = RetrofitClient2
+        Call<MeResponse> call = RetrofitClient3
                 .getInstance()
                 .getApi().getUser("Bearer "+bearerToken);
         call.enqueue(new Callback<MeResponse>() {
