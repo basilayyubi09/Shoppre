@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.R;
@@ -20,6 +21,7 @@ import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewPr
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentList;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -63,9 +65,19 @@ public class OrderActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
         fragmentTransaction.commit();
 
-        //Call me api
-        LoadingDialog.showLoadingDialog(OrderActivity.this , "Loading...");
-        callApi();
+        if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+        {
+
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+        else
+        {
+            //Call me api
+            LoadingDialog.showLoadingDialog(OrderActivity.this , "Loading...");
+            callApi();
+        }
+
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +292,10 @@ public class OrderActivity extends AppCompatActivity {
                 } else if (response.code() == 400) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                }
+                else if (response.code() == 500) {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

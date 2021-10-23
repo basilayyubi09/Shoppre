@@ -9,7 +9,7 @@ public class CountryResponse {
 
     @SerializedName("items")
     @Expose
-    private List<Item> items = null;
+    private List<Item> items ;
 
     public List<Item> getItems() {
         return items;
@@ -18,4 +18,6 @@ public class CountryResponse {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+
 }

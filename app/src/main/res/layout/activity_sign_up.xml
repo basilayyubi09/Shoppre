@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".UI.SignupLogin.SignUpActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/main">
 
 
 
@@ -48,7 +49,7 @@
                 app:elevation="4dp"
                 app:icon="@drawable/ic_google"
                 app:iconSize="24dp"
-                app:iconTintMode="multiply" />
+                app:iconTint="@null" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signup_fb_btn"
@@ -69,7 +70,7 @@
                 app:elevation="4dp"
                 app:icon="@drawable/ic_fb"
                 app:iconSize="24dp"
-                app:iconTintMode="multiply" />
+                app:iconTint="@null" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

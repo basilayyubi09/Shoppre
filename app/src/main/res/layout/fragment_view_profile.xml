@@ -63,28 +63,25 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
+                            android:layout_marginTop="12dp"
                             android:layout_gravity="center_horizontal">
                             <TextView
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
-
                                 android:text="Locker No.: "
                                 android:textColor="@color/black"
                                 android:textFontWeight="600"
-                                android:textSize="14sp" />
+                                android:textSize="12sp"
+                                android:lineHeight="17sp"/>
                             <TextView
                                 android:id="@+id/lockerNo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
-
+                                android:lineHeight="17sp"
                                 android:text="SA-976-6767"
                                 android:textColor="@color/black"
                                 android:textFontWeight="600"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 

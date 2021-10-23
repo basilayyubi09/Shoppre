@@ -5,15 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
 import retrofit2.Call;
@@ -25,7 +28,7 @@ public class ForgetPassword extends AppCompatActivity {
     Button sendResendButton;
     TextInputLayout emailIdField;
     String emailId;
-
+    LinearLayout main;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,7 @@ public class ForgetPassword extends AppCompatActivity {
 
         sendResendButton = findViewById(R.id.sendResetBtn);
         emailIdField = findViewById(R.id.emailId);
+        main = findViewById(R.id.main);
 
 
         sendResendButton.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +49,16 @@ public class ForgetPassword extends AppCompatActivity {
                 if (!validateEmailField()) {
                     return;
                 } else {
-                    forgotPasswordApi(emailId);
-                    LoadingDialog.showLoadingDialog(ForgetPassword.this, getString(R.string.Loading));
+                    if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                    {
+
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else {
+                        forgotPasswordApi(emailId);
+                        LoadingDialog.showLoadingDialog(ForgetPassword.this, getString(R.string.Loading));
+                    }
                 }
             }
         });

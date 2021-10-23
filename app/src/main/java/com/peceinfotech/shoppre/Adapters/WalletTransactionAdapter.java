@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.Models.WalletTransactionDummyModel;
 import com.peceinfotech.shoppre.R;
 
@@ -18,9 +19,9 @@ import java.util.List;
 
 public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransactionAdapter.viewHolder> {
     Context context;
-    List<WalletTransactionDummyModel> list;
+    List<WalletTransactionResponse> list;
 
-    public WalletTransactionAdapter(Context context, List<WalletTransactionDummyModel> list) {
+    public WalletTransactionAdapter(Context context, List<WalletTransactionResponse> list) {
         this.context = context;
         this.list = list;
     }
@@ -41,20 +42,20 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.date.setText(list.get(position).getDate());
-        holder.image.setImageResource(list.get(position).getImage());
-        holder.mainText.setText(list.get(position).getMainText());
-        if (list.get(position).getMessageText().equals("")){
-            holder.messageText.setVisibility(View.GONE);
-        }
-        else
-            holder.messageText.setText(list.get(position).getMessageText());
-        if (list.get(position).getPrice().startsWith("+")){
+        holder.date.setText(list.get(position).getWalletTransactions().get(position).getCreatedAt());
+//        holder.image.setImageResource(list.get(position).getImage());
+        holder.mainText.setText(list.get(position).getWalletTransactions().get(position).getDescription());
+//        if (list.get(position).getMessageText().equals("")){
+//            holder.messageText.setVisibility(View.GONE);
+//        }
+//        else
+//            holder.messageText.setText(list.get(position).getMessageText());
+        if (list.get(position).getWalletTransactions().get(position).getAmount().toString().startsWith("+")){
             holder.price.setTextColor(Color.parseColor("#17B28F"));
         }
         else holder.price.setTextColor(Color.parseColor("#EF5261"));
 
-        holder.price.setText(list.get(position).getPrice());
+        holder.price.setText(list.get(position).getWalletTransactions().get(position).getAmount());
     }
 
     @Override

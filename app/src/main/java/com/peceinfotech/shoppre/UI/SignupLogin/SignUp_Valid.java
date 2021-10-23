@@ -10,35 +10,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.common.api.ApiException;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
+import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
-
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
-import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class SignUp_Valid extends AppCompatActivity {
 
@@ -51,6 +42,7 @@ public class SignUp_Valid extends AppCompatActivity {
     ImageView strengthImage, backArrow;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     SharedPrefManager sharedPrefManager;
+    LinearLayout main;
 
 
     @Override
@@ -78,6 +70,7 @@ public class SignUp_Valid extends AppCompatActivity {
         referalCodeField = findViewById(R.id.referalCode);
         strengthImage = findViewById(R.id.strengthImage);
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
+        main = findViewById(R.id.main);
 
 
         //get Email Id from previous activity
@@ -153,15 +146,28 @@ public class SignUp_Valid extends AppCompatActivity {
                     return;
                 }
 
-                ///registerVerify Api Call
-                registerVerifyApi(firstName,
-                        emailId,
-                        password,
-                        referalCode,
-                        lastName);
+                else{
+                    if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                    {
 
-                //Show Alerts
-                LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else
+                    {
+                        ///registerVerify Api Call
+                        registerVerifyApi(firstName,
+                                emailId,
+                                password,
+                                referalCode,
+                                lastName);
+
+                        //Show Alerts
+                        LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
+                    }
+
+                }
+
 
             }
         });
@@ -194,6 +200,7 @@ public class SignUp_Valid extends AppCompatActivity {
         paramObject.addProperty("referrer", "https://www.google.com/");
 
         // prepare call in Retrofit 2.0
+
 
         //calling RetrofitClient2 for different BASE_URL
         Call<RegisterVerifyResponse> call = RetrofitClient2
