@@ -1,11 +1,6 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +8,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.Adapters.GetDeliveryAddrsAdapter;
-import com.peceinfotech.shoppre.AuthenticationModel.Address;
+
+import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,12 +35,16 @@ import retrofit2.Response;
 
 public class EmptyAddressBook extends Fragment {
 
-    MaterialButton billingAddAddressBtn , deliveryAddAddressBtn;
+    MaterialButton billingAddAddressBtn, deliveryAddAddressBtn;
     RecyclerView deliveryRecyclerView;
     MaterialAutoCompleteTextView allAddressSpinner;
-    String[] allAddress = {"All Address" , "International Address" , "Indian Address" };
+    String[] allAddress = {"All Address", "International Address", "Indian Address"};
     SharedPrefManager sharedPrefManager;
+    CardView deliveryAddrsCard , emptyDeliveryAdrsCard;
+    GetDeliveryAddrsAdapter getDeliveryAddrsAdapter;
 
+
+    List<DeliveryListModel.Address> list = new ArrayList<>();
 
     String bearerToken;
 
@@ -55,17 +59,24 @@ public class EmptyAddressBook extends Fragment {
         deliveryAddAddressBtn = view.findViewById(R.id.deliveryAddAdrsbtn);
         deliveryRecyclerView = view.findViewById(R.id.deliveryAdrsRecycler);
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
+        deliveryAddrsCard = view.findViewById(R.id.deliveryAddrsCard);
+        emptyDeliveryAdrsCard = view.findViewById(R.id.emptyDeliveryAdrsCard);
 
 
         sharedPrefManager = new SharedPrefManager(getContext());
         bearerToken = sharedPrefManager.getBearerToken();
 
+        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext());
+        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
-        ArrayList<Address> list = new ArrayList<>();
 
-
+        LoadingDialog.showLoadingDialog(getActivity() , "");
         fetchAddress();
 
+
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        deliveryRecyclerView.setLayoutManager(linearLayoutManager);
 
 
 //        list.add(new Address("Aamir" ,"Mumbai" , "7020286762"));
@@ -74,38 +85,25 @@ public class EmptyAddressBook extends Fragment {
 //        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
 //        list.add(new Address("Parvez" , "Mumbai" , "0987654321"));
 
-
-        GetDeliveryAddrsAdapter adapter = new GetDeliveryAddrsAdapter(list , getContext());
-        deliveryRecyclerView.setAdapter(adapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        deliveryRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter.notifyDataSetChanged();
-
-
-
-
-
-
         billingAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState!=null) return;
+                if (savedInstanceState != null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
+                        .replace(R.id.orderFrameLayout, new AddAddress(), null)
                         .addToBackStack(null).commit();
 
             }
         });
-        
+
         deliveryAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState!=null) return;
+                if (savedInstanceState != null) return;
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
+                        .replace(R.id.orderFrameLayout, new AddAddress(), null)
                         .addToBackStack(null).commit();
 
 
@@ -117,48 +115,69 @@ public class EmptyAddressBook extends Fragment {
 
     private void fetchAddress() {
 
-        Call<Address> call = RetrofitClient3
-                                        .getInstance3()
-                                        .getAppApi()
-                                        .getAddresses("Bearer " +bearerToken);
+        Call<DeliveryListModel> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .getAddresses("Bearer " + bearerToken);
 
-        call.enqueue(new Callback<Address>() {
+        call.enqueue(new Callback<DeliveryListModel>() {
             @Override
-            public void onResponse(Call<Address> call, Response<Address> response) {
+            public void onResponse(Call<DeliveryListModel> call, Response<DeliveryListModel> response ) {
 
-                if (response.code()==200){
+                try {
+                    if (response.code() == 200) {
 
-                    Toast.makeText(getContext(), response.body().getName()
-                            +"\n" + response.body().getLine1()
-                            +"\n" + response.body().getPhone(), Toast.LENGTH_SHORT).show();
-                    Address addresses = response.body();
+                        LoadingDialog.cancelLoading();
 
-                }else if (response.code()==401){
+                        list = response.body().getAddresses();
+                        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext());
+                        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
+                        int number = deliveryRecyclerView.getAdapter().getItemCount();
+                        if (number == 0){
 
-                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                            emptyDeliveryAdrsCard.setVisibility(View.VISIBLE);
+                            deliveryAddrsCard.setVisibility(View.GONE);
+
+                        }else{
+
+                            emptyDeliveryAdrsCard.setVisibility(View.GONE);
+                            deliveryAddrsCard.setVisibility(View.VISIBLE);
 
 
+                        }
+                        getDeliveryAddrsAdapter.notifyDataSetChanged();
+
+
+                    } else if (response.code() == 401) {
+
+                        LoadingDialog.cancelLoading();
+                        String error = response.errorBody().toString();
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-
             }
 
             @Override
-            public void onFailure(Call<Address> call, Throwable t) {
-
+            public void onFailure(Call<DeliveryListModel> call, Throwable t) {
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
-
             }
+
         });
 
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext() , R.layout.all_address_spinner , allAddress);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.all_address_spinner, allAddress);
         allAddressSpinner.setAdapter(arrayAdapter);
     }
 

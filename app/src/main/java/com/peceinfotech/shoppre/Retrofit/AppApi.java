@@ -2,7 +2,8 @@ package com.peceinfotech.shoppre.Retrofit;
 
 import com.peceinfotech.shoppre.AccountResponse.AddAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
-import com.peceinfotech.shoppre.AuthenticationModel.Address;
+
+import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 
 import retrofit2.Call;
@@ -34,7 +35,7 @@ public interface AppApi {
     //Get All delivery Address
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("api/addresses")
-    Call<Address> getAddresses(
+    Call<DeliveryListModel> getAddresses(
             @Header("Authorization") String auth
     );
 

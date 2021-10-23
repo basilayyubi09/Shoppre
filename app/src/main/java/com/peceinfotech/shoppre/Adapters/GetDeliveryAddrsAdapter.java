@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.peceinfotech.shoppre.AuthenticationModel.Address;
+import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
 
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import java.util.List;
 
 public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAddrsAdapter.viewHolder> {
 
-    ArrayList<Address> list;
+    List<DeliveryListModel.Address> list;
     Context context;
 
-    public GetDeliveryAddrsAdapter(ArrayList<Address> list, Context context) {
+    public GetDeliveryAddrsAdapter(List<DeliveryListModel.Address> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -38,10 +38,12 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        Address address = list.get(position);
+        DeliveryListModel.Address address = list.get(position);
 
         holder.deliverToName.setText(address.getName());
-        holder.deliverToAdrs.setText(address.getLine1());
+        holder.line1.setText(address.getLine1());
+        holder.state.setText(address.getState());
+        holder.country.setText(address.getCountry().getName());
         holder.deliverToContact.setText(address.getPhone());
 
 
@@ -55,14 +57,16 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     public class viewHolder extends RecyclerView.ViewHolder{
 
-        TextView deliverToName , deliverToAdrs , deliverToContact;
+        TextView deliverToName , line1 , state , country , deliverToContact;
         RadioButton addrsRadioBtn;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
             deliverToName = itemView.findViewById(R.id.deliverToName);
-            deliverToAdrs = itemView.findViewById(R.id.deliverToAddress);
+            line1 = itemView.findViewById(R.id.line1);
+            state = itemView.findViewById(R.id.state);
+            country = itemView.findViewById(R.id.country);
             deliverToContact = itemView.findViewById(R.id.deliverToContact);
             addrsRadioBtn = itemView.findViewById(R.id.addressRadioBtn);
 
