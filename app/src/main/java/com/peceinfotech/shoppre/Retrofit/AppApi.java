@@ -39,5 +39,4 @@ public interface AppApi {
             @Header("Authorization") String auth
     );
 
-
 }

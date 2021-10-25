@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 public class EmptyAddressBook extends Fragment {
 
-    MaterialButton billingAddAddressBtn, deliveryAddAddressBtn;
+    MaterialButton billingAddAddressBtn, deliveryAddAddressBtn , setDefaultAddressBtn;
     RecyclerView deliveryRecyclerView;
     MaterialAutoCompleteTextView allAddressSpinner;
     String[] allAddress = {"All Address", "International Address", "Indian Address"};
@@ -61,13 +61,14 @@ public class EmptyAddressBook extends Fragment {
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
         deliveryAddrsCard = view.findViewById(R.id.deliveryAddrsCard);
         emptyDeliveryAdrsCard = view.findViewById(R.id.emptyDeliveryAdrsCard);
+        setDefaultAddressBtn = view.findViewById(R.id.setDefaultAddrsBtn);
 
 
         sharedPrefManager = new SharedPrefManager(getContext());
         bearerToken = sharedPrefManager.getBearerToken();
 
-        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext());
-        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
+//        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext() , EmptyAddressBook.this);
+//        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
 
         LoadingDialog.showLoadingDialog(getActivity() , "");
@@ -113,6 +114,7 @@ public class EmptyAddressBook extends Fragment {
         return view;
     }
 
+
     private void fetchAddress() {
 
         Call<DeliveryListModel> call = RetrofitClient3
@@ -130,8 +132,17 @@ public class EmptyAddressBook extends Fragment {
                         LoadingDialog.cancelLoading();
 
                         list = response.body().getAddresses();
-                        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext());
+                        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
+                            @Override
+                            public void defaultAdddressSet(int addrsId) {
+                                Log.d("aaaa" , ""+ addrsId);
+
+                            }
+                        });
                         deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
+
+
+
                         int number = deliveryRecyclerView.getAdapter().getItemCount();
                         if (number == 0){
 
@@ -180,5 +191,6 @@ public class EmptyAddressBook extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.all_address_spinner, allAddress);
         allAddressSpinner.setAdapter(arrayAdapter);
     }
+
 
 }
