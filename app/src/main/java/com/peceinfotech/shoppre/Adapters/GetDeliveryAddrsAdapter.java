@@ -1,11 +1,11 @@
 package com.peceinfotech.shoppre.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -16,7 +16,6 @@ import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAddrsAdapter.viewHolder> {
@@ -26,21 +25,24 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     setDefaultAddress mListener;
 
+    int lastSelectedposition = -1;
 
-    private int lastSelectedPosition = -1;
     int addrsId;
+
 
     public GetDeliveryAddrsAdapter(List<DeliveryListModel.Address> list, Context context, setDefaultAddress mListener) {
         this.list = list;
         this.context = context;
         this.mListener = mListener;
+
     }
+
 
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_all_delivery_addresses , parent , false);
-        return new viewHolder(view , mListener);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_all_delivery_addresses, parent, false);
+        return new viewHolder(view, mListener);
     }
 
     @Override
@@ -54,23 +56,47 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         holder.country.setText(address.getCountry().getName());
         holder.deliverToContact.setText(address.getPhone());
 
-        holder.addrsRadioBtn.setChecked(lastSelectedPosition == position);
 
+
+        holder.addrsRadioBtn.setChecked(lastSelectedposition == position);
+
+
+        if (address.getIsDefault()) {
+
+            Log.d("jgjgkjkjjg", address.getIsDefault().toString());
+//                holder.addrsRadioBtn.setChecked(true);
+
+            holder.defaultBtn.setVisibility(View.VISIBLE);
+
+        } else {
+
+            holder.defaultBtn.setVisibility(View.GONE);
+
+        }
 
 
         holder.addrsRadioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                lastSelectedPosition = holder.getAdapterPosition();
+                lastSelectedposition = holder.getAdapterPosition();
                 addrsId = holder.addrsRadioBtn.getId();
                 mListener.defaultAdddressSet(address.getId());
                 notifyDataSetChanged();
 
+//                if (position == lastSelectedposition){
+//
+//                    holder.addrsRadioBtn.setChecked(true);
+//                    lastSelectedposition = -1;
+//
+//                }else {
+//                    lastSelectedposition = position;
+//                    notifyDataSetChanged();
+//
+//                }
 
             }
         });
-
 
 
     }
@@ -80,15 +106,18 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView deliverToName , line1 , state , country , deliverToContact;
+        TextView deliverToName, line1, state, country, deliverToContact;
         MaterialButton defaultBtn;
         RadioButton addrsRadioBtn;
         setDefaultAddress mListener;
 
+
+
         public viewHolder(@NonNull View itemView, setDefaultAddress mListener) {
             super(itemView);
+
 
             this.mListener = mListener;
             deliverToName = itemView.findViewById(R.id.deliverToName);
@@ -103,9 +132,13 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
     }
 
 
-    public interface setDefaultAddress{
+    public interface setDefaultAddress {
 
         void defaultAdddressSet(int addrsId);
+
     }
 
+
+
 }
+
