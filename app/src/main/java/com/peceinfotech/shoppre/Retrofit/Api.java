@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.Retrofit;
 
+import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
@@ -10,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -17,6 +19,7 @@ public interface Api {
 
     /*
     SignUp Direct Api
+
     https://staging-login.shoppreglobal.com/api/users/public/register/app
     */
 
@@ -92,5 +95,19 @@ public interface Api {
                 @Field("grant_type") String facebook
         );
 
+    @FormUrlEncoded
+    @POST("oauth/token")
+    Call<AccessTokenResponse> getAccessToken(
+            @Field("code") String code,
+            @Field("Authorization") String auth
+    );
+
+    //api/authorise
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/authorise")
+    Call<String> getAuth(
+            @Header("Authorization") String auth,
+            @Body String value
+    );
 
 }

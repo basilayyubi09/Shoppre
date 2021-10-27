@@ -3,26 +3,14 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
@@ -38,18 +27,11 @@ import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
-import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView dont_have_acnt, forgotPassword;
     TextInputLayout passwordField;
     MaterialButton loginBtn, googleLoginBtn, fbLoginBtn;
-
+    LinearLayout main;
     String emailId, password;
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
@@ -89,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
         googleLoginBtn = findViewById(R.id.login_google_btn);
         fbLoginBtn = findViewById(R.id.login_fb_logo);
+        main = findViewById(R.id.main);
 
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
@@ -109,8 +92,17 @@ public class LoginActivity extends AppCompatActivity {
         googleLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
-                LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+                if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                {
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else {
+                    signIn();
+                    LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+                }
+
             }
         });
 
@@ -122,8 +114,16 @@ public class LoginActivity extends AppCompatActivity {
                 if (!validateEmailField() || !validatePasswordField()) {
                     return;
                 } else {
-                    signInDirect();
-                    LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+                    if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                    {
+
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else{
+                        signInDirect();
+                        LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+                    }
                 }
             }
         });

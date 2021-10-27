@@ -47,15 +47,23 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+
     public void storeBearerToken(String bearer){
         editor.putString("bearer" , bearer);
         editor.apply();
     }
     public  String getBearerToken(){
-        return userSharedPref.getString("bearer" ,"");
+        return userSharedPref.getString("bearer" ," ");
+    }
+    public void storePassword(String bearer){
+        editor.putString("password" , bearer);
+        editor.apply();
+    }
+    public  String getPassword(){
+        return userSharedPref.getString("password" ," ");
     }
     public String getFirstName() {
-        return userSharedPref.getString("firstName", "");
+        return userSharedPref.getString("firstName", " ");
     }
 
     public void storeLastName(String lastname) {
@@ -64,7 +72,7 @@ public class SharedPrefManager {
     }
 
     public String getLastName() {
-        return userSharedPref.getString("lastName", "");
+        return userSharedPref.getString("lastName", " ");
     }
 
     public void storeSalutation(String salutation) {
@@ -73,7 +81,7 @@ public class SharedPrefManager {
     }
 
     public String getSalutation() {
-        return userSharedPref.getString("salutation", "");
+        return userSharedPref.getString("salutation", " ");
     }
 
     public void storeEmail(String email) {
@@ -82,7 +90,7 @@ public class SharedPrefManager {
     }
 
     public String getEmail() {
-        return userSharedPref.getString("email", "");
+        return userSharedPref.getString("email", " ");
     }
 
     public void storeVirtualAddressCode(String virtual_address_code) {
@@ -91,7 +99,7 @@ public class SharedPrefManager {
     }
 
     public String getVirtualAddressCode() {
-        return userSharedPref.getString("virtual_address_code", "");
+        return userSharedPref.getString("virtual_address_code", " ");
     }
 
     public void storeGrantType(String grantType) {
@@ -100,7 +108,7 @@ public class SharedPrefManager {
     }
 
     public String getGrantType() {
-        return userSharedPref.getString("grantType", "");
+        return userSharedPref.getString("grantType", " ");
     }
 
     public void storePhone(String phone) {
@@ -109,7 +117,7 @@ public class SharedPrefManager {
     }
 
     public String getPhone() {
-        return userSharedPref.getString("phone", "");
+        return userSharedPref.getString("phone", " ");
     }
 
     public boolean checkLogin() {

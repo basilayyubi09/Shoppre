@@ -108,8 +108,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="94dp"
                             android:layout_height="34dp"
-                            android:layout_toRightOf="@id/btnRelative"
                             android:layout_marginLeft="11dp"
+                            android:layout_toRightOf="@id/btnRelative"
                             android:backgroundTint="#2D8DFF"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
@@ -121,6 +121,7 @@
                             app:icon="@mipmap/share"
                             app:iconGravity="end"
                             app:iconSize="18sp"
+                            android:textColor="@color/white"
                             app:iconTint="@color/white" />
                     </RelativeLayout>
                 </LinearLayout>

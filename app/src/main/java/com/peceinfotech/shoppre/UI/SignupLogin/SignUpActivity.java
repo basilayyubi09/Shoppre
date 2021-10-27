@@ -3,27 +3,22 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
@@ -34,13 +29,9 @@ import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
+    LinearLayout main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         googleSignInButton = findViewById(R.id.signup_google_btn);
         fbSignInBtn = findViewById(R.id.signup_fb_btn);
         emailIdField = findViewById(R.id.emailIdField);
-
+        main = findViewById(R.id.main);
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -116,8 +108,19 @@ public class SignUpActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
-                LoadingDialog.showLoadingDialog(SignUpActivity.this, getString(R.string.Loading));
+
+                if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                {
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    signIn();
+                    LoadingDialog.showLoadingDialog(SignUpActivity.this, getString(R.string.Loading));
+                }
+
             }
         });
 

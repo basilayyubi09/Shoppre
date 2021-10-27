@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".UI.SignupLogin.SignUp_Valid">
+    tools:context=".UI.SignupLogin.SignUp_Valid"
+    android:id="@+id/main">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -55,7 +56,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
 
-                android:id="@+id/firstName"
+                android:id="@+id/firstNameField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

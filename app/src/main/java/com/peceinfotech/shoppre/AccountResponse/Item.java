@@ -14,6 +14,9 @@ public class Item {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("phone_code")
+    @Expose
+    private Integer phoneCode;
 
     public String getCountryCode() {
         return countryCode;
@@ -39,4 +42,16 @@ public class Item {
         this.name = name;
     }
 
+    public Integer getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(Integer phoneCode) {
+        this.phoneCode = phoneCode;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
