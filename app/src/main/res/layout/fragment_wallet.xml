@@ -183,7 +183,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
-                        android:id="@+id/walletTransactionRecycle"/>
+                        android:id="@+id/walletTransactionRecycle"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:layout_width="89dp"
+                        android:layout_height="72dp"
+                        android:src="@drawable/empty_wallet"
+                        android:layout_marginTop="50dp"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginHorizontal="58dp"
+                        android:textSize="12sp"
+                        android:text="Looks like you don’t have any wallet transactions yet!"
+                        android:textColor="@color/black"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="70dp"/>
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -199,16 +219,19 @@
                             android:textFontWeight="600"
                             android:textColor="#3A5FD8"
                             android:textSize="10sp"
-                            android:layout_gravity="center_vertical"/>
+                            android:layout_gravity="center_vertical"
+                            android:visibility="gone"/>
                         <ImageView
                             android:layout_marginLeft="6dp"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@mipmap/showmore"/>
+                            android:src="@mipmap/showmore"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

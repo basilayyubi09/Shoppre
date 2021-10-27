@@ -171,10 +171,11 @@
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:background="@drawable/all_address_bg"
                                     app:boxStrokeWidth="0dp"
+                                    android:layout_marginLeft="30dp"
                                     app:boxStrokeWidthFocused="0dp"
                                     app:endIconTint="@color/hint_color"
                                     app:hintAnimationEnabled="false"
@@ -185,8 +186,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="28dp"
                                         android:hint="All Address"
+                                        android:layout_gravity="right"
                                         android:inputType="none"
-                                        android:padding="0dp"
+                                        android:paddingVertical="0dp"
                                         android:textColorHint="@color/black"
                                         android:textSize="12sp" />
 
