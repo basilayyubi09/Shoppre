@@ -95,10 +95,11 @@
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/edit_text_bg.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_address_book.xml" value="0.20102564102564102" />
-        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_empty_address_book.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_empty_address_book.xml" value="0.2968536251709986" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_fifth_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_first_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_fourth_on_boarding.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_order.xml" value="0.1925925925925926" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_secound_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_third_on_boarding.xml" value="0.22" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_vertual_address.xml" value="0.20102564102564102" />
@@ -108,6 +109,7 @@
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/phone_no_spinner.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/progress_layout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/sample.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/single_all_delivery_addresses.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/toolbar.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/menu/bottom_navigation.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/menu/notification_menu.xml" value="0.20416666666666666" />
