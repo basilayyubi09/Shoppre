@@ -47,12 +47,20 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+
     public void storeBearerToken(String bearer){
         editor.putString("bearer" , bearer);
         editor.apply();
     }
     public  String getBearerToken(){
         return userSharedPref.getString("bearer" ," ");
+    }
+    public void storePassword(String bearer){
+        editor.putString("password" , bearer);
+        editor.apply();
+    }
+    public  String getPassword(){
+        return userSharedPref.getString("password" ," ");
     }
     public String getFirstName() {
         return userSharedPref.getString("firstName", " ");

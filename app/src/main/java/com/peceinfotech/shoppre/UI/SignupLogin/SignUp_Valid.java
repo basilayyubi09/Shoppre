@@ -19,9 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -61,7 +64,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
         sendBtn = findViewById(R.id.signUpBtn);
         backArrow = findViewById(R.id.backArrow);
-        firstlNameField = findViewById(R.id.firstName);
+        firstlNameField = findViewById(R.id.firstNameField);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
         passwordErrorText = findViewById(R.id.passwordErrorText);
@@ -180,7 +183,7 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
-    private void registerVerifyApi(String fullName,
+    private void registerVerifyApi(String first_Name,
                                    String emailId,
                                    String password,
                                    String referalCode,
@@ -191,12 +194,10 @@ public class SignUp_Valid extends AppCompatActivity {
         JsonObject paramObject = new JsonObject();
 
         paramObject.addProperty("email", emailId);
-        paramObject.addProperty("first_name", firstName);
-        paramObject.addProperty("first_visit", "https://www.shoppre.com/reviews");
+        paramObject.addProperty("first_name", first_Name);
         paramObject.addProperty("from_domain", "shoppreglobal.com");
         paramObject.addProperty("last_name", lastName);
         paramObject.addProperty("password", password);
-        paramObject.addProperty("referral_code", "");
         paramObject.addProperty("referrer", "https://www.google.com/");
 
         // prepare call in Retrofit 2.0
@@ -231,10 +232,14 @@ public class SignUp_Valid extends AppCompatActivity {
                     finish();
                 } else {
                     clearFields();
+                    String bearer = response.body().getToken().getAccessToken();
+                    sharedPrefManager.storeBearerToken(bearer);
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    Log.d("signup valid toekn", "Bearer "+bearer);
+//                    callAuthApi(bearer);
 
-
+                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
+                    finish();
                 }
             }
 
@@ -247,6 +252,103 @@ public class SignUp_Valid extends AppCompatActivity {
         });
 
     }
+
+    private void callAuthApi(String bearer) {
+        String bearerToken = bearer;
+
+        JsonObject paramObject = new JsonObject();
+
+        paramObject.addProperty("allow", "true");
+        paramObject.addProperty("client_id", "app1");
+        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+        paramObject.addProperty("response_type", "code");
+
+
+        Call<String> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAuth("Bearer "+bearerToken , paramObject.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    String code = response.body();
+                    //split string from = sign
+                    String[] parts = code.split("=");
+                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+                    String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
+                    Log.d("Auth api response ",code);
+                    callAccessTokenApi(part2 , bearerToken);
+
+                }
+                else if (response.code()==401){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void callAccessTokenApi(String part2, String bearer1) {
+            Log.d("On Accessh token toekn","Bearer "+bearer1);
+        String auth =bearer1;
+        Call<AccessTokenResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAccessToken(part2 , auth);
+        call.enqueue(new Callback<AccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+//                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+//                    String t = sharedPrefManager.getBearerToken();
+                    Log.d("Access token response toekn","Bearer "+response.body().getAccessToken());
+                    Intent intent = new Intent(SignUp_Valid.this , OrderActivity.class);
+                    intent.putExtra("token" , response.body().getAccessToken());
+                    startActivity(intent);
+//                    startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
+//                    finish();
+
+                }
+                else if (response.code()==400){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
 
 
     private void clearFields() {

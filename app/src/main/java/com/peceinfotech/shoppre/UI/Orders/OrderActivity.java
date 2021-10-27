@@ -45,7 +45,7 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-         sharedPrefManager = new SharedPrefManager(OrderActivity.this);
+        sharedPrefManager = new SharedPrefManager(OrderActivity.this);
         fragmentManager = getSupportFragmentManager();
 
         frameLayout = findViewById(R.id.orderFrameLayout);
@@ -236,7 +236,7 @@ public class OrderActivity extends AppCompatActivity {
     private void callMeApi(String bearerToken) {
 
         Call<MeResponse> call = RetrofitClient3
-               .getInstance3()
+                .getInstance3()
                 .getAppApi()
                 .getUser("Bearer "+bearerToken);
         call.enqueue(new Callback<MeResponse>() {

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".UI.AccountAndWallet.AcountWalletFragments.WalletFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
@@ -311,6 +311,6 @@
                     android:textSize="14sp"/>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

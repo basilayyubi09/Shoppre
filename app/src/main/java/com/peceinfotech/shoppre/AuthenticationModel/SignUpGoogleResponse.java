@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class SignUpGoogleResponse {
+    @SerializedName("token")
+    @Expose
+    private Token token;
     @SerializedName("code")
     @Expose
     private Integer code;
@@ -13,6 +16,14 @@ public class SignUpGoogleResponse {
     @SerializedName("message")
     @Expose
     private String message;
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
+    }
 
     public Integer getCode() {
         return code;
@@ -37,5 +48,7 @@ public class SignUpGoogleResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 
 }

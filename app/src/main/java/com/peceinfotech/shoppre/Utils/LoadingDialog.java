@@ -1,10 +1,7 @@
 package com.peceinfotech.shoppre.Utils;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-
-import com.peceinfotech.shoppre.R;
 
 import dmax.dialog.SpotsDialog;
 
@@ -14,10 +11,6 @@ public class LoadingDialog {
 
 
     static AlertDialog progressDialog;
-
-
-
-
 
     public static void showLoadingDialog(Context context, String message) {
 

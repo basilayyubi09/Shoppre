@@ -10,6 +10,9 @@ public class RegisterVerifyResponse {
     @SerializedName("customer_id")
     @Expose
     private Integer customerId;
+    @SerializedName("token")
+    @Expose
+    private Token token;
 
     public String getMessage() {
         return message;
@@ -25,5 +28,13 @@ public class RegisterVerifyResponse {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.peceinfotech.shoppre.AccountResponse.WalletTransaction;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.Adapters.WalletTransactionAdapter;
 import com.peceinfotech.shoppre.R;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 
 public class WalletFragment extends Fragment {
 
-    List<WalletTransactionResponse> list;
+    List<WalletTransaction> list;
     String[] title = {"All", "My Cash", "Rewards"};
     MaterialAutoCompleteTextView allSpinner;
     ArrayAdapter arrayAdapter;
@@ -71,9 +72,9 @@ public class WalletFragment extends Fragment {
         bearerToken = sharedPrefManager.getBearerToken();
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        walletAdapter = new WalletTransactionAdapter(getContext(), list);
-        recyclerView.setAdapter(walletAdapter);
 
+        walletAdapter = new WalletTransactionAdapter(getContext() , list);
+        recyclerView.setAdapter(walletAdapter);
 
         if(!CheckNetwork.isInternetAvailable(getActivity()) ) //if connection not available
         {
@@ -89,16 +90,7 @@ public class WalletFragment extends Fragment {
         }
 
 
-        int number = recyclerView.getAdapter().getItemCount();
-        if (number == 0) {
-            showMoreContent.setVisibility(View.GONE);
 
-        } else {
-            showMoreContent.setVisibility(View.VISIBLE);
-
-        }
-
-        walletAdapter.notifyDataSetChanged();
 
             return view;
 }
@@ -114,15 +106,29 @@ public class WalletFragment extends Fragment {
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.isSuccessful()) {
 
-                    WalletTransactionResponse walletTransactionResponse = response.body();
+                   list = response.body().getWalletTransactions();
 //                    int date = walletTransactionResponse.getUser().getId();
 //                    Toast.makeText(getActivity(), String.valueOf(date), Toast.LENGTH_SHORT).show();
                     walletAdapter = new WalletTransactionAdapter(getContext() , list);
                     recyclerView.setAdapter(walletAdapter);
                     walletAdapter.notifyDataSetChanged();
-                    myWalletMyCash.setText("₹ "+walletTransactionResponse.getUser().getWalletAmount().toString());
-                    myWalletMyRewards.setText("₹ "+walletTransactionResponse.getUser().getPsWalletAmount().toString());
+
+                    int myReward = response.body().getUser().getParcelWalletAmount()+response.body().getUser().getPsWalletAmount()
+                            +response.body().getUser().getCourierWalletAmount();
+
+                    myWalletMyCash.setText("₹ "+response.body().getUser().getMarketingWalletAmount().toString());
+                    myWalletMyRewards.setText("₹ "+String.valueOf(myReward));
                     LoadingDialog.cancelLoading();
+                    int number = recyclerView.getAdapter().getItemCount();
+                    if (number == 0) {
+                        showMoreContent.setVisibility(View.GONE);
+
+                    } else {
+                        showMoreContent.setVisibility(View.VISIBLE);
+
+                    }
+
+                    walletAdapter.notifyDataSetChanged();
                 }
             }
 

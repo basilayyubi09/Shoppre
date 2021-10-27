@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +48,12 @@ public class AddAddress extends Fragment {
     EditText name, addressLine1, addressLine2, city, state, pinCode, phoneNumber;
     AppCompatCheckBox checkBox;
     MaterialButton addAddressBtn;
+    List<Item> list , duplicateList;
+    ArrayAdapter<Item> arrayAdapter;
     int countryId;
     boolean is_default = false;
-    String[] titleValue = {"Mr.", "Mrs."};
-    String[] countryValue = {"India", "California"};
-    String[] phoneNoValue = {"+1" , "+91" , "+98" , "+92"};
+    String[] n = {"a", "b"};
+    String[] titleValue = {"Mr", "Ms","Mrs"};
     String nameString , addressLine1String , addressLine2String ,countryCode
             ,cityString , stateString , pinCodeString , phoneNumberString , salutation  , country;
     Integer cc;
@@ -61,6 +64,8 @@ public class AddAddress extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_adress, container, false);
+
+        setCountryList("");
 
         //Hooks
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
@@ -89,24 +94,12 @@ public class AddAddress extends Fragment {
         addAddressBtn = view.findViewById(R.id.addAddressBtn);
         closeBtn = view.findViewById(R.id.closeBtn);
 
-        spinnerCountry.addTextChangedListener(new TextWatcher() {
+
+
+        spinnerCountry.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length()>1){
-                  setCountryList(spinnerCountry.getText().toString().trim());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                setCountryList(spinnerCountry.getText().toString().trim());
-
+            public void onClick(View view) {
+                showDialogue();
             }
         });
         getTextFromField();
@@ -137,6 +130,73 @@ public class AddAddress extends Fragment {
         });
 
         return view;
+    }
+
+    private void showDialogue() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View row = getLayoutInflater().inflate(R.layout.country_dialog,null);
+
+        ListView listView  = row.findViewById(R.id.dialogListView);
+        TextInputLayout inputLayout = row.findViewById(R.id.dialogSearch);
+
+
+        AlertDialog dialog = builder.create();
+        arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1,list);
+        listView.setAdapter(arrayAdapter);
+        listView.setTextFilterEnabled(true);
+        dialog.setView(row);
+
+        listView.setTextFilterEnabled(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Object item  = adapterView.getItemAtPosition(i);
+                if (item instanceof Item){
+                    Item item1 = (Item) item;
+                    String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
+                    cc  = ((Item) item).getPhoneCode();
+                    countryId = ((Item) item).getId();
+                    spinnerPhoneNo.setText("+"+cc);
+                }
+                Toast.makeText(getContext(), adapterView.getItemAtPosition(i).toString()+"\t"+cc+"\t"+countryId, Toast.LENGTH_SHORT).show();
+                spinnerCountry.setText(adapterView.getItemAtPosition(i).toString());
+                inputLayout.getEditText().setText("");
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+
+    inputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if (charSequence.equals(null)|| charSequence.length()==0) {
+                arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+                arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1,list);
+                listView.setAdapter(arrayAdapter);
+            setCountryList(editable.toString());
+            arrayAdapter.getFilter().filter(editable);
+            arrayAdapter.notifyDataSetChanged();
+
+        }
+    });
+
+
     }
 
 
@@ -170,7 +230,7 @@ public class AddAddress extends Fragment {
         paramObject.addProperty("is_default", is_default);
         paramObject.addProperty("customer_id", sharedPrefManager.getId());
         paramObject.addProperty("is_billing_address", false);
-       
+
         String bearerToken = sharedPrefManager.getBearerToken();
         Call<AddAddressResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().addAddress("Bearer "+bearerToken, paramObject.toString());
@@ -248,7 +308,7 @@ public class AddAddress extends Fragment {
         spinnerTitle.setAdapter(tittleArrayAdapter);
 
 
-       setCountryList("");
+
     }
 
     private void setCountryList(String typedString) {
@@ -259,25 +319,8 @@ public class AddAddress extends Fragment {
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
                 if (response.code()==200){
-                    List<Item> list = response.body().getItems();
-
-
-                    ArrayList countryArrayList = new ArrayList<>(list);
-                    ArrayAdapter<Item> countryArrayAdapter = new ArrayAdapter<Item>(getContext(), R.layout.country_spinner, list);
-                    spinnerCountry.setAdapter(countryArrayAdapter);
-                    spinnerCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Object item  = adapterView.getItemAtPosition(i);
-                            if (item instanceof Item){
-                                Item item1 = (Item) item;
-                                String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
-                                cc  = ((Item) item).getPhoneCode();
-                                countryId = ((Item) item).getId();
-                                spinnerPhoneNo.setText("+"+cc);
-                            }
-                        }
-                    });
+                   list = response.body().getItems();
+                   duplicateList = response.body().getItems();
 
                 }
             }

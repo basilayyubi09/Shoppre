@@ -17,13 +17,13 @@ public class RetrofitClient3 {
     RetrofitClient3() {
         retrofit3 = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(okHttpClient)
+                .client(okHttpClient1)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public static OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    public static OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS)
             .build();

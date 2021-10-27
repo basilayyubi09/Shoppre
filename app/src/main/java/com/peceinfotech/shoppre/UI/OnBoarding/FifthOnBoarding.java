@@ -2,24 +2,26 @@ package com.peceinfotech.shoppre.UI.OnBoarding;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
-import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.LoginActivity;
 
 public class FifthOnBoarding extends Fragment {
 
     private Button startShopping;
     ImageView backBtn4;
+    TextView lockerNo;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,12 +31,17 @@ public class FifthOnBoarding extends Fragment {
 
         startShopping = view.findViewById(R.id.startShoppingBtn);
         backBtn4 = view.findViewById(R.id.back_arrow4);
+        lockerNo = view.findViewById(R.id.lockerNo);
 
-        
+
+
+
+
         startShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity() , OrderActivity.class));
+                startActivity(new Intent(getActivity() , LoginActivity.class));
+                Toast.makeText(getActivity(), "Sign Up Successful please sign in to continue", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
         });
@@ -49,4 +56,6 @@ public class FifthOnBoarding extends Fragment {
 
         return view;
     }
+
+
 }

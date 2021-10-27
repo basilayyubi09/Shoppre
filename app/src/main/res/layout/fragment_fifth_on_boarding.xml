@@ -88,13 +88,39 @@
                         android:textSize="18sp"
                         android:textFontWeight="600"
                         android:textColor="@color/black"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Locker No. "
+                            android:textSize="18sp"
+                            android:textFontWeight="500"
+                            android:textColor="@color/black"
+                            android:lineHeight="22dp"/>
+                        <TextView
+                            android:id="@+id/lockerNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SA-29J17-122545,"
+                            android:textSize="18sp"
+                            android:textFontWeight="500"
+                            android:textColor="@color/black"
+                            android:lineHeight="22dp"/>
+                    </LinearLayout>
+
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/locker_no_sa_29j17_122545_indian_shoppre_llp_182_1st_floor_2nd_cross_rd_7th_main_koramangala_1st_block_bengaluru_karnataka_560_034"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
+
                         android:layout_marginRight="17dp"
                         android:layout_marginBottom="15dp"
                         android:textSize="18sp"

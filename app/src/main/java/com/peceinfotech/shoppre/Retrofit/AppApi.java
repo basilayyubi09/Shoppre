@@ -18,7 +18,7 @@ public interface AppApi {
 
 
     //Me Response
-
+//    https://staging-app.shoppreglobal.com/api/users/me
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("api/users/me")
     Call<MeResponse> getUser(
@@ -29,7 +29,7 @@ public interface AppApi {
     //https://staging-app1.shoppreglobal.com/api/addresses
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/addresses")
-    Call<AddAddressResponse> addAddress(@Body String jsonObject , @Header("Authorization") String auth );
+    Call<AddAddressResponse> addAddress(@Header("Authorization") String auth, @Body String jsonObject  );
 
 
     //Country Array
