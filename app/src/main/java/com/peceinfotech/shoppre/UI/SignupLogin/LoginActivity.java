@@ -376,7 +376,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoadingDialog.cancelLoading();
 
                 if (response.code() == 200) {
-                    clearFields();
+
                     checkLogin = "login";
                     callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
@@ -418,6 +418,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (signUpGoogleResponse.getToken()!=null) {
                        checkLogin = "signup";
+                        callAuthApi(response.body().getToken().getAccessToken());
                     } else if (signUpGoogleResponse.getToken()==null) {
                         signInGoogle(email, firstName, lastName);
                     }
