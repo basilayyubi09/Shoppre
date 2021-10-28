@@ -21,12 +21,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
-import com.peceinfotech.shoppre.UI.OnBoarding.FirstOnBoarding;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -47,6 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
     LinearLayout main;
+    String checkLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -423,11 +424,9 @@ public class SignUpActivity extends AppCompatActivity {
                 LoadingDialog.cancelLoading();
 
                 if (response.code() == 200) {
-                    sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(email);
-                    sharedPrefManager.storeGrantType("google");
-                    startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
-                    finish();
+
+                    checkLogin = "login";
+                    callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
                     signUpGoogle(email, firstName, lastName);
                 }
@@ -465,12 +464,8 @@ public class SignUpActivity extends AppCompatActivity {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
                     if (signUpGoogleResponse.getToken() != null) {
-                        LoadingDialog.cancelLoading();
-                        sharedPrefManager.storeEmail(email);
-                        sharedPrefManager.storeGrantType("google");
-                        sharedPrefManager.setLogin();
-                        startActivity(new Intent(SignUpActivity.this, FirstOnBoarding.class));
-                        finish();
+                        checkLogin = "signup";
+                        callAuthApi(response.body().getToken().getAccessToken());
                     } else if (signUpGoogleResponse.getToken() == null) {
                         signInGoogle(email, firstName, lastName);
                     }
@@ -505,5 +500,101 @@ public class SignUpActivity extends AppCompatActivity {
 
             return true;
         }
+    }
+    private void callAuthApi(String bearer) {
+        String bearerToken = bearer;
+
+        JsonObject paramObject = new JsonObject();
+
+        paramObject.addProperty("allow", "true");
+        paramObject.addProperty("client_id", "app1");
+        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+        paramObject.addProperty("response_type", "code");
+
+
+        Call<String> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAuth("Bearer "+bearerToken , paramObject.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.code()==200){
+                    String code = response.body();
+                    //split string from = sign
+                    String[] parts = code.split("=");
+                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+                    String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
+//                    Log.d("Auth api response ",code);
+                    callAccessTokenApi(part2 , bearerToken);
+
+                }
+                else if (response.code()==401){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+    private void callAccessTokenApi(String part2, String bearer1) {
+
+        String auth =bearer1;
+        Call<AccessTokenResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAccessToken(part2 , auth);
+        call.enqueue(new Callback<AccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+                if (response.code()==200){
+//                  callMeApi(response.body().getAccessToken());
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.setLogin();
+                    LoadingDialog.cancelLoading();
+                    if (checkLogin.equals("login")){
+                        startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                        finish();
+                    }
+                }
+
+                else if (response.code()==400){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
     }
 }
