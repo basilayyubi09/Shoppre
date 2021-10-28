@@ -65,17 +65,15 @@ public class OrderActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
         fragmentTransaction.commit();
 
-        if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+        if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
         {
 
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection",Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
             snackbar.show();
-        }
-        else
-        {
-            //Call me api
-            LoadingDialog.showLoadingDialog(OrderActivity.this , "Loading...");
-            callApi();
+        } else {
+            String token = sharedPrefManager.getBearerToken();
+            LoadingDialog.showLoadingDialog(OrderActivity.this, "");
+            callMeApi(token);
         }
 
 
@@ -198,13 +196,13 @@ public class OrderActivity extends AppCompatActivity {
         Call<MeResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .getUser("Bearer "+bearerToken);
+                .getUser("Bearer " + bearerToken);
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
                 MeResponse meResponse = response.body();
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
                     sharedPrefManager.storeLastName(response.body().getLastName());
@@ -215,13 +213,12 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
 
                     Toast.makeText(getApplicationContext(), response.body().getSalutation()
-                            +"\n"+response.body().getFirstName()+"\n" +
-                            response.body().getLastName()+"\n"+
-                            response.body().getName()+"\n"+
-                            response.body().getEmail()+"\n"+
+                            + "\n" + response.body().getFirstName() + "\n" +
+                            response.body().getLastName() + "\n" +
+                            response.body().getName() + "\n" +
+                            response.body().getEmail() + "\n" +
                             response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
-                }
-                else  if(response.code() == 401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
                 }
@@ -252,8 +249,7 @@ public class OrderActivity extends AppCompatActivity {
                 } else if (response.code() == 400) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
-                }
-                else if (response.code() == 500) {
+                } else if (response.code() == 500) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }

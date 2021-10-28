@@ -101,7 +101,8 @@
                                 android:paddingStart="6dp"
                                 app:icon="@mipmap/clipboard"
                                 app:iconSize="20dp"
-                                app:iconTint="@color/black" />
+                                app:iconTint="@color/black"
+                                android:id="@+id/copyBtn"/>
 
                         </RelativeLayout>
 

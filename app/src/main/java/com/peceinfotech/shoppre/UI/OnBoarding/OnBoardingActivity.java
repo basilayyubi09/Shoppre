@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
@@ -18,23 +19,25 @@ public class OnBoardingActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     LinearLayout on;
+    SharedPrefManager sharedPrefManager ;
+    String token;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
-
+        sharedPrefManager = new SharedPrefManager(OnBoardingActivity.this);
         fragmentManager = getSupportFragmentManager();
         on = findViewById(R.id.onboarding_container);
         sharedPreferences = getSharedPreferences("SharedPref", MODE_PRIVATE);
         boolean isFirstTime = sharedPreferences.getBoolean("firstTime", true);
 
+
         if (!isFirstTime) {
             startActivity(new Intent(OnBoardingActivity.this, OrderActivity.class));
         } else {
-//            callMeApi();
-//            LoadingDialog.showLoadingDialog(OnBoardingActivity.this, "");
+
             if (findViewById(R.id.onboarding_container) != null) {
                 if (savedInstanceState != null) {
                     return;
@@ -93,45 +96,5 @@ public class OnBoardingActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-//private void callMeApi() {
-//    String token = sharedPrefManager.getBearerToken();
-//    Call<MeResponse> call = RetrofitClient3
-//            .getInstance3()
-//            .getAppApi()
-//            .getUser("Bearer "+token);
-//    call.enqueue(new Callback<MeResponse>() {
-//        @Override
-//        public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
-//
-//            if (response.code() == 200){
-//                LoadingDialog.cancelLoading();
-//                sharedPrefManager.storeFirstName(response.body().getFirstName());
-//                sharedPrefManager.storeLastName(response.body().getLastName());
-//                sharedPrefManager.storeFullName(response.body().getName());
-//                sharedPrefManager.storeEmail(response.body().getEmail());
-//                sharedPrefManager.storeId(response.body().getId());
-//                sharedPrefManager.storeSalutation(response.body().getSalutation());
-//                sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
-//
-//                Toast.makeText(getApplicationContext(), response.body().getSalutation()
-//                        +"\n"+response.body().getFirstName()+"\n" +
-//                        response.body().getLastName()+"\n"+
-//                        response.body().getName()+"\n"+
-//                        response.body().getEmail()+"\n"+
-//                        response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
-//            }
-//            else  if(response.code() == 401){
-//                LoadingDialog.cancelLoading();
-//                Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(Call<MeResponse> call, Throwable t) {
-//
-//            LoadingDialog.cancelLoading();
-//            Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-//        }
-//    });
-//}
+
 }

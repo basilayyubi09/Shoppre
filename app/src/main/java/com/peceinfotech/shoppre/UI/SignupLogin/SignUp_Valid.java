@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +40,7 @@ public class SignUp_Valid extends AppCompatActivity {
     TextView signUpValdAlrdyAcnt, passwordErrorText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
+    String emailId, password, confirmPassword,checkLogin, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage, backArrow;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     SharedPrefManager sharedPrefManager;
@@ -212,10 +211,6 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
 
-                //print respone
-                Log.e(" Full json gson => ", String.valueOf(paramObject));
-                Log.e(" responce => ", response.toString());
-                Log.e(" Message => ", response.body().toString());
 
                 String message = "Already User Is Registered, Please Verify Your email To Continue";
 
@@ -225,21 +220,14 @@ public class SignUp_Valid extends AppCompatActivity {
                 if (registerVerifyResponse.getMessage().equals(message))
                 {
                     LoadingDialog.cancelLoading();
-
                     Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
                     intent.putExtra("flag" , 1);
                     startActivity(intent);
                     finish();
                 } else {
-                    clearFields();
                     String bearer = response.body().getToken().getAccessToken();
-                    sharedPrefManager.storeBearerToken(bearer);
-                    LoadingDialog.cancelLoading();
-//                    Log.d("signup valid toekn", "Bearer "+bearer);
-//                    callAuthApi(bearer);
+                    callAuthApi(bearer);
 
-                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
-                    finish();
                 }
             }
 
@@ -273,13 +261,12 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
                     String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
-                    Log.d("Auth api response ",code);
+//                    Log.d("Auth api response ",code);
                     callAccessTokenApi(part2 , bearerToken);
 
                 }
@@ -306,7 +293,7 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
     private void callAccessTokenApi(String part2, String bearer1) {
-            Log.d("On Accessh token toekn","Bearer "+bearer1);
+
         String auth =bearer1;
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
@@ -317,15 +304,12 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
                     LoadingDialog.cancelLoading();
-//                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-//                    String t = sharedPrefManager.getBearerToken();
-                    Log.d("Access token response toekn","Bearer "+response.body().getAccessToken());
-                    Intent intent = new Intent(SignUp_Valid.this , OrderActivity.class);
-                    intent.putExtra("token" , response.body().getAccessToken());
-                    startActivity(intent);
-//                    startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
-//                    finish();
+                    String token = response.body().getAccessToken();
+                    sharedPrefManager.storeBearerToken(token);
+                    clearFields();
 
+                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
+                    finish();
                 }
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
