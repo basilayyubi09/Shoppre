@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,10 +19,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
+import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -41,7 +42,7 @@ public class SignUp_Valid extends AppCompatActivity {
     TextView signUpValdAlrdyAcnt, passwordErrorText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String emailId, password, confirmPassword, referalCode, firstName, lastName , emailIdFromIntent;
+    String emailId, password, confirmPassword,checkLogin, referalCode, firstName, lastName , emailIdFromIntent;
     ImageView strengthImage, backArrow;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     SharedPrefManager sharedPrefManager;
@@ -212,10 +213,6 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
 
-                //print respone
-                Log.e(" Full json gson => ", String.valueOf(paramObject));
-                Log.e(" responce => ", response.toString());
-                Log.e(" Message => ", response.body().toString());
 
                 String message = "Already User Is Registered, Please Verify Your email To Continue";
 
@@ -225,7 +222,6 @@ public class SignUp_Valid extends AppCompatActivity {
                 if (registerVerifyResponse.getMessage().equals(message))
                 {
                     LoadingDialog.cancelLoading();
-
                     Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
                     intent.putExtra("flag" , 1);
                     startActivity(intent);
@@ -233,13 +229,8 @@ public class SignUp_Valid extends AppCompatActivity {
                 } else {
                     clearFields();
                     String bearer = response.body().getToken().getAccessToken();
-                    sharedPrefManager.storeBearerToken(bearer);
-                    LoadingDialog.cancelLoading();
-//                    Log.d("signup valid toekn", "Bearer "+bearer);
-//                    callAuthApi(bearer);
+                    callAuthApi(bearer);
 
-                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
-                    finish();
                 }
             }
 
@@ -273,13 +264,12 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
                     String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
-                    Log.d("Auth api response ",code);
+//                    Log.d("Auth api response ",code);
                     callAccessTokenApi(part2 , bearerToken);
 
                 }
@@ -306,7 +296,7 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
     private void callAccessTokenApi(String part2, String bearer1) {
-            Log.d("On Accessh token toekn","Bearer "+bearer1);
+
         String auth =bearer1;
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
@@ -316,16 +306,7 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
-//                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-//                    String t = sharedPrefManager.getBearerToken();
-                    Log.d("Access token response toekn","Bearer "+response.body().getAccessToken());
-                    Intent intent = new Intent(SignUp_Valid.this , OrderActivity.class);
-                    intent.putExtra("token" , response.body().getAccessToken());
-                    startActivity(intent);
-//                    startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
-//                    finish();
-
+                   callMeApi(response.body().getAccessToken());
                 }
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
@@ -349,7 +330,52 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
+    private void callMeApi(String token) {
 
+        Call<MeResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .getUser("Bearer "+token);
+        call.enqueue(new Callback<MeResponse>() {
+            @Override
+            public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
+
+                if (response.code() == 200){
+
+                    sharedPrefManager.storeFirstName(response.body().getFirstName());
+                    sharedPrefManager.storeLastName(response.body().getLastName());
+                    sharedPrefManager.storeFullName(response.body().getName());
+                    sharedPrefManager.storeEmail(response.body().getEmail());
+                    sharedPrefManager.storeId(response.body().getId());
+                    sharedPrefManager.storeSalutation(response.body().getSalutation());
+                    sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
+                    sharedPrefManager.setLogin();
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
+                            +"\n"+response.body().getFirstName()+"\n" +
+                            response.body().getLastName()+"\n"+
+                            response.body().getName()+"\n"+
+                            response.body().getEmail()+"\n"+
+                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
+
+                        startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
+                        finish();
+
+                }
+                else  if(response.code() == 401){
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MeResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void clearFields() {
         firstlNameField.getEditText().setText("");

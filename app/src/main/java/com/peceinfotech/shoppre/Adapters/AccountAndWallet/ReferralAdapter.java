@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peceinfotech.shoppre.Models.RefferalDummyModel;
+import com.peceinfotech.shoppre.AccountResponse.ReferralHistory;
 import com.peceinfotech.shoppre.R;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.List;
 public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.viewHolder> {
 
     Context context;
-    List<RefferalDummyModel> list ;
+    List<ReferralHistory> list ;
 
-    public ReferralAdapter(Context context, List<RefferalDummyModel> list) {
+    public ReferralAdapter(Context context, List<ReferralHistory> list) {
         this.context = context;
         this.list = list;
     }
@@ -35,9 +35,9 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.viewHo
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.image.setImageResource(list.get(position).getImage());
-        holder.mainText.setText(list.get(position).getMainText());
-        holder.date.setText(list.get(position).getDate());
+        holder.image.setImageResource(R.drawable.ic_account);
+        holder.mainText.setText(list.get(position).getName());
+        holder.date.setText(list.get(position).getCreatedAt());
     }
 
     @Override

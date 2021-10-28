@@ -1,25 +1,22 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AccountWalletActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -149,6 +146,14 @@ public class ViewProfile extends Fragment {
             }
         });
 
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPrefManager.logOut();
+                startActivity(new Intent(getActivity() , SignUpActivity.class));
+                getActivity().finish();
+            }
+        });
 
 
 

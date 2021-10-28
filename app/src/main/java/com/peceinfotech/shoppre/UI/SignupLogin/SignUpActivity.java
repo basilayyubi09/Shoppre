@@ -54,8 +54,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         sharedPrefManager = new SharedPrefManager(SignUpActivity.this);
-        if (sharedPrefManager.checkLogin()){
-            startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+        if (sharedPrefManager.checkLogin()) {
+            startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
             finish();
         }
 
@@ -109,14 +109,12 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                 {
 
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else
-                {
+                } else {
                     signIn();
                     LoadingDialog.showLoadingDialog(SignUpActivity.this, getString(R.string.Loading));
                 }
@@ -252,16 +250,16 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getCode() == 201) {
+                    if (signUpGoogleResponse.getToken() != null) {
                         LoadingDialog.cancelLoading();
 
                         sharedPrefManager.storeEmail(emailId);
                         sharedPrefManager.storeGrantType("facebook");
                         sharedPrefManager.setLogin();
-                        startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
                         finish();
 
-                    } else if (signUpGoogleResponse.getCode() == 409) {
+                    } else if (signUpGoogleResponse.getToken() == null) {
                         signInFacebook(emailId, firstName, lastName);
                     }
                 }
@@ -289,7 +287,7 @@ public class SignUpActivity extends AppCompatActivity {
                     sharedPrefManager.storeEmail(email);
                     sharedPrefManager.storeGrantType("facebook");
                     sharedPrefManager.setLogin();
-                    startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
                     finish();
                 } else if (response.code() == 400) {
                     signUpFacebook(email, firstName, lastName);
@@ -428,7 +426,7 @@ public class SignUpActivity extends AppCompatActivity {
                     sharedPrefManager.setLogin();
                     sharedPrefManager.storeEmail(email);
                     sharedPrefManager.storeGrantType("google");
-                    startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
                     finish();
                 } else if (response.code() == 400) {
                     signUpGoogle(email, firstName, lastName);
@@ -466,14 +464,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getCode() == 201) {
+                    if (signUpGoogleResponse.getToken() != null) {
                         LoadingDialog.cancelLoading();
                         sharedPrefManager.storeEmail(email);
                         sharedPrefManager.storeGrantType("google");
                         sharedPrefManager.setLogin();
-                        startActivity(new Intent(SignUpActivity.this , FirstOnBoarding.class));
+                        startActivity(new Intent(SignUpActivity.this, FirstOnBoarding.class));
                         finish();
-                    } else if (signUpGoogleResponse.getCode() == 409) {
+                    } else if (signUpGoogleResponse.getToken() == null) {
                         signInGoogle(email, firstName, lastName);
                     }
                 }

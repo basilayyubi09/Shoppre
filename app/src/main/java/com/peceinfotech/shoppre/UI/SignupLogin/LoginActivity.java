@@ -21,12 +21,15 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
+import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -43,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout passwordField;
     MaterialButton loginBtn, googleLoginBtn, fbLoginBtn;
     LinearLayout main;
-    String emailId, password;
+    String emailId, password , checkLogin;
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     TextInputLayout loginEmailIdField;
@@ -232,14 +235,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getCode() == 201) {
+                    if (signUpGoogleResponse.getToken()!= null) {
 
-                        sharedPrefManager.setLogin();
-                        sharedPrefManager.storeEmail(emailId);
-                        sharedPrefManager.storeGrantType("facebook");
-                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
-                        LoadingDialog.cancelLoading();
-                    } else if (signUpGoogleResponse.getCode() == 409) {
+                        checkLogin = "signup";
+                        callAuthApi(signUpGoogleResponse.getToken().getAccessToken());
+                    } else if (signUpGoogleResponse.getToken()==null) {
                         signInFacebook(emailId, firstName, lastName);
                     }
                 }
@@ -263,12 +263,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
-
-                    LoadingDialog.cancelLoading();
-                    sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(email);
-                    sharedPrefManager.storeGrantType("facebook");
-                    startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                    checkLogin = "login";
+                    callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
                     signUpFacebook(email, firstName, lastName);
                 }
@@ -296,12 +292,10 @@ public class LoginActivity extends AppCompatActivity {
 
 //                signInDirectResponse.getCode();
                 if (code != 400) {
-                    LoadingDialog.cancelLoading();
                     clearFields();
-                    sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(emailId);
-                    startActivity(new Intent(LoginActivity.this , OrderActivity.class));
-                    finish();
+                    String token = response.body().getAccessToken();
+                    checkLogin = "login";
+                    callAuthApi(token);
                 } else {
                     LoadingDialog.cancelLoading();
                     showError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
@@ -383,10 +377,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
                     clearFields();
-                    sharedPrefManager.setLogin();
-                    sharedPrefManager.storeEmail(emailId);
-                    sharedPrefManager.storeGrantType("google");
-                    startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                    checkLogin = "login";
+                    callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
                     signUpGoogle(emailId, firstName, lastName);
                 }
@@ -424,13 +416,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getCode() == 201) {
-                        LoadingDialog.cancelLoading();
-                        sharedPrefManager.setLogin();
-                        sharedPrefManager.storeEmail(email);
-                        sharedPrefManager.storeGrantType("google");
-                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
-                    } else if (signUpGoogleResponse.getCode() == 409) {
+                    if (signUpGoogleResponse.getToken()!=null) {
+                       checkLogin = "signup";
+                    } else if (signUpGoogleResponse.getToken()==null) {
                         signInGoogle(email, firstName, lastName);
                     }
                 }
@@ -505,6 +493,143 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void callAuthApi(String bearer) {
+        String bearerToken = bearer;
+
+        JsonObject paramObject = new JsonObject();
+
+        paramObject.addProperty("allow", "true");
+        paramObject.addProperty("client_id", "app1");
+        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+        paramObject.addProperty("response_type", "code");
+
+
+        Call<String> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAuth("Bearer "+bearerToken , paramObject.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.code()==200){
+                    String code = response.body();
+                    //split string from = sign
+                    String[] parts = code.split("=");
+                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+                    String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
+//                    Log.d("Auth api response ",code);
+                    callAccessTokenApi(part2 , bearerToken);
+
+                }
+                else if (response.code()==401){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void callAccessTokenApi(String part2, String bearer1) {
+
+        String auth =bearer1;
+        Call<AccessTokenResponse> call = RetrofitClient
+                .getInstance()
+                .getApi()
+                .getAccessToken(part2 , auth);
+        call.enqueue(new Callback<AccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+                if (response.code()==200){
+                  callMeApi(response.body().getAccessToken());
+                }
+                else if (response.code()==400){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+    private void callMeApi(String token) {
+
+        Call<MeResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .getUser("Bearer "+token);
+        call.enqueue(new Callback<MeResponse>() {
+            @Override
+            public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
+
+                if (response.code() == 200){
+
+                    sharedPrefManager.storeFirstName(response.body().getFirstName());
+                    sharedPrefManager.storeLastName(response.body().getLastName());
+                    sharedPrefManager.storeFullName(response.body().getName());
+                    sharedPrefManager.storeEmail(response.body().getEmail());
+                    sharedPrefManager.storeId(response.body().getId());
+                    sharedPrefManager.storeSalutation(response.body().getSalutation());
+                    sharedPrefManager.storeBearerToken(token);
+                    sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
+                    sharedPrefManager.setLogin();
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
+                            +"\n"+response.body().getFirstName()+"\n" +
+                            response.body().getLastName()+"\n"+
+                            response.body().getName()+"\n"+
+                            response.body().getEmail()+"\n"+
+                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
+                    if (checkLogin.equals("login")){
+                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
+                        finish();
+                    }
+
+                }
+                else  if(response.code() == 401){
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MeResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
 
 

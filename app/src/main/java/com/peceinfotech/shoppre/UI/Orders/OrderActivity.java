@@ -71,12 +71,7 @@ public class OrderActivity extends AppCompatActivity {
             Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection",Snackbar.LENGTH_LONG);
             snackbar.show();
         }
-        else
-        {
-            //Call me api
-            LoadingDialog.showLoadingDialog(OrderActivity.this , "Loading...");
-            callApi();
-        }
+
 
 
         order.setOnClickListener(new View.OnClickListener() {
