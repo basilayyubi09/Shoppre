@@ -63,8 +63,11 @@
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/edit_text_bg_2.xml" value="1.0107142857142857" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/edit_text_bg_3.xml" value="0.2203125" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_forgot_password1.xml" value="0.2203125" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_help___faq.xml" value="0.2203125" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_medium.xml" value="0.2101851851851852" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_shipping_calculator.xml" value="0.2203125" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_strong.xml" value="0.2101851851851852" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_virtual_address.xml" value="0.2203125" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/ic_weak.xml" value="0.2101851851851852" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/locker_selector.xml" value="0.2203125" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/drawable/onboarding1.xml" value="0.21203703703703702" />
@@ -95,6 +98,7 @@
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_first_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_fourth_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_order.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_order_listing.xml" value="0.25" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_secound_on_boarding.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_third_on_boarding.xml" value="0.22" />
         <entry key="..\:/Users/hp/shoppre-android/app/src/main/res/layout/fragment_vertual_address.xml" value="0.20102564102564102" />
