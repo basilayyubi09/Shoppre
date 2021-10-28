@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +45,8 @@ public class WalletFragment extends Fragment {
     RelativeLayout readMoreLayout;
     SharedPrefManager sharedPrefManager;
     String bearerToken;
-    TextView myWalletMyCash, myWalletMyRewards;
+    TextView myWalletMyCash, myWalletMyRewards, emptyWalletText;
+    ImageView emptyWalletImage;
 
 
 
@@ -61,6 +63,8 @@ public class WalletFragment extends Fragment {
         recyclerView = view.findViewById(R.id.walletTransactionRecycle);
         readMoreLayout = view.findViewById(R.id.readMoreLayout);
         showMoreContent = view.findViewById(R.id.showMoreContent);
+        emptyWalletImage = view.findViewById(R.id.emptyWalletImage);
+        emptyWalletText = view.findViewById(R.id.emptyWalletText);
 
 
         //Initialize
@@ -111,6 +115,13 @@ public class WalletFragment extends Fragment {
 //                    Toast.makeText(getActivity(), String.valueOf(date), Toast.LENGTH_SHORT).show();
                     walletAdapter = new WalletTransactionAdapter(getContext() , list);
                     recyclerView.setAdapter(walletAdapter);
+
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyWalletImage.setVisibility(View.GONE);
+                    emptyWalletText.setVisibility(View.GONE);
+                    showMoreContent.setVisibility(View.VISIBLE);
+
+
                     walletAdapter.notifyDataSetChanged();
 
                     int myReward = response.body().getUser().getParcelWalletAmount()+response.body().getUser().getPsWalletAmount()
@@ -129,6 +140,11 @@ public class WalletFragment extends Fragment {
                     }
 
                     walletAdapter.notifyDataSetChanged();
+                }else{
+
+                    emptyWalletImage.setVisibility(View.VISIBLE);
+                    emptyWalletText.setVisibility(View.VISIBLE);
+                    showMoreContent.setVisibility(View.GONE);
                 }
             }
 
