@@ -19,12 +19,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
-import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -227,7 +225,6 @@ public class SignUp_Valid extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    clearFields();
                     String bearer = response.body().getToken().getAccessToken();
                     callAuthApi(bearer);
 
@@ -306,7 +303,13 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
-                   callMeApi(response.body().getAccessToken());
+                    LoadingDialog.cancelLoading();
+                    String token = response.body().getAccessToken();
+                    sharedPrefManager.storeBearerToken(token);
+                    clearFields();
+
+                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
+                    finish();
                 }
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
@@ -330,52 +333,7 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
-    private void callMeApi(String token) {
 
-        Call<MeResponse> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi()
-                .getUser("Bearer "+token);
-        call.enqueue(new Callback<MeResponse>() {
-            @Override
-            public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
-
-                if (response.code() == 200){
-
-                    sharedPrefManager.storeFirstName(response.body().getFirstName());
-                    sharedPrefManager.storeLastName(response.body().getLastName());
-                    sharedPrefManager.storeFullName(response.body().getName());
-                    sharedPrefManager.storeEmail(response.body().getEmail());
-                    sharedPrefManager.storeId(response.body().getId());
-                    sharedPrefManager.storeSalutation(response.body().getSalutation());
-                    sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
-                    sharedPrefManager.setLogin();
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
-                            +"\n"+response.body().getFirstName()+"\n" +
-                            response.body().getLastName()+"\n"+
-                            response.body().getName()+"\n"+
-                            response.body().getEmail()+"\n"+
-                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
-
-                        startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
-                        finish();
-
-                }
-                else  if(response.code() == 401){
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MeResponse> call, Throwable t) {
-
-                LoadingDialog.cancelLoading();
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void clearFields() {
         firstlNameField.getEditText().setText("");

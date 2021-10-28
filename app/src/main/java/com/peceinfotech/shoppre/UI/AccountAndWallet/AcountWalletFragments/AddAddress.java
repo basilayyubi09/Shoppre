@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,6 +51,9 @@ public class AddAddress extends Fragment {
     MaterialButton addAddressBtn;
     List<Item> list , duplicateList;
     ArrayAdapter<Item> arrayAdapter;
+    String type;
+    int id;
+    TextView title;
     int countryId;
     boolean is_default = false;
     String[] n = {"a", "b"};
@@ -71,6 +75,7 @@ public class AddAddress extends Fragment {
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
         spinnerPhoneNo = view.findViewById(R.id.countryCode);
+        title = view.findViewById(R.id.title);
 
         name = view.findViewById(R.id.name);
         salutationText = view.findViewById(R.id.salutationTextInput);
@@ -96,6 +101,14 @@ public class AddAddress extends Fragment {
 
 
 
+        Intent intent = getActivity().getIntent();
+//       if (intent.getExtras() != null) {
+            type = intent.getStringExtra("type");
+            id = intent.getIntExtra("id" , 1);
+//        }
+        //Retrieve the value
+
+
         spinnerCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,9 +127,15 @@ public class AddAddress extends Fragment {
                         || !validatePinCode() || !validateCountryCode() ||!validatePhone()){
                     return;
                 }
-                    LoadingDialog.showLoadingDialog(getActivity() , "");
+                if (type.equals("update")){
+                    Toast.makeText(getActivity(), id+"\n"+type, Toast.LENGTH_SHORT).show();
+                    title.setText("Update Address");
+                }
+                else {
+                    title.setText("Address Book");
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
                     callApi(view);
-
+                }
             }
         });
 

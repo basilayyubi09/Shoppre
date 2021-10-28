@@ -555,8 +555,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
-                  callMeApi(response.body().getAccessToken());
+//                  callMeApi(response.body().getAccessToken());
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.setLogin();
+                    LoadingDialog.cancelLoading();
+                    if (checkLogin.equals("login")){
+                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
+                        finish();
+                    }
                 }
+
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);

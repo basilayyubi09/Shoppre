@@ -93,6 +93,14 @@ public class WalletFragment extends Fragment {
             callApi();
         }
 
+        int number = recyclerView.getAdapter().getItemCount();
+        if (number == 0) {
+            showMoreContent.setVisibility(View.GONE);
+
+        } else {
+            showMoreContent.setVisibility(View.VISIBLE);
+
+        }
 
 
 

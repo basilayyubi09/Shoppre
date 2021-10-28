@@ -32,7 +32,8 @@
                     android:text="Address Book"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:id="@+id/title"/>
 
 
 

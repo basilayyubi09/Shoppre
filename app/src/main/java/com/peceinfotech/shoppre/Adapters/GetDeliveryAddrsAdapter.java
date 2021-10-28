@@ -5,9 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +55,26 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         holder.state.setText(address.getState());
         holder.country.setText(address.getCountry().getName());
         holder.deliverToContact.setText(address.getPhone());
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Put the value
+//                AddAddress addAddress = new AddAddress();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("type", "update");
+//                bundle.putInt("id" ,address.getId() );
+//                addAddress.setArguments(bundle);
+//
+//                //Inflate the fragment
+//                OrderActivity.fragmentManager.beginTransaction()
+//                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
+//                        .addToBackStack(null).commit();
+
+                Toast.makeText(context.getApplicationContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
 
@@ -101,6 +121,8 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -108,7 +130,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView deliverToName, line1, state, country, deliverToContact;
+        TextView deliverToName, line1, state, country, deliverToContact , edit , delete;
         MaterialButton defaultBtn;
         RadioButton addrsRadioBtn;
         setDefaultAddress mListener;
@@ -121,6 +143,8 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
             this.mListener = mListener;
             deliverToName = itemView.findViewById(R.id.deliverToName);
+            edit = itemView.findViewById(R.id.edit);
+            delete = itemView.findViewById(R.id.delete);
             line1 = itemView.findViewById(R.id.line1);
             state = itemView.findViewById(R.id.state);
             country = itemView.findViewById(R.id.country);

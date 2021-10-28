@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/editDeliveryAddress"
+                            android:id="@+id/edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
@@ -122,7 +122,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/deleteDeliveryAddrs"
+                            android:id="@+id/delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
