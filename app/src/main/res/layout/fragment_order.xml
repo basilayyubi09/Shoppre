@@ -78,6 +78,7 @@
                                 android:textFontWeight="700"
                                 android:textSize="10sp"
                                 app:backgroundTint="#17B28F"
+                                android:textColor="@color/white"
                                 app:cornerRadius="5dp" />
 
                             <TextView
@@ -158,6 +159,7 @@
                             android:textFontWeight="700"
                             android:textSize="10sp"
                             app:backgroundTint="#17B28F"
+                            android:textColor="@color/white"
                             app:cornerRadius="5dp" />
 
                     </LinearLayout>
@@ -253,6 +255,7 @@
                             android:textFontWeight="700"
                             app:cornerRadius="5dp"
                             app:backgroundTint="#17B28F"
+                            android:textColor="@color/white"
                             android:padding="0dp"
                             android:textAllCaps="false"
                             android:layout_gravity="center_horizontal"/>
@@ -326,6 +329,7 @@
                             android:textFontWeight="700"
                             app:cornerRadius="5dp"
                             app:backgroundTint="#17B28F"
+                            android:textColor="@color/white"
                             android:padding="0dp"
                             android:textAllCaps="false"
                             android:layout_gravity="center_horizontal"/>
