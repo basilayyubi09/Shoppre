@@ -75,8 +75,23 @@ public class EmptyAddressBook extends Fragment {
         sharedPrefManager = new SharedPrefManager(getContext());
         bearerToken = sharedPrefManager.getBearerToken();
 
-//        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext() , EmptyAddressBook.this);
-//        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
+        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
+            @Override
+            public void defaultAdddressSet(int addrsId) {
+
+            }
+
+            @Override
+            public void getData(DeliveryListModel.Address address) {
+
+            }
+
+            @Override
+            public void deleteData(DeliveryListModel.Address address) {
+
+            }
+        });
+        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
 
         ////Visibility Shown according to values either its empty or not

@@ -2,7 +2,6 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +46,11 @@ import retrofit2.Response;
 public class AddAddress extends Fragment {
 
 
-    AutoCompleteTextView spinnerTitle, spinnerCountry, spinnerPhoneNo;
-    ImageView closeBtn;
-    TextInputLayout salutationText, phoneInputLayout;
+    AutoCompleteTextView spinnerTitle;
+    ImageView closeBtn , triangleDropdown;
+    TextView spinnerCountry;
+    TextInputLayout salutationText;
+    LinearLayout phoneInputLayout;
     EditText name, addressLine1, addressLine2, city, state, pinCode, phoneNumber;
     AppCompatCheckBox checkBox;
     MaterialButton addAddressBtn;
@@ -58,11 +58,10 @@ public class AddAddress extends Fragment {
     ArrayAdapter<Item> arrayAdapter;
     String type="";
     SharedPrefManager sharedPrefManager;
-    TextView title;
+    TextView title , countryCodeTextView;
     DeliveryListModel.Address address;
     int countryId;
     boolean is_default = false;
-    String[] n = {"a", "b"};
     String[] titleValue = {"Mr", "Ms", "Mrs"};
     String nameString, addressLine1String, addressLine2String, countryCode, cityString, stateString, pinCodeString, phoneNumberString, salutation, country;
     Integer cc;
@@ -78,11 +77,11 @@ public class AddAddress extends Fragment {
 
         //Hooks
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
-        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
+//        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
-        spinnerPhoneNo = view.findViewById(R.id.countryCode);
+
         title = view.findViewById(R.id.title);
-        errorNo = view.findViewById(R.id.errorNo);
+//        errorNo = view.findViewById(R.id.errorNo);
 
         name = view.findViewById(R.id.name);
         salutationText = view.findViewById(R.id.salutationTextInput);
@@ -90,6 +89,8 @@ public class AddAddress extends Fragment {
         nameError = view.findViewById(R.id.nameError);
         phoneError = view.findViewById(R.id.phoneError);
         countryError = view.findViewById(R.id.countryError);
+        countryCodeTextView = view.findViewById(R.id.countryCodeTextView);
+        triangleDropdown = view.findViewById(R.id.triangleDropdown);
 
         addressError = view.findViewById(R.id.addressError);
         cityError = view.findViewById(R.id.cityError);
@@ -108,14 +109,7 @@ public class AddAddress extends Fragment {
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
 
 
-        triangleDropdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                spinnerCountry.performClick();
-
-            }
-        });
+        triangleDropdown.setOnClickListener(view1 -> spinnerCountry.performClick());
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 
@@ -127,51 +121,36 @@ public class AddAddress extends Fragment {
             if (type.equals("update")) {
                 address = (DeliveryListModel.Address) getArguments().getSerializable("address");
                 setTextsOnFields();
-                title.setText("Update Address");
+                title.setText(R.string.update_address);
             }
         }
 
 
-        spinnerCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogue();
-            }
-        });
+        spinnerCountry.setOnClickListener(view12 -> showDialogue());
         getTextFromField();
 
 
-        addAddressBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addAddressBtn.setOnClickListener(view13 -> {
+            getTextFromField();
+            if (!validateSalutation() || !validateName() || !validateAddress()
+                    || !validateCity() || !validateState() || !validateCountry()
+                    || !validatePinCode() || !validatePhone()) {
+                return;
+            }
+
+            if (type.equals("update")) {
                 getTextFromField();
-                if (!validateSalutation() || !validateName() || !validateAddress()
-                        || !validateCity() || !validateState() || !validateCountry()
-                        || !validatePinCode() || !validatePhone()) {
-                    return;
-                }
-
-                if (type.equals("update")) {
-                    getTextFromField();
 //                    Toast.makeText(getActivity(), String.valueOf(sharedPrefManager.getId()), Toast.LENGTH_SHORT).show();
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callUpdateApi();
-                } else {
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callApi(view);
-                }
-
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callUpdateApi();
+            } else {
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callApi(view13);
             }
+
         });
 
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                getActivity().getSupportFragmentManager().popBackStack();
-
-            }
-        });
+        closeBtn.setOnClickListener(view14 -> getActivity().getSupportFragmentManager().popBackStack());
 
         return view;
     }
@@ -293,10 +272,11 @@ public class AddAddress extends Fragment {
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
                     cc = ((Item) item).getPhoneCode();
                     countryId = ((Item) item).getId();
-                    spinnerPhoneNo.setText("+" + cc);
-                    spinnerPhoneNo.setTextColor(R.color.black);
+                    countryCodeTextView.setText("+" + cc);
+                    countryCodeTextView.setTextColor(R.color.black);
                 }
                 spinnerCountry.setText(adapterView.getItemAtPosition(i).toString());
+                spinnerCountry.setTextColor(R.color.black);
                 inputLayout.getEditText().setText("");
                 dialog.dismiss();
             }
@@ -360,7 +340,7 @@ public class AddAddress extends Fragment {
         paramObject.addProperty("state", stateString);
         paramObject.addProperty("country_id", countryId);
         paramObject.addProperty("pincode", pinCodeString);
-        paramObject.addProperty("phone", cc + phoneNumberString);
+        paramObject.addProperty("phone", "+"+cc + phoneNumberString);
         paramObject.addProperty("is_default", is_default);
         paramObject.addProperty("customer_id", sharedPrefManager.getId());
         paramObject.addProperty("is_billing_address", false);
@@ -399,6 +379,7 @@ public class AddAddress extends Fragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void clearFields() {
         name.setText("");
         addressLine1.setText("");
@@ -409,7 +390,8 @@ public class AddAddress extends Fragment {
         phoneNumber.setText("");
         spinnerTitle.setText("");
         spinnerCountry.setText("");
-        spinnerPhoneNo.setText("");
+        countryCodeTextView.setText("+91");
+        countryCodeTextView.setTextColor(R.color.hint_color);
     }
 
     private void getTextFromField() {
@@ -422,7 +404,7 @@ public class AddAddress extends Fragment {
         phoneNumberString = phoneNumber.getText().toString().trim();
         salutation = spinnerTitle.getText().toString();
         country = spinnerCountry.getText().toString();
-        countryCode = spinnerPhoneNo.getText().toString();
+        countryCode = countryCodeTextView.getText().toString();
         if (checkBox.isChecked()) {
             is_default = true;
         } else is_default = false;
@@ -474,10 +456,10 @@ public class AddAddress extends Fragment {
 
     private boolean validateCountryCode() {
         if (countryCode.equals("")) {
-            errorNo.setVisibility(View.VISIBLE);
+//            errorNo.setVisibility(View.VISIBLE);
             return false;
         } else {
-            errorNo.setVisibility(View.GONE);
+//            errorNo.setVisibility(View.GONE);
             return true;
         }
     }
