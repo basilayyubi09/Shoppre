@@ -136,7 +136,7 @@
         </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:gravity="center"
@@ -159,6 +159,7 @@
                 android:paddingTop="13dp"
                 android:paddingBottom="14dp"
                 android:text="Start shopping"
+                android:textColor="@color/white"
                 android:textFontWeight="700"
                 android:textSize="24dp"
                 app:cornerRadius="5dp" />

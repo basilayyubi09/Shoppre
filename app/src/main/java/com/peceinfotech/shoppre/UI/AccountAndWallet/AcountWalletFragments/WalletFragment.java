@@ -96,13 +96,18 @@ public class WalletFragment extends Fragment {
         int number = recyclerView.getAdapter().getItemCount();
         if (number == 0) {
             showMoreContent.setVisibility(View.GONE);
+            emptyWalletImage.setVisibility(View.VISIBLE);
+            emptyWalletText.setVisibility(View.VISIBLE);
 
         } else {
             showMoreContent.setVisibility(View.VISIBLE);
+            emptyWalletImage.setVisibility(View.GONE);
+            emptyWalletText.setVisibility(View.GONE);
 
         }
 
 
+        walletAdapter.notifyDataSetChanged();
 
             return view;
 }
@@ -125,8 +130,7 @@ public class WalletFragment extends Fragment {
                     recyclerView.setAdapter(walletAdapter);
 
                     recyclerView.setVisibility(View.VISIBLE);
-                    emptyWalletImage.setVisibility(View.GONE);
-                    emptyWalletText.setVisibility(View.GONE);
+
                     showMoreContent.setVisibility(View.VISIBLE);
 
 
@@ -141,9 +145,13 @@ public class WalletFragment extends Fragment {
                     int number = recyclerView.getAdapter().getItemCount();
                     if (number == 0) {
                         showMoreContent.setVisibility(View.GONE);
+                        emptyWalletImage.setVisibility(View.VISIBLE);
+                        emptyWalletText.setVisibility(View.VISIBLE);
 
                     } else {
                         showMoreContent.setVisibility(View.VISIBLE);
+                        emptyWalletImage.setVisibility(View.GONE);
+                        emptyWalletText.setVisibility(View.GONE);
 
                     }
 

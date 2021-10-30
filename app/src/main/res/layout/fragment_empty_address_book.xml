@@ -171,8 +171,8 @@
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="28dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:background="@drawable/all_address_bg"
                                     app:boxStrokeWidth="0dp"
                                     android:layout_marginLeft="30dp"
@@ -184,7 +184,7 @@
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/allAddressSpinner"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="28dp"
+                                        android:layout_height="32dp"
                                         android:hint="All Address"
                                         android:layout_gravity="right"
                                         android:inputType="none"
@@ -237,9 +237,10 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/setDefaultAddrsBtn"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="32dp"
-                            android:layout_marginHorizontal="109dp"
+                            android:paddingHorizontal="16dp"
+                            android:layout_gravity="center"
                             android:layout_marginTop="28dp"
                             android:layout_marginBottom="28dp"
                             android:backgroundTint="#2D8DFF"
@@ -247,7 +248,6 @@
                             android:insetBottom="0dp"
                             android:letterSpacing="0.03"
                             android:lineHeight="14sp"
-                            android:padding="0dp"
                             android:text="Set Default Address"
                             android:textAllCaps="false"
                             android:textColor="@color/white"

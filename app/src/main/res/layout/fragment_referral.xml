@@ -117,12 +117,12 @@
                             android:letterSpacing="0.03"
                             android:text="Share"
                             android:textAllCaps="false"
+                            android:textColor="@color/white"
                             android:textFontWeight="600"
                             android:textSize="12sp"
                             app:icon="@mipmap/share"
                             app:iconGravity="end"
                             app:iconSize="18sp"
-                            android:textColor="@color/white"
                             app:iconTint="@color/white" />
                     </RelativeLayout>
                 </LinearLayout>

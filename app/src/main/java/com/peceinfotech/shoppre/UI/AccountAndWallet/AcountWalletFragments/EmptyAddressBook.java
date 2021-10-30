@@ -79,9 +79,32 @@ public class EmptyAddressBook extends Fragment {
 //        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
 
+        ////Visibility Shown according to values either its empty or not
+
+        int number = getDeliveryAddrsAdapter.getItemCount();
+        if (number == 0){
+
+            emptyDeliveryAdrsCard.setVisibility(View.VISIBLE);
+            deliveryAddrsCard.setVisibility(View.GONE);
+        }else{
+
+            emptyDeliveryAdrsCard.setVisibility(View.GONE);
+            deliveryAddrsCard.setVisibility(View.VISIBLE);
+
+        }
+        getDeliveryAddrsAdapter.notifyDataSetChanged();
+
+
+////Fetching All Delivery Address
+
         LoadingDialog.showLoadingDialog(getActivity(), "");
         fetchAddress();
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        deliveryRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+        //////Add More Delivery Address
 
         addMoreAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +121,8 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
+        ///Set Default Address Button
+
         setDefaultAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,22 +136,25 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        deliveryRecyclerView.setLayoutManager(linearLayoutManager);
 
+/////Add Billing Address Button
 
         billingAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout, new AddAddress(), null)
-                        .addToBackStack(null)
-                        .commit();
+//                if (savedInstanceState != null) return;
+//                OrderActivity.fragmentManager.beginTransaction()
+//                        .replace(R.id.orderFrameLayout, new AddAddress(), null)
+//                        .addToBackStack(null)
+//                        .commit();
 
             }
         });
+
+
+
+    /////Add Delivery Address Button
 
         deliveryAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,6 +1,8 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +66,7 @@ public class AddAddress extends Fragment {
     String[] titleValue = {"Mr", "Ms", "Mrs"};
     String nameString, addressLine1String, addressLine2String, countryCode, cityString, stateString, pinCodeString, phoneNumberString, salutation, country;
     Integer cc;
-    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError;
+    TextView addressError , cityError , stateError , pinCodeError , nameError , phoneError , countryError;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,12 +75,14 @@ public class AddAddress extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_adress, container, false);
 
         setCountryList("");
-        list = new ArrayList<>();
+
         //Hooks
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
+        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
         spinnerPhoneNo = view.findViewById(R.id.countryCode);
         title = view.findViewById(R.id.title);
+        errorNo = view.findViewById(R.id.errorNo);
 
         name = view.findViewById(R.id.name);
         salutationText = view.findViewById(R.id.salutationTextInput);
@@ -99,6 +105,17 @@ public class AddAddress extends Fragment {
         checkBox = view.findViewById(R.id.checkBox);
         addAddressBtn = view.findViewById(R.id.addAddressBtn);
         closeBtn = view.findViewById(R.id.closeBtn);
+        triangleDropdown = view.findViewById(R.id.triangleDropdown);
+
+
+        triangleDropdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                spinnerCountry.performClick();
+
+            }
+        });
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 
@@ -267,6 +284,7 @@ public class AddAddress extends Fragment {
 
         listView.setTextFilterEnabled(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Object item = adapterView.getItemAtPosition(i);
@@ -276,6 +294,7 @@ public class AddAddress extends Fragment {
                     cc = ((Item) item).getPhoneCode();
                     countryId = ((Item) item).getId();
                     spinnerPhoneNo.setText("+" + cc);
+                    spinnerPhoneNo.setTextColor(R.color.black);
                 }
                 spinnerCountry.setText(adapterView.getItemAtPosition(i).toString());
                 inputLayout.getEditText().setText("");
@@ -455,16 +474,10 @@ public class AddAddress extends Fragment {
 
     private boolean validateCountryCode() {
         if (countryCode.equals("")) {
-            phoneInputLayout.setErrorEnabled(true);
-            phoneInputLayout.setBoxStrokeWidthFocused(2);
-            phoneInputLayout.setBoxStrokeWidth(2);
-            phoneInputLayout.setError("* This is a required field");
+            errorNo.setVisibility(View.VISIBLE);
             return false;
         } else {
-            phoneInputLayout.setErrorEnabled(false);
-            phoneInputLayout.setBoxStrokeWidthFocused(0);
-            phoneInputLayout.setBoxStrokeWidth(0);
-            phoneInputLayout.setError(null);
+            errorNo.setVisibility(View.GONE);
             return true;
         }
     }
