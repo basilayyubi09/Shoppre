@@ -32,6 +32,9 @@ public class ViewProfile extends Fragment {
     SharedPrefManager sharedPrefManager;
     //For Title Spinner
     String[] title = { "Mr" , "Mrs" };
+    String[] nameTitle = { "Mr" , "Mrs" };
+
+
 
     @Override
     public void onResume() {
@@ -40,6 +43,8 @@ public class ViewProfile extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
         titleSpinner.setAdapter(arrayAdapter);
 
+//        ArrayAdapter arrayAdapter1 = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, nameTitle);
+//        nameSpinner.setAdapter(arrayAdapter1);
 
 
     }
@@ -49,6 +54,13 @@ public class ViewProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_view_profile, container, false);
+
+
+
+
+
+
+
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 
@@ -61,6 +73,7 @@ public class ViewProfile extends Fragment {
         fullNameEditText = view.findViewById(R.id.fullNameEditText);
 //        phoneNumberEditText = view.findViewById(R.id.phoneNumberEditText);
         titleSpinner = view.findViewById(R.id.titleSpinner);
+//        nameSpinner = view.findViewById(R.id.nameSpinner);
         ccpSpinners = view.findViewById(R.id.ccpSpinners);
 //        ccpSpinner = view.findViewById(R.id.ccpSpinner);
         profileImage = view.findViewById(R.id.profileImage);

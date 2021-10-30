@@ -81,12 +81,15 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState != null) return;
+                if (savedInstanceState == null) {
+
+
                 fragmentTransaction = fragmentManager.beginTransaction();
                 OrderFragment orderFragment = new OrderFragment();
-                fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
+                fragmentTransaction.replace(R.id.orderFrameLayout, orderFragment, null);
                 fragmentTransaction.commit();
 
+                }
 
                 orderImage.setImageResource(R.drawable.ic_orders___selected);
                 lockerImage.setImageResource(R.drawable.ic_locker);
@@ -100,12 +103,13 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState != null) return;
+                if (savedInstanceState == null) {
+
                 fragmentTransaction = fragmentManager.beginTransaction();
                 LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                 fragmentTransaction.replace(R.id.orderFrameLayout, lockerReadyToShip, null);
                 fragmentTransaction.addToBackStack(null).commit();
-
+                }
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker___selected);
@@ -119,12 +123,15 @@ public class OrderActivity extends AppCompatActivity {
         shipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (savedInstanceState != null) return;
+                if (savedInstanceState == null) {
+
+
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ShipmentList shipmentList = new ShipmentList();
                 fragmentTransaction.replace(R.id.orderFrameLayout, shipmentList, null);
                 fragmentTransaction.addToBackStack(null).commit();
 
+                }
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);
                 shipmentImage.setImageResource(R.drawable.ic_shipments___selected);
@@ -136,11 +143,15 @@ public class OrderActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (savedInstanceState != null) return;
+                if (savedInstanceState == null) {
+
+
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ViewProfile viewProfile = new ViewProfile();
                 fragmentTransaction.replace(R.id.orderFrameLayout, viewProfile, null);
                 fragmentTransaction.addToBackStack(null).commit();
+
+                }
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);
@@ -212,12 +223,12 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
 
-                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
-                            + "\n" + response.body().getFirstName() + "\n" +
-                            response.body().getLastName() + "\n" +
-                            response.body().getName() + "\n" +
-                            response.body().getEmail() + "\n" +
-                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
+//                            + "\n" + response.body().getFirstName() + "\n" +
+//                            response.body().getLastName() + "\n" +
+//                            response.body().getName() + "\n" +
+//                            response.body().getEmail() + "\n" +
+//                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
                 } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();

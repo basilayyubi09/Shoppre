@@ -6,11 +6,6 @@
     tools:context=".UI.Locker.LockerReadyToShip">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Locker Ready to Ship fragment"
-        android:textSize="30sp"
-        android:gravity="center"/>
+
 
 </FrameLayout>

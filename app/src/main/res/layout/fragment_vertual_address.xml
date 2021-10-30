@@ -65,21 +65,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressName"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="Nikkitha Shanker"
-                                android:inputType="textPersonName"
+                                android:text="Nikkitha Shanker"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/nameCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -109,21 +110,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressLine1"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="SA-3L10-126387, #182, 2nd Cross Road"
-                                android:inputType="textPostalAddress"
+                                android:text="SA-3L10-126387, #182, 2nd Cross Road"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/line1CopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -153,21 +155,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressLine2"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
-                                android:layout_weight="1"
                                 android:background="@null"
-                                android:hint="7th Main,Koramangala 1st Block"
-                                android:inputType="textPostalAddress"
+                                android:layout_weight="1"
+                                android:text="7th Main,Koramangala 1st Block"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/line2CopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -197,21 +200,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressLandmark"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="Near Seema English Nursery School"
-                                android:inputType="text"
+                                android:text="Near Seema English Nursery School"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/landMarkCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -241,21 +245,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressCity"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="Bengaluru"
-                                android:inputType="text"
+                                android:text="Bengaluru"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/cityCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -285,21 +290,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressState"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="Karnataka"
-                                android:inputType="text"
+                                android:text="Karnataka"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/stateCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -329,21 +335,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressPincode"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
-                                android:layout_weight="1"
                                 android:background="@null"
-                                android:hint="560034"
-                                android:inputType="number"
+                                android:layout_weight="1"
+                                android:text="560034"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/pinCodeCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
@@ -373,21 +380,22 @@
                             android:layout_marginTop="3dp"
                             android:background="@drawable/edit_text_bg">
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/virtualAddressPhoneNo"
                                 android:layout_width="match_parent"
                                 android:layout_height="34dp"
                                 android:background="@null"
                                 android:layout_weight="1"
-                                android:hint="+91-9148357733"
-                                android:inputType="phone"
+                                android:text="+91-9148357733"
+                                android:inputType="none"
                                 android:paddingLeft="7dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/phoneNoCopyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:background="@drawable/edit_text_bg_3"
