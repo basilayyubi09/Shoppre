@@ -306,6 +306,7 @@ public class SignUp_Valid extends AppCompatActivity {
                     LoadingDialog.cancelLoading();
                     String token = response.body().getAccessToken();
                     sharedPrefManager.storeBearerToken(token);
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     clearFields();
 
                     startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));

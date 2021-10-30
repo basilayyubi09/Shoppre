@@ -564,6 +564,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.code()==200){
 //                  callMeApi(response.body().getAccessToken());
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     sharedPrefManager.setLogin();
                     LoadingDialog.cancelLoading();
                     if (checkLogin.equals("login")){

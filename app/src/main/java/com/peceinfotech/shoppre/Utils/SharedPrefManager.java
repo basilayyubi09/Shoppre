@@ -120,6 +120,34 @@ public class SharedPrefManager {
         return userSharedPref.getString("phone", " ");
     }
 
+    public void storeRefreshToken(String token){
+        editor.putString("token" , token);
+        editor.apply();
+    }
+    public String getRefreshToken(){
+        return userSharedPref.getString("token","");
+    }
+    public void storeIsMigrated(String is){
+        editor.putString("isMigrated" , is);
+    }
+    public String getIsMigrated(){
+        return userSharedPref.getString("isMigrated","");
+    }
+
+    public void storeIsMember(int is){
+        editor.putInt("isMember" , is);
+    }
+    public int getIsMember(){
+        return userSharedPref.getInt("isMember",0);
+    }
+
+    public void storeGroupId(int id){
+        editor.putInt("groupId" , id);
+    }
+    public int getGroupId(){
+        return userSharedPref.getInt("groupId",0);
+    }
+
     public boolean checkLogin() {
         if (userSharedPref.getBoolean(IS_LOGIN, false)) {
             return true;

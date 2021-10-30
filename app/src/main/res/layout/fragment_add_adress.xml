@@ -140,7 +140,8 @@
                     <EditText
                         android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
-                        android:layout_height="28dp"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
                         android:id="@+id/addressLine1"
                         android:background="@drawable/edit_text_bg_2"
                         android:hint="1313 Disneyland Dr,"
