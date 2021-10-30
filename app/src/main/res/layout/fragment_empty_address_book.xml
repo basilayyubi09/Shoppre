@@ -324,17 +324,16 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="Nikkitha Shanker"
+                                    android:text="Nikkitha Shanker"
                                     android:inputType="textPersonName"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -368,17 +367,15 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="SA-3L10-126387, #182, 2nd Cross Road"
-                                    android:inputType="textPostalAddress"
+                                    android:text="SA-3L10-126387, #182, 2nd Cross Road"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -412,17 +409,16 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="7th Main,Koramangala 1st Block"
+                                    android:text="7th Main,Koramangala 1st Block"
                                     android:inputType="textPostalAddress"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -456,17 +452,15 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="Near Seema English Nursery School"
-                                    android:inputType="text"
+                                    android:text="Near Seema English Nursery School"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -500,17 +494,16 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="Bengaluru"
+                                    android:text="Bengaluru"
                                     android:inputType="text"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -544,17 +537,16 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="Karnataka"
+                                    android:text="Karnataka"
                                     android:inputType="text"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -588,17 +580,15 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="560034"
-                                    android:inputType="number"
+                                    android:text="560034"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
@@ -632,17 +622,16 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <EditText
+                                <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:hint="+91-9148357733"
+                                    android:text="+91-9148357733"
                                     android:inputType="phone"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
                                     android:textColor="@color/black"
-                                    android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
                                     app:boxStrokeColor="@color/hint_color" />
 
