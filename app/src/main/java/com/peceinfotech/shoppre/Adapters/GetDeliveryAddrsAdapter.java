@@ -1,13 +1,11 @@
 package com.peceinfotech.shoppre.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,45 +53,35 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         holder.state.setText(address.getState());
         holder.country.setText(address.getCountry().getName());
         holder.deliverToContact.setText(address.getPhone());
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mListener.getData(address);
+                notifyDataSetChanged();
+            }
+        });
 
-                //Put the value
-//                AddAddress addAddress = new AddAddress();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("type", "update");
-//                bundle.putInt("id" ,address.getId() );
-//                addAddress.setArguments(bundle);
-//
-//                //Inflate the fragment
-//                OrderActivity.fragmentManager.beginTransaction()
-//                        .replace(R.id.orderFrameLayout , new AddAddress() , null)
-//                        .addToBackStack(null).commit();
-
-                Toast.makeText(context.getApplicationContext(), "Work in progress", Toast.LENGTH_SHORT).show();
-
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.deleteData(address);
+                notifyDataSetChanged();
             }
         });
 
 
-
         holder.addrsRadioBtn.setChecked(lastSelectedposition == position);
-
-
         if (address.getIsDefault()) {
 
-            Log.d("jgjgkjkjjg", address.getIsDefault().toString());
 //                holder.addrsRadioBtn.setChecked(true);
 
             holder.defaultBtn.setVisibility(View.VISIBLE);
+//            holder.addrsRadioBtn.setChecked(true);
 
         } else {
-
             holder.defaultBtn.setVisibility(View.GONE);
-
         }
-
 
         holder.addrsRadioBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +110,6 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
     }
 
 
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -130,11 +117,10 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView deliverToName, line1, state, country, deliverToContact , edit , delete;
+        TextView deliverToName, line1, state, country, deliverToContact, edit, delete;
         MaterialButton defaultBtn;
         RadioButton addrsRadioBtn;
         setDefaultAddress mListener;
-
 
 
         public viewHolder(@NonNull View itemView, setDefaultAddress mListener) {
@@ -160,8 +146,10 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
         void defaultAdddressSet(int addrsId);
 
-    }
+        void getData(DeliveryListModel.Address address);
 
+        void deleteData(DeliveryListModel.Address address);
+    }
 
 
 }

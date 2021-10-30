@@ -1,5 +1,7 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AccountResponse.DeleteAddressResponse;
 import com.peceinfotech.shoppre.Adapters.GetDeliveryAddrsAdapter;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
@@ -71,8 +75,23 @@ public class EmptyAddressBook extends Fragment {
         sharedPrefManager = new SharedPrefManager(getContext());
         bearerToken = sharedPrefManager.getBearerToken();
 
-//        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list , getContext() , EmptyAddressBook.this);
-//        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
+        getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
+            @Override
+            public void defaultAdddressSet(int addrsId) {
+
+            }
+
+            @Override
+            public void getData(DeliveryListModel.Address address) {
+
+            }
+
+            @Override
+            public void deleteData(DeliveryListModel.Address address) {
+
+            }
+        });
+        deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
 
         ////Visibility Shown according to values either its empty or not
@@ -250,6 +269,42 @@ public class EmptyAddressBook extends Fragment {
                                 addressId = addrsId;
 
                             }
+
+                            @Override
+                            public void getData(DeliveryListModel.Address address) {
+                                DeliveryListModel.Address address1 = address;
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("address", address1);
+                                bundle.putString("type" , "update");
+
+                                // Set Fragmentclass Arguments
+                                AddAddress addAddress = new AddAddress();
+                                addAddress.setArguments(bundle);
+                                OrderActivity.fragmentManager.beginTransaction()
+                                        .replace(R.id.orderFrameLayout, addAddress, null).addToBackStack(null).commit();
+
+                            }
+
+                            @Override
+                            public void deleteData(DeliveryListModel.Address address) {
+                                DeliveryListModel.Address address1 = address;
+
+
+
+                                new AlertDialog.Builder(getActivity())
+                                        .setMessage("Are you sure want to exit?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                LoadingDialog.showLoadingDialog(getActivity(),"");
+                                                callDeleteApi(address1.getId());
+                                            }
+                                        })
+                                        .setNegativeButton("No",null)
+                                        .show();
+                            }
                         });
                         deliveryRecyclerView.setAdapter(getDeliveryAddrsAdapter);
 
@@ -282,6 +337,7 @@ public class EmptyAddressBook extends Fragment {
                     e.printStackTrace();
                 }
 
+
             }
 
             @Override
@@ -293,6 +349,45 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
+    }
+
+    private void callDeleteApi(Integer id) {
+        Call<DeleteAddressResponse> call = RetrofitClient3
+                .getInstance3().getAppApi().deleteAddress("Bearer "+sharedPrefManager.getBearerToken()
+                        ,id);
+        call.enqueue(new Callback<DeleteAddressResponse>() {
+            @Override
+            public void onResponse(Call<DeleteAddressResponse> call, Response<DeleteAddressResponse> response) {
+                if (response.code()==200){
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getStatus(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    getDeliveryAddrsAdapter.notifyDataSetChanged();
+                }
+                else if (response.code()==401){
+                    LoadingDialog.cancelLoading();
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getErrorDescription(),
+                            Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeleteAddressResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+        fetchAddress();
     }
 
 

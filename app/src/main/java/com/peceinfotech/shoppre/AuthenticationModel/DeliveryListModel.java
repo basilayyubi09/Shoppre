@@ -3,9 +3,10 @@ package com.peceinfotech.shoppre.AuthenticationModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DeliveryListModel {
+public class DeliveryListModel implements Serializable{
 
     @SerializedName("addresses")
     @Expose
@@ -89,7 +90,7 @@ public class DeliveryListModel {
 
     }
 
-    public class Address {
+    public class Address implements Serializable {
 
         @SerializedName("name")
         @Expose

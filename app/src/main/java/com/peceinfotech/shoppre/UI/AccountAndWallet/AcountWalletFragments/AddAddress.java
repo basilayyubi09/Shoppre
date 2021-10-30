@@ -2,7 +2,6 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +28,8 @@ import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.AddAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
+import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
+import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -47,27 +47,25 @@ public class AddAddress extends Fragment {
 
 
     AutoCompleteTextView spinnerTitle;
-    TextView spinnerPhoneNo, spinnerCountry;
-
-    ImageView closeBtn, triangleDropdown;
+    ImageView closeBtn , triangleDropdown;
+    TextView spinnerCountry;
     TextInputLayout salutationText;
     LinearLayout phoneInputLayout;
     EditText name, addressLine1, addressLine2, city, state, pinCode, phoneNumber;
     AppCompatCheckBox checkBox;
     MaterialButton addAddressBtn;
-    List<Item> list , duplicateList;
+    List<Item> list, duplicateList;
     ArrayAdapter<Item> arrayAdapter;
-    String type;
-    int id;
-    TextView title;
+    String type="";
+    SharedPrefManager sharedPrefManager;
+    TextView title , countryCodeTextView;
+    DeliveryListModel.Address address;
     int countryId;
     boolean is_default = false;
-    String[] n = {"a", "b"};
-    String[] titleValue = {"Mr", "Ms","Mrs"};
-    String nameString , addressLine1String , addressLine2String ,countryCode
-            ,cityString , stateString , pinCodeString , phoneNumberString , salutation  , country;
+    String[] titleValue = {"Mr", "Ms", "Mrs"};
+    String nameString, addressLine1String, addressLine2String, countryCode, cityString, stateString, pinCodeString, phoneNumberString, salutation, country;
     Integer cc;
-    TextView addressError , cityError , stateError , pinCodeError , nameError , errorNo,phoneError , countryError;
+    TextView addressError , cityError , stateError , pinCodeError , nameError , phoneError , countryError;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,10 +77,11 @@ public class AddAddress extends Fragment {
 
         //Hooks
         spinnerTitle = view.findViewById(R.id.spinnerTitle);
-        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
+//        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
+
         title = view.findViewById(R.id.title);
-        errorNo = view.findViewById(R.id.errorNo);
+//        errorNo = view.findViewById(R.id.errorNo);
 
         name = view.findViewById(R.id.name);
         salutationText = view.findViewById(R.id.salutationTextInput);
@@ -90,6 +89,8 @@ public class AddAddress extends Fragment {
         nameError = view.findViewById(R.id.nameError);
         phoneError = view.findViewById(R.id.phoneError);
         countryError = view.findViewById(R.id.countryError);
+        countryCodeTextView = view.findViewById(R.id.countryCodeTextView);
+        triangleDropdown = view.findViewById(R.id.triangleDropdown);
 
         addressError = view.findViewById(R.id.addressError);
         cityError = view.findViewById(R.id.cityError);
@@ -108,77 +109,154 @@ public class AddAddress extends Fragment {
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
 
 
-        triangleDropdown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        triangleDropdown.setOnClickListener(view1 -> spinnerCountry.performClick());
 
-                spinnerCountry.performClick();
+        sharedPrefManager = new SharedPrefManager(getActivity());
 
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null){
+            type = getArguments().getString("type");
+            if (type.equals("update")) {
+                address = (DeliveryListModel.Address) getArguments().getSerializable("address");
+                setTextsOnFields();
+                title.setText(R.string.update_address);
             }
-        });
+        }
 
 
-
-        Intent intent = getActivity().getIntent();
-//       if (intent.getExtras() != null) {
-            type = intent.getStringExtra("type");
-            id = intent.getIntExtra("id" , 1);
-//        }
-        //Retrieve the value
-
-
-        spinnerCountry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogue();
-            }
-        });
+        spinnerCountry.setOnClickListener(view12 -> showDialogue());
         getTextFromField();
 
 
-        addAddressBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        addAddressBtn.setOnClickListener(view13 -> {
+            getTextFromField();
+            if (!validateSalutation() || !validateName() || !validateAddress()
+                    || !validateCity() || !validateState() || !validateCountry()
+                    || !validatePinCode() || !validatePhone()) {
+                return;
+            }
+
+            if (type.equals("update")) {
                 getTextFromField();
-                if(!validateSalutation() ||!validateName()||!validateAddress()
-                        || !validateCity() || !validateState() || !validateCountry()
-                        || !validatePinCode() || !validateCountryCode() ||!validatePhone()){
-                    return;
-                }
-                if (type.equals("update")){
-                    Toast.makeText(getActivity(), id+"\n"+type, Toast.LENGTH_SHORT).show();
-                    title.setText("Update Address");
-                }
-                else {
-                    title.setText("Address Book");
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callApi(view);
-                }
+//                    Toast.makeText(getActivity(), String.valueOf(sharedPrefManager.getId()), Toast.LENGTH_SHORT).show();
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callUpdateApi();
+            } else {
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callApi(view13);
             }
+
         });
 
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                getActivity().getSupportFragmentManager().popBackStack();
-
-            }
-        });
+        closeBtn.setOnClickListener(view14 -> getActivity().getSupportFragmentManager().popBackStack());
 
         return view;
     }
 
+    private void setTextsOnFields() {
+        name.setText(address.getName());
+        addressLine1.setText(address.getLine1());
+        addressLine2.setText(address.getLine2());
+        city.setText(address.getCity());
+        state.setText(address.getState());
+        pinCode.setText(address.getPincode());
+        phoneNumber.setText(address.getPhone());
+        spinnerTitle.setText(address.getSalutation());
+        spinnerCountry.setText(address.getCountry().getName());
+
+
+        if (address.getIsDefault()) {
+            checkBox.setChecked(true);
+            is_default = true;
+        } else is_default = false;
+
+    }
+
+    private void callUpdateApi() {
+        JsonObject object = new JsonObject();
+        String firstName, lastName = "";
+
+        if (countryId==0){
+            countryId = address.getCountryId();
+        }
+
+        if (nameString.split("\\w+").length > 1) {
+
+            lastName = nameString.substring(nameString.lastIndexOf(" ") + 1);
+            firstName = nameString.substring(0, nameString.lastIndexOf(' '));
+        } else {
+            firstName = nameString;
+        }
+        object.addProperty("name", nameString);
+        object.addProperty("salutation", salutation);
+        object.addProperty("first_name", firstName);
+        object.addProperty("last_name", lastName);
+        object.addProperty("line1", addressLine1String);
+        object.addProperty("line2", addressLine2String);
+        object.addProperty("city", cityString);
+        object.addProperty("state", stateString);
+        object.addProperty("country_id", countryId);
+        object.addProperty("pincode", pinCodeString);
+        if ( cc == null){
+            object.addProperty("phone", phoneNumberString);
+
+        }
+        else {
+            object.addProperty("phone",cc +   phoneNumberString);
+
+        }
+//        Toast.makeText(getActivity(), String.valueOf(cc), Toast.LENGTH_SHORT).show();
+        object.addProperty("is_default", is_default);
+        object.addProperty("customer_id", sharedPrefManager.getId());
+        object.addProperty("is_billing_address", false);
+
+        Call<UpdateAddressResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .UpdateAddress("Bearer " + sharedPrefManager.getBearerToken()
+                        , address.getId()
+                        , object.toString());
+        call.enqueue(new Callback<UpdateAddressResponse>() {
+            @Override
+            public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    clearFields();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAddressResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
+
+
     private void showDialogue() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View row = getLayoutInflater().inflate(R.layout.country_dialog,null);
+        View row = getLayoutInflater().inflate(R.layout.country_dialog, null);
 
-        ListView listView  = row.findViewById(R.id.dialogListView);
+        ListView listView = row.findViewById(R.id.dialogListView);
         TextInputLayout inputLayout = row.findViewById(R.id.dialogSearch);
 
 
         AlertDialog dialog = builder.create();
-        arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1,list);
+        arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(arrayAdapter);
         listView.setTextFilterEnabled(true);
         dialog.setView(row);
@@ -188,17 +266,17 @@ public class AddAddress extends Fragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Object item  = adapterView.getItemAtPosition(i);
-                if (item instanceof Item){
+                Object item = adapterView.getItemAtPosition(i);
+                if (item instanceof Item) {
                     Item item1 = (Item) item;
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
-                    cc  = ((Item) item).getPhoneCode();
+                    cc = ((Item) item).getPhoneCode();
                     countryId = ((Item) item).getId();
-                    spinnerPhoneNo.setText("+"+cc);
-                    spinnerPhoneNo.setTextColor(R.color.black);
+                    countryCodeTextView.setText("+" + cc);
+                    countryCodeTextView.setTextColor(R.color.black);
                 }
-                Toast.makeText(getContext(), adapterView.getItemAtPosition(i).toString()+"\t"+cc+"\t"+countryId, Toast.LENGTH_SHORT).show();
                 spinnerCountry.setText(adapterView.getItemAtPosition(i).toString());
+                spinnerCountry.setTextColor(R.color.black);
                 inputLayout.getEditText().setText("");
                 dialog.dismiss();
             }
@@ -206,55 +284,52 @@ public class AddAddress extends Fragment {
         dialog.show();
 
 
-    inputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (charSequence.equals(null)|| charSequence.length()==0) {
-                arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(arrayAdapter);
-                arrayAdapter.notifyDataSetChanged();
+        inputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.equals(null) || charSequence.length() == 0) {
+                    arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
+                    listView.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+
             }
 
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-        }
+            }
 
-        @Override
-        public void afterTextChanged(Editable editable) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1,list);
+                arrayAdapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(arrayAdapter);
-            setCountryList(editable.toString());
-            arrayAdapter.getFilter().filter(editable);
-            arrayAdapter.notifyDataSetChanged();
+                setCountryList(editable.toString());
+                arrayAdapter.getFilter().filter(editable);
+                arrayAdapter.notifyDataSetChanged();
 
-        }
-    });
+            }
+        });
 
 
     }
 
 
-
     private void callApi(View view) {
-        String firstName , lastName="";
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(getActivity());
-        JsonObject paramObject = new JsonObject();
-        if(nameString.split("\\w+").length>1){
+        String firstName, lastName = "";
 
-            lastName = nameString.substring(nameString.lastIndexOf(" ")+1);
+
+        if (nameString.split("\\w+").length > 1) {
+
+            lastName = nameString.substring(nameString.lastIndexOf(" ") + 1);
             firstName = nameString.substring(0, nameString.lastIndexOf(' '));
-        }
-        else{
+        } else {
             firstName = nameString;
         }
-        Toast.makeText(getActivity(), firstName+"\t"+lastName, Toast.LENGTH_SHORT).show();
 
-
+        JsonObject paramObject = new JsonObject();
         paramObject.addProperty("name", nameString);
         paramObject.addProperty("salutation", salutation);
         paramObject.addProperty("first_name", firstName);
@@ -265,32 +340,29 @@ public class AddAddress extends Fragment {
         paramObject.addProperty("state", stateString);
         paramObject.addProperty("country_id", countryId);
         paramObject.addProperty("pincode", pinCodeString);
-        paramObject.addProperty("phone", cc+phoneNumberString);
+        paramObject.addProperty("phone", "+"+cc + phoneNumberString);
         paramObject.addProperty("is_default", is_default);
         paramObject.addProperty("customer_id", sharedPrefManager.getId());
         paramObject.addProperty("is_billing_address", false);
-
         String bearerToken = sharedPrefManager.getBearerToken();
         Call<AddAddressResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().addAddress("Bearer "+bearerToken, paramObject.toString());
+                .getAppApi().addAddress("Bearer " + bearerToken, paramObject.toString());
         call.enqueue(new Callback<AddAddressResponse>() {
             @Override
             public void onResponse(Call<AddAddressResponse> call, Response<AddAddressResponse> response) {
 
-                if (response.code()==201){
+                if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
                     clearFields();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),"Address Added Successfully",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Added Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else if (response.code()==406){
+                } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),response.body().getMessage(),Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else{
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),response.message(),Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -298,7 +370,7 @@ public class AddAddress extends Fragment {
             @Override
             public void onFailure(Call<AddAddressResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar =Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) ,
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),
                         t.toString(), Snackbar.LENGTH_SHORT);
                 snackbar.show();
 
@@ -307,17 +379,19 @@ public class AddAddress extends Fragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void clearFields() {
         name.setText("");
         addressLine1.setText("");
         addressLine2.setText("");
-        city.setText("");;
+        city.setText("");
         state.setText("");
         pinCode.setText("");
         phoneNumber.setText("");
         spinnerTitle.setText("");
         spinnerCountry.setText("");
-        spinnerPhoneNo.setText("");
+        countryCodeTextView.setText("+91");
+        countryCodeTextView.setTextColor(R.color.hint_color);
     }
 
     private void getTextFromField() {
@@ -330,11 +404,10 @@ public class AddAddress extends Fragment {
         phoneNumberString = phoneNumber.getText().toString().trim();
         salutation = spinnerTitle.getText().toString();
         country = spinnerCountry.getText().toString();
-        countryCode = spinnerPhoneNo.getText().toString();
-        if (checkBox.isChecked()){
+        countryCode = countryCodeTextView.getText().toString();
+        if (checkBox.isChecked()) {
             is_default = true;
-        }
-        else is_default = false;
+        } else is_default = false;
 
     }
 
@@ -347,19 +420,18 @@ public class AddAddress extends Fragment {
         spinnerTitle.setAdapter(tittleArrayAdapter);
 
 
-
     }
 
     private void setCountryList(String typedString) {
         Call<CountryResponse> call = RetrofitClient3.getInstance3().getAppApi()
-                .getCountry("Country" , typedString);
+                .getCountry("Country", typedString);
         call.enqueue(new Callback<CountryResponse>() {
 
             @Override
             public void onResponse(Call<CountryResponse> call, Response<CountryResponse> response) {
-                if (response.code()==200){
-                   list = response.body().getItems();
-                   duplicateList = response.body().getItems();
+                if (response.code() == 200) {
+                    list = response.body().getItems();
+                    duplicateList = response.body().getItems();
 
                 }
             }
@@ -370,9 +442,6 @@ public class AddAddress extends Fragment {
             }
         });
     }
-
-
-
 
 
     private boolean validatePhone() {
@@ -387,10 +456,10 @@ public class AddAddress extends Fragment {
 
     private boolean validateCountryCode() {
         if (countryCode.equals("")) {
-            errorNo.setVisibility(View.VISIBLE);
+//            errorNo.setVisibility(View.VISIBLE);
             return false;
         } else {
-            errorNo.setVisibility(View.GONE);
+//            errorNo.setVisibility(View.GONE);
             return true;
         }
     }
@@ -440,6 +509,7 @@ public class AddAddress extends Fragment {
         }
 
     }
+
     private Boolean validatePinCode() {
 
 
@@ -452,6 +522,7 @@ public class AddAddress extends Fragment {
         }
 
     }
+
     private Boolean validateState() {
 
 
@@ -464,6 +535,7 @@ public class AddAddress extends Fragment {
         }
 
     }
+
     private Boolean validateSalutation() {
 
 

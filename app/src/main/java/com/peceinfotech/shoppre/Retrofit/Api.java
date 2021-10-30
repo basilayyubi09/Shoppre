@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.Retrofit;
 
 import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignInDirectResponse;
@@ -74,7 +75,6 @@ public interface Api {
     );
 
 
-
     //SignIn Google
     //https://staging-login.shoppreglobal.com/oauth/token/app
 
@@ -90,10 +90,10 @@ public interface Api {
     //https://staging-login.shoppreglobal.com/oauth/token/app
     @FormUrlEncoded
     @POST("oauth/token/app")
-        Call<SignInGoogleResponse> signInFacebook(
-                @Field("email") String email,
-                @Field("grant_type") String facebook
-        );
+    Call<SignInGoogleResponse> signInFacebook(
+            @Field("email") String email,
+            @Field("grant_type") String facebook
+    );
 
     @FormUrlEncoded
     @POST("oauth/token")
@@ -108,6 +108,15 @@ public interface Api {
     Call<String> getAuth(
             @Header("Authorization") String auth,
             @Body String value
+    );
+
+    //    https://staging-login.shoppreglobal.com/oauth/token/app
+    //Refresh Token
+    @FormUrlEncoded
+    @POST("oauth/token/app")
+    Call<RefreshTokenResponse> getRefreshToken(
+            @Field("refresh_token") String code
+
     );
 
 }

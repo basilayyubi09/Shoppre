@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
-import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -81,15 +81,12 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState == null) {
-
-
+                if (savedInstanceState != null) return;
                 fragmentTransaction = fragmentManager.beginTransaction();
                 OrderFragment orderFragment = new OrderFragment();
-                fragmentTransaction.replace(R.id.orderFrameLayout, orderFragment, null);
+                fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
                 fragmentTransaction.commit();
 
-                }
 
                 orderImage.setImageResource(R.drawable.ic_orders___selected);
                 lockerImage.setImageResource(R.drawable.ic_locker);
@@ -103,13 +100,12 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (savedInstanceState == null) {
-
+                if (savedInstanceState != null) return;
                 fragmentTransaction = fragmentManager.beginTransaction();
                 LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                 fragmentTransaction.replace(R.id.orderFrameLayout, lockerReadyToShip, null);
                 fragmentTransaction.addToBackStack(null).commit();
-                }
+
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker___selected);
@@ -123,15 +119,12 @@ public class OrderActivity extends AppCompatActivity {
         shipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (savedInstanceState == null) {
-
-
+                if (savedInstanceState != null) return;
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ShipmentList shipmentList = new ShipmentList();
                 fragmentTransaction.replace(R.id.orderFrameLayout, shipmentList, null);
                 fragmentTransaction.addToBackStack(null).commit();
 
-                }
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);
                 shipmentImage.setImageResource(R.drawable.ic_shipments___selected);
@@ -143,15 +136,11 @@ public class OrderActivity extends AppCompatActivity {
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (savedInstanceState == null) {
-
-
+                if (savedInstanceState != null) return;
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ViewProfile viewProfile = new ViewProfile();
                 fragmentTransaction.replace(R.id.orderFrameLayout, viewProfile, null);
                 fragmentTransaction.addToBackStack(null).commit();
-
-                }
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);
@@ -164,43 +153,8 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
-    private void callApi() {
 
-        String email = sharedPrefManager.getEmail();
-        String grant_type = sharedPrefManager.getGrantType();
 
-        if (grant_type.equals("facebook")) {
-            callFacebookApi(email);
-        } else {
-            callGoogleApi(email);
-        }
-    }
-
-    private void callFacebookApi(String email) {
-        Call<SignInGoogleResponse> call = RetrofitClient
-                .getInstance()
-                .getApi()
-                .signInFacebook(email, "facebook");
-        call.enqueue(new Callback<SignInGoogleResponse>() {
-            @Override
-            public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
-                if (response.code() == 200) {
-                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-                    String bearerToken = response.body().getAccessToken();
-                    callMeApi(bearerToken);
-                } else if (response.code() == 400) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SignInGoogleResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void callMeApi(String bearerToken) {
 
@@ -222,16 +176,13 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeId(response.body().getId());
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
+                    sharedPrefManager.storeIsMember(response.body().getIsMember());
+                    sharedPrefManager.storeIsMigrated(response.body().getIsCourierMigrated());
+                    sharedPrefManager.storeGroupId(response.body().getGroupId());
+                    sharedPrefManager.storePhone(response.body().getPhone());
 
-//                    Toast.makeText(getApplicationContext(), response.body().getSalutation()
-//                            + "\n" + response.body().getFirstName() + "\n" +
-//                            response.body().getLastName() + "\n" +
-//                            response.body().getName() + "\n" +
-//                            response.body().getEmail() + "\n" +
-//                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
                 } else if (response.code() == 401) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
+                    callRefreshTokenApi();
                 }
             }
 
@@ -244,34 +195,33 @@ public class OrderActivity extends AppCompatActivity {
         });
     }
 
-    private void callGoogleApi(String email) {
-
-        Call<SignInGoogleResponse> call = RetrofitClient
-                .getInstance()
-                .getApi()
-                .signInGoogle(email, "google");
-        call.enqueue(new Callback<SignInGoogleResponse>() {
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
             @Override
-            public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
-                if (response.code() == 200) {
-                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-                    String bearerToken = response.body().getAccessToken();
-                    callMeApi(bearerToken);
-                } else if (response.code() == 400) {
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code()==200){
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
-                } else if (response.code() == 500) {
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                }
+                else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<SignInGoogleResponse> call, Throwable t) {
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
+
+
 
 }
