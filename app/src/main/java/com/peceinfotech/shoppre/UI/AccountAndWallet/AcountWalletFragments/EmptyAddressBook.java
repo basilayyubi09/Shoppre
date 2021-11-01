@@ -96,6 +96,7 @@ public class EmptyAddressBook extends Fragment {
 
         ////Visibility Shown according to values either its empty or not
 
+
         int number = getDeliveryAddrsAdapter.getItemCount();
         if (number == 0){
 

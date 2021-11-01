@@ -185,7 +185,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:gravity="center"
@@ -198,7 +198,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:layout_marginRight="26dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="right"
                         android:text="*Available only for 7 days from Sign-up"
                         android:textColor="#818181"

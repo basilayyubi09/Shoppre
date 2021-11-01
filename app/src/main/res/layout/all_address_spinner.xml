@@ -2,6 +2,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:text="All Address"
 
+    android:gravity="center"
+    android:textColor="@color/black"
     android:paddingLeft="10dp"
     android:paddingVertical="5dp"
     android:textSize="12sp"
