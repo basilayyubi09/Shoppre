@@ -52,7 +52,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/my_cash"
+                            android:src="@mipmap/rupees_icon"
                             android:contentDescription="my cash" />
 
                         <TextView
@@ -86,7 +86,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/rupees_icon"
+                            android:src="@drawable/my_cash"
                             android:contentDescription="TODO" />
 
                         <TextView

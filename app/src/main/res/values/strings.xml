@@ -50,11 +50,11 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="contact_us">Contact Us</string>
     <string name="wallet_transaction">Wallet Transaction</string>
     <string name="share_the_unique">Share the unique code and invite your friends to ship with Shoppre and earn a cashback of Rs 350 when their first package dispatches. They get Rs. 350 too!</string>
-    <string name="you_have_not">You have not invited anybody yet. Share the referral with you friends and start earning now!</string>
+    <string name="you_have_not">You have not invited anybody yet. Share the referral with your friends and start earning now!</string>
     <string name="can_i_transfer_the_cashback_to_my_bank">Can I Transfer the Cashback to My Bank?</string>
     <string name="how_can_i_invite_my_friends">How Can I Invite My Friends?</string>
     <string name="how_does_shoppre_referrals_work">How Does Shoppre Referrals Work?</string>
-    <string name="enter_the_referral_code_">Enter the referral code shared by your friend and get you referral reward</string>
+    <string name="enter_the_referral_code_">Enter the referral code shared by your\nfriend and get you referral reward</string>
     <string name="my_wallet">My Wallet</string>
     <string name="my_cash">My Cash</string>
     <string name="u20b9_100">₹ 100</string>

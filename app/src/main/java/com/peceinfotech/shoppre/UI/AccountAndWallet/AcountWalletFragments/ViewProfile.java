@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -282,6 +283,7 @@ public class ViewProfile extends Fragment {
         });
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setProfileCredentials() {
         //setValues of textViews from sharedPref
         lockerNo.setText(sharedPrefManager.getVirtualAddressCode());
@@ -289,9 +291,11 @@ public class ViewProfile extends Fragment {
         salutation = sharedPrefManager.getSalutation();
         firstName = sharedPrefManager.getFirstName();
         lastName = sharedPrefManager.getLastName();
+
         if (!firstName.equals("") && !lastName.equals("") && !salutation.equals("")) {
             profileName.setText(salutation + " " + firstName + " " + lastName);
-        } else if (!salutation.equals("") && !firstName.equals("")) {
+        }
+        else if (!salutation.equals("") && !firstName.equals("")) {
             profileName.setText(salutation + " " + firstName);
         } else if (!salutation.equals("") && !lastName.equals("")) {
             profileName.setText(salutation + " " + lastName);
@@ -314,9 +318,13 @@ public class ViewProfile extends Fragment {
         phoneNumber = updateProfileNumber.getEditText().getText().toString();
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setTextsToUpdateFields() {
         String salutation = sharedPrefManager.getSalutation();
-        if (!salutation.equals("")) {
+        if (salutation.equals("")) {
+            titleSpinner.setHint("Title");
+            titleSpinner.setHintTextColor(R.color.hint_color);
+        }else{
             titleSpinner.setText(salutation);
         }
         updateProfileEmail.setText(sharedPrefManager.getEmail());
