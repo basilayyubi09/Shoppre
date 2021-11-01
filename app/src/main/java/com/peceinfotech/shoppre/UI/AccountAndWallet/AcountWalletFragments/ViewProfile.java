@@ -47,7 +47,7 @@ public class ViewProfile extends Fragment {
     TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress;
     SharedPrefManager sharedPrefManager;
     //For Title Spinner
-    String[] title = {"Mr", "Mrs"};
+    String[] title = {"Mr","Ms", "Mrs"};
     String email, phoneNumber, name, ccp, titleText="";
     TextView nameError, emailError, numberError, unverified , emailWrong;
 

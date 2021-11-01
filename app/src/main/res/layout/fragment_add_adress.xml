@@ -432,12 +432,12 @@
                                 android:textSize="12sp" />
 
 
-                        <ImageView
-                            android:layout_alignParentRight="true"
-                            android:layout_width="8dp"
-                            android:layout_centerInParent="true"
-                            android:layout_height="9dp"
-                            android:src="@drawable/triangle" />
+                            <ImageView
+                                android:layout_width="8dp"
+                                android:layout_height="9dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/triangle" />
 
                         </RelativeLayout>
                         <View
