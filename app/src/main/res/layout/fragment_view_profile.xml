@@ -119,7 +119,7 @@
                                     android:layout_marginLeft="11dp"
                                     android:layout_marginTop="3dp"
                                     android:layout_marginBottom="28dp"
-                                    android:text="\u20B9 250.00"
+                                    android:text="\u20B9 00.00"
                                     android:textColor="@color/black"
                                     android:textFontWeight="600"
                                     android:textSize="12sp" />
@@ -154,7 +154,8 @@
                         app:cardCornerRadius="10dp"
                         app:strokeColor="#FF0000"
                         app:strokeWidth="1dp"
-                        >
+                        android:id="@+id/redBoxText"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -323,6 +324,17 @@
                             android:layout_centerVertical="true"
                             android:src="@mipmap/check_symbol" />
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/salutationError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginLeft="34dp"
+                        android:text="* This is a required field"
+                        android:textColor="@color/design_default_color_error"
+                        android:textSize="10sp"
+                        android:layout_marginRight="59dp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/nameError"
@@ -464,7 +476,8 @@
                             android:layout_width="64dp"
                             android:layout_height="30dp"
                             app:ccp_showFlag="false"
-
+                            app:ccp_hintExampleNumber="true"
+                            app:ccp_hintExampleNumberType="FIXED_LINE"
                             app:ccp_showNameCode="false"
                             app:ccp_textSize="12sp"
                             app:ccpDialog_textColor="@color/black"

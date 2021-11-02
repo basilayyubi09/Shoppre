@@ -184,6 +184,10 @@ public class OrderActivity extends AppCompatActivity {
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

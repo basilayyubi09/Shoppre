@@ -6,6 +6,7 @@ import com.peceinfotech.shoppre.AccountResponse.DeleteAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateProfileResponse;
+import com.peceinfotech.shoppre.AccountResponse.WalletAmountResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
@@ -71,6 +72,15 @@ public interface AppApi {
             @Query("limit") String limit,
             @Header("Authorization") String auth
     );
+
+    //https://staging-wallet.shoppre.com/api/users/1
+//    https://staging-wallet.shoppre.com/api/users/10036
+//    api/users/{user_id}
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/users/{user_id}")
+    Call<WalletAmountResponse> getWallet(
+            @Header("Authorization") String auth,
+            @Path("user_id") int id);
 
     //    https://staging-app1.shoppreglobal.com/api/addresses/100416
     @Headers({"Content-Type: application/json;charset=UTF-8"})

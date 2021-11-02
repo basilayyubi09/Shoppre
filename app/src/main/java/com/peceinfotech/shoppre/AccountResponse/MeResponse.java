@@ -50,6 +50,18 @@ public class MeResponse {
     @SerializedName("is_member")
     @Expose
     private Integer isMember;
+
+    @SerializedName("is_email_verified")
+    @Expose
+    private Integer isEmailVerified;
+
+    public Integer getIsEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setIsEmailVerified(Integer isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
+    }
     @SerializedName("membership_validity")
     @Expose
     private String membershipValidity;
