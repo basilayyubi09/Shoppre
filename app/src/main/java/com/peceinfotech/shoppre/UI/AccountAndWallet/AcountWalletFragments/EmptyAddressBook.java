@@ -293,7 +293,7 @@ public class EmptyAddressBook extends Fragment {
 
 
                                 new AlertDialog.Builder(getActivity())
-                                        .setMessage("Are you sure want to exit?")
+                                        .setMessage("Are you sure want to Delete?")
                                         .setCancelable(false)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override

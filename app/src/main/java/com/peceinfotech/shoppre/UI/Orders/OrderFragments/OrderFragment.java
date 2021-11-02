@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn;
+    MaterialButton addYourFirstOrderBtn, shippingCalculator;
 
 
     @Override
@@ -28,6 +29,7 @@ public class OrderFragment extends Fragment {
         ///Hooks
 
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
+        shippingCalculator = view.findViewById(R.id.shippingCalculator);
 
 
 
@@ -38,6 +40,17 @@ public class OrderFragment extends Fragment {
                 if (savedInstanceState != null) return;
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new OrderListing(), null)
                         .addToBackStack(null).commit();
+
+            }
+        });
+
+        shippingCalculator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (savedInstanceState != null) return;
+
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new ShippingCalculator(), null)
+                            .addToBackStack(null).commit();
 
             }
         });

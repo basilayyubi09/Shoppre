@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -231,7 +232,7 @@ public class ViewProfile extends Fragment {
         object.addProperty("secondary_phone","");
         object.addProperty("survey","");
         object.addProperty("virtual_address_code",sharedPrefManager.getVirtualAddressCode());
-        Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_LONG).show();
 
         Call<UpdateProfileResponse> call = RetrofitClient3
                 .getInstance3()
@@ -245,7 +246,7 @@ public class ViewProfile extends Fragment {
                 if(response.code()==200){
                     LoadingDialog.cancelLoading();
 
-                    sharedPrefManager.storeLastName(firstName);
+                    sharedPrefManager.storeFirstName(firstName);
                     sharedPrefManager.storeLastName(finalLastName);
                     if (!titleText.equals("")){
                         sharedPrefManager.storeSalutation(titleText);
