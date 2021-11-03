@@ -71,6 +71,13 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public void setVerifyEmail(String value){
+        editor.putString("verifyOrNot" , value);
+    }
+    public String getVerifyEmail(){
+        return userSharedPref.getString("verifyOrNot" , "");
+    }
+
     public String getLastName() {
         return userSharedPref.getString("lastName", " ");
     }
@@ -81,7 +88,7 @@ public class SharedPrefManager {
     }
 
     public String getSalutation() {
-        return userSharedPref.getString("salutation", " ");
+        return userSharedPref.getString("salutation", "");
     }
 
     public void storeEmail(String email) {
@@ -108,7 +115,7 @@ public class SharedPrefManager {
     }
 
     public String getGrantType() {
-        return userSharedPref.getString("grantType", " ");
+        return userSharedPref.getString("grantType", "");
     }
 
     public void storePhone(String phone) {
@@ -117,7 +124,7 @@ public class SharedPrefManager {
     }
 
     public String getPhone() {
-        return userSharedPref.getString("phone", " ");
+        return userSharedPref.getString("phone", "");
     }
 
     public void storeRefreshToken(String token){

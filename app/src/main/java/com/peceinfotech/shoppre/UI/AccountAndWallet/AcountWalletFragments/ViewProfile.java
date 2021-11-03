@@ -11,23 +11,31 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
+import com.peceinfotech.shoppre.AccountResponse.MeResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateProfileResponse;
+import com.peceinfotech.shoppre.AccountResponse.User;
+import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
+import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClientWallet;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
+import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -39,25 +47,27 @@ import retrofit2.Response;
 public class ViewProfile extends Fragment {
 
     MaterialAutoCompleteTextView ccpSpinners, titleSpinner;
+    MaterialCardView redBoxText;
     MaterialButton logoutBtn, inviteBtn, updateBtn;
     EditText fullNameEditText, phoneNumberEditText, updateProfileEmail;
-    TextInputLayout updateProfileNumber ;
+    TextInputLayout updateProfileNumber;
     CircleImageView profileImage;
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
     LinearLayout resend;
-    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress;
+    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError;
     SharedPrefManager sharedPrefManager;
+    ArrayAdapter arrayAdapter;
     //For Title Spinner
-    String[] title = {"Mr", "Mrs"};
-    String email, phoneNumber, name, ccp, titleText="";
-    TextView nameError, emailError, numberError, unverified , emailWrong;
+    String[] title = {"Mr", "Ms", "Mrs"};
+    String email, phoneNumber, name, ccp, titleText ;
+    TextView nameError, emailError, numberError, unverified, emailWrong;
 
     @Override
     public void onResume() {
         super.onResume();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
+        arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
         titleSpinner.setAdapter(arrayAdapter);
 
 
@@ -72,11 +82,13 @@ public class ViewProfile extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         wallet = view.findViewById(R.id.wallet);
+        redBoxText = view.findViewById(R.id.redBoxText);
         countryCodePicker = view.findViewById(R.id.countryCodePicker);
         resend = view.findViewById(R.id.resend);
         emailError = view.findViewById(R.id.emailError);
         nameError = view.findViewById(R.id.nameError);
         unverified = view.findViewById(R.id.unverified);
+        salutationError = view.findViewById(R.id.salutationError);
         numberError = view.findViewById(R.id.numberError);
         emailWrong = view.findViewById(R.id.emailWrong);
         manageAddresses = view.findViewById(R.id.manageAddresses);
@@ -98,6 +110,12 @@ public class ViewProfile extends Fragment {
         lockerNo = view.findViewById(R.id.lockerNo);
 
 
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        callMeApi(sharedPrefManager.getBearerToken());
+
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        callApi();
+
         setProfileCredentials();
 
 
@@ -111,29 +129,36 @@ public class ViewProfile extends Fragment {
             @Override
             public void onClick(View view) {
                 getTextFromFields();
-                if(!validateName()||!validateEmail()||!validateNumber()){
+                if (!validateSalutation() || !validateName() || !validateEmail() || !validateNumber()) {
                     return;
-                }else
-                {
-                    if(!CheckNetwork.isInternetAvailable(getActivity()) ) //if connection not available
+                } else {
+                    if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
                     {
 
-                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , "No Internte Connection",Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internte Connection", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    }
-                    else
-                    {
-                        //Wallet Transaction api
-                        Toast.makeText(getActivity(), titleText+"\n"+
-                                name+"\n"+
-                                email+"\n"+
-                                ccp+"\n"+
-                                phoneNumber, Toast.LENGTH_SHORT).show();
-                        LoadingDialog.showLoadingDialog(getActivity(),"");
+                    } else {
+
+                        LoadingDialog.showLoadingDialog(getActivity(), "");
                         callUpdateProfileApi();
                     }
                 }
 
+            }
+        });
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+                {
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internte Connection", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callVerifyEmailId();
+                }
             }
         });
         inviteBtn.setOnClickListener(new View.OnClickListener() {
@@ -192,8 +217,143 @@ public class ViewProfile extends Fragment {
         return view;
     }
 
+    private void callApi() {
+
+        int id = sharedPrefManager.getId();
+        Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
+                .getAppApi().getDetails(id,"0" , "20" , "Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<WalletTransactionResponse>() {
+            @Override
+            public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
+                if (response.isSuccessful()) {
+
+                    User user = response.body().getUser();
+
+                    profilePrice.setText("\u20B9 "+String.valueOf(user.getWalletAmount()));
+                    LoadingDialog.cancelLoading();
+
+
+                }else{
+
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , response.message() , Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WalletTransactionResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , t.toString() , Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void callVerifyEmailId() {
+
+        Call<VerifyEmailResponse> call = RetrofitClient.getInstance()
+                .getApi().getVerify("Bearer "+sharedPrefManager.getBearerToken(), sharedPrefManager.getId());
+        call.enqueue(new Callback<VerifyEmailResponse>() {
+            @Override
+            public void onResponse(Call<VerifyEmailResponse> call, Response<VerifyEmailResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    redBoxText.setVisibility(View.VISIBLE);
+                }
+                else if(response.code()==403){
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VerifyEmailResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void callMeApi(String bearerToken) {
+        Call<MeResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getUser("Bearer "+bearerToken);
+        call.enqueue(new Callback<MeResponse>() {
+            @Override
+            public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    if (response.body().getIsEmailVerified()==0){
+
+                        unverified.setVisibility(View.VISIBLE);
+                        resend.setVisibility(View.VISIBLE);
+                    }
+                    else if (response.body().getIsEmailVerified()==1){
+
+                        unverified.setVisibility(View.GONE);
+                        resend.setVisibility(View.GONE);
+                    }
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MeResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
+
     private void callUpdateProfileApi() {
-        String firstName , lastName="" ;
+
+        String firstName, lastName = "";
         if (name.split("\\w+").length > 1) {
 
             lastName = name.substring(name.lastIndexOf(" ") + 1);
@@ -217,59 +377,55 @@ public class ViewProfile extends Fragment {
 //                "survey": "SBK Family,UAE",
 //                "virtual_address_code": "SA-10A12-3176"
         JsonObject object = new JsonObject();
-        object.addProperty("alternate_email","");
-        object.addProperty("email",email);
-        object.addProperty("first_name",firstName);
-        object.addProperty("group_id",sharedPrefManager.getGroupId());
-        object.addProperty("id",sharedPrefManager.getId());
-        object.addProperty("is_courier_migrated",sharedPrefManager.getIsMigrated());
-        object.addProperty("is_member",sharedPrefManager.getIsMember());
-        object.addProperty("last_name",lastName);
-        object.addProperty("name",name);
-        object.addProperty("phone","+"+ccp+phoneNumber);
-        object.addProperty("profile_photo_url","");
-        object.addProperty("salutation",titleText);
-        object.addProperty("secondary_phone","");
-        object.addProperty("survey","");
-        object.addProperty("virtual_address_code",sharedPrefManager.getVirtualAddressCode());
-//        Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_LONG).show();
+        object.addProperty("alternate_email", "");
+        object.addProperty("email", email);
+        object.addProperty("first_name", firstName);
+        object.addProperty("group_id", sharedPrefManager.getGroupId());
+        object.addProperty("id", sharedPrefManager.getId());
+        object.addProperty("is_courier_migrated", sharedPrefManager.getIsMigrated());
+        object.addProperty("is_member", sharedPrefManager.getIsMember());
+        object.addProperty("last_name", lastName);
+        object.addProperty("name", name);
+        object.addProperty("phone", "+" + ccp + phoneNumber);
+        object.addProperty("profile_photo_url", "");
+        object.addProperty("salutation", titleText);
+        object.addProperty("secondary_phone", "");
+        object.addProperty("survey", "");
+        object.addProperty("virtual_address_code", sharedPrefManager.getVirtualAddressCode());
 
         Call<UpdateProfileResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .UpdateProfile("Bearer "+sharedPrefManager
-                        .getBearerToken(),object.toString());
+                .UpdateProfile("Bearer " + sharedPrefManager
+                        .getBearerToken(), object.toString());
         String finalLastName = lastName;
         call.enqueue(new Callback<UpdateProfileResponse>() {
             @Override
             public void onResponse(Call<UpdateProfileResponse> call, Response<UpdateProfileResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
-
                     sharedPrefManager.storeFirstName(firstName);
                     sharedPrefManager.storeLastName(finalLastName);
-                    if (!titleText.equals("")){
-                        sharedPrefManager.storeSalutation(titleText);
-                    }
+                    sharedPrefManager.storeSalutation(titleText);
                     sharedPrefManager.storeEmail(email);
                     sharedPrefManager.storeFullName(name);
-                    sharedPrefManager.storePhone("+"+ccp+phoneNumber);
+                    sharedPrefManager.storePhone("+" + ccp + phoneNumber);
+
+
                     setProfileCredentials();
                     setTextsToUpdateFields();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),"Successfully updated", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Successfully updated", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
 
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),response.message(), Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else{
+                } else {
 
                     LoadingDialog.cancelLoading();
 
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),response.message(), Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -278,7 +434,7 @@ public class ViewProfile extends Fragment {
             public void onFailure(Call<UpdateProfileResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
 
-                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),t.toString(), Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
@@ -295,8 +451,7 @@ public class ViewProfile extends Fragment {
 
         if (!firstName.equals("") && !lastName.equals("") && !salutation.equals("")) {
             profileName.setText(salutation + " " + firstName + " " + lastName);
-        }
-        else if (!salutation.equals("") && !firstName.equals("")) {
+        } else if (!salutation.equals("") && !firstName.equals("")) {
             profileName.setText(salutation + " " + firstName);
         } else if (!salutation.equals("") && !lastName.equals("")) {
             profileName.setText(salutation + " " + lastName);
@@ -321,13 +476,7 @@ public class ViewProfile extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void setTextsToUpdateFields() {
-        String salutation = sharedPrefManager.getSalutation();
-        if (salutation.equals("")) {
-            titleSpinner.setHint("Title");
-            titleSpinner.setHintTextColor(R.color.hint_color);
-        }else{
-            titleSpinner.setText(salutation);
-        }
+        titleSpinner.setHint("Title");
         updateProfileEmail.setText(sharedPrefManager.getEmail());
         fullNameEditText.setText(sharedPrefManager.getFullName());
         updateProfileNumber.getEditText().setText(sharedPrefManager.getPhone());
@@ -345,6 +494,20 @@ public class ViewProfile extends Fragment {
         }
     }
 
+    public boolean validateSalutation() {
+
+        if (titleText.equals("")) {
+            salutationError.setVisibility(View.VISIBLE);
+
+            return false;
+        } else {
+            salutationError.setVisibility(View.GONE);
+
+            return true;
+        }
+    }
+
+
     public boolean validateEmail() {
         String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (email.equals("")) {
@@ -353,7 +516,7 @@ public class ViewProfile extends Fragment {
         } else if (!email.matches(emailPattern)) {
             emailWrong.setVisibility(View.VISIBLE);
             return false;
-        }else {
+        } else {
             emailWrong.setVisibility(View.GONE);
             emailError.setVisibility(View.GONE);
             return true;

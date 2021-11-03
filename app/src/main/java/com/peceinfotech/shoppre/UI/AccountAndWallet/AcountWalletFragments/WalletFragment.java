@@ -83,7 +83,7 @@ public class WalletFragment extends Fragment {
         if(!CheckNetwork.isInternetAvailable(getActivity()) ) //if connection not available
         {
 
-            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , "No Internte Connection",Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , "No Internet Connection",Snackbar.LENGTH_LONG);
             snackbar.show();
         }
         else

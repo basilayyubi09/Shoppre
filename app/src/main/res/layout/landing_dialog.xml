@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:gravity="center"
+            android:text="You have a previous incomplete order...\n\n Are you sure you still want to create a new order?"
+            android:textColor="@color/black"
+            android:textFontWeight="600"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="45dp"
+            android:gravity="center"
+            android:text="Please note that the previous order cannot be placed once you start a new order"
+            android:textColor="@color/black"
+            android:textFontWeight="500"
+            android:textSize="10sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/continueOrder"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_marginRight="15dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Continue Order"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="10sp"
+                app:strokeColor="#2D8DFF" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createNewOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
+                android:layout_toRightOf="@+id/continueOrder"
+                android:backgroundTint="#17B28F"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Create New Order"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textFontWeight="600"
+                android:textSize="10sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
