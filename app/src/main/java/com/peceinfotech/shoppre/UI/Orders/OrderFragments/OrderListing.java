@@ -57,28 +57,7 @@ public class OrderListing extends Fragment {
         orderRecycler.setLayoutManager(linearLayoutManager);
 
 
-        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (savedInstanceState != null) return;
-
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new VertualAddress() , null)
-                        .addToBackStack(null).commit();
-
-            }
-        });
-
-
-        shippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
-                        .addToBackStack(null).commit();
-
-            }
-        });
 
 
         return view;

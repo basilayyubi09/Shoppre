@@ -19,6 +19,7 @@ import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -34,11 +35,10 @@ import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn , verifyEmailBtn, shippingCalculator;
+    MaterialButton addYourFirstOrderBtn , verifyEmailBtn, shippingCalculator, addNewOrderBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
-    CardView verifyEmailBox;
-    CardView banner , ordersCard;
+    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard;
 
 
 
@@ -53,17 +53,58 @@ public class OrderFragment extends Fragment {
         banner = view.findViewById(R.id.banner);
         ordersCard = view.findViewById(R.id.ordersCard);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
+        shippingCalculator = view.findViewById(R.id.shippingCalculator);
+        addNewOrderBtn = view.findViewById(R.id.addNewOrderBtn);
+        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
         sharedPrefManager = new SharedPrefManager(getActivity());
         List<OrderResponse> list = new ArrayList<>();
 
 
 
-
-
-
         LoadingDialog.showLoadingDialog(getActivity(),"");
         callMeApi(sharedPrefManager.getBearerToken());
-        shippingCalculator = view.findViewById(R.id.shippingCalculator);
+
+
+
+
+        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (savedInstanceState != null) return;
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new VertualAddress() , null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+        shippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+
+        addNewOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+
 
 
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {

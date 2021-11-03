@@ -266,33 +266,38 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="28dp"
+                            android:gravity="center_horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="23dp"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginBottom="18dp"
+                                android:gravity="center_vertical"
                                 android:text="Delivery Address"
+                                android:layout_weight="0.3"
                                 android:textColor="@color/black"
                                 android:textFontWeight="700"
                                 android:textSize="14sp" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="25dp"
-                                android:layout_marginRight="23dp"
-                                android:gravity="right"
-                                android:orientation="vertical">
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginTop="25dp"-->
+<!--                                android:layout_marginRight="23dp"-->
+<!--                                android:gravity="right"-->
+<!--                                android:orientation="vertical">-->
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="30dp"
                                     android:background="@drawable/all_address_bg"
                                     app:boxStrokeWidth="0dp"
+                                    android:layout_weight="0.5"
+                                    android:layout_marginRight="23dp"
                                     app:boxStrokeWidthFocused="0dp"
                                     app:endIconTint="@color/hint_color"
                                     app:hintAnimationEnabled="false"
@@ -300,9 +305,9 @@
 
                                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                                         android:id="@+id/allAddressSpinner"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="32dp"
-                                        android:layout_gravity="right"
+                                        android:gravity="center"
                                         android:hint="All Address"
                                         android:inputType="none"
                                         android:paddingVertical="0dp"
@@ -312,7 +317,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                            </LinearLayout>
+<!--                            </LinearLayout>-->
 
 
                         </LinearLayout>
