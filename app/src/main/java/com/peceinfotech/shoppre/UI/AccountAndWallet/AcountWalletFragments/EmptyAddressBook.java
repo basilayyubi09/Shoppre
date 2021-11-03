@@ -3,11 +3,11 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +21,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.DeleteAddressResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.GetDeliveryAddrsAdapter;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -47,9 +49,10 @@ public class EmptyAddressBook extends Fragment {
     SharedPrefManager sharedPrefManager;
     CardView deliveryAddrsCard, emptyDeliveryAdrsCard;
     GetDeliveryAddrsAdapter getDeliveryAddrsAdapter;
-    TextView addMoreAddress;
-    int addressId;
-
+    TextView addMoreAddress, billingAddressText;
+    int addressId, id;
+    LinearLayout billingAddressBox;
+    TextView billingAddressName, billingAddressContactNumber, billingAddressEdit, billingAddress;
 
     List<DeliveryListModel.Address> list = new ArrayList<>();
 
@@ -62,7 +65,13 @@ public class EmptyAddressBook extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_empty_address_book, container, false);
 
-        billingAddAddressBtn = view.findViewById(R.id.billingAddAdrsBtn);
+        billingAddressContactNumber = view.findViewById(R.id.billingContactNumber);
+        billingAddressEdit = view.findViewById(R.id.billingAddressEdit);
+        billingAddress = view.findViewById(R.id.billingAddress);
+        billingAddressName = view.findViewById(R.id.billingAddressName);
+        billingAddressBox = view.findViewById(R.id.billingAddressBox);
+        billingAddAddressBtn = view.findViewById(R.id.billingAddAddressBtn);
+        billingAddressText = view.findViewById(R.id.billingAddressText);
         deliveryAddAddressBtn = view.findViewById(R.id.deliveryAddAdrsbtn);
         deliveryRecyclerView = view.findViewById(R.id.deliveryAdrsRecycler);
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
@@ -77,7 +86,7 @@ public class EmptyAddressBook extends Fragment {
 
         getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
             @Override
-            public void defaultAdddressSet(int addrsId) {
+            public void defaultAdddressSet(DeliveryListModel.Address address) {
 
             }
 
@@ -98,11 +107,11 @@ public class EmptyAddressBook extends Fragment {
 
 
         int number = getDeliveryAddrsAdapter.getItemCount();
-        if (number == 0){
+        if (number == 0) {
 
             emptyDeliveryAdrsCard.setVisibility(View.VISIBLE);
             deliveryAddrsCard.setVisibility(View.GONE);
-        }else{
+        } else {
 
             emptyDeliveryAdrsCard.setVisibility(View.GONE);
             deliveryAddrsCard.setVisibility(View.VISIBLE);
@@ -137,6 +146,24 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
+        billingAddressEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddAddress addAddress = new AddAddress();
+//                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", id);
+                bundle.putString("type", "updateBilling");
+
+                // Set Fragment class Arguments
+
+                addAddress.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.orderFrameLayout, addAddress, null).addToBackStack(null).commit();
+
+            }
+        });
         ///Set Default Address Button
 
         setDefaultAddressBtn.setOnClickListener(new View.OnClickListener() {
@@ -152,25 +179,24 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
-
 /////Add Billing Address Button
+
 
         billingAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "billing");
 
-//                if (savedInstanceState != null) return;
-//                OrderActivity.fragmentManager.beginTransaction()
-//                        .replace(R.id.orderFrameLayout, new AddAddress(), null)
-//                        .addToBackStack(null)
-//                        .commit();
-
+                // Set Fragment class Arguments
+                AddAddress addAddress = new AddAddress();
+                addAddress.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.orderFrameLayout, addAddress, null).addToBackStack(null).commit();
             }
         });
 
-
-
-    /////Add Delivery Address Button
+        /////Add Delivery Address Button
 
         deliveryAddAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +246,7 @@ public class EmptyAddressBook extends Fragment {
                 } else if (response.code() == 401) {
 
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                    callRefreshTokenApi();
                 } else {
 
 
@@ -237,9 +263,35 @@ public class EmptyAddressBook extends Fragment {
             }
         });
 
+    }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
 
     }
-
 
 //    Fetch All delivery Addresses
 
@@ -260,25 +312,52 @@ public class EmptyAddressBook extends Fragment {
 
                         LoadingDialog.cancelLoading();
 
+
                         list = response.body().getAddresses();
+
+
+                        for (int i = 0; i < list.size(); i++) {
+                            boolean isBilling = response.body().getAddresses().get(i).getBillingAddress();
+
+                            if (isBilling) {
+                                billingAddressBox.setVisibility(View.VISIBLE);
+                                billingAddressText.setVisibility(View.GONE);
+                                billingAddAddressBtn.setVisibility(View.GONE);
+                                id = response.body().getAddresses().get(i).getId();
+                                billingAddressName.setText(response.body().getAddresses().get(i).getName());
+                                billingAddressContactNumber.setText(response.body().getAddresses().get(i).getPhone());
+                                String line1A = response.body().getAddresses().get(i).getLine1();
+                                String stateA = response.body().getAddresses().get(i).getState();
+                                String countryA = response.body().getAddresses().get(i).getCountry().getName();
+
+                                billingAddress.setText(line1A + " " + "\n" + stateA + " " + "\n" + countryA);
+                                list.remove(i);
+                            }
+//                            else
+//                            {
+//                                billingAddressBox.setVisibility(View.GONE);
+//                                billingAddressText.setVisibility(View.VISIBLE);
+//                                billingAddAddressBtn.setVisibility(View.VISIBLE);
+//                            }
+
+
+                        }
                         getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
                             @Override
-                            public void defaultAdddressSet(int addrsId) {
-
-                                Log.d("aaaa", "" + addrsId);
-                                addressId = addrsId;
-
+                            public void defaultAdddressSet(DeliveryListModel.Address address) {
+                                addressId = address.getId();
                             }
 
                             @Override
                             public void getData(DeliveryListModel.Address address) {
                                 DeliveryListModel.Address address1 = address;
 
+
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("address", address1);
-                                bundle.putString("type" , "update");
+                                bundle.putString("type", "update");
 
-                                // Set Fragmentclass Arguments
+                                // Set Fragment class Arguments
                                 AddAddress addAddress = new AddAddress();
                                 addAddress.setArguments(bundle);
                                 OrderActivity.fragmentManager.beginTransaction()
@@ -291,18 +370,17 @@ public class EmptyAddressBook extends Fragment {
                                 DeliveryListModel.Address address1 = address;
 
 
-
                                 new AlertDialog.Builder(getActivity())
                                         .setMessage("Are you sure want to exit?")
                                         .setCancelable(false)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                LoadingDialog.showLoadingDialog(getActivity(),"");
+                                                LoadingDialog.showLoadingDialog(getActivity(), "");
                                                 callDeleteApi(address1.getId());
                                             }
                                         })
-                                        .setNegativeButton("No",null)
+                                        .setNegativeButton("No", null)
                                         .show();
                             }
                         });
@@ -314,11 +392,16 @@ public class EmptyAddressBook extends Fragment {
 
                             emptyDeliveryAdrsCard.setVisibility(View.VISIBLE);
                             deliveryAddrsCard.setVisibility(View.GONE);
-
+//                            billingAddressBox.setVisibility(View.GONE);
+//                            billingAddressText.setVisibility(View.VISIBLE);
+//                            billingAddAddressBtn.setVisibility(View.VISIBLE);
                         } else {
 
                             emptyDeliveryAdrsCard.setVisibility(View.GONE);
                             deliveryAddrsCard.setVisibility(View.VISIBLE);
+//                            billingAddressBox.setVisibility(View.VISIBLE);
+//                            billingAddressText.setVisibility(View.GONE);
+//                            billingAddAddressBtn.setVisibility(View.GONE);
 
 
                         }
@@ -353,25 +436,23 @@ public class EmptyAddressBook extends Fragment {
 
     private void callDeleteApi(Integer id) {
         Call<DeleteAddressResponse> call = RetrofitClient3
-                .getInstance3().getAppApi().deleteAddress("Bearer "+sharedPrefManager.getBearerToken()
-                        ,id);
+                .getInstance3().getAppApi().deleteAddress("Bearer " + sharedPrefManager.getBearerToken()
+                        , id);
         call.enqueue(new Callback<DeleteAddressResponse>() {
             @Override
             public void onResponse(Call<DeleteAddressResponse> call, Response<DeleteAddressResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getStatus(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                     getDeliveryAddrsAdapter.notifyDataSetChanged();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
 
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getErrorDescription(),
                             Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
 
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);

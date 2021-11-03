@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
         OrderResponse orderResponse = list.get(position);
 
         holder.orderWebsiteName.setText(orderResponse.getWebSiteName());
-        holder.orderNo.setText(orderResponse.getOrderNo());
+        holder.orderNo.setText("Order No: "+orderResponse.getOrderNo());
         holder.orderDate.setText(orderResponse.getOrderDate());
         holder.orderImage.setImageResource(R.drawable.ic_personal_shopper);
 
@@ -54,6 +55,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
 
         ImageView orderImage;
         TextView orderWebsiteName, orderNo, orderDate;
+        LinearLayout viewMore;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +64,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
             orderWebsiteName = itemView.findViewById(R.id.orderWebsiteName);
             orderNo = itemView.findViewById(R.id.orderNo);
             orderDate = itemView.findViewById(R.id.orderDate);
+            viewMore = itemView.findViewById(R.id.viewMore);
 
 
         }

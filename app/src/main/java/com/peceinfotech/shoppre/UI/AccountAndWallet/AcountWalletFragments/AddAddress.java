@@ -28,9 +28,11 @@ import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.AddAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -47,7 +49,7 @@ public class AddAddress extends Fragment {
 
 
     AutoCompleteTextView spinnerTitle;
-    ImageView closeBtn , triangleDropdown;
+    ImageView closeBtn, triangleDropdown;
     TextView spinnerCountry;
     TextInputLayout salutationText;
     LinearLayout phoneInputLayout;
@@ -56,16 +58,18 @@ public class AddAddress extends Fragment {
     MaterialButton addAddressBtn;
     List<Item> list, duplicateList;
     ArrayAdapter<Item> arrayAdapter;
-    String type="";
+    String type = "";
     SharedPrefManager sharedPrefManager;
-    TextView title , countryCodeTextView;
+    TextView title, countryCodeTextView;
+    boolean is_billing;
     DeliveryListModel.Address address;
     int countryId;
     boolean is_default = false;
     String[] titleValue = {"Mr", "Ms", "Mrs"};
     String nameString, addressLine1String, addressLine2String, countryCode, cityString, stateString, pinCodeString, phoneNumberString, salutation, country;
     Integer cc;
-    TextView addressError , cityError , stateError , pinCodeError , nameError , phoneError , countryError;
+    int id;
+    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,6 +113,7 @@ public class AddAddress extends Fragment {
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
 
 
+
         triangleDropdown.setOnClickListener(view1 -> spinnerCountry.performClick());
 
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -116,13 +121,29 @@ public class AddAddress extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        if(bundle != null){
+        if (bundle != null) {
             type = getArguments().getString("type");
+            id = getArguments().getInt("id");
             if (type.equals("update")) {
                 address = (DeliveryListModel.Address) getArguments().getSerializable("address");
+                id = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getId();
+                is_billing = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getBillingAddress();
                 setTextsOnFields();
                 title.setText(R.string.update_address);
+            } else if (type.equals("billing")) {
+                title.setText("Billing Address");
+                is_billing = true;
             }
+            else if(type.equals("updateBilling")){
+                is_billing = true;
+                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                title.setText("Update Billing Address");
+            }
+            else {
+                is_billing = false;
+                title.setText("Add Address");
+            }
+
         }
 
 
@@ -142,8 +163,15 @@ public class AddAddress extends Fragment {
                 getTextFromField();
 //                    Toast.makeText(getActivity(), String.valueOf(sharedPrefManager.getId()), Toast.LENGTH_SHORT).show();
                 LoadingDialog.showLoadingDialog(getActivity(), "");
-                callUpdateApi();
-            } else {
+
+                callUpdateApi(id);
+            }
+            else if(type.equals("updateBilling")) {
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                is_billing = true;
+                callUpdateApi(id);
+            }else
+             {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
                 callApi(view13);
             }
@@ -174,11 +202,11 @@ public class AddAddress extends Fragment {
 
     }
 
-    private void callUpdateApi() {
+    private void callUpdateApi( int i) {
         JsonObject object = new JsonObject();
         String firstName, lastName = "";
 
-        if (countryId==0){
+        if (countryId == 0) {
             countryId = address.getCountryId();
         }
 
@@ -199,35 +227,33 @@ public class AddAddress extends Fragment {
         object.addProperty("state", stateString);
         object.addProperty("country_id", countryId);
         object.addProperty("pincode", pinCodeString);
-        if ( cc == null){
+        if (cc == null) {
             object.addProperty("phone", phoneNumberString);
 
-        }
-        else {
-            object.addProperty("phone",cc +   phoneNumberString);
+        } else {
+            object.addProperty("phone", cc + phoneNumberString);
 
         }
 //        Toast.makeText(getActivity(), String.valueOf(cc), Toast.LENGTH_SHORT).show();
         object.addProperty("is_default", is_default);
         object.addProperty("customer_id", sharedPrefManager.getId());
-        object.addProperty("is_billing_address", false);
+        object.addProperty("is_billing_address", is_billing);
 
         Call<UpdateAddressResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
                 .UpdateAddress("Bearer " + sharedPrefManager.getBearerToken()
-                        , address.getId()
+                        , i
                         , object.toString());
         call.enqueue(new Callback<UpdateAddressResponse>() {
             @Override
             public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     clearFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
 
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -318,6 +344,7 @@ public class AddAddress extends Fragment {
 
 
     private void callApi(View view) {
+
         String firstName, lastName = "";
 
 
@@ -340,10 +367,10 @@ public class AddAddress extends Fragment {
         paramObject.addProperty("state", stateString);
         paramObject.addProperty("country_id", countryId);
         paramObject.addProperty("pincode", pinCodeString);
-        paramObject.addProperty("phone", "+"+cc + phoneNumberString);
+        paramObject.addProperty("phone", "+" + cc + phoneNumberString);
         paramObject.addProperty("is_default", is_default);
         paramObject.addProperty("customer_id", sharedPrefManager.getId());
-        paramObject.addProperty("is_billing_address", false);
+        paramObject.addProperty("is_billing_address", this.is_billing);
         String bearerToken = sharedPrefManager.getBearerToken();
         Call<AddAddressResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().addAddress("Bearer " + bearerToken, paramObject.toString());
@@ -356,7 +383,12 @@ public class AddAddress extends Fragment {
                     clearFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Added Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                } else if (response.code() == 406) {
+                } else if(response.code() == 401){
+
+                    callRefreshTokenApi();
+
+                }
+                else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -374,6 +406,34 @@ public class AddAddress extends Fragment {
                         t.toString(), Snackbar.LENGTH_SHORT);
                 snackbar.show();
 
+            }
+        });
+
+    }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 

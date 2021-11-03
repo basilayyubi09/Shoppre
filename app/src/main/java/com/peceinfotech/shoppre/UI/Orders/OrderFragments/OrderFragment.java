@@ -7,17 +7,24 @@ import android.view.ViewGroup;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
+import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +35,9 @@ public class OrderFragment extends Fragment {
 
     MaterialButton addYourFirstOrderBtn , verifyEmailBtn;
     SharedPrefManager sharedPrefManager;
+    RecyclerView orderRecycler;
     CardView verifyEmailBox;
+    CardView banner , ordersCard;
 
 
     @Override
@@ -39,8 +48,17 @@ public class OrderFragment extends Fragment {
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
+        banner = view.findViewById(R.id.banner);
+        ordersCard = view.findViewById(R.id.ordersCard);
+        orderRecycler = view.findViewById(R.id.orderRecyclerView);
         sharedPrefManager = new SharedPrefManager(getActivity());
-        ///Hooks
+        List<OrderResponse> list = new ArrayList<>();
+
+
+
+
+
+
         LoadingDialog.showLoadingDialog(getActivity(),"");
         callMeApi(sharedPrefManager.getBearerToken());
 
@@ -65,6 +83,32 @@ public class OrderFragment extends Fragment {
             }
         });
 
+
+
+        list.add(new OrderResponse("Myntra", "#RNDM043", "12 Dec 2020", R.drawable.ic_self_shopper));
+        list.add(new OrderResponse("Amazon.in", "#PSDM043", "15 Dec 2020", R.drawable.ic_personal_shopper));
+        list.add(new OrderResponse("Nyka", "#RNDM032", "16 Dec 2020", R.drawable.ic_self_shopper));
+        list.add(new OrderResponse("Flipkart", "#PSDM054", "18 Dec 2020", R.drawable.ic_personal_shopper));
+        list.add(new OrderResponse("Fabindia" , "#PSDM054" , "20 Dec 2020" , R.drawable.ic_self_shopper));
+
+
+        OrdersAdapter ordersAdapter = new OrdersAdapter(list , getContext());
+        orderRecycler.setAdapter(ordersAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        orderRecycler.setLayoutManager(linearLayoutManager);
+
+        int number = orderRecycler.getAdapter().getItemCount();
+        if (number==0){
+            banner.setVisibility(View.VISIBLE);
+            ordersCard.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            banner.setVisibility(View.GONE);
+            ordersCard.setVisibility(View.GONE);
+        }
+        ordersAdapter.notifyDataSetChanged();
 
         return  view;
     }

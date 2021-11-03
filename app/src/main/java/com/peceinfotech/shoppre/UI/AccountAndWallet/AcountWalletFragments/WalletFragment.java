@@ -16,10 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransaction;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.Adapters.WalletTransactionAdapter;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClientWallet;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -156,7 +158,11 @@ public class WalletFragment extends Fragment {
                     }
 
                     walletAdapter.notifyDataSetChanged();
-                }else{
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }
+                else{
 
                     emptyWalletImage.setVisibility(View.VISIBLE);
                     emptyWalletText.setVisibility(View.VISIBLE);
@@ -179,6 +185,34 @@ public class WalletFragment extends Fragment {
         arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
         allSpinner.setAdapter(arrayAdapter);
 
+
+    }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
 
     }
 }
