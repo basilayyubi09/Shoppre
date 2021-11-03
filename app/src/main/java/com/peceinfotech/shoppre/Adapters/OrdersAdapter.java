@@ -11,17 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
 
 import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder> {
 
-    List<OrderResponse> list;
+    List<Order> list;
     Context context;
 
-    public OrdersAdapter(List<OrderResponse> list, Context context) {
+    public OrdersAdapter(List<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -37,11 +37,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        OrderResponse orderResponse = list.get(position);
+        Order order = list.get(position);
 
-        holder.orderWebsiteName.setText(orderResponse.getWebSiteName());
-        holder.orderNo.setText("Order No: "+orderResponse.getOrderNo());
-        holder.orderDate.setText(orderResponse.getOrderDate());
+        holder.orderWebsiteName.setText(order.getStore().getName());
+        holder.orderNo.setText("Order No: "+"#"+order.getOrderCode());
+        holder.orderDate.setText(order.getCreatedAt());
         holder.orderImage.setImageResource(R.drawable.ic_personal_shopper);
 
     }

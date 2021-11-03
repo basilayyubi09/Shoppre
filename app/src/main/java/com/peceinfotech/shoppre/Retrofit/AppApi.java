@@ -10,6 +10,7 @@ import com.peceinfotech.shoppre.AccountResponse.WalletAmountResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -105,4 +106,11 @@ public interface AppApi {
             @Header("Authorization") String auth,
             @Body String objects);
 
+
+    //https://staging-app1.shoppreglobal.com/api/orders/history?shopperType=ps
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/orders/history?shopperType=ps")
+    Call<OrderListingResponse> getOrderListing(
+            @Header("Authorization") String auth
+    );
 }

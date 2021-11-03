@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -16,9 +18,11 @@ import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
 import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
-import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -38,7 +42,9 @@ public class OrderFragment extends Fragment {
     RecyclerView orderRecycler;
     CardView verifyEmailBox;
     CardView banner , ordersCard;
-
+    List<Order> list;
+    LinearLayout orderListing;
+    OrdersAdapter ordersAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,9 +56,10 @@ public class OrderFragment extends Fragment {
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         banner = view.findViewById(R.id.banner);
         ordersCard = view.findViewById(R.id.ordersCard);
+        orderListing = view.findViewById(R.id.orderListing);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
         sharedPrefManager = new SharedPrefManager(getActivity());
-        List<OrderResponse> list = new ArrayList<>();
+        list = new ArrayList<>();
 
 
 
@@ -62,6 +69,8 @@ public class OrderFragment extends Fragment {
         LoadingDialog.showLoadingDialog(getActivity(),"");
         callMeApi(sharedPrefManager.getBearerToken());
 
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        callGetOrderListing();
 
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,14 +94,14 @@ public class OrderFragment extends Fragment {
 
 
 
-        list.add(new OrderResponse("Myntra", "#RNDM043", "12 Dec 2020", R.drawable.ic_self_shopper));
-        list.add(new OrderResponse("Amazon.in", "#PSDM043", "15 Dec 2020", R.drawable.ic_personal_shopper));
-        list.add(new OrderResponse("Nyka", "#RNDM032", "16 Dec 2020", R.drawable.ic_self_shopper));
-        list.add(new OrderResponse("Flipkart", "#PSDM054", "18 Dec 2020", R.drawable.ic_personal_shopper));
-        list.add(new OrderResponse("Fabindia" , "#PSDM054" , "20 Dec 2020" , R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Myntra", "#RNDM043", "12 Dec 2020", R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Amazon.in", "#PSDM043", "15 Dec 2020", R.drawable.ic_personal_shopper));
+//        list.add(new OrderResponse("Nyka", "#RNDM032", "16 Dec 2020", R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Flipkart", "#PSDM054", "18 Dec 2020", R.drawable.ic_personal_shopper));
+//        list.add(new OrderResponse("Fabindia" , "#PSDM054" , "20 Dec 2020" , R.drawable.ic_self_shopper));
 
 
-        OrdersAdapter ordersAdapter = new OrdersAdapter(list , getContext());
+         ordersAdapter = new OrdersAdapter(list , getContext());
         orderRecycler.setAdapter(ordersAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -102,16 +111,60 @@ public class OrderFragment extends Fragment {
         if (number==0){
             banner.setVisibility(View.VISIBLE);
             ordersCard.setVisibility(View.VISIBLE);
+            orderListing.setVisibility(View.GONE);
         }
         else
         {
             banner.setVisibility(View.GONE);
             ordersCard.setVisibility(View.GONE);
+            orderListing.setVisibility(View.VISIBLE);
         }
         ordersAdapter.notifyDataSetChanged();
 
         return  view;
     }
+
+    private void callGetOrderListing() {
+        Call<OrderListingResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().getOrderListing("Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<OrderListingResponse>() {
+            @Override
+            public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
+
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    list =  response.body().getOrders();
+                    ordersAdapter = new OrdersAdapter(list , getContext());
+                    orderRecycler.setAdapter(ordersAdapter);
+                    int number = orderRecycler.getAdapter().getItemCount();
+                    if (number==0){
+                        banner.setVisibility(View.VISIBLE);
+                        ordersCard.setVisibility(View.VISIBLE);
+                        orderListing.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        banner.setVisibility(View.GONE);
+                        ordersCard.setVisibility(View.GONE);
+                        orderListing.setVisibility(View.VISIBLE);
+                    }
+                    ordersAdapter.notifyDataSetChanged();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), "F", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderListingResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void callMeApi(String bearerToken) {
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()

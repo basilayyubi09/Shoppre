@@ -17,6 +17,8 @@
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/address_book_empty.xml" value="0.23703703703703705" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/all_spnner_bg.xml" value="0.23717948717948717" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/copy_card_bg.xml" value="0.23417721518987342" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/dashed_line.xml" value="0.262037037037037" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/dashed_line_vertical.xml" value="0.262037037037037" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/edittext_bg.xml" value="0.2890625" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/ic_arrow.xml" value="0.27314814814814814" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.27314814814814814" />
@@ -59,6 +61,7 @@
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_order_listing.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_referral.xml" value="0.4195583596214511" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_secound_on_boarding.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_self_shopper_place_order_fargment.xml" value="0.33" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_shipping_calculator_result.xml" value="0.4659090909090909" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_third_on_boarding.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_vertual_address.xml" value="0.5" />
