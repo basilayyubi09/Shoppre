@@ -2,6 +2,7 @@ package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,9 @@ import android.view.ViewGroup;
 import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.List;
 public class OrderListing extends Fragment {
 
     RecyclerView orderRecycler;
+    CardView virtualAddressCard, shippingCalculatorCard;
 
 
     @Override
@@ -32,6 +37,8 @@ public class OrderListing extends Fragment {
         ///Hoooks
 
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
+        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
 
 
         List<OrderResponse> list = new ArrayList<>();
@@ -49,6 +56,30 @@ public class OrderListing extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         orderRecycler.setLayoutManager(linearLayoutManager);
+
+
+        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (savedInstanceState != null) return;
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new VertualAddress() , null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+        shippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
 
 
         return view;

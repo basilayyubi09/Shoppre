@@ -14,6 +14,26 @@
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/input_layout.xml" value="0.25" />
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/login_sign_up_button.xml" value="0.33" />
         <entry key="..\:/Users/Basil/AndroidStudioProjects/Shoppre/app/src/main/res/layout/shoppre_icon_image_view_layout.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_corner1.xml" value="0.23981481481481481" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_corner2.xml" value="0.23981481481481481" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_no_selector.xml" value="0.23981481481481481" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_yes_selector.xml" value="0.23981481481481481" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg_2.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg_3.xml" value="0.2703125" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/ic_location.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/ic_plus.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/no_btn_bg.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/no_btn_bg1.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/yes_btn_bg.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/yes_btn_bg1.xml" value="0.23796296296296296" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/activity_order.xml" value="0.2028985507246377" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_order.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_order_listing.xml" value="0.19537037037037036" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipping_calculator.xml" value="0.19537037037037036" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_vertual_address.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/address_book_empty.xml" value="0.23703703703703705" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/all_spnner_bg.xml" value="0.23717948717948717" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/drawable/copy_card_bg.xml" value="0.23417721518987342" />

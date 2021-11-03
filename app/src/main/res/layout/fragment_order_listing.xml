@@ -28,6 +28,7 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/virtualAddressCard"
                         android:layout_width="114dp"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
@@ -69,6 +70,7 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/shippingCalculatorCard"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
@@ -109,6 +111,7 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/helpCard"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
