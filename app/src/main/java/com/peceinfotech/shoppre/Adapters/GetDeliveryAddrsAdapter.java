@@ -54,6 +54,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         holder.country.setText(address.getCountry().getName());
         holder.deliverToContact.setText(address.getPhone());
 
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +90,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
                 lastSelectedposition = holder.getAdapterPosition();
                 addrsId = holder.addrsRadioBtn.getId();
-                mListener.defaultAdddressSet(address.getId());
+                mListener.defaultAdddressSet(address);
                 notifyDataSetChanged();
 
 //                if (position == lastSelectedposition){
@@ -144,7 +145,7 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
 
     public interface setDefaultAddress {
 
-        void defaultAdddressSet(int addrsId);
+        void defaultAdddressSet(DeliveryListModel.Address address);
 
         void getData(DeliveryListModel.Address address);
 

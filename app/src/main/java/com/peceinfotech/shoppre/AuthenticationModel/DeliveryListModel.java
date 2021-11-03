@@ -134,6 +134,18 @@ public class DeliveryListModel implements Serializable{
         @SerializedName("is_default")
         @Expose
         private Boolean isDefault;
+
+        public Boolean getBillingAddress() {
+            return isBillingAddress;
+        }
+
+        public void setBillingAddress(Boolean billingAddress) {
+            isBillingAddress = billingAddress;
+        }
+
+        @SerializedName("is_billing_address")
+        @Expose
+        private Boolean isBillingAddress;
         @SerializedName("Country")
         @Expose
         private Country country;
