@@ -34,7 +34,6 @@ import com.peceinfotech.shoppre.Retrofit.RetrofitClientWallet;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.SignupLogin.SignUpActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
-import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -293,7 +292,6 @@ public class ViewProfile extends Fragment {
                 if (response.code()==200){
                     LoadingDialog.cancelLoading();
                     if (response.body().getIsEmailVerified()==0){
-
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);
                     }
@@ -332,6 +330,7 @@ public class ViewProfile extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    callMeApi(sharedPrefManager.getBearerToken());
                 }
                 else {
                     LoadingDialog.cancelLoading();

@@ -41,11 +41,10 @@ dependencies {
     //Retrofit and Gson
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation'com.squareup.retrofit2:converter-scalars:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.4.0'
 
     //Dialog alert
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
-
 
 
     //Facebook Login
@@ -59,7 +58,8 @@ dependencies {
 
 //    implementation 'com.hbb20:ccp:2.5.1'
     implementation 'com.hbb20:ccp:2.5.0'
-
+// joda date Time
+    implementation 'net.danlew:android.joda:2.10.12.2'
 }
 
 

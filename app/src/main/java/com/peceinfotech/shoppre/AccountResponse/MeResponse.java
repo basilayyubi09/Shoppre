@@ -41,6 +41,9 @@ public class MeResponse {
     @SerializedName("survey")
     @Expose
     private String survey;
+    @SerializedName("is_virtual_address_unlock")
+    @Expose
+    private Integer isVirtualAddressUnlock;
     @SerializedName("virtual_address_code")
     @Expose
     private String virtualAddressCode;
@@ -50,7 +53,15 @@ public class MeResponse {
     @SerializedName("is_member")
     @Expose
     private Integer isMember;
-
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+    @SerializedName("membership_validity")
+    @Expose
+    private Object membershipValidity;
+    @SerializedName("membership_start_date")
+    @Expose
+    private Object membershipStartDate;
     @SerializedName("is_email_verified")
     @Expose
     private Integer isEmailVerified;
@@ -62,12 +73,6 @@ public class MeResponse {
     public void setIsEmailVerified(Integer isEmailVerified) {
         this.isEmailVerified = isEmailVerified;
     }
-    @SerializedName("membership_validity")
-    @Expose
-    private String membershipValidity;
-    @SerializedName("membership_start_date")
-    @Expose
-    private String membershipStartDate;
 
     public String getName() {
         return name;
@@ -165,6 +170,14 @@ public class MeResponse {
         this.survey = survey;
     }
 
+    public Integer getIsVirtualAddressUnlock() {
+        return isVirtualAddressUnlock;
+    }
+
+    public void setIsVirtualAddressUnlock(Integer isVirtualAddressUnlock) {
+        this.isVirtualAddressUnlock = isVirtualAddressUnlock;
+    }
+
     public String getVirtualAddressCode() {
         return virtualAddressCode;
     }
@@ -189,53 +202,28 @@ public class MeResponse {
         this.isMember = isMember;
     }
 
-    public String getMembershipValidity() {
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Object getMembershipValidity() {
         return membershipValidity;
     }
 
-    public void setMembershipValidity(String membershipValidity) {
+    public void setMembershipValidity(Object membershipValidity) {
         this.membershipValidity = membershipValidity;
     }
 
-    public String getMembershipStartDate() {
+    public Object getMembershipStartDate() {
         return membershipStartDate;
     }
 
-    public void setMembershipStartDate(String membershipStartDate) {
+    public void setMembershipStartDate(Object membershipStartDate) {
         this.membershipStartDate = membershipStartDate;
-    }
-    @SerializedName("code")
-    @Expose
-    private Integer code;
-    @SerializedName("error")
-    @Expose
-    private String error;
-    @SerializedName("error_description")
-    @Expose
-    private String errorDescription;
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
     }
 
 }
