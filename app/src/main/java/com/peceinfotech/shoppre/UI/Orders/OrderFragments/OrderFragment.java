@@ -40,11 +40,11 @@ import retrofit2.Response;
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn, verifyEmailBtn;
+    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
 
-    CardView banner, ordersCard , verifyEmailBox , sevenDay;
+    CardView banner, ordersCard, verifyEmailBox, sevenDay;
     List<Order> list;
     LinearLayout orderListing;
     OrdersAdapter ordersAdapter;
@@ -60,6 +60,7 @@ public class OrderFragment extends Fragment {
         banner = view.findViewById(R.id.banner);
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
+        submit = view.findViewById(R.id.submit);
         sevenDay = view.findViewById(R.id.sevenDay);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -68,8 +69,6 @@ public class OrderFragment extends Fragment {
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
         callMeApi(sharedPrefManager.getBearerToken());
-
-
 
 
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
@@ -122,15 +121,14 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
 
                 if (response.code() == 200) {
-                    String s =sharedPrefManager.getCreateDate();
+                    String s = sharedPrefManager.getCreateDate();
                     String[] split = s.split("T");
                     String date = split[0];
 
                     int daysBetween = getDateDiffFromNow(date);
-                    if (daysBetween>7){
+                    if (daysBetween > 7) {
                         sevenDay.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         sevenDay.setVisibility(View.VISIBLE);
                     }
 
@@ -200,16 +198,17 @@ public class OrderFragment extends Fragment {
             }
         });
     }
-    public int getDateDiffFromNow(String date){
+
+    public int getDateDiffFromNow(String date) {
         int days = 0;
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             long diff = new Date().getTime() - sdf.parse(date).getTime();
             long seconds = diff / 1000;
             long minutes = seconds / 60;
             long hours = minutes / 60;
             days = ((int) (long) hours / 24);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return days;

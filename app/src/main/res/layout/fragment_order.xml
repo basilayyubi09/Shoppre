@@ -80,11 +80,12 @@
                                 android:insetBottom="0dp"
                                 android:text="Submit"
                                 android:textAllCaps="false"
+                                android:textColor="@color/white"
                                 android:textFontWeight="700"
                                 android:textSize="10sp"
                                 app:backgroundTint="#17B28F"
-                                android:textColor="@color/white"
-                                app:cornerRadius="5dp" />
+                                app:cornerRadius="5dp"
+                                android:id="@+id/submit"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
