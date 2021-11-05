@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/number"
+            android:text="1. "
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:textFontWeight="350"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainText"
+            android:layout_weight="2"
+            android:layout_marginLeft="8dp"
+            android:text="Reebok Men...(01)"
+            android:textSize="12sp"
+            android:textFontWeight="350"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/price"
+            android:text="₹ 1496"
+            android:layout_gravity="center_vertical"
+
+            android:textSize="12sp"
+            android:textFontWeight="350"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+
+

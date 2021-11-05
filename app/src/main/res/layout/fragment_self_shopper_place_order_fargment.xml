@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.Orders.OrderFragments.SelfShopperPlaceOrderFargment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingVertical="26dp"
+        android:paddingHorizontal="22dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Place Your Order"
+                    android:textSize="14sp"
+                    android:textFontWeight="700"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload the order invoice or a screenshot of the order details"
+                    android:textSize="10sp"
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:layout_marginBottom="17dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="61dp"
+                            android:layout_height="61dp"
+                            android:src="@mipmap/shop_from"
+                            android:layout_gravity="center_horizontal"/>
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop from India"
+                            android:textFontWeight="600"
+                            android:textSize="10sp"
+                            android:textColor="@color/black"
+                            />
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shop on any Indian e-Commerce website"
+                            android:textSize="8sp"
+                            android:textFontWeight="400"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="61dp"
+                            android:layout_height="61dp"
+                            android:src="@drawable/ic_attach_screenshot"
+                            android:layout_gravity="center_horizontal"/>
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Attach Screenshot"
+                            android:textFontWeight="600"
+                            android:textSize="10sp"
+                            android:textColor="@color/black"
+                            />
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Attach the screenshot of your order here"
+                            android:textSize="8sp"
+                            android:textFontWeight="400"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="61dp"
+                            android:layout_height="61dp"
+                            android:src="@drawable/ic_upload_invoice"
+                            android:layout_gravity="center_horizontal"/>
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload Invoice"
+                            android:textFontWeight="600"
+                            android:textSize="10sp"
+                            android:textColor="@color/black"
+                            />
+                        <TextView
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="On order dispatch upload your invoice"
+                            android:textSize="8sp"
+                            android:textFontWeight="400"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#3A5FD8"
+                    android:text="View Sample"
+                    android:textSize="10sp"
+                    android:layout_marginTop="10dp"
+                    android:textFontWeight="500"
+                    android:id="@+id/viewSample"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enter e-Commerce Website/Store Name"
+                    android:textFontWeight="500"
+                    android:textSize="10sp"
+                    android:layout_marginTop="13dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginTop="3dp"
+                    android:hint="Myntra.com"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/hint_color"
+                    android:paddingStart="15dp"
+                    android:inputType="text"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="168dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/background">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <View
+                            android:layout_marginTop="13dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:background="@drawable/dashed_line"
+                            android:layerType="software" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="138dp"
+                                android:layout_marginLeft="15dp"
+
+                                android:background="@drawable/dashed_line_vertical"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Click tp upload"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="35dp"
+                                android:id="@+id/click"
+                                android:textColor="#7E7E7E"
+                                android:textSize="10sp"
+                                android:textFontWeight="600"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Supported Formats: .pdf, .png or .jpg"
+                                android:layout_below="@+id/click"
+                                android:layout_marginTop="30dp"
+                                android:layout_centerHorizontal="true"
+                                android:textColor="#7E7E7E"
+                                android:textSize="10sp"
+                                android:textFontWeight="500"/>
+                            <View
+                                android:layout_width="5dp"
+                                android:layout_height="138dp"
+                                android:layout_marginRight="15dp"
+
+                                android:layout_alignParentRight="true"
+                                android:background="@drawable/dashed_line_vertical"/>
+                        </RelativeLayout>
+                        <View
+                            android:layout_marginBottom="13dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:background="@drawable/dashed_line"
+                            android:layerType="software" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Our team will accept your package based on this document.
+Please note that you will have to upload a tax invoice on order dispatch."
+                    android:layout_marginHorizontal="7dp"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:textFontWeight="500"
+                    android:textColor="@color/black"
+                    android:layout_marginVertical="20dp"
+                    android:lineHeight="12.2dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:insetBottom="0dp"
+                    android:insetTop="0dp"
+                    android:backgroundTint="#17B28F"
+                    android:layout_marginHorizontal="60dp"
+                    android:text="Proceed"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textAllCaps="false"
+                    android:textFontWeight="700"/>
+            </LinearLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

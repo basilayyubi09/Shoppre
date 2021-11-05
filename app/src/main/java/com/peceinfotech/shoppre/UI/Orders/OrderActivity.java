@@ -160,9 +160,8 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
-                MeResponse meResponse = response.body();
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
                     sharedPrefManager.storeLastName(response.body().getLastName());
                     sharedPrefManager.storeFullName(response.body().getName());
@@ -174,6 +173,7 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeIsMigrated(response.body().getIsCourierMigrated());
                     sharedPrefManager.storeGroupId(response.body().getGroupId());
                     sharedPrefManager.storePhone(response.body().getPhone());
+                    sharedPrefManager.storeCreateDate(response.body().getCreatedAt());
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
@@ -206,8 +206,7 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                 }
                 else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    callMeApi(sharedPrefManager.getBearerToken());
                 }
             }
 

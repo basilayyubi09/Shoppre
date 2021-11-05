@@ -10,20 +10,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
-import com.peceinfotech.shoppre.OrderModuleResponses.OrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class OrderListing extends Fragment {
 
     RecyclerView orderRecycler;
+    OrderListingResponse list = null;
     CardView virtualAddressCard, shippingCalculatorCard;
 
 
@@ -40,18 +37,18 @@ public class OrderListing extends Fragment {
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
 
 
-        List<OrderResponse> list = new ArrayList<>();
+        OrderListingResponse list = null;
 
 
-        list.add(new OrderResponse("Myntra", "#RNDM043", "12 Dec 2020", R.drawable.ic_self_shopper));
-        list.add(new OrderResponse("Amazon.in", "#PSDM043", "15 Dec 2020", R.drawable.ic_personal_shopper));
-        list.add(new OrderResponse("Nyka", "#RNDM032", "16 Dec 2020", R.drawable.ic_self_shopper));
-        list.add(new OrderResponse("Flipkart", "#PSDM054", "18 Dec 2020", R.drawable.ic_personal_shopper));
-        list.add(new OrderResponse("Fabindia" , "#PSDM054" , "20 Dec 2020" , R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Myntra", "#RNDM043", "12 Dec 2020", R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Amazon.in", "#PSDM043", "15 Dec 2020", R.drawable.ic_personal_shopper));
+//        list.add(new OrderResponse("Nyka", "#RNDM032", "16 Dec 2020", R.drawable.ic_self_shopper));
+//        list.add(new OrderResponse("Flipkart", "#PSDM054", "18 Dec 2020", R.drawable.ic_personal_shopper));
+//        list.add(new OrderResponse("Fabindia" , "#PSDM054" , "20 Dec 2020" , R.drawable.ic_self_shopper));
 
-
-        OrdersAdapter ordersAdapter = new OrdersAdapter(list , getContext());
-        orderRecycler.setAdapter(ordersAdapter);
+//
+//        OrdersAdapter ordersAdapter = new OrdersAdapter(list , getContext());
+//        orderRecycler.setAdapter(ordersAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         orderRecycler.setLayoutManager(linearLayoutManager);
