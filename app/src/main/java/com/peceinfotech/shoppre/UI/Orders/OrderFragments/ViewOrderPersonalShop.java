@@ -31,8 +31,7 @@ public class ViewOrderPersonalShop extends Fragment {
         viewOrderTabLayout = view.findViewById(R.id.viewOrderTabLayout);
         viewOrderViewPager = view.findViewById(R.id.viewOrderViewPager);
 
-//        FragmentManager fragmentManager = get;
-//
+
 //        viewOrderViewPager = new ViewOrderViewPagerAdapter(fragmentManager, getLifecycle());
 
 
