@@ -316,34 +316,39 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/refer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="@string/how_does_shoppre_referrals_work"
+                        android:text="What is Shoppre’s ‘Refer and Earn’ Programme?"
                         android:textColor="#3A5FD8"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="@string/how_can_i_invite_my_friends"
+                        android:text="Where can I share my referral code?"
                         android:textColor="#3A5FD8"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/use"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="@string/can_i_transfer_the_cashback_to_my_bank"
+                        android:text="Where can I use the Referral Reward?"
                         android:textColor="#3A5FD8"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/readMoreLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp">
 
@@ -351,23 +356,19 @@
                             android:id="@+id/readMore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
                             android:text="Read More"
                             android:textColor="#3A5FD8"
-
                             android:textFontWeight="600"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:layout_gravity="center_vertical"/>
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="6dp"
-                            android:layout_toRightOf="@+id/readMore"
+                            android:layout_marginLeft="4dp"
                             android:src="@mipmap/right_arrow" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

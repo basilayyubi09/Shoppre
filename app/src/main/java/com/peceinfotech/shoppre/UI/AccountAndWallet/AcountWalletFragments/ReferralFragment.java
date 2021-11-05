@@ -23,6 +23,8 @@ import com.peceinfotech.shoppre.AccountResponse.ReferralHistoryResponse;
 import com.peceinfotech.shoppre.Adapters.AccountAndWallet.ReferralAdapter;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.ReferralRetrofitClient;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -41,11 +43,12 @@ public class ReferralFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     RecyclerView referralRecycle;
     MaterialCardView haveARefCard;
-    LinearLayout emptyReferralLayout  , showMoreLayout;
+    LinearLayout emptyReferralLayout  , showMoreLayout , readMoreLayout;
     SharedPrefManager sharedPrefManager;
     String bearerToken;
     TextView referralCodeText;
     MaterialButton copyBtn;
+    TextView refer , share , use;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +62,10 @@ public class ReferralFragment extends Fragment {
         referralRecycle = view.findViewById(R.id.referralRecycler);
         copyBtn = view.findViewById(R.id.copyBtn);
         referralCodeText = view.findViewById(R.id.referralCodeText);
+        readMoreLayout = view.findViewById(R.id.readMoreLayout);
+        refer = view.findViewById(R.id.refer);
+        share = view.findViewById(R.id.share);
+        use = view.findViewById(R.id.use);
 
         list = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -112,6 +119,59 @@ public class ReferralFragment extends Fragment {
 
 
         referralAdapter.notifyDataSetChanged();
+
+        refer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebViewFragment web = new WebViewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("url" , "https://go-shoppre.freshdesk.com/support/solutions/articles/81000393245-what-is-the-shoppre-s-refer-and-earn-programme-");
+                web.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, web, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebViewFragment web = new WebViewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("url" , "https://go-shoppre.freshdesk.com/support/solutions/articles/81000393247-where-can-i-share-my-referral-code-");
+                web.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, web, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+
+        use.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebViewFragment web = new WebViewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("url" , "https://go-shoppre.freshdesk.com/support/solutions/articles/81000393250-where-can-i-use-the-referral-reward-");
+                web.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, web, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        readMoreLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebViewFragment web = new WebViewFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("url" , "https://go-shoppre.freshdesk.com/support/solutions/folders/81000288497");
+                web.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, web, null)
+                        .addToBackStack(null).commit();
+            }
+        });
         return  view;
     }
     private void callReferralApi() {

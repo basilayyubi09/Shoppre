@@ -80,14 +80,7 @@ public class OrderFragment extends Fragment {
                 callVerifyEmailId();
             }
         });
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
-                        .addToBackStack(null).commit();
-            }
-        });
+
         addYourFirstOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +92,14 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopperPlaceOrderFargment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         ordersAdapter = new OrdersAdapter(list, getContext());
         orderRecycler.setAdapter(ordersAdapter);

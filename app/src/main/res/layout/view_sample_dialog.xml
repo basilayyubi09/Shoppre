@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    app:cardCornerRadius="10dp">
+   
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="16dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/cross" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please make sure that the Self Shopper Screenshot/ PDF document you upload has these details in it"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="40dp"
+            android:textColor="@color/black"
+            android:textFontWeight="600"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/close"
+            android:id="@+id/please"/>
+        <TextView
+            android:layout_below="@+id/please"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textFontWeight="400"
+            android:id="@+id/sample"/>
+
+        <ImageView
+            android:padding="8dp"
+            android:background="@drawable/view_sample_image_bg"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_below="@id/sample"
+            android:src="@mipmap/view_sample"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>
