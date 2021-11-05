@@ -68,6 +68,12 @@ public class OrderFragment extends Fragment {
 
 
 
+        ///Product Card Visibility Handling
+
+
+
+
+
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

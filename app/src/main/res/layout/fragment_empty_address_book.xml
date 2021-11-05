@@ -448,6 +448,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressNameText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -461,6 +462,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressNameCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -491,6 +493,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressLine1Text"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -503,6 +506,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressLine1CopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -533,6 +537,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressLine2Text"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -546,6 +551,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressLine2CopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -576,6 +582,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressLandmarkText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -588,6 +595,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressLandmarkCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -618,6 +626,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressCityText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -631,6 +640,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressCityCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -661,6 +671,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressStateText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -674,6 +685,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressStateCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -704,6 +716,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressPincodeText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -716,6 +729,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressPincodeCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"
@@ -746,6 +760,7 @@
                                 android:background="@drawable/edit_text_bg">
 
                                 <TextView
+                                    android:id="@+id/emptyAddressPhoneNoText"
                                     android:layout_width="match_parent"
                                     android:layout_height="34dp"
                                     android:layout_weight="1"
@@ -759,6 +774,7 @@
                                     app:boxStrokeColor="@color/hint_color" />
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/emptyAddressPhoneNOCopyBtn"
                                     android:layout_width="34dp"
                                     android:layout_height="34dp"
                                     android:background="@drawable/edit_text_bg_3"

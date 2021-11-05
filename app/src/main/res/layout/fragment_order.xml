@@ -7,7 +7,7 @@
     android:background="@color/box_background_color"
     tools:context=".UI.Orders.OrderFragments.OrderFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -68,7 +68,6 @@
                                 android:paddingLeft="10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_color"
-                                android:textCursorDrawable="@color/hint_color"
                                 android:textSize="12sp" />
 
                             <com.google.android.material.button.MaterialButton
@@ -498,7 +497,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="23dp"
-                    app:cardCornerRadius="5dp"
+                    app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -553,7 +552,7 @@
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginBottom="28dp"
-                    app:cardCornerRadius="5dp"
+                    app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
@@ -640,6 +639,6 @@
             </LinearLayout>
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>
