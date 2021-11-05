@@ -403,9 +403,6 @@
                         android:textSize="14sp" />
 
 
-
-
-
                     <LinearLayout
 
                         android:id="@+id/phoneInputLayout"
@@ -503,11 +500,10 @@
                         android:id="@+id/checkBox"/>
 
                     <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="32dp"
                         android:id="@+id/addAddressBtn"
-                        android:layout_gravity="bottom"
-                        android:layout_marginHorizontal="75dp"
+                        android:layout_gravity="center"
                         android:layout_marginTop="21dp"
                         android:layout_marginBottom="29dp"
                         android:backgroundTint="#17B28F"

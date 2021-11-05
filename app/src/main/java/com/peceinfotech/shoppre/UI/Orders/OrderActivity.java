@@ -82,10 +82,8 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (savedInstanceState != null) return;
-                fragmentTransaction = fragmentManager.beginTransaction();
-                OrderFragment orderFragment = new OrderFragment();
-                fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
-                fragmentTransaction.commit();
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+                        .addToBackStack(null).commit();
 
 
                 orderImage.setImageResource(R.drawable.ic_orders___selected);
@@ -101,10 +99,8 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (savedInstanceState != null) return;
-                fragmentTransaction = fragmentManager.beginTransaction();
-                LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
-                fragmentTransaction.replace(R.id.orderFrameLayout, lockerReadyToShip, null);
-                fragmentTransaction.addToBackStack(null).commit();
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
+                        .addToBackStack(null).commit();
 
 
                 orderImage.setImageResource(R.drawable.ic_orders);
@@ -119,11 +115,10 @@ public class OrderActivity extends AppCompatActivity {
         shipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (savedInstanceState != null) return;
-                fragmentTransaction = fragmentManager.beginTransaction();
-                ShipmentList shipmentList = new ShipmentList();
-                fragmentTransaction.replace(R.id.orderFrameLayout, shipmentList, null);
-                fragmentTransaction.addToBackStack(null).commit();
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
+                        .addToBackStack(null).commit();
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);
@@ -137,10 +132,9 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (savedInstanceState != null) return;
-                fragmentTransaction = fragmentManager.beginTransaction();
-                ViewProfile viewProfile = new ViewProfile();
-                fragmentTransaction.replace(R.id.orderFrameLayout, viewProfile, null);
-                fragmentTransaction.addToBackStack(null).commit();
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
+                        .addToBackStack(null).commit();
 
                 orderImage.setImageResource(R.drawable.ic_orders);
                 lockerImage.setImageResource(R.drawable.ic_locker);

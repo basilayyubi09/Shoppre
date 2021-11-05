@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.OrderAdapter.ParentFinalOrderSummaryAdapter;
 import com.peceinfotech.shoppre.Models.Section;
 import com.peceinfotech.shoppre.Models.SectionItem;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,8 @@ public class FinalOrderSummaryFragment extends Fragment {
     List<Section> list = new ArrayList<>();
     RecyclerView recyclerView;
     ParentFinalOrderSummaryAdapter adapter ;
+    MaterialButton proceedToPayBtn;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,6 +34,10 @@ public class FinalOrderSummaryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_final_order_summary, container, false);
 
         recyclerView = view.findViewById(R.id.recycleFinal);
+        proceedToPayBtn = view.findViewById(R.id.proceedToPayBtn);
+
+
+
         String section = "Myntra";
         int personal = 200;
         int additional = 100;
@@ -48,6 +56,19 @@ public class FinalOrderSummaryFragment extends Fragment {
 
         adapter = new ParentFinalOrderSummaryAdapter(list , getActivity() );
         recyclerView.setAdapter(adapter);
+
+
+        proceedToPayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment())
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
         return view;
     }
 }

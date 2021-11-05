@@ -5,18 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 
 
 public class OrderListing extends Fragment {
 
     RecyclerView orderRecycler;
     OrderListingResponse list = null;
+    CardView virtualAddressCard, shippingCalculatorCard;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,6 +33,8 @@ public class OrderListing extends Fragment {
         ///Hoooks
 
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
+        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
 
 
         OrderListingResponse list = null;
@@ -44,6 +52,9 @@ public class OrderListing extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         orderRecycler.setLayoutManager(linearLayoutManager);
+
+
+
 
 
         return view;

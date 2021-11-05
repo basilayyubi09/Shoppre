@@ -28,6 +28,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="22dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp"
                     android:id="@+id/sevenDay">
@@ -68,7 +70,6 @@
                                 android:paddingLeft="10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_color"
-                                android:textCursorDrawable="@color/hint_color"
                                 android:textSize="12sp" />
 
                             <com.google.android.material.button.MaterialButton
@@ -258,6 +259,7 @@
 
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/shippingCalculator"
                             android:layout_width="240dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
@@ -370,12 +372,13 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/virtualAddressCard"
                         android:layout_width="114dp"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
-                        app:cardCornerRadius="5dp"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="4dp">
 
                         <LinearLayout
@@ -411,12 +414,13 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/shippingCalculatorCard"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
                         android:layout_marginLeft="14dp"
                         android:layout_weight="1"
-                        app:cardCornerRadius="5dp"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="4dp">
 
                         <LinearLayout
@@ -457,7 +461,7 @@
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        app:cardCornerRadius="5dp"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="4dp">
 
                         <LinearLayout
@@ -497,12 +501,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="23dp"
-                    app:cardCornerRadius="5dp"
+                    app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:padding="26dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -552,7 +556,7 @@
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginBottom="28dp"
-                    app:cardCornerRadius="5dp"
+                    app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
@@ -581,6 +585,7 @@
                                 android:gravity="right">
 
                                 <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/addNewOrderBtn"
                                     android:layout_width="152dp"
                                     android:layout_height="24dp"
                                     android:layout_marginTop="19dp"

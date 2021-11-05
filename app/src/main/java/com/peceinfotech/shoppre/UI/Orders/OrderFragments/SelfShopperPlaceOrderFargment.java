@@ -25,14 +25,17 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.ViewSampleDialog;
 
 import java.io.File;
 
 public class SelfShopperPlaceOrderFargment extends Fragment {
 
+    MaterialButton selfShopProceedBtn;
     TextView viewSample;
     ImageView img ;
     int i = 0;
@@ -46,6 +49,24 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
+        selfShopProceedBtn = view.findViewById(R.id.selfShopProceedBtn);
+
+
+        selfShopProceedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+        return view;
+    }
         View view =  inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
         viewSample = view.findViewById(R.id.viewSample);
         img = view.findViewById(R.id.img);

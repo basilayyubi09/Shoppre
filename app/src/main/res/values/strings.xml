@@ -69,6 +69,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="delivery_address">24 Airport Rd -<br />Garhoud - Dubai -<br />United Arab Emirates</string>
     <string name="update_address">Update Address</string>
     <string name="i_agree_to_all_terms_conditions">I agree to all  <font color='#8F8F8F'><u><bold>Terms &amp; Conditions</bold></u></font></string>
+    <string name="chose_your_shopping_experience"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

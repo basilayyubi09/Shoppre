@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.OrderSummaryAdapter;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class OrderSummaryFragment extends Fragment {
     OrderSummaryAdapter adapter;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recycle;
+    MaterialButton orderSummaryProceedBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +31,8 @@ public class OrderSummaryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_summary, container, false);
         recycle = view.findViewById(R.id.recycle);
+        orderSummaryProceedBtn = view.findViewById(R.id.orderSummaryProceedBtn);
+
 
         list = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -42,6 +47,17 @@ public class OrderSummaryFragment extends Fragment {
         recycle.setLayoutManager(linearLayoutManager);
         adapter = new OrderSummaryAdapter(list, getActivity());
         recycle.setAdapter(adapter);
+
+
+        orderSummaryProceedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new FinalOrderSummaryFragment(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
 
         return view;
     }

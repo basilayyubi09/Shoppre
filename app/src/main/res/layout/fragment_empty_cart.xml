@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Orders.OrderFragments.EmptyCart">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/itemInCartCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginTop="26dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="34dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="35dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Items in Cart"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="14sp" />
+
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_marginRight="11dp"
+                    android:src="@drawable/cart_ic"/>
+
+                <ImageView
+                    android:id="@+id/downwardTriangle"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/cart_dropdown_ic"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/upwardTriangle"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/upward_triangle"
+                    android:visibility="gone"/>
+
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/productCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginTop="-30dp"
+            android:layout_marginBottom="28dp"
+            app:cardCornerRadius="10dp"
+            android:visibility="gone"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="39dp"
+                android:layout_marginTop="64dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="17dp"
+                    android:background="#8F8F8F"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="46dp"
+                    android:layout_marginHorizontal="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order Total"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:textFontWeight="600"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ 5174.00"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textFontWeight="600"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="11dp"
+                    android:layout_marginHorizontal="44dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal Shopper Fees"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:textFontWeight="600"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ 400.00"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textFontWeight="600"/>
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="17dp"
+                    android:background="#8F8F8F"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="29dp"
+                    android:layout_marginHorizontal="44dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:textFontWeight="700"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ 5536.18"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textFontWeight="700"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="28dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="21dp"
+                    android:text="Place Your Order"
+                    android:textColor="@color/black"
+                    android:textFontWeight="700"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="28dp"
+                    android:layout_marginTop="26dp"
+                    android:text="Product 1"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="34dp"
+                    android:layout_marginTop="17dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product URL"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="https://www.amazon.in/VASTRAMANIAA-Women-Fl..."
+                        android:singleLine="true"
+                        android:paddingLeft="13dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="12sp"
+                        app:boxStrokeColor="@color/hint_color" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product Name"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+
+                    <EditText
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="VASTRAMANIAA Women Floral Print Rayon Anarkal..."
+                        android:singleLine="true"
+                        android:paddingLeft="13dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="12sp"
+                        app:boxStrokeColor="@color/hint_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contains Liquid / Semi-Liquid item"
+                        android:textSize="10sp"
+                        android:textFontWeight="500"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Know More"
+                            android:textSize="8sp"
+                            android:layout_weight="0.1"
+                            android:gravity="right"
+                            android:layout_marginRight="7dp"
+                            android:textFontWeight="500"
+                            android:textColor="#3A5FD8"/>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Color"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+
+                    <EditText
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="Red"
+                        android:singleLine="true"
+                        android:paddingLeft="13dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="12sp"
+                        app:boxStrokeColor="@color/hint_color" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+
+                    <EditText
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="XL"
+                        android:singleLine="true"
+                        android:paddingLeft="13dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="12sp"
+                        app:boxStrokeColor="@color/hint_color" />
+
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price Per Item - INR (Include Delivery Charge, if any)"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="13dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/rupes" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:hint="749.00"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:paddingLeft="6dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="12sp"
+                        app:boxStrokeColor="@color/hint_color" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/edit_text_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="28dp"
+                            android:drawableStart="@drawable/minus_ic"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="4dp"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:endIconTint="@color/hint_color" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/hint_color" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="01"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:boxStrokeColor="@color/hint_color" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/hint_color" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="28dp"
+                            android:drawableStart="@drawable/plus_ic"
+                            android:paddingHorizontal="18dp"
+                            android:paddingVertical="4dp"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:endIconTint="@color/hint_color" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="If this item is not available"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_bg"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center|left"
+                            android:singleLine="true"
+                            android:text="Select an option"
+                            android:textColor="@color/hint_color"
+                            android:textFontWeight="500"
+                            android:textSize="12sp"
+                            app:boxStrokeColor="@color/hint_color" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/hint_color" />
+
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="8dp"
+                            android:src="@drawable/triangle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="33dp">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@drawable/ic_add_more_orders"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add More Product"
+                        android:textColor="#3A5FD8"
+                        android:textSize="12sp"
+                        android:textFontWeight="600"
+                        android:gravity="center"/>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pro Tip: Shop for multiple products to save more on shipping"
+                        android:textSize="10sp"
+                        android:textFontWeight="500"
+                        android:textColor="@color/black"
+                        android:gravity="center"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/proceedToCartBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="46dp"
+                        android:layout_marginBottom="30dp"
+                        android:paddingHorizontal="47dp"
+                        android:paddingVertical="11dp"
+                        android:text="Proceed To Cart"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textFontWeight="700"
+                        android:textSize="12sp"
+                        app:backgroundTint="#AFADAD"
+                        app:cornerRadius="5dp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

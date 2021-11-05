@@ -19,8 +19,8 @@
         android:id="@+id/orderFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        android:layout_below="@id/toolBar"/>
+        android:layout_below="@id/toolBar"
+        android:layout_marginBottom="60dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +34,7 @@
             android:clickable="true"
             android:id="@+id/orderCard"
             android:layout_width="98dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
             app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
@@ -48,8 +49,8 @@
 
                 <ImageView
                     android:id="@+id/ordersImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_orders___selected" />
 
@@ -58,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="Orders"
                     android:textColor="@color/black"
+                    android:layout_marginTop="3dp"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -83,8 +85,8 @@
 
                 <ImageView
                     android:id="@+id/lockerImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_locker" />
 
@@ -94,6 +96,7 @@
                     android:text="Locker"
                     android:textColor="@color/black"
                     android:textFontWeight="500"
+                    android:layout_marginTop="3dp"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -118,8 +121,8 @@
 
                 <ImageView
                     android:id="@+id/shipmentImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_shipments" />
 
@@ -127,6 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Shipments"
+                    android:layout_marginTop="3dp"
                     android:textColor="@color/black"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
@@ -153,8 +157,8 @@
 
                 <ImageView
                     android:id="@+id/accountImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_account" />
 
@@ -163,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="Account"
                     android:textColor="@color/black"
+                    android:layout_marginTop="3dp"
                     android:textFontWeight="500"
                     android:textSize="12sp" />
             </LinearLayout>

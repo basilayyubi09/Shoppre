@@ -1,6 +1,9 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,14 +45,23 @@ import retrofit2.Response;
 
 public class EmptyAddressBook extends Fragment {
 
-    MaterialButton billingAddAddressBtn, deliveryAddAddressBtn, setDefaultAddressBtn;
+    MaterialButton billingAddAddressBtn, deliveryAddAddressBtn, setDefaultAddressBtn,
+                   emptyAddressNameCopyBtn, emptyAddressLine1CopyBtn, emptyAddressLine2CopyBtn,
+                   emptyAddressLandmarkCopyBtn, emptyAddressCityCopyBtn, emptyAddressStateCopyBtn,
+                   emptyAddressPincodeCopyBtn, emptyAddressPhoneNOCopyBtn;
     RecyclerView deliveryRecyclerView;
     MaterialAutoCompleteTextView allAddressSpinner;
     String[] allAddress = {"All Address", "International Address", "Indian Address"};
     SharedPrefManager sharedPrefManager;
     CardView deliveryAddrsCard, emptyDeliveryAdrsCard;
     GetDeliveryAddrsAdapter getDeliveryAddrsAdapter;
-    TextView addMoreAddress, billingAddressText;
+    TextView addMoreAddress, billingAddressText, emptyAddressNameText,
+            emptyAddressLine1Text, emptyAddressLine2Text,
+            emptyAddressLandmarkText, emptyAddressCityText,
+            emptyAddressStateText, emptyAddressPincodeText,
+            emptyAddressPhoneNoText;
+
+
     int addressId, id;
     LinearLayout billingAddressBox;
     TextView billingAddressName, billingAddressContactNumber, billingAddressEdit, billingAddress;
@@ -80,9 +92,158 @@ public class EmptyAddressBook extends Fragment {
         setDefaultAddressBtn = view.findViewById(R.id.setDefaultAddrsBtn);
         addMoreAddress = view.findViewById(R.id.addMoreAddress);
 
+        emptyAddressNameCopyBtn = view.findViewById(R.id.emptyAddressNameCopyBtn);
+        emptyAddressLine1CopyBtn = view.findViewById(R.id.emptyAddressLine1CopyBtn);
+        emptyAddressLine2CopyBtn = view.findViewById(R.id.emptyAddressLine2CopyBtn);
+        emptyAddressLandmarkCopyBtn = view.findViewById(R.id.emptyAddressLandmarkCopyBtn);
+        emptyAddressCityCopyBtn = view.findViewById(R.id.emptyAddressCityCopyBtn);
+        emptyAddressStateCopyBtn = view.findViewById(R.id.emptyAddressStateCopyBtn);
+        emptyAddressPincodeCopyBtn = view.findViewById(R.id.emptyAddressPincodeCopyBtn);
+        emptyAddressPhoneNOCopyBtn = view.findViewById(R.id.emptyAddressPhoneNOCopyBtn);
+
+
+        emptyAddressNameText = view.findViewById(R.id.emptyAddressNameText);
+        emptyAddressLine1Text = view.findViewById(R.id.emptyAddressLine1Text);
+        emptyAddressLine2Text = view.findViewById(R.id.emptyAddressLine2Text);
+        emptyAddressLandmarkText = view.findViewById(R.id.emptyAddressLandmarkText);
+        emptyAddressCityText = view.findViewById(R.id.emptyAddressCityText);
+        emptyAddressStateText = view.findViewById(R.id.emptyAddressStateText);
+        emptyAddressPincodeText = view.findViewById(R.id.emptyAddressPincodeText);
+        emptyAddressPhoneNoText = view.findViewById(R.id.emptyAddressPhoneNoText);
+
 
         sharedPrefManager = new SharedPrefManager(getContext());
         bearerToken = sharedPrefManager.getBearerToken();
+
+
+        ////Virtual Address Copy Button
+
+
+        emptyAddressNameCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Name", emptyAddressNameText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        emptyAddressLine1CopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Line1", emptyAddressLine1Text.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        emptyAddressLine2CopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Line2", emptyAddressLine2Text.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+        emptyAddressLandmarkCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Landmark", emptyAddressLandmarkText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        emptyAddressCityCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("City", emptyAddressCityText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        emptyAddressStateCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("State", emptyAddressStateText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        emptyAddressPincodeCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Pincode", emptyAddressPincodeText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        emptyAddressPhoneNOCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)
+                        getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData data = (ClipData) ClipData.newPlainText("Phone No", emptyAddressPhoneNoText.getText());
+                clipboardManager.setPrimaryClip(data);
+
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
 
         getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
             @Override
@@ -371,7 +532,7 @@ public class EmptyAddressBook extends Fragment {
 
 
                                 new AlertDialog.Builder(getActivity())
-                                        .setMessage("Are you sure want to exit?")
+                                        .setMessage("Are you sure want to Delete?")
                                         .setCancelable(false)
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                             @Override

@@ -22,6 +22,7 @@ import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -36,15 +37,17 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit;
+    MaterialButton addYourFirstOrderBtn , verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
+    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard,  sevenDay;
 
-    CardView banner, ordersCard, verifyEmailBox, sevenDay;
+
     List<Order> list;
     LinearLayout orderListing;
     OrdersAdapter ordersAdapter;
@@ -63,12 +66,63 @@ public class OrderFragment extends Fragment {
         submit = view.findViewById(R.id.submit);
         sevenDay = view.findViewById(R.id.sevenDay);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
+        shippingCalculator = view.findViewById(R.id.shippingCalculator);
+        addNewOrderBtn = view.findViewById(R.id.addNewOrderBtn);
+        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
         sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
 
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
         callMeApi(sharedPrefManager.getBearerToken());
+
+
+
+
+        ///Product Card Visibility Handling
+
+
+
+
+
+        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (savedInstanceState != null) return;
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new VertualAddress() , null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+        shippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+
+        addNewOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
+
+
+
 
 
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
@@ -93,9 +147,15 @@ public class OrderFragment extends Fragment {
         });
 
         submit.setOnClickListener(new View.OnClickListener() {
+
+        shippingCalculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (savedInstanceState != null) return;
+
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new ShippingCalculator(), null)
+                            .addToBackStack(null).commit();
+
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopperPlaceOrderFargment(), null)
                         .addToBackStack(null).commit();
             }
