@@ -1,4 +1,4 @@
-package com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments;
+package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.os.Bundle;
 
@@ -9,11 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.CartGroupAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,9 @@ public class EmptyCart extends Fragment {
 
     RecyclerView cartRecycler;
     CardView itemCartCard, productCartCard;
+    ImageView downwardTriangle, upwardTriangle;
+    MaterialButton proceedToCartBtn;
+    int flag = 1;
     List<CartModelResponse> list = new ArrayList<>();
 
     @Override
@@ -34,6 +40,10 @@ public class EmptyCart extends Fragment {
         cartRecycler = view.findViewById(R.id.cartRecycler);
         itemCartCard = view.findViewById(R.id.itemInCartCard);
         productCartCard = view.findViewById(R.id.productCard);
+        downwardTriangle = view.findViewById(R.id.downwardTriangle);
+        upwardTriangle = view.findViewById(R.id.upwardTriangle);
+        proceedToCartBtn = view.findViewById(R.id.proceedToCartBtn);
+
 
         String web = "Amazon";
         List<ProductItem>  p = new ArrayList<>();
@@ -79,11 +89,35 @@ public class EmptyCart extends Fragment {
 
 
 
+        downwardTriangle.setVisibility(View.VISIBLE);
         itemCartCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                productCartCard.setVisibility(View.VISIBLE);
+                if (flag==1){
+                    productCartCard.setVisibility(View.VISIBLE);
+                    upwardTriangle.setVisibility(View.VISIBLE);
+                    downwardTriangle.setVisibility(View.GONE);
+
+                    flag = 0;
+
+                }else if (flag==0){
+
+                    productCartCard.setVisibility(View.GONE);
+                    upwardTriangle.setVisibility(View.GONE);
+                    downwardTriangle.setVisibility(View.VISIBLE);
+
+                    flag=1;
+                }
+            }
+        });
+
+        proceedToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderSummaryFragment(), null)
+                        .addToBackStack(null).commit();
 
             }
         });

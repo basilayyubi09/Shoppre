@@ -433,8 +433,7 @@
                     android:textColor="@color/white"
                     android:textFontWeight="700"
                     android:textSize="12sp"
-                    app:cornerRadius="5dp"
-                    app:elevation="4dp" />
+                    app:cornerRadius="5dp" />
 
 
             </LinearLayout>

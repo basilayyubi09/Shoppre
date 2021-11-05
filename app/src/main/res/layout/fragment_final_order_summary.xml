@@ -148,6 +148,7 @@
 
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/proceedToPayBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="37dp"
                         android:layout_gravity="center_horizontal"
@@ -155,6 +156,7 @@
                         android:layout_weight="700"
                         android:backgroundTint="#17B28F"
                         android:insetTop="0dp"
+                        app:cornerRadius="5dp"
                         android:insetBottom="0dp"
                         android:letterSpacing="0.03"
                         android:text="Proceed To Pay"

@@ -45,7 +45,7 @@ public class OrderFragment extends Fragment {
     MaterialButton addYourFirstOrderBtn , verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
-    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard;
+    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard,  sevenDay;
 
 
     List<Order> list;
@@ -134,14 +134,7 @@ public class OrderFragment extends Fragment {
                 callVerifyEmailId();
             }
         });
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
-                        .addToBackStack(null).commit();
-            }
-        });
+
         addYourFirstOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

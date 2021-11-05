@@ -242,6 +242,7 @@ Please note that you will have to upload a tax invoice on order dispatch."
                     android:lineHeight="12.2dp"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/selfShopProceedBtn"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:insetBottom="0dp"

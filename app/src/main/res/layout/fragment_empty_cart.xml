@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Orders.OrderFragments.TabLayoutFragments.EmptyCart">
+    tools:context=".UI.Orders.OrderFragments.EmptyCart">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -49,9 +49,20 @@
                     android:src="@drawable/cart_ic"/>
 
                 <ImageView
+                    android:id="@+id/downwardTriangle"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:src="@drawable/cart_dropdown_ic" />
+                    android:src="@drawable/cart_dropdown_ic"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/upwardTriangle"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/upward_triangle"
+                    android:visibility="gone"/>
+
+
 
 
             </LinearLayout>
@@ -64,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="22dp"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="-30dp"
             android:layout_marginBottom="28dp"
             app:cardCornerRadius="10dp"
             android:visibility="gone"
@@ -534,6 +545,7 @@
                         android:gravity="center"/>
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/proceedToCartBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
