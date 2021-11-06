@@ -36,6 +36,22 @@ public class OrderItem {
     @Expose
     private OrderItemState orderItemState;
 
+
+    @SerializedName("total_amount")
+    @Expose
+    private Integer totalAmount;
+
+
+    public Integer getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+
+
     public Integer getId() {
         return id;
     }

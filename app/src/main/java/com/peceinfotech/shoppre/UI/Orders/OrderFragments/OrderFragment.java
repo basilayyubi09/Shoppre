@@ -25,6 +25,7 @@ import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -73,17 +74,18 @@ public class OrderFragment extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
 
+        if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+        {
 
-        LoadingDialog.showLoadingDialog(getActivity(), "");
-        callMeApi(sharedPrefManager.getBearerToken());
-
-
-
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+        else {
+            LoadingDialog.showLoadingDialog(getActivity(), "");
+            callMeApi(sharedPrefManager.getBearerToken());
+        }
 
         ///Product Card Visibility Handling
-
-
-
 
 
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {

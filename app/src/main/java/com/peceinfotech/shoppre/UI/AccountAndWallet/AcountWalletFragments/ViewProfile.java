@@ -227,10 +227,8 @@ public class ViewProfile extends Fragment {
                 if (response.isSuccessful()) {
 
                     User user = response.body().getUser();
-
                     profilePrice.setText("\u20B9 "+String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
-
 
                 }else{
 

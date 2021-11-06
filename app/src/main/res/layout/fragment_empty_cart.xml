@@ -42,11 +42,15 @@
                     android:textSize="14sp" />
 
 
-                <ImageView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:layout_marginRight="11dp"
-                    android:src="@drawable/cart_ic"/>
+
+
+                    <ImageView
+
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_marginRight="11dp"
+                        android:src="@drawable/cart_ic" />
+
 
                 <ImageView
                     android:id="@+id/downwardTriangle"
@@ -252,6 +256,7 @@
                         android:textSize="10sp" />
 
                     <EditText
+                        android:id="@+id/urlField"
                         android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -263,6 +268,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
+                        android:inputType="text"
                         app:boxStrokeColor="@color/hint_color" />
 
 
@@ -277,6 +283,7 @@
 
 
                     <EditText
+                        android:id="@+id/nameField"
                         android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -288,6 +295,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
+                        android:inputType="text"
                         app:boxStrokeColor="@color/hint_color" />
 
                     <LinearLayout
@@ -295,6 +303,7 @@
                         android:layout_height="wrap_content">
 
                     <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/check"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Contains Liquid / Semi-Liquid item"
@@ -325,6 +334,7 @@
 
 
                     <EditText
+                        android:id="@+id/colorField"
                         android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -336,6 +346,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
+                        android:inputType="text"
                         app:boxStrokeColor="@color/hint_color" />
 
 
@@ -350,6 +361,7 @@
 
 
                     <EditText
+                        android:id="@+id/sizeField"
                         android:layout_marginTop="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,6 +373,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
+                        android:inputType="text"
                         app:boxStrokeColor="@color/hint_color" />
 
 
@@ -389,6 +402,7 @@
 
 
                     <EditText
+                        android:id="@+id/priceField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="5dp"
@@ -400,6 +414,7 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
+                        android:inputType="number"
                         app:boxStrokeColor="@color/hint_color" />
 
                     </LinearLayout>
@@ -421,6 +436,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/minus"
                             android:layout_width="wrap_content"
                             android:layout_height="28dp"
                             android:drawableStart="@drawable/minus_ic"
@@ -437,13 +453,14 @@
 
 
                         <TextView
+                            android:id="@+id/countField"
                             android:layout_width="match_parent"
                             android:layout_height="28dp"
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center"
                             android:singleLine="true"
-                            android:text="01"
+                            android:text="1"
                             android:textColor="@color/black"
                             android:textSize="12sp"
                             app:boxStrokeColor="@color/hint_color" />
@@ -454,6 +471,7 @@
                             android:background="@color/hint_color" />
 
                         <TextView
+                            android:id="@+id/plus"
                             android:layout_width="wrap_content"
                             android:layout_height="28dp"
                             android:drawableStart="@drawable/plus_ic"
@@ -476,7 +494,7 @@
                         android:textSize="10sp" />
 
                     <LinearLayout
-
+                        android:id="@+id/dropdownLayut"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_bg"
@@ -484,15 +502,17 @@
 
 
                         <TextView
+                            android:id="@+id/selectField"
                             android:layout_width="match_parent"
                             android:layout_height="28dp"
-                            android:layout_marginLeft="18dp"
+                            android:paddingLeft="18dp"
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center|left"
                             android:singleLine="true"
-                            android:text="Select an option"
-                            android:textColor="@color/hint_color"
+                            android:hint="Select an option"
+                            android:textColorHint="@color/hint_color"
+                            android:textColor="@color/black"
                             android:textFontWeight="500"
                             android:textSize="12sp"
                             app:boxStrokeColor="@color/hint_color" />
@@ -547,18 +567,18 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/proceedToCartBtn"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="32dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="46dp"
                         android:layout_marginBottom="30dp"
-                        android:paddingHorizontal="47dp"
-                        android:paddingVertical="11dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
                         android:text="Proceed To Cart"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textFontWeight="700"
                         android:textSize="12sp"
-                        app:backgroundTint="#AFADAD"
+                        app:backgroundTint="@color/button_blue"
                         app:cornerRadius="5dp" />
 
 
