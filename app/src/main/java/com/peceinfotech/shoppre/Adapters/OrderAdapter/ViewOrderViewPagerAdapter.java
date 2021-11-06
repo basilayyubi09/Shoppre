@@ -14,11 +14,11 @@ import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.Orde
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewOrderViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewOrderViewPagerAdapter extends FragmentPagerAdapter{
 
-    List<Fragment> fragmentList = new ArrayList<>();
-    List<String> title = new ArrayList<>();
-    
+    private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    private final ArrayList<String> fragmentTitle = new ArrayList<>();
+
     public ViewOrderViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -26,22 +26,23 @@ public class ViewOrderViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return fragmentList.get(position);
+        return fragmentArrayList.get(position);
     }
 
     @Override
     public int getCount() {
-        return fragmentList.size();
+        return fragmentTitle.size();
+    }
+
+    public void addFragment(Fragment fragment, String title){
+        fragmentArrayList.add(fragment);
+        fragmentTitle.add(title);
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return title.get(position);
-    }
-    
-    public void addFragment(Fragment fragment, String title){
-        fragmentList.add(fragment);
+        return fragmentTitle.get(position);
     }
 }
 

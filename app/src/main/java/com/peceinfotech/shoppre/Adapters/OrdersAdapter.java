@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.ViewOrderPersonalShop;
 
 import java.util.List;
 
@@ -43,6 +45,16 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
         holder.orderNo.setText("Order No: "+"#"+order.getOrderCode());
         holder.orderDate.setText(order.getCreatedAt());
         holder.orderImage.setImageResource(R.drawable.ic_personal_shopper);
+
+        holder.viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewOrderPersonalShop(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
 
     }
 
