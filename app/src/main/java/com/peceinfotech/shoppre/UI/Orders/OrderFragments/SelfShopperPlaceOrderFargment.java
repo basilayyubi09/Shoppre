@@ -49,24 +49,6 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
-        selfShopProceedBtn = view.findViewById(R.id.selfShopProceedBtn);
-
-
-        selfShopProceedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
-                        .addToBackStack(null).commit();
-
-            }
-        });
-
-
-        return view;
-    }
         View view =  inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
         viewSample = view.findViewById(R.id.viewSample);
         img = view.findViewById(R.id.img);
@@ -90,7 +72,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                     Toast.makeText(getActivity(), "Please Select an Image", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), " OK", Toast.LENGTH_SHORT).show();
+                    if (savedInstanceState != null) return;
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
+                            .addToBackStack(null).commit();
                 }
             }
         });
@@ -103,7 +87,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             }
         });
         return view;
+    
     }
+
 
     public void FromCamera() {
 

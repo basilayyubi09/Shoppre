@@ -73,6 +73,7 @@
                             android:textColor="@color/black"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:layout_marginHorizontal="4dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -83,6 +84,7 @@
                             android:src="@drawable/ic_attach_screenshot"
                             android:layout_gravity="center_horizontal"/>
                         <TextView
+                            android:gravity="center"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -260,7 +262,6 @@ Please note that you will have to upload a tax invoice on order dispatch."
                     android:lineHeight="12.2dp"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/selfShopProceedBtn"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:insetBottom="0dp"

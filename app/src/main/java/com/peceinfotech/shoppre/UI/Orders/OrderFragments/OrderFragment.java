@@ -146,20 +146,7 @@ public class OrderFragment extends Fragment {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
 
-        shippingCalculator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState != null) return;
-
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout , new ShippingCalculator(), null)
-                            .addToBackStack(null).commit();
-
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopperPlaceOrderFargment(), null)
-                        .addToBackStack(null).commit();
-            }
-        });
 
         ordersAdapter = new OrdersAdapter(list, getContext());
         orderRecycler.setAdapter(ordersAdapter);
