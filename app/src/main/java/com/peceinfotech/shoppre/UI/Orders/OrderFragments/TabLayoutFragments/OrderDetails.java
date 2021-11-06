@@ -31,7 +31,7 @@ public class OrderDetails extends Fragment {
         orderDetailsRecycler = view.findViewById(R.id.orderDetailsRecycler);
 
         list.add(new ViewOrderResponse(R.drawable.mobile1, "Redmi 3s Prime", "Black", "02", "32000"));
-        list.add(new ViewOrderResponse(R.drawable.view_order_image2, "Shoes", "Black", "02", "32000"));
+        list.add(new ViewOrderResponse(R.drawable.view_order_image2, "Redmi 3s Prime", "Black", "02", "32000"));
         list.add(new ViewOrderResponse(R.drawable.view_order_image3, "One Plus Nord 128 gb 6gb Ram Mirror Black", "Black", "02", "32000"));
         list.add(new ViewOrderResponse(R.drawable.view_order_image4, "Redmi 3s Prime", "Black", "02", "32000"));
         list.add(new ViewOrderResponse(R.drawable.mobile1, "Redmi 3s Prime", "Black", "02", "32000"));

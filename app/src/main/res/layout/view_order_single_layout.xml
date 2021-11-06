@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginTop="34dp">
+
 
     <ImageView
         android:id="@+id/viewOrderProductImage"
@@ -28,7 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Redmi Note 9 Pro Max"
-                android:maxEms="15"
+                android:maxEms="5"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="12sp" />
@@ -170,7 +173,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/i_button"
+            android:src="@drawable/information_button"
             android:layout_marginLeft="11dp"/>
 
 
