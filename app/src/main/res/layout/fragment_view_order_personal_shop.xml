@@ -53,7 +53,7 @@
                                 android:background="@drawable/order_created_radius"
                                 android:paddingHorizontal="7dp"
                                 android:paddingVertical="3dp"
-                                android:text="Order Created"
+                                android:text="Order Cancelled By Seller"
                                 android:textColor="#0073FF"
                                 android:textFontWeight="500"
                                 android:textSize="8sp" />
@@ -116,7 +116,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:text="Upload Invoice"
+                                android:text="Download Order Invoice"
                                 android:textColor="#3A5FD8"
                                 android:textFontWeight="500"
                                 android:textSize="12sp" />
