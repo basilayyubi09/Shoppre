@@ -1,30 +1,47 @@
 package com.peceinfotech.shoppre.Adapters.OrderAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderDetails;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates;
 
-public class ViewOrderViewPagerAdapter extends FragmentStateAdapter {
-    public ViewOrderViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-        super(fragmentManager, lifecycle);
+import java.util.ArrayList;
+import java.util.List;
+
+public class ViewOrderViewPagerAdapter extends FragmentPagerAdapter {
+
+    List<Fragment> fragmentList = new ArrayList<>();
+    List<String> title = new ArrayList<>();
+    
+    public ViewOrderViewPagerAdapter(@NonNull FragmentManager fm) {
+        super(fm);
     }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
-        if (position == 1){
-            return new OrderUpdates();
-        }
-        return new OrderDetails();
+    public Fragment getItem(int position) {
+        return fragmentList.get(position);
     }
 
     @Override
-    public int getItemCount() {
-        return 2;
+    public int getCount() {
+        return fragmentList.size();
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return title.get(position);
+    }
+    
+    public void addFragment(Fragment fragment, String title){
+        fragmentList.add(fragment);
     }
 }
+
