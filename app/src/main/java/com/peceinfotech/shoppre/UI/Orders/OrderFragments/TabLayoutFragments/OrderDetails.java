@@ -42,7 +42,7 @@ public class OrderDetails extends Fragment {
         }
 
         ViewOrderAdapter viewOrderAdapter = new ViewOrderAdapter(list1, getContext());
-        viewOrderAdapter = new ViewOrderAdapter(list, getContext());
+        viewOrderAdapter = new ViewOrderAdapter(list1, getContext());
         orderDetailsRecycler.setAdapter(viewOrderAdapter);
 
 

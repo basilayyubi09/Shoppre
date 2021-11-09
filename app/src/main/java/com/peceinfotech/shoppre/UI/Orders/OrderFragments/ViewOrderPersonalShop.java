@@ -44,7 +44,6 @@ public class ViewOrderPersonalShop extends Fragment {
     TabLayout viewOrderTabLayout;
     ViewPager viewOrderViewPager;
     String orderCode;
-    SharedPrefManager sharedPrefManager;
     TextView websiteName, status, orderNumberText, date;
     ViewOrderViewPagerAdapter viewPagerAdapter;
 

@@ -56,8 +56,8 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
-        selfShopProceedBtn = view.findViewById(R.id.selfShopProceedBtn);
-        View view =  inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
+        selfShopProceedBtn = view.findViewById(R.id.proceed);
+
         viewSample = view.findViewById(R.id.viewSample);
         img = view.findViewById(R.id.img);
         clickableLayout = view.findViewById(R.id.clickableLayout);

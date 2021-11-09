@@ -60,7 +60,7 @@ public class EmptyCart extends Fragment {
     MaterialCheckBox check;
     int count = 1;
     boolean isLiquid = false;
-    SharedPrefManager sharedPrefManager;
+
 
 
     @Override
