@@ -11,7 +11,9 @@ import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.CancelledApiResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -119,4 +121,19 @@ public interface AppApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/orders")
     Call<AddOrderResponse> addOrder(@Header("Authorization") String auth, @Body String jsonObject);
+
+    //https://staging-app1.shoppreglobal.com/api/orders/{orders_code}
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/orders/{orders_code}")
+    Call<ShowOrderResponse> showOrder(
+            @Header("Authorization") String auth,
+            @Path("orders_code") String orderCode
+    );
+
+    //    https://staging-app1.shoppreglobal.com/api/orders?type=cancel
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/orders?type=cancel")
+    Call<CancelledApiResponse> getCancelOrder(
+            @Header("Authorization") String auth
+    );
 }

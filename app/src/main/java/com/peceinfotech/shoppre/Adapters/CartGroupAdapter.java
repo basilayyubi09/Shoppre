@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
 import com.peceinfotech.shoppre.R;
 
@@ -19,10 +21,10 @@ import java.util.List;
 
 public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.viewHolder> {
 
-    List<CartModelResponse> list;
+    List<Order> list;
     Context context;
 
-    public CartGroupAdapter(List<CartModelResponse> list, Context context) {
+    public CartGroupAdapter(List<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -39,10 +41,10 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        CartModelResponse cartModelResponse = list.get(position);
-        holder.weSiteName.setText(cartModelResponse.getWebSiteName());
 
-        List<ProductItem> list1 = cartModelResponse.getProductItem();
+        holder.weSiteName.setText(list.get(position).getStore().getName());
+
+        List<OrderItem> list1 = list.get(position).getOrderItems();
         CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(list1, context);
         holder.productItemRecycler.setAdapter(cartItemsAdapter);
 

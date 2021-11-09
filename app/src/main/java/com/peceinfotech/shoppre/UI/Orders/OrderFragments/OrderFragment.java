@@ -24,8 +24,10 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.CancelledOrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
+import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -46,12 +48,14 @@ public class OrderFragment extends Fragment {
     MaterialButton addYourFirstOrderBtn , verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
-    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard,  sevenDay;
+    CardView banner , ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard,  sevenDay
+            ,forgetSomething;
 
 
     List<Order> list;
     LinearLayout orderListing;
     OrdersAdapter ordersAdapter;
+    LinearLayout cancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +66,7 @@ public class OrderFragment extends Fragment {
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         banner = view.findViewById(R.id.banner);
+        forgetSomething = view.findViewById(R.id.forgetSomething);
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
         submit = view.findViewById(R.id.submit);
@@ -70,6 +75,7 @@ public class OrderFragment extends Fragment {
         shippingCalculator = view.findViewById(R.id.shippingCalculator);
         addNewOrderBtn = view.findViewById(R.id.addNewOrderBtn);
         virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
         sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
@@ -85,7 +91,14 @@ public class OrderFragment extends Fragment {
             callMeApi(sharedPrefManager.getBearerToken());
         }
 
-        ///Product Card Visibility Handling
+        //check if orderCode Value stored in shared pref
+        //According to this value will show and hide forget something block
+        if (sharedPrefManager.getOrderCode().equals("")){
+            forgetSomething.setVisibility(View.GONE);
+        }
+        else {
+            forgetSomething.setVisibility(View.VISIBLE);
+        }
 
 
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
@@ -117,14 +130,28 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
-                        .addToBackStack(null).commit();
+//                if (sharedPrefManager.getOrderCode().equals("")){
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                            .addToBackStack(null).commit();
+//                }
+//                else {
+//                    LandingDialog landingDialog = new LandingDialog();
+//                    landingDialog.showDialog(getActivity());
+//                }
+
 
             }
         });
 
 
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CancelledOrderFragment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
 
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +169,7 @@ public class OrderFragment extends Fragment {
             public void onClick(View view) {
 
                 if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderListing(), null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
                         .addToBackStack(null).commit();
 
             }
@@ -190,7 +217,7 @@ public class OrderFragment extends Fragment {
                         sevenDay.setVisibility(View.VISIBLE);
                     }
 
-                    LoadingDialog.cancelLoading();
+
                     list = response.body().getOrders();
                     ordersAdapter = new OrdersAdapter(list, getContext());
                     orderRecycler.setAdapter(ordersAdapter);
@@ -205,6 +232,7 @@ public class OrderFragment extends Fragment {
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
+                    LoadingDialog.cancelLoading();
                 } else {
                     callRefreshTokenApi();
 

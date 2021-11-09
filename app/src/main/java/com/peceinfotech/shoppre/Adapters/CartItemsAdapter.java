@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
 import com.peceinfotech.shoppre.R;
 
@@ -17,10 +18,10 @@ import java.util.List;
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.viewHolder> {
 
-    List<ProductItem> productItemList;
+    List<OrderItem> productItemList;
     Context context;
 
-    public CartItemsAdapter(List<ProductItem> productItemList, Context context) {
+    public CartItemsAdapter(List<OrderItem> productItemList, Context context) {
         this.productItemList = productItemList;
         this.context = context;
     }
@@ -35,12 +36,13 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        ProductItem productItem = productItemList.get(position);
 
-        holder.productSerialNo.setText(String.valueOf(productItem.getProductSerialNo()));
-        holder.productName.setText(productItem.getProductName());
-        holder.productQuantity.setText("("+String.valueOf(productItem.getProductCount())+")");
-        holder.productPrice.setText(String.valueOf(productItem.getProductPrice()));
+
+        holder.productSerialNo.setText(String.valueOf(position+1));
+        holder.productName.setText(productItemList.get(position).getName());
+
+        holder.productQuantity.setText("("+String.valueOf(productItemList.get(position).getQuantity())+")");
+        holder.productPrice.setText("₹ "+String.valueOf(productItemList.get(position).getPriceAmount()));
 
     }
 

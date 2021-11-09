@@ -39,6 +39,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/websiteName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Amazon"
@@ -47,6 +48,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -80,6 +82,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/orderNumberText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="500"
@@ -103,6 +106,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/date"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="500"

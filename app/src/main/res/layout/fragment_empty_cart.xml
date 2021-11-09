@@ -123,6 +123,7 @@
 
 
                     <TextView
+                        android:id="@+id/orderTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₹ 5174.00"
@@ -151,6 +152,7 @@
 
 
                     <TextView
+                        android:id="@+id/shoppreFee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₹ 400.00"
@@ -186,6 +188,7 @@
 
 
                     <TextView
+                        android:id="@+id/total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₹ 5536.18"

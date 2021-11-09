@@ -9,6 +9,8 @@ import android.view.Window;
 
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.SelfShopper;
 
 public class LandingDialog {
 
@@ -27,12 +29,16 @@ public class LandingDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                        .addToBackStack(null).commit();
             }
         });
         createNewOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                        .addToBackStack(null).commit();
             }
         });
 
