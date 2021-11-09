@@ -35,10 +35,12 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
 public class ViewOrderPersonalShop extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     TabLayout viewOrderTabLayout;
     ViewPager viewOrderViewPager;
     String orderCode;
@@ -51,7 +53,9 @@ public class ViewOrderPersonalShop extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_order_personal_shop, container, false);
+
         sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
 
         viewOrderViewPager = view.findViewById(R.id.viewOrderViewPager);
         viewOrderTabLayout = view.findViewById(R.id.viewOrderTabLayout);

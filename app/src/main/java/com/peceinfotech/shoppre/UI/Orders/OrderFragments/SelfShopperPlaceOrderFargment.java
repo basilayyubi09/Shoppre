@@ -32,9 +32,11 @@ import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.ViewSampleDialog;
 
 import java.io.File;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class SelfShopperPlaceOrderFargment extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     MaterialButton selfShopProceedBtn;
     TextView viewSample;
     ImageView img ;
@@ -49,6 +51,12 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
+
+        selfShopProceedBtn = view.findViewById(R.id.selfShopProceedBtn);
         View view =  inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
         viewSample = view.findViewById(R.id.viewSample);
         img = view.findViewById(R.id.img);
@@ -87,7 +95,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             }
         });
         return view;
-    
+
     }
 
 

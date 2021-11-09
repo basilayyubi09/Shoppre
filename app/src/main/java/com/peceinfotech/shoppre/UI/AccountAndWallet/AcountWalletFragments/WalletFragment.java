@@ -60,6 +60,10 @@ public class WalletFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
 
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("account");
+
+
         allSpinner = view.findViewById(R.id.allSpinner);
         myWalletMyCash = view.findViewById(R.id.myWalletMyCash);
         myCash = view.findViewById(R.id.myCash);
@@ -78,7 +82,7 @@ public class WalletFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         //shared pref manager
-        sharedPrefManager = new SharedPrefManager(getActivity());
+
         bearerToken = sharedPrefManager.getBearerToken();
 
         recyclerView.setLayoutManager(linearLayoutManager);

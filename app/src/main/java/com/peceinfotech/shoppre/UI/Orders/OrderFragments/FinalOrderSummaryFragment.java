@@ -14,6 +14,7 @@ import com.peceinfotech.shoppre.Models.Section;
 import com.peceinfotech.shoppre.Models.SectionItem;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 public class FinalOrderSummaryFragment extends Fragment {
 
 
+    SharedPrefManager sharedPrefManager;
     List<Section> list = new ArrayList<>();
     RecyclerView recyclerView;
     ParentFinalOrderSummaryAdapter adapter ;
@@ -32,6 +34,9 @@ public class FinalOrderSummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_final_order_summary, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
 
         recyclerView = view.findViewById(R.id.recycleFinal);
         proceedToPayBtn = view.findViewById(R.id.proceedToPayBtn);

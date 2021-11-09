@@ -27,6 +27,8 @@ import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
 
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -43,6 +45,7 @@ import retrofit2.Response;
 
 public class EmptyCart extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     RecyclerView cartRecycler;
     CardView itemCartCard, productCartCard;
     ImageView downwardTriangle, upwardTriangle;
@@ -65,7 +68,10 @@ public class EmptyCart extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_empty_cart, container, false);
+
         sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
+
         cartRecycler = view.findViewById(R.id.cartRecycler);
         itemCartCard = view.findViewById(R.id.itemInCartCard);
         productCartCard = view.findViewById(R.id.productCard);

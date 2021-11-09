@@ -77,6 +77,10 @@ public class EmptyAddressBook extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_empty_address_book, container, false);
 
+        sharedPrefManager = new SharedPrefManager(getContext());
+        sharedPrefManager.fragmentValue("account");
+
+
         billingAddressContactNumber = view.findViewById(R.id.billingContactNumber);
         billingAddressEdit = view.findViewById(R.id.billingAddressEdit);
         billingAddress = view.findViewById(R.id.billingAddress);
@@ -112,7 +116,7 @@ public class EmptyAddressBook extends Fragment {
         emptyAddressPhoneNoText = view.findViewById(R.id.emptyAddressPhoneNoText);
 
 
-        sharedPrefManager = new SharedPrefManager(getContext());
+
         bearerToken = sharedPrefManager.getBearerToken();
 
 

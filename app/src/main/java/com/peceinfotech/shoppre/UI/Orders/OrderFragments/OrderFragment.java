@@ -62,6 +62,10 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
+
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
@@ -77,7 +81,7 @@ public class OrderFragment extends Fragment {
         virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
         cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
-        sharedPrefManager = new SharedPrefManager(getActivity());
+
         list = new ArrayList<>();
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available

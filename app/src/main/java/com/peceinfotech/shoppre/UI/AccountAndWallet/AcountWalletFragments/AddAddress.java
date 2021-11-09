@@ -48,6 +48,7 @@ import retrofit2.Response;
 public class AddAddress extends Fragment {
 
 
+
     AutoCompleteTextView spinnerTitle;
     ImageView closeBtn, triangleDropdown;
     TextView spinnerCountry;
@@ -74,8 +75,15 @@ public class AddAddress extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_adress, container, false);
+
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+
+        sharedPrefManager.fragmentValue("accounts");
 
         setCountryList("");
 
@@ -116,7 +124,7 @@ public class AddAddress extends Fragment {
 
         triangleDropdown.setOnClickListener(view1 -> spinnerCountry.performClick());
 
-        sharedPrefManager = new SharedPrefManager(getActivity());
+
 
 
         Bundle bundle = this.getArguments();
