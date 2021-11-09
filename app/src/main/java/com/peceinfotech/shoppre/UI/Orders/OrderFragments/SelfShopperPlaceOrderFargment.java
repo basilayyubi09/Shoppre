@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class SelfShopperPlaceOrderFargment extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     MaterialButton selfShopProceedBtn;
 
     @Override
@@ -20,6 +22,10 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
+
         selfShopProceedBtn = view.findViewById(R.id.selfShopProceedBtn);
 
 

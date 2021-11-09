@@ -79,6 +79,8 @@ public class ViewProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_view_profile, container, false);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("account");
+
 
         wallet = view.findViewById(R.id.wallet);
         redBoxText = view.findViewById(R.id.redBoxText);

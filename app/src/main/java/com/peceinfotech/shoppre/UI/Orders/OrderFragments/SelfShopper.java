@@ -15,10 +15,12 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
 public class SelfShopper extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     LinearLayout shopForMeBorder, shopForMySelfBorder;
     ImageView shopForMeCheckImage, shopForMySelfCheckImage;
     MaterialButton personalShopProceedBtn;
@@ -31,6 +33,9 @@ public class SelfShopper extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_self_shopper, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
 
         shopForMeBorder = view.findViewById(R.id.shopForMeBorder);
         shopForMySelfBorder = view.findViewById(R.id.shopForMySelfBorder);

@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
     tools:context=".UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates">
 
+
     <!-- TODO: Update blank fragment layout -->
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/orderUpdatesRecycler"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="73dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_marginBottom="100dp"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderUpdatesRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="39dp"
+            android:layout_marginTop="50dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="29dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="24dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/order_update_comment_box"
+                android:hint="Enter Your Query Here"
+                android:paddingVertical="14dp"
+                android:paddingLeft="13dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint_color"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:boxStrokeColor="@color/box_background_color" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="43dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:backgroundTint="#2D8DFF"
+                android:paddingLeft="6dp"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/send_button"
+                app:iconSize="35dp"
+                app:iconTint="@color/white" />
+
+
+        </LinearLayout>
 
 
 
-</FrameLayout>
+
+</RelativeLayout>

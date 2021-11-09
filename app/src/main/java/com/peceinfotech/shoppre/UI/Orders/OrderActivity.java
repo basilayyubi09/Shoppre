@@ -1,16 +1,20 @@
 package com.peceinfotech.shoppre.UI.Orders;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
@@ -38,6 +42,9 @@ public class OrderActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     public static String SELECTED_TAB = "order";
     SharedPrefManager sharedPrefManager;
+    BottomNavigationView bottomNavigationView;
+
+
 
 
     @Override
@@ -53,10 +60,12 @@ public class OrderActivity extends AppCompatActivity {
         shipment = findViewById(R.id.shipmentCard);
         account = findViewById(R.id.accountCard);
         order = findViewById(R.id.orderCard);
-        lockerImage = findViewById(R.id.lockerImage);
-        orderImage = findViewById(R.id.ordersImage);
-        accountImage = findViewById(R.id.accountImage);
-        shipmentImage = findViewById(R.id.shipmentImage);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setItemIconTintList(null);
+//        lockerImage = findViewById(R.id.lockerImage);
+//        orderImage = findViewById(R.id.ordersImage);
+//        accountImage = findViewById(R.id.accountImage);
+//        shipmentImage = findViewById(R.id.shipmentImage);
 
 
         if (savedInstanceState != null) return;
@@ -77,72 +86,103 @@ public class OrderActivity extends AppCompatActivity {
         }
 
 
-        order.setOnClickListener(new View.OnClickListener() {
+//        order.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (savedInstanceState != null) return;
+//
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+//                        .addToBackStack(null).commit();
+//
+//                    orderImage.setImageResource(R.drawable.ic_orders___selected);
+//                    lockerImage.setImageResource(R.drawable.ic_locker);
+//                    shipmentImage.setImageResource(R.drawable.ic_shipments);
+//                    accountImage.setImageResource(R.drawable.ic_account);
+//
+//            }
+//        });
+//
+//        locker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (savedInstanceState != null) return;
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
+//                        .addToBackStack(null).commit();
+//
+//
+//                orderImage.setImageResource(R.drawable.ic_orders);
+//                lockerImage.setImageResource(R.drawable.ic_locker___selected);
+//                shipmentImage.setImageResource(R.drawable.ic_shipments);
+//                accountImage.setImageResource(R.drawable.ic_account);
+//
+//
+//            }
+//        });
+//
+//        shipment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (savedInstanceState != null) return;
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
+//                        .addToBackStack(null).commit();
+//
+//                orderImage.setImageResource(R.drawable.ic_orders);
+//                lockerImage.setImageResource(R.drawable.ic_locker);
+//                shipmentImage.setImageResource(R.drawable.ic_shipments___selected);
+//                accountImage.setImageResource(R.drawable.ic_account);
+//
+//            }
+//        });
+//
+//        account.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (savedInstanceState != null) return;
+//
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
+//                        .addToBackStack(null).commit();
+//
+//                    orderImage.setImageResource(R.drawable.ic_orders);
+//                    lockerImage.setImageResource(R.drawable.ic_locker);
+//                    shipmentImage.setImageResource(R.drawable.ic_shipments);
+//                    accountImage.setImageResource(R.drawable.ic_account___selected);
+//
+//            }
+//        });
+
+        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
-            public void onClick(View view) {
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.orderMenu:
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment())
+                                .addToBackStack(null).commit();
+                        break;
 
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
-                        .addToBackStack(null).commit();
+                    case R.id.lockerMenu:
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip())
+                                .addToBackStack(null).commit();
+                        break;
 
+                    case R.id.shipmentMenu:
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList())
+                                .addToBackStack(null).commit();
+                        break;
 
-                orderImage.setImageResource(R.drawable.ic_orders___selected);
-                lockerImage.setImageResource(R.drawable.ic_locker);
-                shipmentImage.setImageResource(R.drawable.ic_shipments);
-                accountImage.setImageResource(R.drawable.ic_account);
+                    case R.id.accountMenu:
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile())
+                                .addToBackStack(null).commit();
+                        break;
 
+                }
             }
         });
 
-        locker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
-                        .addToBackStack(null).commit();
-
-
-                orderImage.setImageResource(R.drawable.ic_orders);
-                lockerImage.setImageResource(R.drawable.ic_locker___selected);
-                shipmentImage.setImageResource(R.drawable.ic_shipments);
-                accountImage.setImageResource(R.drawable.ic_account);
-
-
-            }
-        });
-
-        shipment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
-                        .addToBackStack(null).commit();
-
-                orderImage.setImageResource(R.drawable.ic_orders);
-                lockerImage.setImageResource(R.drawable.ic_locker);
-                shipmentImage.setImageResource(R.drawable.ic_shipments___selected);
-                accountImage.setImageResource(R.drawable.ic_account);
-
-            }
-        });
-
-        account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (savedInstanceState != null) return;
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
-                        .addToBackStack(null).commit();
-
-                orderImage.setImageResource(R.drawable.ic_orders);
-                lockerImage.setImageResource(R.drawable.ic_locker);
-                shipmentImage.setImageResource(R.drawable.ic_shipments);
-                accountImage.setImageResource(R.drawable.ic_account___selected);
-
-            }
-        });
 
 
     }

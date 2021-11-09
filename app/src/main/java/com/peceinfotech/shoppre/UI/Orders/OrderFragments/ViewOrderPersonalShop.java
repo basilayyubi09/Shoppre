@@ -22,10 +22,12 @@ import com.peceinfotech.shoppre.Adapters.OrderAdapter.ViewOrderViewPagerAdapter;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderDetails;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
 public class ViewOrderPersonalShop extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     TabLayout viewOrderTabLayout;
     ViewPager viewOrderViewPager;
 
@@ -37,6 +39,9 @@ public class ViewOrderPersonalShop extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_order_personal_shop, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
 
         viewOrderTabLayout = view.findViewById(R.id.viewOrderTabLayout);
 //        viewOrderTabLayout.addTab(viewOrderTabLayout.newTab().setText("Order Details"));

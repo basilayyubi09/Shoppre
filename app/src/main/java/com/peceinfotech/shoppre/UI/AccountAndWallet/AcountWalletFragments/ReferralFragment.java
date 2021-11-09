@@ -53,6 +53,11 @@ public class ReferralFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_referral, container, false);
 
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("account");
+
+
         emptyReferralLayout = view.findViewById(R.id.emptyReferralLayout);
         haveARefCard = view.findViewById(R.id.haveARefCard);
         showMoreLayout = view.findViewById(R.id.showMoreLayout);
@@ -64,7 +69,7 @@ public class ReferralFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         //shared pref manager
-        sharedPrefManager = new SharedPrefManager(getActivity());
+
         bearerToken = sharedPrefManager.getBearerToken();
         referralAdapter = new ReferralAdapter(getContext() , list);
         referralRecycle.setLayoutManager(linearLayoutManager);

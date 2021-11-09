@@ -171,4 +171,15 @@ public class SharedPrefManager {
         editor.clear();
         editor.commit();
     }
+
+    public void fragmentValue(String fragmentValue){
+
+        editor.putString("fragmentValue", fragmentValue);
+        editor.apply();
+
+    }
+    public String getFragmentValue(){
+
+        return userSharedPref.getString("fragmentValue","");
+    }
 }

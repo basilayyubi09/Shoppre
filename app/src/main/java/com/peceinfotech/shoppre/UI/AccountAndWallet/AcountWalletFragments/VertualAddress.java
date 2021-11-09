@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 public class VertualAddress extends Fragment {
 
     TextView virtualAddressName, virtualAddressLine1, virtualAddressLine2, landmark, city, state, pincode, virtualAddressPhoneNo;
     MaterialButton nameCopyBtn, line1CopyBtn, line2CopyBtn, landmarkCopyBtn, cityCopyBtn, stateCopyBtn, pinCodeCopyBtn, phoneNoCopyBtn;
+
+    SharedPrefManager sharedPrefManager;
 
 
     @Override
@@ -28,6 +31,9 @@ public class VertualAddress extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vertual_address, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("account");
 
         virtualAddressName = view.findViewById(R.id.virtualAddressName);
         virtualAddressLine1 = view.findViewById(R.id.virtualAddressLine1);

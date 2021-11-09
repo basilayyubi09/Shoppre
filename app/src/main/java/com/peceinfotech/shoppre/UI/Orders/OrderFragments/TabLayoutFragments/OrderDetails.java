@@ -37,7 +37,7 @@ public class OrderDetails extends Fragment {
         list.add(new ViewOrderResponse(R.drawable.mobile1, "Redmi 3s Prime", "Black", "02", "32000"));
 
 
-        ViewOrderAdapter viewOrderAdapter = new ViewOrderAdapter(list, getContext());
+        viewOrderAdapter = new ViewOrderAdapter(list, getContext());
         orderDetailsRecycler.setAdapter(viewOrderAdapter);
 
 

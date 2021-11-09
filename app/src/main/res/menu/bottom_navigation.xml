@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/orderMenu"
         android:title="Order"
         android:enabled="true"
-        android:icon="@drawable/order_selector"/>
+        android:icon="@drawable/bottom_order_selector"/>
 
     <item
         android:id="@+id/lockerMenu"
         android:title="Locker"
         android:enabled="true"
-        android:icon="@drawable/locker_selector"/>
+        android:icon="@drawable/bottom_locker_selector"/>
 
     <item
         android:id="@+id/shipmentMenu"
         android:title="Shipment"
         android:enabled="true"
-        android:icon="@drawable/shipment_selector"/>
+        android:icon="@drawable/bottom_shipment_selector"/>
 
     <item
         android:id="@+id/accountMenu"
         android:title="Account"
         android:enabled="true"
-        android:icon="@drawable/account_selector"/>
+        android:icon="@drawable/bottom_account_selector"/>
 </menu>

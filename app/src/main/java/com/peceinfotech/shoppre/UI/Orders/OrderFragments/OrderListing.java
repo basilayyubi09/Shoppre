@@ -15,10 +15,12 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
 public class OrderListing extends Fragment {
 
+    SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     OrderListingResponse list = null;
     CardView virtualAddressCard, shippingCalculatorCard;
@@ -29,6 +31,9 @@ public class OrderListing extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_listing, container, false);
+
+        sharedPrefManager = new SharedPrefManager(getActivity());
+        sharedPrefManager.fragmentValue("orders");
 
         ///Hoooks
 
