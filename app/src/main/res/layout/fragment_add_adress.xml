@@ -270,7 +270,7 @@
 
 
                     <LinearLayout
-
+                        android:id="@+id/spinnerCountryLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -283,11 +283,11 @@
                             android:layout_height="28dp"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="Select country"
-                            android:paddingLeft="15dp"
                             android:gravity="center|left"
-                            android:singleLine="true"
+                            android:hint="Select country"
                             android:inputType="textPersonName"
+                            android:paddingLeft="15dp"
+                            android:singleLine="true"
                             android:textColor="@color/hint_color"
                             android:textColorHint="@color/hint_color"
                             android:textSize="12sp"

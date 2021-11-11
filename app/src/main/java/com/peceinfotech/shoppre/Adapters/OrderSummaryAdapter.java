@@ -1,22 +1,37 @@
 package com.peceinfotech.shoppre.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.viewHolder> {
     List<String> list ;
     Context context;
+    ArrayAdapter arrayAdapterDropdown;
+    String[] optionSelection = {"Select an option", "250", "500", "750", "1000", "1000+", "Cancel all if the cost is increased"};
+
+    final ArrayList<String> optionSelectList = new ArrayList<>(Arrays.asList(optionSelection));
 
     public OrderSummaryAdapter(List<String> list , Context context) {
         this.list = list;
@@ -39,7 +54,67 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         if( position == getItemCount() - 1 ){
 
             holder.view1.setVisibility(View.GONE);
+
         }
+//        arrayAdapterDropdown = new ArrayAdapter(context, R.layout.option_selection_layout, optionSelection);
+//        holder.dropdown.setAdapter(arrayAdapterDropdown);
+
+        final ArrayAdapter<String> dropdownArrayAdapter = new ArrayAdapter<String>(context, R.layout.option_selection_layout, optionSelectList){
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else {
+                    return true;
+                }
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+                View view = super.getDropDownView(position, convertView, parent);
+
+                TextView selectOptionTextView = (TextView) view;
+
+                if (position == 0){
+                    selectOptionTextView.setVisibility(View.INVISIBLE);
+                    selectOptionTextView.setTextColor(Color.GRAY);
+                }else {
+                    selectOptionTextView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        dropdownArrayAdapter.setDropDownViewResource(R.layout.option_selection_layout);
+        holder.dropdown.setAdapter(dropdownArrayAdapter);
+
+        holder.dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedText = (String) parent.getItemAtPosition(position);
+
+                if (position > 0){
+                    Toast.makeText(context, selectedText +" Selected" , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        holder.selectOptionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.dropdown.performClick();
+            }
+        });
     }
 
     @Override
@@ -48,9 +123,12 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     }
 
     public static class viewHolder extends RecyclerView.ViewHolder{
-        TextView websiteName  , dropdown;
+        TextView websiteName;
+        Spinner dropdown;
+        LinearLayout selectOptionLayout;
         EditText charges , instruction ;
         View view1;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             websiteName = itemView.findViewById(R.id.websiteName);
@@ -58,6 +136,9 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             charges = itemView.findViewById(R.id.charges);
             instruction = itemView.findViewById(R.id.instruction);
             dropdown = itemView.findViewById(R.id.dropdown);
+            selectOptionLayout = itemView.findViewById(R.id.selectOptionLayout);
+
+
         }
     }
 }

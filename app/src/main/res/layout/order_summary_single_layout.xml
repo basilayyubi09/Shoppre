@@ -67,6 +67,7 @@
         android:textSize="12sp" />
 
     <LinearLayout
+        android:id="@+id/selectOptionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -74,21 +75,15 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/dropdown"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="28dp"
-            android:layout_weight="1"
+            android:overlapAnchor="false"
             android:background="@null"
-            android:gravity="center|left"
-            android:hint="Select an option"
-            android:inputType="textPersonName"
-            android:paddingLeft="15dp"
-            android:singleLine="true"
-            android:textColor="@color/hint_color"
-            android:textColorHint="@color/hint_color"
-            android:textSize="10sp"
-            app:boxStrokeColor="@color/hint_color" />
+            android:layout_weight="1"/>
+
+
 
         <View
 
@@ -98,7 +93,7 @@
 
 
         <ImageView
-            android:id="@+id/triangleDropdown"
+            android:id="@+id/selectOptionTriangleDropdown"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="center"

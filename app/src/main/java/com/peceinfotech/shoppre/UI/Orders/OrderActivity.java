@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.UI.Orders;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -29,11 +31,15 @@ import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderActivity extends AppCompatActivity {
+public class OrderActivity extends AppCompatActivity{
 
     MaterialCardView locker, shipment, account, order;
     ImageView lockerImage, orderImage, accountImage, shipmentImage;
@@ -42,9 +48,12 @@ public class OrderActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     public static String SELECTED_TAB = "order";
     SharedPrefManager sharedPrefManager;
+
     BottomNavigationView bottomNavigationView;
+    Deque<Integer> integerDeque = new ArrayDeque<>(4);
 
 
+    boolean flag = true;
 
 
     @Override
@@ -55,6 +64,7 @@ public class OrderActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(OrderActivity.this);
         fragmentManager = getSupportFragmentManager();
 
+
         frameLayout = findViewById(R.id.orderFrameLayout);
         locker = findViewById(R.id.lockerCard);
         shipment = findViewById(R.id.shipmentCard);
@@ -62,130 +72,146 @@ public class OrderActivity extends AppCompatActivity {
         order = findViewById(R.id.orderCard);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setItemIconTintList(null);
-//        lockerImage = findViewById(R.id.lockerImage);
-//        orderImage = findViewById(R.id.ordersImage);
-//        accountImage = findViewById(R.id.accountImage);
-//        shipmentImage = findViewById(R.id.shipmentImage);
 
 
-        if (savedInstanceState != null) return;
-        fragmentTransaction = fragmentManager.beginTransaction();
-        OrderFragment orderFragment = new OrderFragment();
-        fragmentTransaction.add(R.id.orderFrameLayout, orderFragment, null);
-        fragmentTransaction.commit();
-
-        if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
-        {
-
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
-            snackbar.show();
-        } else {
-            String token = sharedPrefManager.getBearerToken();
-            LoadingDialog.showLoadingDialog(OrderActivity.this, "");
-            callMeApi(token);
-        }
+        internetCheck();
 
 
-//        order.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (savedInstanceState != null) return;
-//
-//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
-//                        .addToBackStack(null).commit();
-//
-//                    orderImage.setImageResource(R.drawable.ic_orders___selected);
-//                    lockerImage.setImageResource(R.drawable.ic_locker);
-//                    shipmentImage.setImageResource(R.drawable.ic_shipments);
-//                    accountImage.setImageResource(R.drawable.ic_account);
-//
-//            }
-//        });
-//
-//        locker.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (savedInstanceState != null) return;
-//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
-//                        .addToBackStack(null).commit();
-//
-//
-//                orderImage.setImageResource(R.drawable.ic_orders);
-//                lockerImage.setImageResource(R.drawable.ic_locker___selected);
-//                shipmentImage.setImageResource(R.drawable.ic_shipments);
-//                accountImage.setImageResource(R.drawable.ic_account);
-//
-//
-//            }
-//        });
-//
-//        shipment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (savedInstanceState != null) return;
-//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
-//                        .addToBackStack(null).commit();
-//
-//                orderImage.setImageResource(R.drawable.ic_orders);
-//                lockerImage.setImageResource(R.drawable.ic_locker);
-//                shipmentImage.setImageResource(R.drawable.ic_shipments___selected);
-//                accountImage.setImageResource(R.drawable.ic_account);
-//
-//            }
-//        });
-//
-//        account.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (savedInstanceState != null) return;
-//
-//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
-//                        .addToBackStack(null).commit();
-//
-//                    orderImage.setImageResource(R.drawable.ic_orders);
-//                    lockerImage.setImageResource(R.drawable.ic_locker);
-//                    shipmentImage.setImageResource(R.drawable.ic_shipments);
-//                    accountImage.setImageResource(R.drawable.ic_account___selected);
-//
-//            }
-//        });
+        fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
+                .commit();
 
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()){
+
                     case R.id.orderMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment())
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
                                 .addToBackStack(null).commit();
                         break;
 
                     case R.id.lockerMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip())
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
                                 .addToBackStack(null).commit();
                         break;
 
                     case R.id.shipmentMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList())
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
                                 .addToBackStack(null).commit();
                         break;
 
                     case R.id.accountMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile())
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
                                 .addToBackStack(null).commit();
                         break;
 
+
                 }
+
+                return true;
             }
         });
 
 
 
 
+
+
+//        integerDeque.push(R.id.orderMenu);
+//
+//
+//        loadFragment(new OrderFragment());
+
+//        bottomNavigationView.setSelectedItemId(R.id.orderMenu);
+//
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                int id = item.getItemId();
+//
+//                if (integerDeque.contains(id)){
+//                    if (id==R.id.orderMenu){
+//
+//                        if (integerDeque.size() != 1 ){
+//
+//                            if (flag){
+//                                integerDeque.addFirst(R.id.orderMenu);
+//
+//                                flag = false;
+//
+//
+//                            }
+//                        }
+//                    }
+//
+//                    integerDeque.remove(id);
+//                }
+//                integerDeque.push(id);
+//
+//
+//                loadFragment(getFragment(item.getItemId()));
+//
+//                return true;
+//            }
+//        });
+
+
+
     }
+
+    //    private Fragment getFragment(int itemId) {
+//        switch (itemId){
+//
+//            case R.id.orderMenu:
+//                bottomNavigationView.getMenu().getItem(0).setChecked(true);
+//                return new OrderFragment();
+//
+//            case R.id.lockerMenu:
+//                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+//                return new LockerReadyToShip();
+//
+//
+//
+//            case R.id.shipmentMenu:
+//                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+//                return new ShipmentList();
+//
+//            case R.id.accountMenu:
+//                bottomNavigationView.getMenu().getItem(3).setChecked(true);
+//                return new ViewProfile();
+//
+//        }
+//
+//        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+//
+//        return new OrderFragment();
+//    }
+//
+//    private void loadFragment(Fragment fragment) {
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.orderFrameLayout, fragment, fragment.getClass().getSimpleName())
+//                .commit();
+//
+//    }
+
+//    @Override
+//    public void onBackPressed() {
+//
+//        integerDeque.pop();
+//
+//        if (!integerDeque.isEmpty()){
+//
+//            loadFragment(getFragment(integerDeque.peek()));
+//        }else{
+//            finish();
+//        }
+//    }
+
+
+
 
 
 
@@ -256,6 +282,21 @@ public class OrderActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private void internetCheck() {
+
+        if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
+        {
+
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } else {
+            String token = sharedPrefManager.getBearerToken();
+            LoadingDialog.showLoadingDialog(OrderActivity.this, "");
+            callMeApi(token);
+        }
 
     }
 
