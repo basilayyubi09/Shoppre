@@ -72,7 +72,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.viewHolder
             public void onClick(View v) {
 
                 Bundle bundle = new Bundle();
+
                 bundle.putString("orderCode" , order.getOrderCode());
+                bundle.putString("id" ,String.valueOf(order.getId()));
+
                 ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
                 viewOrderPersonalShop.setArguments(bundle);
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)

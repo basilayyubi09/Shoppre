@@ -1,31 +1,22 @@
 package com.peceinfotech.shoppre.OrderModuleResponses;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class CartModelResponse {
 
-    String webSiteName;
-    List<ProductItem> productItem;
+    @SerializedName("orders")
+    @Expose
+    private List<Order> orders = null;
 
-    public CartModelResponse(String webSiteName, List<ProductItem> productItem) {
-        this.webSiteName = webSiteName;
-        this.productItem = productItem;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public String getWebSiteName() {
-        return webSiteName;
-    }
-
-    public void setWebSiteName(String webSiteName) {
-        this.webSiteName = webSiteName;
-    }
-
-    public List<ProductItem> getProductItem() {
-        return productItem;
-    }
-
-    public void setProductItem(List<ProductItem> productItem) {
-        this.productItem = productItem;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 

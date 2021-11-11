@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
 
     List<Order> list;
     Context context;
+    CartItemsAdapter cartItemsAdapter;
 
     public CartGroupAdapter(List<Order> list, Context context) {
         this.list = list;
@@ -41,16 +43,20 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
+        Order order = list.get(position);
+
 
         holder.weSiteName.setText(list.get(position).getStore().getName());
-
-        List<OrderItem> list1 = list.get(position).getOrderItems();
-        CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(list1, context);
+         cartItemsAdapter = new CartItemsAdapter(order, context);
         holder.productItemRecycler.setAdapter(cartItemsAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         holder.productItemRecycler.setLayoutManager(linearLayoutManager);
+
+
+
     }
+
 
     @Override
     public int getItemCount() {

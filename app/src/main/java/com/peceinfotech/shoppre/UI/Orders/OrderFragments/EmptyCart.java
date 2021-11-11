@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,24 +12,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CartGroupAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
-import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
-
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
-import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -51,16 +51,16 @@ public class EmptyCart extends Fragment {
     ImageView downwardTriangle, upwardTriangle;
     MaterialButton proceedToCartBtn;
     int flag = 1;
+    MaterialCardView liquidCard;
     List<Order> list = new ArrayList<>();
-    LinearLayout dropdownLayout;
-    TextView selectField , orderTotal , shoppreFee , total;
+    LinearLayout dropdownLayout, addMore;
+    TextView selectField, orderTotal, shoppreFee, total;
     String url, name, color, size, price, countString, selectedString;
     EditText urlField, nameField, colorField, priceField, sizeField;
     TextView minus, plus, countField;
     MaterialCheckBox check;
-    int count = 1;
+    int count = 1, id;
     boolean isLiquid = false;
-
 
 
     @Override
@@ -78,6 +78,8 @@ public class EmptyCart extends Fragment {
         orderTotal = view.findViewById(R.id.orderTotal);
         shoppreFee = view.findViewById(R.id.shoppreFee);
         total = view.findViewById(R.id.total);
+        addMore = view.findViewById(R.id.addMore);
+        liquidCard = view.findViewById(R.id.liquidCard);
         downwardTriangle = view.findViewById(R.id.downwardTriangle);
         upwardTriangle = view.findViewById(R.id.upwardTriangle);
         proceedToCartBtn = view.findViewById(R.id.proceedToCartBtn);
@@ -93,9 +95,32 @@ public class EmptyCart extends Fragment {
         priceField = view.findViewById(R.id.priceField);
         sizeField = view.findViewById(R.id.sizeField);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String type = bundle.getString("type");
+            if (type.equals("new")) {
+                id = bundle.getInt("id");
+                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+            } else {
+                id = bundle.getInt("id");
+                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callCartApi(id);
+            }
 
+        }
 
         getTextFromFields();
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check.isChecked()) {
+                    liquidCard.setVisibility(View.VISIBLE);
+                } else {
+                    liquidCard.setVisibility(View.GONE);
+                }
+            }
+        });
 
         count = Integer.parseInt(String.valueOf(countString));
 
@@ -163,7 +188,7 @@ public class EmptyCart extends Fragment {
             }
         });
 
-        proceedToCartBtn.setOnClickListener(new View.OnClickListener() {
+        addMore.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
@@ -194,6 +219,53 @@ public class EmptyCart extends Fragment {
         return view;
     }
 
+    private void callCartApi(int id) {
+        Call<CartModelResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().getCartItem("Bearer " + sharedPrefManager.getBearerToken(), id);
+        call.enqueue(new Callback<CartModelResponse>() {
+            @Override
+            public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
+                if (response.code() == 200) {
+                    list = response.body().getOrders();
+                    if (!list.isEmpty()){
+                        proceedToCartBtn.setEnabled(true);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
+                    }
+                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
+                    cartRecycler.setAdapter(cartGroupAdapter);
+                    cartGroupAdapter.notifyDataSetChanged();
+                    productCartCard.setVisibility(View.VISIBLE);
+                    upwardTriangle.setVisibility(View.VISIBLE);
+                    downwardTriangle.setVisibility(View.GONE);
+
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
+                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
+                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                    }
+                    total.setText(String.valueOf("₹ " + totalCount));
+                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                    LoadingDialog.cancelLoading();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("cart");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartModelResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
 
     private void callAddOrderApi() {
@@ -216,7 +288,7 @@ public class EmptyCart extends Fragment {
         object.addProperty("color", color);
         object.addProperty("if_item_unavailable", selectedString);
         object.addProperty("name", name);
-        object.addProperty("orderId", 1);
+        object.addProperty("orderId", id);
         object.addProperty("price_amount", price);
         object.addProperty("quantity", countString);
         object.addProperty("shopperType", "ps");
@@ -231,9 +303,19 @@ public class EmptyCart extends Fragment {
             @Override
             public void onResponse(Call<AddOrderResponse> call, Response<AddOrderResponse> response) {
                 if (response.code() == 200) {
-                    sharedPrefManager.storeOrderCode(response.body().getOrders().get(0).getOrderCode());
-                    LoadingDialog.cancelLoading();
+
+//                    sharedPrefManager.storeOrderCode(response.body().getOrders().get(0).getOrderCode());
+//                    sharedPrefManager.storeOrderId(response.body().getOrders().get(0).getId());
+//
+
                     list = response.body().getOrders();
+                    if (!list.isEmpty()){
+                        proceedToCartBtn.setEnabled(true);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
+                    }
+
+
+                    Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_SHORT).show();
                     CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
                     cartRecycler.setAdapter(cartGroupAdapter);
                     cartGroupAdapter.notifyDataSetChanged();
@@ -242,14 +324,20 @@ public class EmptyCart extends Fragment {
                     upwardTriangle.setVisibility(View.VISIBLE);
                     downwardTriangle.setVisibility(View.GONE);
 
-                    total.setText(String.valueOf("₹ "+response.body().getOrders().get(0).getSubTotal()));
-                    shoppreFee.setText("₹ "+String.valueOf(response.body().getOrders().get(0).getPersonalShopperCost()));
-                    orderTotal.setText("₹ "+String.valueOf(response.body().getOrders().get(0).getPriceAmount()));
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
+                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
+                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                    }
+                    total.setText(String.valueOf("₹ " + totalCount));
+                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
 
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("add");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -267,7 +355,7 @@ public class EmptyCart extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String code) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -275,10 +363,15 @@ public class EmptyCart extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callAddOrderApi();
+                    if (code.equals("add")) {
+                        callAddOrderApi();
+                    } else if (code.equals("cart")) {
+                        callCartApi(id);
+                    }
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -307,7 +400,11 @@ public class EmptyCart extends Fragment {
         selectedString = selectField.getText().toString();
         if (check.isChecked()) {
             isLiquid = true;
-        } else isLiquid = false;
+
+        } else {
+            isLiquid = false;
+
+        }
 
     }
 

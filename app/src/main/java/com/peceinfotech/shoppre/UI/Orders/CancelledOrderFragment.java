@@ -67,10 +67,12 @@ public class CancelledOrderFragment extends Fragment {
             @Override
             public void onResponse(Call<CancelledApiResponse> call, Response<CancelledApiResponse> response) {
                 if (response.code() == 201) {
-                    LoadingDialog.cancelLoading();
+
                     list = response.body().getOrders();
                     ordersAdapter = new OrdersAdapter(list, getContext());
+                    recycle.setLayoutManager(linearLayoutManager);
                     recycle.setAdapter(ordersAdapter);
+
                     int number = recycle.getAdapter().getItemCount();
                     if (number == 0) {
                        recycle.setVisibility(View.GONE);
@@ -81,6 +83,7 @@ public class CancelledOrderFragment extends Fragment {
                         text.setVisibility(View.GONE);
                     }
                     ordersAdapter.notifyDataSetChanged();
+                    LoadingDialog.cancelLoading();
                 }
                 else if (response.code() == 401) {
                     callRefreshTokenApi();

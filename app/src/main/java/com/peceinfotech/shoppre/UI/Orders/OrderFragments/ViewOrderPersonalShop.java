@@ -16,9 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.OrderAdapter.ViewOrderViewPagerAdapter;
-import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
-import com.peceinfotech.shoppre.OrderModuleResponses.Store;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -27,7 +25,6 @@ import com.peceinfotech.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.Orde
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -35,7 +32,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
 public class ViewOrderPersonalShop extends Fragment {
@@ -46,6 +42,8 @@ public class ViewOrderPersonalShop extends Fragment {
     String orderCode;
     TextView websiteName, status, orderNumberText, date;
     ViewOrderViewPagerAdapter viewPagerAdapter;
+    Bundle bundle;
+    String id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,28 +61,30 @@ public class ViewOrderPersonalShop extends Fragment {
         orderNumberText = view.findViewById(R.id.orderNumberText);
         date = view.findViewById(R.id.date);
 
-        Bundle bundle = this.getArguments();
-
+        bundle = this.getArguments();
+        OrderDetails orderDetails = new OrderDetails();
+        OrderUpdates orderUpdates = new OrderUpdates();
         if (bundle != null) {
             orderCode = getArguments().getString("orderCode");
+            id = getArguments().getString("id");
         }
-
         callShowOrderApi();
-        Toast.makeText(getContext(), orderCode, Toast.LENGTH_SHORT).show();
+
+
+        bundle.putString("orderCode", orderCode);
+        bundle.putString("id" , id);
+        orderDetails.setArguments(bundle);
+        orderUpdates.setArguments(bundle);
+
+
+
 
         viewPagerAdapter = new ViewOrderViewPagerAdapter(getChildFragmentManager());
-//        OrderDetails orderDetails = new OrderDetails();
-//        viewPagerAdapter.addFragment(orderDetails, "Order Details");
-//        viewPagerAdapter.addFragment(new OrderUpdates(), "Order Updates");
-//        viewOrderViewPager.setAdapter(viewPagerAdapter);
-//        viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
 
-//        viewPagerAdapter.addFragment(new OrderUpdates(), "Order Updates");
-//
-//        viewOrderViewPager.setAdapter(viewPagerAdapter);
-//        viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
-
-
+        viewPagerAdapter.addFragment(orderDetails, "Order Details");
+        viewPagerAdapter.addFragment(orderUpdates, "Order Updates");
+        viewOrderViewPager.setAdapter(viewPagerAdapter);
+        viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
 
 
         return view;
@@ -103,25 +103,26 @@ public class ViewOrderPersonalShop extends Fragment {
             public void onResponse(Call<ShowOrderResponse> call, Response<ShowOrderResponse> response) {
                 if (response.code() == 200) {
 
-                    //Create object of class
-                    OrderDetails orderDetails = new OrderDetails();
 
-                    //create object of Bundle
-                    Bundle bundle1 = new Bundle();
-
-                    //set Serializable
-                    bundle1.putSerializable("order" , (Serializable) response.body().getOrderItems());
-
-                    orderDetails.setArguments(bundle1);
-                    viewPagerAdapter.addFragment(orderDetails, "Order Details");
-                    viewPagerAdapter.addFragment(new OrderUpdates(), "Order Updates");
-                    viewOrderViewPager.setAdapter(viewPagerAdapter);
-                    viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
+//                    //Create object of class
+//                    OrderDetails orderDetails = new OrderDetails();
+//
+//                    //create object of Bundle
+//                    Bundle bundle1 = new Bundle();
+//
+//                    //set Serializable
+//                    bundle1.putSerializable("order" , (Serializable) response.body().getOrderItems());
+//
+//                    orderDetails.setArguments(bundle1);
+//                    viewPagerAdapter.addFragment(orderDetails, "Order Details");
+//                    viewPagerAdapter.addFragment(new OrderUpdates(), "Order Updates");
+//                    viewOrderViewPager.setAdapter(viewPagerAdapter);
+//                    viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
 
                     addTextToFields(response.body());
 
 
-                    LoadingDialog.cancelLoading();
+
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
@@ -139,22 +140,6 @@ public class ViewOrderPersonalShop extends Fragment {
                 snackbar.show();
             }
         });
-    }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void addTextToFields(ShowOrderResponse showOrderResponse) {
-        String s = showOrderResponse.getCreatedAt();
-        String[] split = s.split("T");
-        String date1 = split[0];
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
-        LocalDate ld = LocalDate.parse(date1, dtf);
-        String month_name = dtf2.format(ld);
-
-        date.setText(month_name);
-        websiteName.setText(showOrderResponse.getStore().getName());
-        orderNumberText.setText("#" +showOrderResponse.getOrderCode());
-        status.setText(showOrderResponse.getOrderState().getState().getName());
     }
 
     private void callRefreshTokenApi() {
@@ -185,4 +170,24 @@ public class ViewOrderPersonalShop extends Fragment {
         });
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void addTextToFields(ShowOrderResponse showOrderResponse) {
+        String s = showOrderResponse.getCreatedAt();
+        String[] split = s.split("T");
+        String date1 = split[0];
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+        LocalDate ld = LocalDate.parse(date1, dtf);
+        String month_name = dtf2.format(ld);
+
+        date.setText(month_name);
+        websiteName.setText(showOrderResponse.getStore().getName());
+        orderNumberText.setText("#" + showOrderResponse.getOrderCode());
+        status.setText(showOrderResponse.getOrderState().getState().getName());
+        LoadingDialog.cancelLoading();
+    }
+
+
 }

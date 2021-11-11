@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.OrderModuleResponses.GetCommentsResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderUpdateResponse;
 import com.peceinfotech.shoppre.R;
 
@@ -17,10 +18,10 @@ import java.util.List;
 
 public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.viewHolder> {
 
-    List<OrderUpdateResponse> list;
+    List<GetCommentsResponse> list;
     Context context;
 
-    public OrderUpdateAdapter(List<OrderUpdateResponse> list, Context context) {
+    public OrderUpdateAdapter(List<GetCommentsResponse> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -36,12 +37,15 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        OrderUpdateResponse orderUpdateResponse = list.get(position);
+
 
         holder.profileImage.getDrawable();
-        holder.profileName.setText(orderUpdateResponse.getProfileName());
-        holder.orderStatus.setText(orderUpdateResponse.getOrderStatus());
-        holder.dateAndTime.setText(orderUpdateResponse.getDateAndTime());
+        if (list.get(position).getUser()!=null){
+            holder.profileName.setText(list.get(position).getUser().getName());
+        }
+
+        holder.orderStatus.setText(list.get(position).getComments());
+        holder.dateAndTime.setText(list.get(position).getCreatedAt());
 
     }
 

@@ -20,4 +20,5 @@
     <color name="button_color">#17B28F</color>
     <color name="selected_btn_color">#2D8DFF</color>
     <color name="unselected_btn_color">#F8F8F8</color>
+    <color name="grey">#AFADAD</color>
 </resources>

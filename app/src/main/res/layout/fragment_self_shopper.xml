@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.Orders.OrderFragments.SelfShopper">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -146,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="22dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginVertical="28dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp">
 
@@ -442,4 +444,5 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+</ScrollView>
 </FrameLayout>

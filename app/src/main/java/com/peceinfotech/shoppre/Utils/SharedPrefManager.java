@@ -57,6 +57,15 @@ public class SharedPrefManager {
         return userSharedPref.getString("orderCode" , "");
     }
 
+    public void storeOrderId(int orderId){
+        editor.putInt("orderId" , orderId);
+        editor.apply();
+    }
+
+    public int getOrderId(){
+        return userSharedPref.getInt("orderId" , 0);
+    }
+
     public void storeBearerToken(String bearer) {
         editor.putString("bearer", bearer);
         editor.apply();
