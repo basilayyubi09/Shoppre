@@ -104,18 +104,42 @@
                                 android:textSize="10sp" />
 
 
-                            <TextView
+                            <LinearLayout
+                                android:id="@+id/chooseCountryLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:drawableEnd="@drawable/gps"
-                                android:paddingVertical="6dp"
-                                android:paddingLeft="18dp"
-                                android:paddingRight="10dp"
-                                android:text="96941, Federated States of Micronesia"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:background="@drawable/edit_text_bg"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+                                    android:id="@+id/chooseCountry"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:paddingLeft="18dp"
+                                    android:layout_weight="1"
+                                    android:background="@null"
+                                    android:gravity="center|left"
+                                    android:text="Choose Country"
+                                    android:singleLine="true"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color"/>
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/hint_color" />
+
+
+                                <ImageView
+                                    android:layout_width="8dp"
+                                    android:layout_height="9dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginHorizontal="8dp"
+                                    android:src="@drawable/triangle" />
+
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -128,28 +152,21 @@
 
 
                             <LinearLayout
-
+                                android:id="@+id/chooseCategoryLinearLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_text_bg"
                                 android:orientation="horizontal">
 
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/chooseCategoryDropdown"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
-                                    android:layout_marginLeft="18dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:gravity="center|left"
-                                    android:hint="Select country"
-                                    android:singleLine="true"
-                                    android:textColor="@color/hint_color"
-                                    android:textColorHint="@color/hint_color"
-                                    android:textFontWeight="400"
                                     android:textSize="12sp"
-                                    android:textStyle="italic"
-                                    app:boxStrokeColor="@color/hint_color" />
+                                    android:overlapAnchor="false"/>
 
                                 <View
                                     android:layout_width="1dp"
@@ -281,26 +298,20 @@
                                 android:textSize="10sp" />
 
                             <LinearLayout
-
+                                android:id="@+id/kgLinearLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_text_bg"
                                 android:orientation="horizontal">
 
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/kgDropdown"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
-                                    android:layout_marginLeft="18dp"
                                     android:layout_weight="1"
-                                    android:background="@null"
-                                    android:gravity="center|left"
-                                    android:singleLine="true"
-                                    android:text="Kilogram (KG)"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="500"
-                                    android:textSize="12sp"
-                                    app:boxStrokeColor="@color/hint_color" />
+                                    android:overlapAnchor="false"
+                                    android:background="@null"/>
 
                                 <View
                                     android:layout_width="1dp"
@@ -330,26 +341,21 @@
 
 
                             <LinearLayout
-
+                                android:id="@+id/cmLinearLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_text_bg"
                                 android:orientation="horizontal">
 
 
-                                <TextView
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/cmDropdown"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
-                                    android:layout_marginLeft="18dp"
                                     android:layout_weight="1"
+                                    android:overlapAnchor="false"
                                     android:background="@null"
-                                    android:gravity="center|left"
-                                    android:singleLine="true"
-                                    android:text="Centimeter (CM)"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="500"
-                                    android:textSize="12sp"
-                                    app:boxStrokeColor="@color/hint_color" />
+                                    android:textSize="12sp" />
 
                                 <View
                                     android:layout_width="1dp"

@@ -44,10 +44,6 @@ public class ViewOrderPersonalShop extends Fragment {
         sharedPrefManager.fragmentValue("orders");
 
         viewOrderTabLayout = view.findViewById(R.id.viewOrderTabLayout);
-//        viewOrderTabLayout.addTab(viewOrderTabLayout.newTab().setText("Order Details"));
-//        viewOrderTabLayout.addTab(viewOrderTabLayout.newTab().setText("Order Updates"));
-
-
         viewOrderViewPager = view.findViewById(R.id.viewOrderViewPager);
         viewPagerAdapter = new ViewOrderViewPagerAdapter(getChildFragmentManager());
 

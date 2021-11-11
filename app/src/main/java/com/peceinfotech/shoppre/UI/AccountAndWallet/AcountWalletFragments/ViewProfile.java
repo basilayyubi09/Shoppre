@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -61,6 +63,8 @@ public class ViewProfile extends Fragment {
     String[] title = {"Mr", "Ms", "Mrs"};
     String email, phoneNumber, name, ccp, titleText ;
     TextView nameError, emailError, numberError, unverified, emailWrong;
+
+
 
     @Override
     public void onResume() {
@@ -191,6 +195,7 @@ public class ViewProfile extends Fragment {
                 OrderActivity.fragmentManager.beginTransaction()
                         .replace(R.id.orderFrameLayout, new WalletFragment(), null)
                         .addToBackStack(null).commit();
+//                Log.d("aaaaaaaaa", getChildFragmentManager().toString());
             }
         });
 

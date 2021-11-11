@@ -19,8 +19,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_marginTop="28dp"
                 android:orientation="vertical">
 
 
@@ -28,8 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="22dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="28dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp"
                     android:id="@+id/sevenDay">
@@ -123,7 +120,7 @@
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp"
                     android:id="@+id/verifyEmailBox"
-                    android:visibility="gone">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -361,12 +358,12 @@
                 android:id="@+id/orderListing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:gravity="center">
 
 

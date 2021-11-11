@@ -71,6 +71,7 @@ public class AddAddress extends Fragment {
     Integer cc;
     int id;
     TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError;
+    LinearLayout spinnerCountryLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +120,16 @@ public class AddAddress extends Fragment {
         addAddressBtn = view.findViewById(R.id.addAddressBtn);
         closeBtn = view.findViewById(R.id.closeBtn);
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
+        spinnerCountryLayout = view.findViewById(R.id.spinnerCountryLayout);
 
+
+
+        spinnerCountryLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerCountry.performClick();
+            }
+        });
 
 
         triangleDropdown.setOnClickListener(view1 -> spinnerCountry.performClick());
