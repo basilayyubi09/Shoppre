@@ -1,26 +1,46 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CartGroupAdapter;
+import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
-import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class EmptyCart extends Fragment {
@@ -31,7 +51,17 @@ public class EmptyCart extends Fragment {
     ImageView downwardTriangle, upwardTriangle;
     MaterialButton proceedToCartBtn;
     int flag = 1;
-    List<CartModelResponse> list = new ArrayList<>();
+    MaterialCardView liquidCard;
+    List<Order> list = new ArrayList<>();
+    LinearLayout dropdownLayout, addMore;
+    TextView selectField, orderTotal, shoppreFee, total;
+    String url, name, color, size, price, countString, selectedString;
+    EditText urlField, nameField, colorField, priceField, sizeField;
+    TextView minus, plus, countField;
+    MaterialCheckBox check;
+    int count = 1, id;
+    boolean isLiquid = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,89 +75,383 @@ public class EmptyCart extends Fragment {
         cartRecycler = view.findViewById(R.id.cartRecycler);
         itemCartCard = view.findViewById(R.id.itemInCartCard);
         productCartCard = view.findViewById(R.id.productCard);
+        orderTotal = view.findViewById(R.id.orderTotal);
+        shoppreFee = view.findViewById(R.id.shoppreFee);
+        total = view.findViewById(R.id.total);
+        addMore = view.findViewById(R.id.addMore);
+        liquidCard = view.findViewById(R.id.liquidCard);
         downwardTriangle = view.findViewById(R.id.downwardTriangle);
         upwardTriangle = view.findViewById(R.id.upwardTriangle);
         proceedToCartBtn = view.findViewById(R.id.proceedToCartBtn);
+        dropdownLayout = view.findViewById(R.id.dropdownLayut);
+        selectField = view.findViewById(R.id.selectField);
+        urlField = view.findViewById(R.id.urlField);
+        nameField = view.findViewById(R.id.nameField);
+        check = view.findViewById(R.id.check);
+        plus = view.findViewById(R.id.plus);
+        minus = view.findViewById(R.id.minus);
+        countField = view.findViewById(R.id.countField);
+        colorField = view.findViewById(R.id.colorField);
+        priceField = view.findViewById(R.id.priceField);
+        sizeField = view.findViewById(R.id.sizeField);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String type = bundle.getString("type");
+            if (type.equals("new")) {
+                id = bundle.getInt("id");
+                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+            } else {
+                id = bundle.getInt("id");
+                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callCartApi(id);
+            }
 
-        String web = "Amazon";
-        List<ProductItem>  p = new ArrayList<>();
+        }
 
-        p.add(new ProductItem(1, 02, 300, "Shoes Premium Quality"));
-        p.add(new ProductItem(2, 07, 900, "T-Shirt Premium Quality"));
-        p.add(new ProductItem(3, 07, 1100, "Adidas Yeezee 600"));
+        getTextFromFields();
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check.isChecked()) {
+                    liquidCard.setVisibility(View.VISIBLE);
+                } else {
+                    liquidCard.setVisibility(View.GONE);
+                }
+            }
+        });
 
+        count = Integer.parseInt(String.valueOf(countString));
 
-        String web1 = "Myntra";
-        List<ProductItem>  p1 = new ArrayList<>();
+        dropdownLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
+                popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("ResourceAsColor")
+                    public boolean onMenuItemClick(MenuItem item) {
+                        selectField.setText(item.getTitle());
+                        return true;
+                    }
+                });
 
-        p1.add(new ProductItem(1, 02, 300, "Shoes"));
-        p1.add(new ProductItem(2, 02, 300, "Shoes"));
-        p1.add(new ProductItem(3, 02, 300, "Shoes"));
-        p1.add(new ProductItem(4, 02, 300, "Shoes"));
-        p1.add(new ProductItem(5, 02, 300, "Shoes"));
-        p1.add(new ProductItem(6, 02, 300, "Shoes"));
+                popup.show();
+            }
+        });
 
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                count++;
+                countField.setText(String.valueOf(count));
+            }
+        });
 
-        String web2 = "Nyka";
-        List<ProductItem>  p2 = new ArrayList<>();
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        p2.add(new ProductItem(1, 02, 300, "Shoes"));
-        p2.add(new ProductItem(2, 02, 300, "Shoes"));
-        p2.add(new ProductItem(3, 02, 300, "Shoes"));
-
-        String web3 = "Flipkart";
-        List<ProductItem>  p3 = new ArrayList<>();
-
-        p3.add(new ProductItem(1, 02, 300, "Shoes"));
-        p3.add(new ProductItem(2, 02, 300, "Shoes"));
-
-
-        list.add(new CartModelResponse(web, p));
-        list.add(new CartModelResponse(web1, p1));
-        list.add(new CartModelResponse(web2, p2));
-        list.add(new CartModelResponse(web3, p3));
-
-        CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
-        cartRecycler.setAdapter(cartGroupAdapter);
-
+                if (count == 1) {
+                    countField.setText("1");
+                } else {
+                    count -= 1;
+                    countField.setText("" + count);
+                }
+            }
+        });
 
 
         downwardTriangle.setVisibility(View.VISIBLE);
+
         itemCartCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (flag==1){
+                if (flag == 1) {
+
                     productCartCard.setVisibility(View.VISIBLE);
                     upwardTriangle.setVisibility(View.VISIBLE);
                     downwardTriangle.setVisibility(View.GONE);
 
                     flag = 0;
 
-                }else if (flag==0){
-
+                } else if (flag == 0) {
                     productCartCard.setVisibility(View.GONE);
                     upwardTriangle.setVisibility(View.GONE);
                     downwardTriangle.setVisibility(View.VISIBLE);
 
-                    flag=1;
+                    flag = 1;
                 }
             }
         });
 
-        proceedToCartBtn.setOnClickListener(new View.OnClickListener() {
+        addMore.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
+                getTextFromFields();
+                if (!validateUrl() || !validateName() || !validatePrice()) {
+                    return;
+                } else {
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderSummaryFragment(), null)
-                        .addToBackStack(null).commit();
+                    if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+                    {
+
+                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    } else {
+//                        OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderSummaryFragment(), null)
+//                                .addToBackStack(null).commit();
+
+                        LoadingDialog.showLoadingDialog(getActivity(), "");
+                        callAddOrderApi();
+                    }
+                }
+
 
             }
         });
 
 
         return view;
+    }
+
+    private void callCartApi(int id) {
+        Call<CartModelResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().getCartItem("Bearer " + sharedPrefManager.getBearerToken(), id);
+        call.enqueue(new Callback<CartModelResponse>() {
+            @Override
+            public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
+                if (response.code() == 200) {
+                    list = response.body().getOrders();
+                    if (!list.isEmpty()){
+                        proceedToCartBtn.setEnabled(true);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
+                    }
+                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
+                    cartRecycler.setAdapter(cartGroupAdapter);
+                    cartGroupAdapter.notifyDataSetChanged();
+                    productCartCard.setVisibility(View.VISIBLE);
+                    upwardTriangle.setVisibility(View.VISIBLE);
+                    downwardTriangle.setVisibility(View.GONE);
+
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
+                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
+                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                    }
+                    total.setText(String.valueOf("₹ " + totalCount));
+                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                    LoadingDialog.cancelLoading();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("cart");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartModelResponse> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void callAddOrderApi() {
+
+        /*
+        "color": "Black",
+                "if_item_unavailable": "Cancel this item, purchase all other available items",
+                "name": "3",
+                "orderId": "116",
+                "price_amount": 20,
+                "quantity": 2,
+                "shopperType": "ps",
+                "size": "M",
+                "url": "https://www.amazon.in/Redmi-10-Prime-extendable-Adaptive",
+                "is_liquid": false
+*/
+
+        JsonObject object = new JsonObject();
+
+        object.addProperty("color", color);
+        object.addProperty("if_item_unavailable", selectedString);
+        object.addProperty("name", name);
+        object.addProperty("orderId", id);
+        object.addProperty("price_amount", price);
+        object.addProperty("quantity", countString);
+        object.addProperty("shopperType", "ps");
+        object.addProperty("size", size);
+        object.addProperty("url", url);
+        object.addProperty("is_liquid", isLiquid);
+
+        Call<AddOrderResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().addOrder("Bearer " + sharedPrefManager.getBearerToken()
+                        , object.toString());
+        call.enqueue(new Callback<AddOrderResponse>() {
+            @Override
+            public void onResponse(Call<AddOrderResponse> call, Response<AddOrderResponse> response) {
+                if (response.code() == 200) {
+
+//                    sharedPrefManager.storeOrderCode(response.body().getOrders().get(0).getOrderCode());
+//                    sharedPrefManager.storeOrderId(response.body().getOrders().get(0).getId());
+//
+
+                    list = response.body().getOrders();
+                    if (!list.isEmpty()){
+                        proceedToCartBtn.setEnabled(true);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
+                    }
+
+
+                    Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_SHORT).show();
+                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
+                    cartRecycler.setAdapter(cartGroupAdapter);
+                    cartGroupAdapter.notifyDataSetChanged();
+
+                    productCartCard.setVisibility(View.VISIBLE);
+                    upwardTriangle.setVisibility(View.VISIBLE);
+                    downwardTriangle.setVisibility(View.GONE);
+
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
+                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
+                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                    }
+                    total.setText(String.valueOf("₹ " + totalCount));
+                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
+
+                    callRefreshTokenApi("add");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddOrderResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout),
+                        t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+
+    private void callRefreshTokenApi(String code) {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    if (code.equals("add")) {
+                        callAddOrderApi();
+                    } else if (code.equals("cart")) {
+                        callCartApi(id);
+                    }
+
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void getTextFromFields() {
+        url = urlField.getText().toString();
+        name = nameField.getText().toString();
+        size = sizeField.getText().toString();
+        color = colorField.getText().toString();
+        price = priceField.getText().toString();
+        countString = countField.getText().toString();
+        selectedString = selectField.getText().toString();
+        if (check.isChecked()) {
+            isLiquid = true;
+
+        } else {
+            isLiquid = false;
+
+        }
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private Boolean validateName() {
+
+
+        if (name.isEmpty()) {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Enter Product's Name", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
+            return false;
+        } else {
+
+            return true;
+        }
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private Boolean validateUrl() {
+
+
+        if (url.isEmpty()) {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Enter Product's Url", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
+            return false;
+        } else {
+
+            return true;
+        }
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private Boolean validatePrice() {
+
+
+        if (price.isEmpty()) {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Enter Product's price", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        } else {
+
+            return true;
+        }
+
     }
 }

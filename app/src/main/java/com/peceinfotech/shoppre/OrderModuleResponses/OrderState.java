@@ -10,9 +10,20 @@ public class OrderState {
     @SerializedName("state_id")
     @Expose
     private Integer stateId;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
     @SerializedName("State")
     @Expose
     private State state;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public Integer getId() {
         return id;

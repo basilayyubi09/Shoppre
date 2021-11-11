@@ -10,7 +10,19 @@ import com.peceinfotech.shoppre.AccountResponse.WalletAmountResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
+import com.peceinfotech.shoppre.OrderModuleResponses.AddCommentResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.CancelShopperResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.CancelledApiResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.DeleteOrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.GetCommentsResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ShippingRateResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -106,11 +118,101 @@ public interface AppApi {
             @Header("Authorization") String auth,
             @Body String objects);
 
-
+    //    https://staging-app1.shoppreglobal.com/api/orders?type=active
     //https://staging-app1.shoppreglobal.com/api/orders/history?shopperType=ps
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("api/orders/history?shopperType=ps")
+    @GET("api/orders?type=active")
     Call<OrderListingResponse> getOrderListing(
             @Header("Authorization") String auth
+    );
+
+    //https://staging-app1.shoppreglobal.com/api/orders
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/orders")
+    Call<AddOrderResponse> addOrder(@Header("Authorization") String auth, @Body String jsonObject);
+
+    //https://staging-app1.shoppreglobal.com/api/orders/{orders_code}
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/orders/{orders_code}")
+    Call<ShowOrderResponse> showOrder(
+            @Header("Authorization") String auth,
+            @Path("orders_code") String orderCode
+    );
+
+    //    https://staging-app1.shoppreglobal.com/api/orders?type=cancel
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/orders?type=cancel")
+    Call<CancelledApiResponse> getCancelOrder(
+            @Header("Authorization") String auth
+    );
+
+    //https://staging-app1.shoppreglobal.com/api/orders/172/item/240?shopperType=ps
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("api/orders/{order_id}/item/{order_item_id}?shopperType=ps")
+    Call<List<DeleteOrderResponse>> deleteOrder(
+            @Header("Authorization") String bearer,
+            @Path("order_id") int orderCode,
+            @Path("order_item_id") Integer OrderId
+
+    );
+
+    //https://staging-app1.shoppreglobal.com/api/shopperOrders
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/shopperOrders")
+    Call<ShopperOrdersResponse> shopperOrder(
+            @Header("Authorization") String bearer
+
+
+    );
+
+    //https://staging-app1.shoppreglobal.com/api/shopperOrders/172
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shopperOrders/{order_id}")
+    Call<CartModelResponse> getCartItem(
+            @Header("Authorization") String auth,
+            @Path("order_id") int orderCode
+    );
+
+    //https://staging-logistics.shoppre.com/api/pricing/global
+    // ?country_id=226&type=nondoc&weight=0.5&length=0.5&
+    // width=0.5&height=0.5&scale=cm&unit=kg&is_liquid=false&category_id=1
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/pricing/global?country_id={id}&type={type}&weight={weight}&length={length}&width={width}&height={height}&scale={scale}&unit={unit}&is_liquid={liquid}&category_id={categoryId}}")
+    Call<ShippingRateResponse> getShippingRate(
+
+            @Path("id") int id,
+            @Path("type") String type,
+            @Path("weight") String weight,
+            @Path("length") String length,
+            @Path("height") String height,
+            @Path("scale") String scale,
+            @Path("unit") String unit,
+            @Path("liquid") String liquid,
+            @Path("categoryId") String categoryId
+    );
+
+    //https://staging-engage.shoppre.com/api/orders/170/comments
+    @GET("api/orders/{id}/comments")
+        Call<List<GetCommentsResponse>> getComments(
+                @Path("id") String id
+    );
+
+    //https://staging-engage.shoppre.com/api/orders/171/comments?type=customer
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/orders/{id}/comments?type=customer")
+    Call<AddCommentResponse> addComment(
+            @Header("Authorization") String bearer,
+            @Path("id") String id,
+            @Body String comment
+
+
+    );
+    //https://staging-app1.shoppreglobal.com/api/shopperOrders/cancel
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/shopperOrders/cancel")
+    Call<CancelShopperResponse> cancel(
+            @Header("Authorization") String bearer,
+            @Body String jsonArray
+
     );
 }

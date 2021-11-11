@@ -259,6 +259,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/myCash"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -268,6 +269,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/myRewards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -277,6 +279,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/howCanI"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -296,8 +299,8 @@
                             android:id="@+id/readMore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/read_more"
                             android:layout_centerVertical="true"
+                            android:text="@string/read_more"
                             android:textColor="#3A5FD8"
                             android:textFontWeight="600"
                             android:textSize="12sp" />

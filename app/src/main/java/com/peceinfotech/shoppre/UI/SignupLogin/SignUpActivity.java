@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
@@ -43,7 +44,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextInputLayout emailIdField;
     Button getStartedBtn, googleSignInButton, fbSignInBtn, fbLoginBtn;
     GoogleSignInClient mGoogleSignInClient;
-    private static int RC_SIGN_IN = 100;
+    private static final int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
     LinearLayout main;
@@ -55,6 +56,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         sharedPrefManager = new SharedPrefManager(SignUpActivity.this);
+
+        //if user login then send to Order Activity
         if (sharedPrefManager.checkLogin()) {
             startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
             finish();
@@ -69,36 +72,35 @@ public class SignUpActivity extends AppCompatActivity {
         emailIdField = findViewById(R.id.emailIdField);
         main = findViewById(R.id.main);
 
+        //callBack for facebook
         callbackManager = CallbackManager.Factory.create();
 
 
-        loginText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                finish();
-            }
+        //Click listener on Login Text
+        loginText.setOnClickListener(view -> {
+            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            finish();
         });
 
-        getStartedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateEmailField()) {
-                    return;
-                } else {
-                    String emailId = emailIdField.getEditText().getText().toString();
-                    Intent intent = new Intent(SignUpActivity.this, SignUp_Valid.class);
-                    intent.putExtra("emailId", emailId);
-                    startActivity(intent);
-                }
+        //Click listener on Get started Button
+        getStartedBtn.setOnClickListener(view -> {
+            if (!validateEmailField()) {
+                return;
+            } else {
 
+                //get text from email field and send email to SignUp_valid activity for showing in email field
+                String emailId = emailIdField.getEditText().getText().toString();
+                Intent intent = new Intent(SignUpActivity.this, SignUp_Valid.class);
+                intent.putExtra("emailId", emailId);
+                startActivity(intent);
             }
+
         });
 
+        //Google SignIn
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
@@ -106,13 +108,14 @@ public class SignUpActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
 //        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
+
+        //click listener on Google Btn
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                 {
-
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else {
@@ -157,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                                                        email = object.getString("email");
 //                                                    }
 //
-//                                                    //TODO put your code here
+//
 //
 //
 ////                                                    Toast.makeText(getApplicationContext(), email, Toast.LENGTH_SHORT).show();
@@ -212,7 +215,6 @@ public class SignUpActivity extends AppCompatActivity {
 //                                    email = object.getString("email");
 //                                }
 //
-//                                //TODO put your code here
 //
 //                                signUpFacebook(email, firstName , lastName);
 //                            } catch (JSONException e) {
@@ -227,6 +229,18 @@ public class SignUpActivity extends AppCompatActivity {
 //        }
 
     private void signUpFacebook(String emailId, String firstName, String lastName) {
+
+
+        /*"salutation": "Mr.",
+                "first_name": "firstName",
+                "last_name": "lastName",
+                "email": "email",
+                "phone": "phone_number",
+                "password": "password",
+                "domain": "app",
+                "login_type": "facebook",
+                "is_email_verified": true,
+                "referral_code": "referralCode"*/
         JsonObject paramObject = new JsonObject();
 
         paramObject.addProperty("salutation", "");
@@ -251,14 +265,19 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getToken() != null) {
-                        LoadingDialog.cancelLoading();
 
-                        sharedPrefManager.storeEmail(emailId);
-                        sharedPrefManager.storeGrantType("facebook");
-                        sharedPrefManager.setLogin();
-                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
-                        finish();
+                    //If user already register then there is no other response code
+                    // both true and false condition coming in 200 response code
+                    // hence checking token if user already register will receive token null and vise versa
+                    if (signUpGoogleResponse.getToken() != null) {
+//                        LoadingDialog.cancelLoading();
+                        checkLogin = "signup";
+                        callAuthApi(response.body().getToken().getAccessToken());
+//                        sharedPrefManager.storeEmail(emailId);
+//                        sharedPrefManager.storeGrantType("facebook");
+//                        sharedPrefManager.setLogin();
+//                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
+//                        finish();
 
                     } else if (signUpGoogleResponse.getToken() == null) {
                         signInFacebook(emailId, firstName, lastName);
@@ -284,12 +303,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    sharedPrefManager.storeEmail(email);
-                    sharedPrefManager.storeGrantType("facebook");
-                    sharedPrefManager.setLogin();
-                    startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
-                    finish();
+                    checkLogin = "login";
+                    callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
                     signUpFacebook(email, firstName, lastName);
                 }
@@ -319,6 +334,7 @@ public class SignUpActivity extends AppCompatActivity {
 //        }
 //    };
 
+    //Get values from facebook login
 //    private void loadUserProfile(AccessToken newAccessToken){
 //
 //        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
@@ -335,7 +351,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                        email = object.getString("email");
 //                    }
 //
-//                    //TODO put your code here
+//
 //
 //                    signUpFacebook(email, firstName , lastName);
 //                } catch (JSONException e) {
@@ -392,13 +408,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             if (acct != null) {
 
-
-                Toast.makeText(getApplicationContext(), "register " + firstName + "\n" + lastName
-                        + "\n" + fullName + "\n" +
-                        email + "\n" +
-                        personId, Toast.LENGTH_LONG).show();
-
-//
                 signInGoogle(email, firstName, lastName);
 
             }
@@ -407,6 +416,9 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (ApiException e) {
 
             LoadingDialog.cancelLoading();
+            Snackbar snackbar = Snackbar.make(getApplicationContext()
+            , findViewById(R.id.main) , e.toString(),Snackbar.LENGTH_SHORT);
+            snackbar.show();
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
@@ -425,6 +437,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (response.code() == 200) {
 
+                    //check login => this is for checking user login or signup
+                    //according checkLogin will send to next activity accordingly
                     checkLogin = "login";
                     callAuthApi(response.body().getAccessToken());
                 } else if (response.code() == 400) {
@@ -502,7 +516,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
     private void callAuthApi(String bearer) {
-        String bearerToken = bearer;
+
 
         JsonObject paramObject = new JsonObject();
 
@@ -515,7 +529,7 @@ public class SignUpActivity extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearerToken , paramObject.toString());
+                .getAuth("Bearer "+bearer , paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -524,10 +538,10 @@ public class SignUpActivity extends AppCompatActivity {
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
-                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+//                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
 //                    Log.d("Auth api response ",code);
-                    callAccessTokenApi(part2 , bearerToken);
+                    callAccessTokenApi(part2 , bearer);
 
                 }
                 else if (response.code()==401){
@@ -553,11 +567,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
     private void callAccessTokenApi(String part2, String bearer1) {
 
-        String auth =bearer1;
+
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , auth);
+                .getAccessToken(part2 , bearer1);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
@@ -569,12 +583,11 @@ public class SignUpActivity extends AppCompatActivity {
                     LoadingDialog.cancelLoading();
                     if (checkLogin.equals("login")){
                         startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
-                        finish();
                     }
                     else{
                         startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
-                        finish();
                     }
+                    finish();
                 }
 
                 else if (response.code()==400){
@@ -591,7 +604,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
+            public void onFailure(Call<AccessTokenResponse> call, @NonNull Throwable t) {
                 LoadingDialog.cancelLoading();
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
                 snackbar.show();

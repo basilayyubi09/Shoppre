@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class DeliveryListModel implements Serializable{
+public class DeliveryListModel implements Serializable {
 
     @SerializedName("addresses")
     @Expose
@@ -52,7 +52,8 @@ public class DeliveryListModel implements Serializable{
     public void setDefaultAddress(DefaultAddress defaultAddress) {
         this.defaultAddress = defaultAddress;
     }
-    public class Country {
+
+    public class Country implements Serializable {
 
         @SerializedName("country_code")
         @Expose
@@ -271,6 +272,7 @@ public class DeliveryListModel implements Serializable{
         }
 
     }
+
     public class DefaultAddress {
 
         @SerializedName("name")

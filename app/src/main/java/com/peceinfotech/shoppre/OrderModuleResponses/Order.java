@@ -3,22 +3,65 @@ package com.peceinfotech.shoppre.OrderModuleResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Order {
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("price_amount")
-    @Expose
-    private Integer priceAmount;
-    @SerializedName("order_type")
-    @Expose
-    private String orderType;
     @SerializedName("total_quantity")
     @Expose
     private Integer totalQuantity;
+    @SerializedName("price_amount")
+    @Expose
+    private Integer priceAmount;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("order_code")
+    @Expose
+    private String orderCode;
+    @SerializedName("sub_total")
+    @Expose
+    private Integer subTotal;
     @SerializedName("personal_shopper_cost")
     @Expose
     private Integer personalShopperCost;
+    @SerializedName("additional_charges")
+    @Expose
+    private Integer additionalCharges;
+    @SerializedName("instruction")
+    @Expose
+    private Object instruction;
+    @SerializedName("buy_if_price_changed")
+    @Expose
+    private Object buyIfPriceChanged;
+    @SerializedName("OrderState")
+    @Expose
+    private OrderState orderState;
+    @SerializedName("OrderItems")
+    @Expose
+    private List<OrderItem> orderItems = null;
+    @SerializedName("Store")
+    @Expose
+    private Store store;
+
+
+    public void setInstruction(Object instruction) {
+        this.instruction = instruction;
+    }
+
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+
+    @SerializedName("order_type")
+    @Expose
+    private String orderType;
+
     @SerializedName("delivery_charge")
     @Expose
     private String deliveryCharge;
@@ -28,9 +71,7 @@ public class Order {
     @SerializedName("payment_gateway_fee")
     @Expose
     private String paymentGatewayFee;
-    @SerializedName("sub_total")
-    @Expose
-    private Integer subTotal;
+
     @SerializedName("amount_paid")
     @Expose
     private String amountPaid;
@@ -49,9 +90,7 @@ public class Order {
     @SerializedName("if_promo_unavailable")
     @Expose
     private String ifPromoUnavailable;
-    @SerializedName("instruction")
-    @Expose
-    private String instruction;
+
     @SerializedName("payment_gateway_name")
     @Expose
     private String paymentGatewayName;
@@ -61,12 +100,7 @@ public class Order {
     @SerializedName("invoice")
     @Expose
     private String invoice;
-    @SerializedName("order_code")
-    @Expose
-    private String orderCode;
-    @SerializedName("buy_if_price_changed")
-    @Expose
-    private String buyIfPriceChanged;
+
     @SerializedName("transaction_id")
     @Expose
     private Integer transactionId;
@@ -91,9 +125,7 @@ public class Order {
     @SerializedName("is_cod_payment")
     @Expose
     private String isCodPayment;
-    @SerializedName("additional_charges")
-    @Expose
-    private Integer additionalCharges;
+
     @SerializedName("shopper_order_id")
     @Expose
     private Integer shopperOrderId;
@@ -121,12 +153,7 @@ public class Order {
     @SerializedName("store_id")
     @Expose
     private Integer storeId;
-    @SerializedName("Store")
-    @Expose
-    private Store store;
-    @SerializedName("OrderState")
-    @Expose
-    private OrderState orderState;
+
 
     public Integer getId() {
         return id;
@@ -248,9 +275,6 @@ public class Order {
         this.ifPromoUnavailable = ifPromoUnavailable;
     }
 
-    public String getInstruction() {
-        return instruction;
-    }
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
@@ -288,9 +312,6 @@ public class Order {
         this.orderCode = orderCode;
     }
 
-    public String getBuyIfPriceChanged() {
-        return buyIfPriceChanged;
-    }
 
     public void setBuyIfPriceChanged(String buyIfPriceChanged) {
         this.buyIfPriceChanged = buyIfPriceChanged;

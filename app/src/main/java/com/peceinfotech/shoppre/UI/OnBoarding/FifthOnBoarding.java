@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -52,8 +54,9 @@ public class FifthOnBoarding extends Fragment {
             Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.on), "No Internet Connection", Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
-            String token = sharedPrefManager.getBearerToken();
-            callMeApi(token);
+
+            begin();
+
         }
 
         startShopping.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +78,12 @@ public class FifthOnBoarding extends Fragment {
 
         return view;
     }
+
+    private void begin() {
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        callMeApi(sharedPrefManager.getBearerToken());
+    }
+
     private void callMeApi(String token) {
 
         //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwNTU4LCJzZXNzaW9uX2lkIjoxMTMzMCwiaWF0IjoxNjM1NDIzNzAyLCJleHAiOjE2MzU0MjczMDJ9.UDJAah-VmB2fkgIob3PRD5-HueU2wuBF8PXW0mcRYXY
@@ -86,9 +95,9 @@ public class FifthOnBoarding extends Fragment {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
-                Toast.makeText(getActivity(), "Bearer "+token, Toast.LENGTH_SHORT).show();
                 if (response.code() == 200){
-                    LoadingDialog.cancelLoading();
+
+                    lockerNo.setText(response.body().getVirtualAddressCode());
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
                     sharedPrefManager.storeLastName(response.body().getLastName());
                     sharedPrefManager.storeFullName(response.body().getName());
@@ -96,17 +105,10 @@ public class FifthOnBoarding extends Fragment {
                     sharedPrefManager.storeId(response.body().getId());
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
-
-                    Toast.makeText(getActivity(), response.body().getSalutation()
-                            +"\n"+response.body().getFirstName()+"\n" +
-                            response.body().getLastName()+"\n"+
-                            response.body().getName()+"\n"+
-                            response.body().getEmail()+"\n"+
-                            response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
+                    LoadingDialog.cancelLoading();
                 }
                 else  if(response.code() == 401){
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "not registered", Toast.LENGTH_SHORT).show();
+                    callRefreshTokenApi();
                 }
             }
 
@@ -118,5 +120,31 @@ public class FifthOnBoarding extends Fragment {
             }
         });
     }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    begin();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
 }

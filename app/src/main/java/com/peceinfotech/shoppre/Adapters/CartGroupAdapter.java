@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.OrderModuleResponses.ProductItem;
 import com.peceinfotech.shoppre.R;
 
@@ -19,10 +22,11 @@ import java.util.List;
 
 public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.viewHolder> {
 
-    List<CartModelResponse> list;
+    List<Order> list;
     Context context;
+    CartItemsAdapter cartItemsAdapter;
 
-    public CartGroupAdapter(List<CartModelResponse> list, Context context) {
+    public CartGroupAdapter(List<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -39,16 +43,20 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        CartModelResponse cartModelResponse = list.get(position);
-        holder.weSiteName.setText(cartModelResponse.getWebSiteName());
+        Order order = list.get(position);
 
-        List<ProductItem> list1 = cartModelResponse.getProductItem();
-        CartItemsAdapter cartItemsAdapter = new CartItemsAdapter(list1, context);
+
+        holder.weSiteName.setText(list.get(position).getStore().getName());
+         cartItemsAdapter = new CartItemsAdapter(order, context);
         holder.productItemRecycler.setAdapter(cartItemsAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         holder.productItemRecycler.setLayoutManager(linearLayoutManager);
+
+
+
     }
+
 
     @Override
     public int getItemCount() {
