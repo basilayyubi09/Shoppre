@@ -242,6 +242,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/packageMinus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/minus_ic"
@@ -258,6 +259,7 @@
 
 
                                 <TextView
+                                    android:id="@+id/packageTextView"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
@@ -275,6 +277,7 @@
                                     android:background="@color/hint_color" />
 
                                 <TextView
+                                    android:id="@+id/packagePlus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/plus_ic"
@@ -393,6 +396,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/lenghtMinus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/minus_ic"
@@ -409,6 +413,7 @@
 
 
                                 <TextView
+                                    android:id="@+id/lengthTextView"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
@@ -426,6 +431,7 @@
                                     android:background="@color/hint_color" />
 
                                 <TextView
+                                    android:id="@+id/lenghtPlus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/plus_ic"
@@ -457,6 +463,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/heightMinus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/minus_ic"
@@ -473,6 +480,7 @@
 
 
                                 <TextView
+                                    android:id="@+id/heightTextView"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
@@ -490,6 +498,7 @@
                                     android:background="@color/hint_color" />
 
                                 <TextView
+                                    android:id="@+id/heightPlus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/plus_ic"
@@ -520,6 +529,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/widthMinus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/minus_ic"
@@ -536,6 +546,7 @@
 
 
                                 <TextView
+                                    android:id="@+id/widthTextView"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
@@ -553,6 +564,7 @@
                                     android:background="@color/hint_color" />
 
                                 <TextView
+                                    android:id="@+id/widthPlus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="28dp"
                                     android:drawableStart="@drawable/plus_ic"
@@ -560,7 +572,7 @@
                                     android:paddingVertical="4dp"
                                     app:boxStrokeWidth="0dp"
                                     app:boxStrokeWidthFocused="0dp"
-                                    app:endIconTint="@color/hint_color" />
+                                    app:endIconTint="@color/hint_color"/>
 
 
                             </LinearLayout>

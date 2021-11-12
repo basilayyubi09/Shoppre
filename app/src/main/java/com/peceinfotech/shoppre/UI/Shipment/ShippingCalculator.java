@@ -55,6 +55,9 @@ public class ShippingCalculator extends Fragment {
     String[] chooseCategoryItem = {"Choose Category","Clothing",  "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
     final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
+    TextView packageMinus, packagePlus, packageTextView, lenghtPlus, lenghtMinus, lengthTextView, heightPlus, heightMinus, heightTextView, widthPlus, widthMinus, widthTextView;
+    float count =(float) 0.5, id;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -84,6 +87,110 @@ public class ShippingCalculator extends Fragment {
         chooseCategoryLinearLayout = view.findViewById(R.id.chooseCategoryLinearLayout);
         chooseCountry = view.findViewById(R.id.chooseCountry);
         chooseCountryLayout = view.findViewById(R.id.chooseCountryLayout);
+
+
+        packageMinus = view.findViewById(R.id.packageMinus);
+        packagePlus = view.findViewById(R.id.packagePlus);
+        packageTextView = view.findViewById(R.id.packageTextView);
+        lenghtPlus = view.findViewById(R.id.lenghtPlus);
+        lenghtMinus = view.findViewById(R.id.lenghtMinus);
+        lengthTextView = view.findViewById(R.id.lengthTextView);
+        heightPlus = view.findViewById(R.id.heightPlus);
+        heightMinus = view.findViewById(R.id.heightMinus);
+        heightTextView = view.findViewById(R.id.heightTextView);
+        widthPlus = view.findViewById(R.id.widthPlus);
+        widthMinus = view.findViewById(R.id.widthMinus);
+        widthTextView = view.findViewById(R.id.widthTextView);
+
+
+
+        packagePlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = (float) (count+0.5);
+                packageTextView.setText(String.valueOf(count));
+            }
+        });
+
+        packageMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count== 0.5){
+                    packageTextView.setText("0.5");
+                }else {
+                    count -= 0.5;
+                    packageTextView.setText("" + count);
+                }
+
+            }
+        });
+
+
+        lenghtMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count== 0.5){
+                    lengthTextView.setText("0.5");
+                }else {
+                    count -= 0.5;
+                    lengthTextView.setText("" + count);
+                }
+
+            }
+        });
+
+        lenghtPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = (float) (count+0.5);
+                lengthTextView.setText(String.valueOf(count));
+            }
+        });
+
+
+        heightMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count == 0.5){
+                    lengthTextView.setText("0.5");
+                }else {
+                    count -= 0.5;
+                    heightTextView.setText("" + count);
+                }
+            }
+        });
+
+
+        heightPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = (float) (count+0.5);
+                heightTextView.setText((String.valueOf(count)));
+
+            }
+        });
+
+        widthMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count==0.5){
+                    lengthTextView.setText("0.5");
+                }else {
+                    count -= 0.5;
+                    widthTextView.setText("" + count);
+                }
+            }
+        });
+
+        widthPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count = (float) (count+0.5);
+                widthTextView.setText("" + count);
+            }
+        });
+
+
 
 
         chooseCountryLayout.setOnClickListener(new View.OnClickListener() {
