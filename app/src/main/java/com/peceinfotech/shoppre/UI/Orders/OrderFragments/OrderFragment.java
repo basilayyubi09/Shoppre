@@ -47,7 +47,8 @@ import retrofit2.Response;
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn;
+    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn
+            ,forgotContinueBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
@@ -78,6 +79,7 @@ public class OrderFragment extends Fragment {
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
         submit = view.findViewById(R.id.submit);
+        forgotContinueBtn  = view.findViewById(R.id.forgotContinueBtn);
         sevenDay = view.findViewById(R.id.sevenDay);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
         shippingCalculator = view.findViewById(R.id.shippingCalculator);
@@ -176,6 +178,20 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        forgotContinueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                EmptyCart emptyCart = new EmptyCart();
+
+                bundle.putInt("id" , shoppreId);
+                bundle.putString("type" , "exist");
+                emptyCart.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, emptyCart, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
         addYourFirstOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -240,8 +256,10 @@ public class OrderFragment extends Fragment {
                     }
 
                     if (shoppreId != null) {
+                        forgetSomething.setVisibility(View.VISIBLE);
                         flag = 1;
                     } else {
+                        forgetSomething.setVisibility(View.GONE);
                         flag = 0;
                     }
 

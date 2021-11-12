@@ -111,80 +111,65 @@ public class EmptyCart extends Fragment {
         }
 
         getTextFromFields();
-        check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (check.isChecked()) {
-                    liquidCard.setVisibility(View.VISIBLE);
-                } else {
-                    liquidCard.setVisibility(View.GONE);
-                }
+        check.setOnClickListener(v -> {
+            if (check.isChecked()) {
+                liquidCard.setVisibility(View.VISIBLE);
+            } else {
+                liquidCard.setVisibility(View.GONE);
             }
         });
 
         count = Integer.parseInt(String.valueOf(countString));
 
-        dropdownLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
-                popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    public boolean onMenuItemClick(MenuItem item) {
-                        selectField.setText(item.getTitle());
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
-        });
-
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                count++;
-                countField.setText(String.valueOf(count));
-            }
-        });
-
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (count == 1) {
-                    countField.setText("1");
-                } else {
-                    count -= 1;
-                    countField.setText("" + count);
+        dropdownLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
+            popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @SuppressLint("ResourceAsColor")
+                public boolean onMenuItemClick(MenuItem item) {
+                    selectField.setText(item.getTitle());
+                    return true;
                 }
+            });
+
+            popup.show();
+        });
+
+        plus.setOnClickListener(v -> {
+
+            count++;
+            countField.setText(String.valueOf(count));
+        });
+
+        minus.setOnClickListener(v -> {
+
+            if (count == 1) {
+                countField.setText("1");
+            } else {
+                count -= 1;
+                countField.setText("" + count);
             }
         });
 
 
         downwardTriangle.setVisibility(View.VISIBLE);
 
-        itemCartCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        itemCartCard.setOnClickListener(v -> {
 
-                if (flag == 1) {
+            if (flag == 1) {
 
-                    productCartCard.setVisibility(View.VISIBLE);
-                    upwardTriangle.setVisibility(View.VISIBLE);
-                    downwardTriangle.setVisibility(View.GONE);
+                productCartCard.setVisibility(View.VISIBLE);
+                upwardTriangle.setVisibility(View.VISIBLE);
+                downwardTriangle.setVisibility(View.GONE);
 
-                    flag = 0;
+                flag = 0;
 
-                } else if (flag == 0) {
-                    productCartCard.setVisibility(View.GONE);
-                    upwardTriangle.setVisibility(View.GONE);
-                    downwardTriangle.setVisibility(View.VISIBLE);
+            } else if (flag == 0) {
+                productCartCard.setVisibility(View.GONE);
+                upwardTriangle.setVisibility(View.GONE);
+                downwardTriangle.setVisibility(View.VISIBLE);
 
-                    flag = 1;
-                }
+                flag = 1;
             }
         });
 
@@ -315,7 +300,7 @@ public class EmptyCart extends Fragment {
                     }
 
 
-                    Toast.makeText(getActivity(), String.valueOf(count), Toast.LENGTH_SHORT).show();
+
                     CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
                     cartRecycler.setAdapter(cartGroupAdapter);
                     cartGroupAdapter.notifyDataSetChanged();
@@ -333,6 +318,7 @@ public class EmptyCart extends Fragment {
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                     orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                    clearFields();
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
@@ -353,6 +339,17 @@ public class EmptyCart extends Fragment {
                 snackbar.show();
             }
         });
+    }
+
+    private void clearFields() {
+         urlField.setText("");
+        nameField.setText("");
+        sizeField.setText("");
+        colorField.setText("");
+        priceField.setText("");
+        countField.setText("");
+        selectField.setText("");
+        check.setChecked(false);
     }
 
     private void callRefreshTokenApi(String code) {

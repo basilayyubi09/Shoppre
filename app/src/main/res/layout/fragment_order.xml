@@ -530,6 +530,7 @@
                         </LinearLayout>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/forgotContinueBtn"
                             android:layout_width="118dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"

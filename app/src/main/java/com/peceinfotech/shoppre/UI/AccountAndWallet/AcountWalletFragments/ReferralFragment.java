@@ -20,9 +20,11 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.ReferralHistory;
 import com.peceinfotech.shoppre.AccountResponse.ReferralHistoryResponse;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.AccountAndWallet.ReferralAdapter;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.ReferralRetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -197,9 +199,7 @@ public class ReferralFragment extends Fragment {
 
                 }
                 else if(response.code()==401){
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , response.body().getErrorDescription() , Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    callRefreshTokenApi();
                 }
                 else {
                     LoadingDialog.cancelLoading();
@@ -215,5 +215,34 @@ public class ReferralFragment extends Fragment {
                 snackbar.show();
             }
         });
+    }
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    callReferralApi();
+
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
     }
 }
