@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -26,7 +25,6 @@ import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShippingRateResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.Utils.PricingTableDialog;
 import com.peceinfotech.shoppre.Retrofit.LogisticClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
@@ -51,13 +49,10 @@ public class ShippingCalculatorResultFragment extends Fragment {
     String weightFromBundle, kg, liquid, height, width, length;
 
 
-    TextView viewPricingTable;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);
@@ -70,14 +65,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         courierCharges = view.findViewById(R.id.courierCharges);
         placeOrderBtn = view.findViewById(R.id.placeOrderBtn);
         setCountryList("");
- viewPricingTable = view.findViewById(R.id.viewPricingTable);
 
-        viewPricingTable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PricingTableDialog pricingTableDialog = new PricingTableDialog();
-                pricingTableDialog.showDialog(getContext());
-            }
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             shippingRateResponse = (ShippingRateResponse) bundle.getSerializable("rate");
@@ -135,7 +123,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         Call<List<SlabResponse>> call = LogisticClient
                 .getInstance3()
                 .getAppApi().getSLab(String.valueOf(countryId)
-                , "nondoc",liquid,String.valueOf(categoryId));
+                        , "nondoc",liquid,String.valueOf(categoryId));
         call.enqueue(new Callback<List<SlabResponse>>() {
             @Override
             public void onResponse(Call<List<SlabResponse>> call, Response<List<SlabResponse>> response) {
