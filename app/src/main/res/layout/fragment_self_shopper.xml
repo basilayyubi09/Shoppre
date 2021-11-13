@@ -22,6 +22,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/selfShopperVirtualAddress"
                 android:layout_width="114dp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -63,6 +64,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/selfShopperShippingCalculator"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -103,6 +105,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/selfShopperFaqAndHelp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -262,7 +265,7 @@
                         android:layout_marginBottom="12dp"
                         android:textFontWeight="400"
                         android:layout_weight="1"
-                        android:text="@string/chose_your_shopping_experience"
+                        android:text="@string/shop_for_me_text"
                         android:textColor="@color/black"
                         android:textSize="10sp" />
 
@@ -287,6 +290,7 @@
                         android:paddingVertical="6dp"
                         android:background="@drawable/how_it_work_border1"
                         android:layout_marginHorizontal="10dp"
+                        android:layout_gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -299,6 +303,7 @@
                             android:layout_height="wrap_content"
                             android:text="How it works?"
                             android:textColor="#3A5FD8"
+                            android:layout_marginLeft="3dp"
                             android:textSize="8dp" />
 
 
@@ -371,7 +376,7 @@
                             android:layout_marginBottom="12dp"
                             android:textFontWeight="400"
                             android:layout_weight="1"
-                            android:text="@string/chose_your_shopping_experience"
+                            android:text="@string/ill_shop_for_my_self_text"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
 
@@ -408,6 +413,7 @@
                             android:layout_height="wrap_content"
                             android:text="How it works?"
                             android:textColor="#3A5FD8"
+                            android:layout_marginLeft="3dp"
                             android:textSize="8dp" />
 
 

@@ -129,13 +129,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_margin="13dp">
 
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -170,6 +170,7 @@
                             android:textAllCaps="false"
                             android:textFontWeight="700"
                             android:textSize="10sp"
+                            android:layout_marginTop="8dp"
                             app:backgroundTint="#17B28F"
                             android:textColor="@color/white"
                             app:cornerRadius="5dp"
@@ -536,7 +537,7 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/forgotContinueBtn"
-                            android:layout_width="118dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
                             android:insetTop="0dp"

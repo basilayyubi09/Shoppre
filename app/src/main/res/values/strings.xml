@@ -65,12 +65,13 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="wow_can_i_use_my_wallet_balance">Wow can I use My Wallet balance?</string>
     <string name="delete"><u>Delete</u></string>
     <string name="edit"><u>Edit</u></string>
-    <string name="varify_your_account_details">We’ve sent an email with the verification link\nto your ID which is valid for 7 days only.\nPlease verify your account to access all the\nfeatures.</string>
+    <string name="varify_your_account_details">We’ve sent an email with the verification link to your ID which is valid for 7 days only. Please verify your account to access all the features.</string>
     <string name="delivery_address">24 Airport Rd -<br />Garhoud - Dubai -<br />United Arab Emirates</string>
     <string name="update_address">Update Address</string>
     <string name="i_agree_to_all_terms_conditions">I agree to all  <font color='#8F8F8F'><u><bold>Terms &amp; Conditions</bold></u></font></string>
-    <string name="chose_your_shopping_experience"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
+    <string name="ill_shop_for_my_self_text">Shop directly on any Indian sites and get it delivered to your ShoppRe Virtual Address. We\'ll receive your package &amp; ship it to anywhere across the globe</string>
     <string name="please_note_">Please Note that the shipping rates for Liquid/ Semi-Liquid products are higher. Check our Shipping Price Calculator for estimate pricing.</string>
+    <string name="shop_for_me_text"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 
