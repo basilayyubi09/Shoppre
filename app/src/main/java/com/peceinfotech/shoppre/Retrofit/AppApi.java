@@ -18,13 +18,17 @@ import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.DeleteOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.GetCommentsResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ProductCategoryResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShippingRateResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -177,19 +181,32 @@ public interface AppApi {
     // ?country_id=226&type=nondoc&weight=0.5&length=0.5&
     // width=0.5&height=0.5&scale=cm&unit=kg&is_liquid=false&category_id=1
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("api/pricing/global?country_id={id}&type={type}&weight={weight}&length={length}&width={width}&height={height}&scale={scale}&unit={unit}&is_liquid={liquid}&category_id={categoryId}}")
+    @GET("api/pricing/global?")
     Call<ShippingRateResponse> getShippingRate(
 
-            @Path("id") int id,
-            @Path("type") String type,
-            @Path("weight") String weight,
-            @Path("length") String length,
-            @Path("height") String height,
-            @Path("scale") String scale,
-            @Path("unit") String unit,
-            @Path("liquid") String liquid,
-            @Path("categoryId") String categoryId
+            @Query("country_id") String id,
+            @Query("type") String type,
+            @Query("weight") String weight,
+            @Query("length") String length,
+            @Query("width") String width,
+            @Query("height") String height,
+            @Query("scale") String scale,
+            @Query("unit") String unit,
+            @Query("is_liquid") String liquid,
+            @Query("category_id") String categoryId
     );
+
+    //https://staging-logistics.shoppre.com/api/pricing/slab?country_id=13&type=nondoc&is_liquid=false&category_id=1
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/pricing/slab?")
+    Call<List<SlabResponse>> getSLab(
+
+            @Query("country_id") String id,
+            @Query("type") String type,
+            @Query("is_liquid") String liquid,
+            @Query("category_id") String categoryId
+    );
+
 
     //https://staging-engage.shoppre.com/api/orders/170/comments
     @GET("api/orders/{id}/comments")
@@ -215,4 +232,15 @@ public interface AppApi {
             @Body String jsonArray
 
     );
+
+    //https://staging-logistics.shoppre.com/api/categories
+    @GET("api/categories")
+    Call<List<ProductCategoryResponse>> getCategory();
+
+    //https://staging-app1.shoppreglobal.com/api/orders/submitOptions
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/orders/submitOptions")
+    Call<ResponseBody> submitOrder(
+            @Header("Authorization") String auth,
+            @Body String objects);
 }

@@ -132,6 +132,13 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        shippingCalculator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         addNewOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override

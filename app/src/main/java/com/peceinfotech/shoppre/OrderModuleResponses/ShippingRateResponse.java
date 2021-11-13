@@ -3,9 +3,10 @@ package com.peceinfotech.shoppre.OrderModuleResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ShippingRateResponse {
+public class ShippingRateResponse implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;

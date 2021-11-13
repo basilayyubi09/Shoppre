@@ -116,15 +116,15 @@
                                     android:id="@+id/chooseCountry"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
-                                    android:paddingLeft="18dp"
                                     android:layout_weight="1"
                                     android:background="@null"
                                     android:gravity="center|left"
-                                    android:text="Choose Country"
+                                    android:paddingLeft="18dp"
                                     android:singleLine="true"
+                                    android:text="Choose Country"
                                     android:textFontWeight="400"
                                     android:textSize="12sp"
-                                    app:boxStrokeColor="@color/hint_color"/>
+                                    app:boxStrokeColor="@color/hint_color" />
 
                                 <View
                                     android:layout_width="1dp"
@@ -140,6 +140,17 @@
                                     android:src="@drawable/triangle" />
 
                             </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:id="@+id/countryError"
+                                android:visibility="gone"
+
+                                android:textColor="@color/design_default_color_error"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -160,13 +171,14 @@
 
 
                                 <androidx.appcompat.widget.AppCompatSpinner
+
                                     android:id="@+id/chooseCategoryDropdown"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
                                     android:background="@null"
-                                    android:textSize="12sp"
-                                    android:overlapAnchor="false"/>
+                                    android:overlapAnchor="false"
+                                    android:textSize="12sp" />
 
                                 <View
                                     android:layout_width="1dp"
@@ -183,7 +195,16 @@
 
                             </LinearLayout>
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:id="@+id/categoryError"
+                                android:visibility="gone"
 
+                                android:textColor="@color/design_default_color_error"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -313,8 +334,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
-                                    android:overlapAnchor="false"
-                                    android:background="@null"/>
+                                    android:background="@null"
+                                    android:overlapAnchor="false" />
 
                                 <View
                                     android:layout_width="1dp"
@@ -356,8 +377,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
-                                    android:overlapAnchor="false"
                                     android:background="@null"
+                                    android:overlapAnchor="false"
                                     android:textSize="12sp" />
 
                                 <View
@@ -572,13 +593,14 @@
                                     android:paddingVertical="4dp"
                                     app:boxStrokeWidth="0dp"
                                     app:boxStrokeWidthFocused="0dp"
-                                    app:endIconTint="@color/hint_color"/>
+                                    app:endIconTint="@color/hint_color" />
 
 
                             </LinearLayout>
 
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/getEstimateBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"

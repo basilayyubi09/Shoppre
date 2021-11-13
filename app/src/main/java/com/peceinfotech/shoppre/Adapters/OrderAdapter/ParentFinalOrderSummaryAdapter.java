@@ -11,16 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.Models.Section;
 import com.peceinfotech.shoppre.Models.SectionItem;
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.R;
 
 import java.util.List;
 
 public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentFinalOrderSummaryAdapter.viewHolder> {
 
-    List<Section> list;
+    List<Order> list;
     Context context;
 
-    public ParentFinalOrderSummaryAdapter(List<Section> list, Context context) {
+    public ParentFinalOrderSummaryAdapter(List<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -35,11 +37,11 @@ public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentF
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        Section section = list.get(position);
-        holder.websiteName.setText(section.getSectionName());
-        holder.additional.setText("₹ "+String.valueOf(section.getAdditional()));
-        holder.personal.setText("₹ "+String.valueOf(section.getPersonal()));
-        List<SectionItem> list1 = section.getList();
+
+        holder.websiteName.setText(list.get(position).getStore().getName());
+        holder.personal.setText("₹ "+String.valueOf(list.get(position).getPersonalShopperCost()));
+        holder.additional.setText("₹ "+String.valueOf(list.get(position).getAdditionalCharges()));
+        List<OrderItem> list1 = list.get(position).getOrderItems();
         ChildFinalOrderSummaryAdapter adapter = new ChildFinalOrderSummaryAdapter(list1 , context);
         if( position == getItemCount() - 1 ){
 

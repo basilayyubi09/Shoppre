@@ -1,16 +1,14 @@
 package com.peceinfotech.shoppre.UI.Shipment;
 
-import static com.peceinfotech.shoppre.R.drawable.*;
+import static com.peceinfotech.shoppre.R.drawable.no_btn_bg;
+import static com.peceinfotech.shoppre.R.drawable.no_btn_bg1;
+import static com.peceinfotech.shoppre.R.drawable.yes_btn_bg;
+import static com.peceinfotech.shoppre.R.drawable.yes_btn_bg1;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,12 +22,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
+import com.peceinfotech.shoppre.OrderModuleResponses.ProductCategoryResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.ShippingRateResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.LogisticClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.Utils.CheckNetwork;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,17 +57,26 @@ public class ShippingCalculator extends Fragment {
     LinearLayout yesNoButtonLayout;
     ArrayAdapter arrayAdapterKg, arrayAdapterCm, arrayAdapterChooseCategory, arrayAdapterChooseCountry;
     List<Item> list, duplicateList;
+    List<ProductCategoryResponse> listCategory;
     ArrayAdapter<Item> arrayAdapter;
+    ArrayAdapter<ProductCategoryResponse> categoryAdapter;
     LinearLayout chooseCountryLayout;
     Spinner kgDropdown, cmDropdown, chooseCategoryDropdown;
+    MaterialButton getEstimateBtn;
+    TextView countryError, categoryError;
+    String country, category, liquid, weight, length, height, width;
+    int flag = 1;
+    Integer Id, countryId;
+    String cm, kg;
+    ShippingRateResponse shippingRateResponse;
     LinearLayout kgLinearLayout, cmLinearLayout, chooseCategoryLinearLayout;
     String[] kgDropdownItem = {"Kilogram (kg)", "Pounds (lb)"};
     String[] cmDropdownItem = {"Centimeter (cm)", "Inches (in)"};
-    String[] chooseCategoryItem = {"Choose Category","Clothing",  "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
+    String[] chooseCategoryItem = {"Choose Category", "Clothing", "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
     final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
     TextView packageMinus, packagePlus, packageTextView, lenghtPlus, lenghtMinus, lengthTextView, heightPlus, heightMinus, heightTextView, widthPlus, widthMinus, widthTextView;
-    float count =(float) 0.5, id;
+    float widthCount = (float) 0.5 , heightCount = (float) 0.5, lengthCount = (float) 0.5, weightCount= (float) 0.5;
 
     @Override
     public void onResume() {
@@ -78,8 +98,11 @@ public class ShippingCalculator extends Fragment {
 
         yesButton = view.findViewById(R.id.yesButton);
         noButton = view.findViewById(R.id.noButton);
+        getEstimateBtn = view.findViewById(R.id.getEstimateBtn);
         yesNoButtonLayout = view.findViewById(R.id.yesNoButtonLayout);
         kgDropdown = view.findViewById(R.id.kgDropdown);
+        countryError = view.findViewById(R.id.countryError);
+        categoryError = view.findViewById(R.id.categoryError);
         kgLinearLayout = view.findViewById(R.id.kgLinearLayout);
         cmDropdown = view.findViewById(R.id.cmDropdown);
         cmLinearLayout = view.findViewById(R.id.cmLinearLayout);
@@ -102,24 +125,26 @@ public class ShippingCalculator extends Fragment {
         widthMinus = view.findViewById(R.id.widthMinus);
         widthTextView = view.findViewById(R.id.widthTextView);
 
+        setCountryList("");
 
-
+        callCategoryAdapter();
         packagePlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = (float) (count+0.5);
-                packageTextView.setText(String.valueOf(count));
+                weightCount = (float) (weightCount + 0.5);
+                packageTextView.setText(String.valueOf(weightCount));
             }
         });
+
 
         packageMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count== 0.5){
+                if (weightCount == 0.5) {
                     packageTextView.setText("0.5");
-                }else {
-                    count -= 0.5;
-                    packageTextView.setText("" + count);
+                } else {
+                    weightCount -= 0.5;
+                    packageTextView.setText("" + weightCount);
                 }
 
             }
@@ -129,11 +154,11 @@ public class ShippingCalculator extends Fragment {
         lenghtMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count== 0.5){
+                if (lengthCount == 0.5) {
                     lengthTextView.setText("0.5");
-                }else {
-                    count -= 0.5;
-                    lengthTextView.setText("" + count);
+                } else {
+                    lengthCount -= 0.5;
+                    lengthTextView.setText("" + lengthCount);
                 }
 
             }
@@ -142,8 +167,8 @@ public class ShippingCalculator extends Fragment {
         lenghtPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = (float) (count+0.5);
-                lengthTextView.setText(String.valueOf(count));
+                lengthCount = (float) (lengthCount + 0.5);
+                lengthTextView.setText(String.valueOf(lengthCount));
             }
         });
 
@@ -151,11 +176,11 @@ public class ShippingCalculator extends Fragment {
         heightMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count == 0.5){
+                if (heightCount == 0.5) {
                     lengthTextView.setText("0.5");
-                }else {
-                    count -= 0.5;
-                    heightTextView.setText("" + count);
+                } else {
+                    heightCount -= 0.5;
+                    heightTextView.setText("" + heightCount);
                 }
             }
         });
@@ -164,8 +189,8 @@ public class ShippingCalculator extends Fragment {
         heightPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = (float) (count+0.5);
-                heightTextView.setText((String.valueOf(count)));
+                heightCount = (float) (heightCount + 0.5);
+                heightTextView.setText((String.valueOf(heightCount)));
 
             }
         });
@@ -173,11 +198,11 @@ public class ShippingCalculator extends Fragment {
         widthMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count==0.5){
+                if (widthCount == 0.5) {
                     lengthTextView.setText("0.5");
-                }else {
-                    count -= 0.5;
-                    widthTextView.setText("" + count);
+                } else {
+                    weightCount -= 0.5;
+                    widthTextView.setText("" + weightCount);
                 }
             }
         });
@@ -185,12 +210,10 @@ public class ShippingCalculator extends Fragment {
         widthPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count = (float) (count+0.5);
-                widthTextView.setText("" + count);
+                widthCount = (float) (widthCount + 0.5);
+                widthTextView.setText("" + widthCount);
             }
         });
-
-
 
 
         chooseCountryLayout.setOnClickListener(new View.OnClickListener() {
@@ -201,8 +224,6 @@ public class ShippingCalculator extends Fragment {
         });
 
 
-        setCountryList("");
-
         chooseCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,8 +231,6 @@ public class ShippingCalculator extends Fragment {
                 showDialogue();
             }
         });
-
-
 
 
         chooseCategoryLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -236,17 +255,17 @@ public class ShippingCalculator extends Fragment {
         });
 
 
-
         yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
         yesButton.setTextColor(getResources().getColor(R.color.white));
+
         noButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"ResourceAsColor", "ResourceType"})
             @Override
             public void onClick(View v) {
 
-
-                    noButton.setTextColor(getResources().getColor(R.color.white));
-                    yesButton.setTextColor(getResources().getColor(R.color.black));
+                flag = 2;
+                noButton.setTextColor(getResources().getColor(R.color.white));
+                yesButton.setTextColor(getResources().getColor(R.color.black));
 //                noButton.setBackgroundColor(getResources().getColor(R.color.selected_btn_color));
 //                yesButton.setBackgroundColor(getResources().getColor(R.color.unselected_btn_color));
 //                yesNoButtonLayout.setBackgroundResource(edit_text_bg);
@@ -263,7 +282,7 @@ public class ShippingCalculator extends Fragment {
             @Override
             public void onClick(View v) {
 
-
+                flag = 1;
                 yesButton.setTextColor(getResources().getColor(R.color.white));
                 noButton.setTextColor(getResources().getColor(R.color.black));
 
@@ -274,46 +293,39 @@ public class ShippingCalculator extends Fragment {
                 noButton.setBackground(getResources().getDrawable(no_btn_bg1));
 
 
+            }
+        });
+
+        getEstimateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+                {
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    getTextFromFields();
+                    if (!validateCountry() || !validateCategory()) {
+                        return;
+                    } else {
+
+                        callShippingRateApi();
+
+                    }
+                }
+
 
             }
         });
 
-        ArrayAdapter<String> chooseCategoryArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.choose_category_dropdown_text, chooseCategoryArrayList) {
-
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-
-                TextView chooseCategoryTextView = (TextView) view;
-
-                if (position == 0) {
-                    chooseCategoryTextView.setVisibility(View.GONE);
-                    chooseCategoryTextView.setTextColor(Color.GRAY);
-                } else {
-                    chooseCategoryTextView.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-
-        chooseCategoryArrayAdapter.setDropDownViewResource(R.layout.choose_category_dropdown_text);
-        chooseCategoryDropdown.setAdapter(chooseCategoryArrayAdapter);
 
         chooseCategoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedText = (String) parent.getItemAtPosition(position);
-                if (position > 0){
-                    Toast.makeText(getContext(), selectedText+" Selected", Toast.LENGTH_SHORT).show();
+
+                if (position > 0) {
+                    Id = listCategory.get(position).getId();
                 }
             }
 
@@ -324,6 +336,148 @@ public class ShippingCalculator extends Fragment {
         });
 
         return view;
+    }
+
+    private void callShippingRateApi() {
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        Call<ShippingRateResponse> call = LogisticClient
+                .getInstance3()
+                .getAppApi().getShippingRate(String.valueOf(countryId)
+                        , "nondoc", weight,
+                        length, width,height,
+                        cm, kg, liquid
+                        , String.valueOf(Id));
+        call.enqueue(new Callback<ShippingRateResponse>() {
+            @Override
+            public void onResponse(Call<ShippingRateResponse> call, Response<ShippingRateResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                     shippingRateResponse = response.body();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("weight" , weight);
+
+                    bundle.putString("kg" , kg);
+                    bundle.putInt("countryId" , countryId);
+                    bundle.putInt("categoryId" , Id);
+                    bundle.putString("liquid" , liquid);
+                    bundle.putSerializable("rate" , (Serializable) shippingRateResponse);
+                    ShippingCalculatorResultFragment shippingCalculatorResultFragment = new ShippingCalculatorResultFragment();
+                    shippingCalculatorResultFragment.setArguments(bundle);
+
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, shippingCalculatorResultFragment, null)
+                            .addToBackStack(null).commit();
+
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShippingRateResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callCategoryAdapter() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<List<ProductCategoryResponse>> call = LogisticClient
+                .getInstance3()
+                .getAppApi().getCategory();
+        call.enqueue(new Callback<List<ProductCategoryResponse>>() {
+            @Override
+            public void onResponse(Call<List<ProductCategoryResponse>> call, Response<List<ProductCategoryResponse>> response) {
+                if (response.code() == 200) {
+                    listCategory = response.body();
+                    listCategory.add(0, new ProductCategoryResponse(0, "Choose Category"));
+
+                    categoryAdapter = new ArrayAdapter<ProductCategoryResponse>(
+                            getActivity(), R.layout.choose_category_dropdown_text, listCategory
+                    ) {
+                        @Override
+                        public boolean isEnabled(int position) {
+                            if (position == 0) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+
+                        }
+
+                        @Override
+                        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                            View view = super.getDropDownView(position, convertView, parent);
+
+                            TextView chooseCategoryTextView = (TextView) view;
+
+                            if (position == 0) {
+                                chooseCategoryTextView.setVisibility(View.GONE);
+                                chooseCategoryTextView.setTextColor(Color.GRAY);
+                            } else {
+                                chooseCategoryTextView.setTextColor(Color.BLACK);
+                            }
+                            return view;
+                        }
+                    };
+                    chooseCategoryDropdown.setAdapter(categoryAdapter);
+                    LoadingDialog.cancelLoading();
+
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductCategoryResponse>> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean validateCountry() {
+        if (country.equals("Choose Country")) {
+            countryError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            countryError.setVisibility(View.GONE);
+            return true;
+        }
+
+    }
+
+    private boolean validateCategory() {
+        if (category.equals("Choose Category")) {
+            categoryError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            categoryError.setVisibility(View.GONE);
+            return true;
+        }
+
+    }
+
+    private void getTextFromFields() {
+
+        weight = packageTextView.getText().toString();
+        length = lengthTextView.getText().toString();
+        height = heightTextView.getText().toString();
+        width = widthTextView.getText().toString();
+        country = chooseCountry.getText().toString();
+        category = chooseCategoryDropdown.getSelectedItem().toString();
+        kg = kgDropdown.getSelectedItem().toString();
+        cm = cmDropdown.getSelectedItem().toString();
+        if (flag == 1) {
+            liquid = "true";
+        } else {
+            liquid = "false";
+        }
+
+
     }
 
 
@@ -350,6 +504,7 @@ public class ShippingCalculator extends Fragment {
                 if (item instanceof Item) {
                     Item item1 = (Item) item;
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
+                    countryId = ((Item) item).getId();
                 }
                 chooseCountry.setText(adapterView.getItemAtPosition(i).toString());
                 chooseCountry.setTextColor(R.color.black);

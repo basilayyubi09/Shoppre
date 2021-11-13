@@ -67,7 +67,15 @@
                         android:id="@+id/weight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0.5kg"
+                        android:text="0.5"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" kg"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
@@ -77,10 +85,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="13dp">
+                    android:layout_marginTop="13dp"
+                    android:id="@+id/edit">
 
                 <TextView
-                    android:id="@+id/edit"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edit "
@@ -168,7 +177,7 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:layout_weight="400"
@@ -177,7 +186,7 @@
                             android:textSize="10sp" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:layout_weight="500"
@@ -190,6 +199,7 @@
                     <TextView
                         android:id="@+id/courierCharges"
                         android:layout_width="wrap_content"
+                        android:maxEms="10"
                         android:layout_height="wrap_content"
                         android:text="₹ 4190"
                         android:textColor="@color/black"
@@ -349,6 +359,7 @@ weight or gross weight"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp" />
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/placeOrderBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
                     android:text="Place an Order"
@@ -388,58 +399,55 @@ weight or gross weight"
                     android:textFontWeight="600"
                     android:textSize="10sp"
                     android:textColor="@color/black"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Things you need to know before shipping to"
-                    android:textFontWeight="400"
-                    android:textSize="10sp"
-                    android:textColor="@color/black"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="18dp"/>
-                <LinearLayout
+                    android:layout_marginTop="18dp"
+                    android:text="Things you need to know before shipping to"
+                    android:textColor="@color/black"
+                    android:textFontWeight="400"
+                    android:textSize="10sp" />
 
+                <LinearLayout
+                    android:id="@+id/chooseCountryLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:background="@drawable/edit_text_bg"
-                    android:layout_marginHorizontal="10dp">
+                    android:orientation="horizontal">
 
 
                     <TextView
-                        android:id="@+id/spinnerCountry"
+                        android:id="@+id/chooseCountry"
                         android:layout_width="match_parent"
                         android:layout_height="28dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="Federated States of Micronesia"
-                        android:layout_marginLeft="13dp"
                         android:gravity="center|left"
+                        android:paddingLeft="18dp"
                         android:singleLine="true"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/hint_color"
-                        android:textColorHint="@color/black"
+                        android:text="Choose Country"
+                        android:textFontWeight="400"
                         android:textSize="12sp"
                         app:boxStrokeColor="@color/hint_color" />
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/hint_color"/>
+                        android:background="@color/hint_color" />
 
 
                     <ImageView
-                        android:id="@+id/triangleDropdown"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="8dp"
+                        android:layout_height="9dp"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="8dp"
                         android:src="@drawable/triangle" />
 
-
-
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/viewCountry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

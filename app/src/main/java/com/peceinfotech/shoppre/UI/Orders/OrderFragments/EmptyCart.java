@@ -31,10 +31,12 @@ import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,11 +102,9 @@ public class EmptyCart extends Fragment {
             String type = bundle.getString("type");
             if (type.equals("new")) {
                 id = bundle.getInt("id");
-                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+
             } else {
                 id = bundle.getInt("id");
-                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
-                LoadingDialog.showLoadingDialog(getActivity(), "");
                 callCartApi(id);
             }
 
@@ -200,7 +200,21 @@ public class EmptyCart extends Fragment {
             }
         });
 
+        proceedToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!list.isEmpty()){
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("list" , (Serializable) list);
+                    bundle.putInt("id" , id);
+                    OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
+                    orderSummaryFragment.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, orderSummaryFragment, null)
+                                .addToBackStack(null).commit();
 
+                }
+            }
+        });
         return view;
     }
 
@@ -215,7 +229,7 @@ public class EmptyCart extends Fragment {
                     list = response.body().getOrders();
                     if (!list.isEmpty()){
                         proceedToCartBtn.setEnabled(true);
-                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.button_blue)));
                     }
                     CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
                     cartRecycler.setAdapter(cartGroupAdapter);
@@ -294,6 +308,7 @@ public class EmptyCart extends Fragment {
 //
 
                     list = response.body().getOrders();
+//                    id = list.get(0).getId();
                     if (!list.isEmpty()){
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));

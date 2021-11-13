@@ -10,16 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.Models.SectionItem;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.R;
 
 import java.util.List;
 
 public class ChildFinalOrderSummaryAdapter extends RecyclerView.Adapter<ChildFinalOrderSummaryAdapter.viewHolder> {
 
-    List<SectionItem> list;
+    List<OrderItem> list;
     Context context;
 
-    public ChildFinalOrderSummaryAdapter(List<SectionItem> list, Context context) {
+    public ChildFinalOrderSummaryAdapter(List<OrderItem> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -34,10 +35,10 @@ public class ChildFinalOrderSummaryAdapter extends RecyclerView.Adapter<ChildFin
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        SectionItem sectionItem = list.get(position);
-        holder.number.setText(String.valueOf(sectionItem.getNumber()));
-        holder.mainText.setText(sectionItem.getName());
-        holder.price.setText("₹ "+String.valueOf(sectionItem.getPrice()));
+
+        holder.number.setText(String.valueOf(position+1));
+        holder.mainText.setText(list.get(position).getName());
+        holder.price.setText("₹ "+String.valueOf(list.get(position).getPriceAmount()));
     }
 
     @Override

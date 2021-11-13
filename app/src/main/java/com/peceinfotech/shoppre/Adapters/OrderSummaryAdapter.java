@@ -3,6 +3,8 @@ package com.peceinfotech.shoppre.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
 
 import java.util.ArrayList;
@@ -26,14 +29,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.viewHolder> {
-    List<String> list ;
+    List<Order> list ;
     Context context;
     ArrayAdapter arrayAdapterDropdown;
+
+
     String[] optionSelection = {"Select an option", "250", "500", "750", "1000", "1000+", "Cancel all if the cost is increased"};
 
     final ArrayList<String> optionSelectList = new ArrayList<>(Arrays.asList(optionSelection));
 
-    public OrderSummaryAdapter(List<String> list , Context context) {
+    public OrderSummaryAdapter(List<Order> list , Context context) {
         this.list = list;
         this.context = context;
     }
@@ -49,7 +54,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.websiteName.setText(list.get(position));
+        holder.websiteName.setText(list.get(position).getStore().getName());
 
         if( position == getItemCount() - 1 ){
 
@@ -97,7 +102,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
                 String selectedText = (String) parent.getItemAtPosition(position);
 
                 if (position > 0){
-                    Toast.makeText(context, selectedText +" Selected" , Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -138,6 +143,23 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             dropdown = itemView.findViewById(R.id.dropdown);
             selectOptionLayout = itemView.findViewById(R.id.selectOptionLayout);
 
+            charges.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
 
         }
     }
