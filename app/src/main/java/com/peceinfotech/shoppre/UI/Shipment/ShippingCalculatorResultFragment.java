@@ -57,19 +57,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
 
-        viewPricingTable = view.findViewById(R.id.viewPricingTable);
-
-        viewPricingTable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PricingTableDialog pricingTableDialog = new PricingTableDialog();
-                pricingTableDialog.showDialog(getContext());
-            }
-        });
-
-        return view;
         View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);
@@ -82,7 +70,14 @@ public class ShippingCalculatorResultFragment extends Fragment {
         courierCharges = view.findViewById(R.id.courierCharges);
         placeOrderBtn = view.findViewById(R.id.placeOrderBtn);
         setCountryList("");
+ viewPricingTable = view.findViewById(R.id.viewPricingTable);
 
+        viewPricingTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PricingTableDialog pricingTableDialog = new PricingTableDialog();
+                pricingTableDialog.showDialog(getContext());
+            }
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             shippingRateResponse = (ShippingRateResponse) bundle.getSerializable("rate");
