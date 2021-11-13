@@ -2,13 +2,16 @@ package com.peceinfotech.shoppre.Adapters.OrderAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +19,7 @@ import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.WebViewFragment;
+import com.tooltip.Tooltip;
 
 import java.util.List;
 
@@ -70,6 +74,16 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
         holder.btn.setVisibility(View.VISIBLE);
         holder.btn.setText(list.get(position).getOrderItemState().getState().getName());
 
+
+        holder.toolTip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showToolTip(v, Gravity.TOP);
+
+            }
+        });
+
     }
 
     @Override
@@ -79,7 +93,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        ImageView productImage , webView;
+        ImageView productImage , webView, toolTip;
         TextView productName, productColor, productQuantity, productRate, colorHeading , btn;
 
         public viewHolder(@NonNull View itemView) {
@@ -93,7 +107,24 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             productQuantity = itemView.findViewById(R.id.viewOrderProductQuantity);
             productRate = itemView.findViewById(R.id.viewOrderProductRate);
             colorHeading = itemView.findViewById(R.id.colorHeading);
+            toolTip = itemView.findViewById(R.id.toolTip);
 
         }
+    }
+
+    public void showToolTip(View v, int gravity){
+        ImageView tooltipImage = (ImageView) v;
+        @SuppressLint("ResourceAsColor") Tooltip tooltip = new Tooltip.Builder(tooltipImage)
+                .setText("Cancel this item & purchase\nall the other available items")
+                .setTextColor(Color.BLACK)
+                .setGravity(gravity)
+                .setCornerRadius(5f)
+                .setBackgroundColor(Color.WHITE)
+                .setCancelable(true)
+                .setPadding(10f)
+                .setArrowHeight(14f)
+                .setArrowWidth(14f)
+                .setTextSize(12f)
+                .show();
     }
 }

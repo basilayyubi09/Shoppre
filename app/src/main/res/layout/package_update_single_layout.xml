@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="22dp"
+    android:gravity="center_vertical">
+
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shoppre_ic"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="14dp">
+
+        <TextView
+            android:id="@+id/packageUpdateName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nikkitha"
+            android:textFontWeight="500"
+            android:textSize="10sp"
+            android:textColor="#FF0000"/>
+
+
+        <TextView
+            android:id="@+id/packageUpdateStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Order Placed"
+            android:textFontWeight="500"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/packageUpdateDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 Dec 2020, 2:20 PM IST"
+            android:textStyle="italic"
+            android:textFontWeight="400"
+            android:textSize="12sp"
+            android:textColor="@color/hint_color"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

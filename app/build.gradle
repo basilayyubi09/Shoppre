@@ -63,6 +63,10 @@ dependencies {
 // joda date Time
     implementation 'net.danlew:android.joda:2.10.12.2'
 
+    //Tooltip
+
+    implementation 'com.github.vihtarb:tooltip:0.1.9'
+
     
 }
 

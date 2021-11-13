@@ -94,8 +94,8 @@
 
         <ImageView
             android:id="@+id/selectOptionTriangleDropdown"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_gravity="center"
             android:layout_marginHorizontal="8dp"
             android:src="@drawable/triangle" />

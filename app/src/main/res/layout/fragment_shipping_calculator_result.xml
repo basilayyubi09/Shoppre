@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="22dp">
+        >
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginTop="22dp"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -110,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             app:cardCornerRadius="10dp"
+            android:layout_marginHorizontal="22dp"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -132,9 +135,10 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/viewPricingTable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Estimated Shipping Charges"
+                        android:text="View Pricing upto 10 kg"
                         android:textColor="#3A5FD8"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
@@ -385,6 +389,7 @@ weight or gross weight"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
             android:layout_marginVertical="28dp"
+            android:layout_marginHorizontal="22dp"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -477,6 +482,8 @@ weight or gross weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
+            android:layout_marginHorizontal="22dp"
+            android:layout_marginBottom="22dp"
             app:cardElevation="4dp">
             <LinearLayout
                 android:layout_width="match_parent"

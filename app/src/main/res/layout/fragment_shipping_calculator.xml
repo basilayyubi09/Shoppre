@@ -133,8 +133,8 @@
 
 
                                 <ImageView
-                                    android:layout_width="8dp"
-                                    android:layout_height="9dp"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="8dp"
                                     android:src="@drawable/triangle" />
@@ -187,8 +187,8 @@
 
 
                                 <ImageView
-                                    android:layout_width="8dp"
-                                    android:layout_height="9dp"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="8dp"
                                     android:src="@drawable/triangle" />
@@ -344,8 +344,8 @@
 
 
                                 <ImageView
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="8dp"
                                     android:src="@drawable/triangle" />
@@ -389,8 +389,8 @@
 
                                 <ImageView
                                     android:id="@+id/triangleDropdown"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
                                     android:layout_gravity="center"
                                     android:layout_marginHorizontal="8dp"
                                     android:src="@drawable/triangle" />
