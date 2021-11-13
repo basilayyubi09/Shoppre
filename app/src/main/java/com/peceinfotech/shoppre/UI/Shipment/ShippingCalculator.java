@@ -24,11 +24,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +46,7 @@ public class ShippingCalculator extends Fragment {
 
     TextView yesButton, noButton, chooseCountry;
     LinearLayout yesNoButtonLayout;
+    MaterialButton getEstimateBtn;
     ArrayAdapter arrayAdapterKg, arrayAdapterCm, arrayAdapterChooseCategory, arrayAdapterChooseCountry;
     List<Item> list, duplicateList;
     ArrayAdapter<Item> arrayAdapter;
@@ -87,6 +90,7 @@ public class ShippingCalculator extends Fragment {
         chooseCategoryLinearLayout = view.findViewById(R.id.chooseCategoryLinearLayout);
         chooseCountry = view.findViewById(R.id.chooseCountry);
         chooseCountryLayout = view.findViewById(R.id.chooseCountryLayout);
+        getEstimateBtn = view.findViewById(R.id.getEstimateBtn);
 
 
         packageMinus = view.findViewById(R.id.packageMinus);
@@ -101,6 +105,16 @@ public class ShippingCalculator extends Fragment {
         widthPlus = view.findViewById(R.id.widthPlus);
         widthMinus = view.findViewById(R.id.widthMinus);
         widthTextView = view.findViewById(R.id.widthTextView);
+
+        getEstimateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculatorResultFragment(), null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
 
 
 

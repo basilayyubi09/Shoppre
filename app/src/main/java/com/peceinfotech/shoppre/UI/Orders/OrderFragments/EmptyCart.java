@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -62,6 +63,12 @@ public class EmptyCart extends Fragment {
     int count = 1, id;
     boolean isLiquid = false;
 
+    ImageView cartImage;
+    FrameLayout badgeCartImage;
+    TextView badgeTextView;
+
+    int badgeNumber = 0;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +101,16 @@ public class EmptyCart extends Fragment {
         colorField = view.findViewById(R.id.colorField);
         priceField = view.findViewById(R.id.priceField);
         sizeField = view.findViewById(R.id.sizeField);
+
+
+        cartImage = view.findViewById(R.id.cartImage);
+        badgeCartImage = view.findViewById(R.id.badgeCartImage);
+        badgeTextView = view.findViewById(R.id.badgeTextView);
+
+
+
+
+
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -214,6 +231,10 @@ public class EmptyCart extends Fragment {
                 if (response.code() == 200) {
                     list = response.body().getOrders();
                     if (!list.isEmpty()){
+
+                        cartImage.setVisibility(View.GONE);
+                        badgeCartImage.setVisibility(View.VISIBLE);
+
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
                     }
@@ -224,12 +245,15 @@ public class EmptyCart extends Fragment {
                     upwardTriangle.setVisibility(View.VISIBLE);
                     downwardTriangle.setVisibility(View.GONE);
 
-                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0 , totalBadgeQuantity = 0;
                     for (int i = 0; i < list.size(); i++) {
+
+                        totalBadgeQuantity = totalBadgeQuantity+response.body().getOrders().get(i).getTotalQuantity();
                         totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
                     }
+                    badgeTextView.setText(String.valueOf(list.size()));
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                     orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
@@ -311,6 +335,8 @@ public class EmptyCart extends Fragment {
 
                     int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
                     for (int i = 0; i < list.size(); i++) {
+
+
                         totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();

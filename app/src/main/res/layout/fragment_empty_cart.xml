@@ -43,11 +43,15 @@
 
 
                     <ImageView
-
+                        android:id="@+id/cartImage"
                         android:layout_width="38dp"
                         android:layout_height="38dp"
                         android:layout_marginRight="11dp"
-                        android:src="@drawable/cart_ic" />
+                        android:src="@drawable/cart" />
+
+                    <include
+                        layout="@layout/cart_badge_text"
+                        android:visibility="gone"/>
 
 
                     <ImageView
