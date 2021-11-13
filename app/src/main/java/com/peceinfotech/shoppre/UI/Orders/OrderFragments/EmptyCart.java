@@ -2,19 +2,25 @@ package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +43,7 @@ import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,7 +72,11 @@ public class EmptyCart extends Fragment {
 
     ImageView cartImage;
     FrameLayout badgeCartImage;
-    TextView badgeTextView;
+    TextView badgeTextView, selectAnOptionTextView;
+
+    Spinner selectAnOptionSpinner;
+
+    String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other available items            ", "Cancel all the items from this site"};
 
     int badgeNumber = 0;
 
@@ -91,7 +102,7 @@ public class EmptyCart extends Fragment {
         upwardTriangle = view.findViewById(R.id.upwardTriangle);
         proceedToCartBtn = view.findViewById(R.id.proceedToCartBtn);
         dropdownLayout = view.findViewById(R.id.dropdownLayut);
-        selectField = view.findViewById(R.id.selectField);
+        selectAnOptionSpinner = view.findViewById(R.id.selectAnOptionSpinner);
         urlField = view.findViewById(R.id.urlField);
         nameField = view.findViewById(R.id.nameField);
         check = view.findViewById(R.id.check);
@@ -106,9 +117,61 @@ public class EmptyCart extends Fragment {
         cartImage = view.findViewById(R.id.cartImage);
         badgeCartImage = view.findViewById(R.id.badgeCartImage);
         badgeTextView = view.findViewById(R.id.badgeTextView);
+        selectAnOptionTextView = view.findViewById(R.id.selectAnOptionTextView);
 
 
 
+
+        final List<String> selectAnOptionList = new ArrayList<>(Arrays.asList(selectAnOptionSpinnerItems));
+
+        final ArrayAdapter<String> selectAnOptionAdapter = new ArrayAdapter<String>(getContext(), R.layout.select_an_option_spinner_text, selectAnOptionList){
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+
+                TextView selectAnOptionTextView = (TextView) view;
+                if (position == 0){
+                    selectAnOptionTextView.setVisibility(View.GONE);
+                    selectAnOptionTextView.setTextColor(Color.GRAY);
+                }else {
+                    selectAnOptionTextView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        selectAnOptionAdapter.setDropDownViewResource(R.layout.select_an_option_spinner_text);
+        selectAnOptionSpinner.setAdapter(selectAnOptionAdapter);
+
+        selectAnOptionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position>0){
+//                    Toast.makeText(getContext(), String.valueOf(parent.getItemAtPosition(position)), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        dropdownLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectAnOptionSpinner.performClick();
+            }
+        });
 
 
 
@@ -138,19 +201,19 @@ public class EmptyCart extends Fragment {
 
         count = Integer.parseInt(String.valueOf(countString));
 
-        dropdownLayout.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
-            popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @SuppressLint("ResourceAsColor")
-                public boolean onMenuItemClick(MenuItem item) {
-                    selectField.setText(item.getTitle());
-                    return true;
-                }
-            });
-
-            popup.show();
-        });
+//        dropdownLayout.setOnClickListener(v -> {
+//            PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
+//            popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
+//            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                @SuppressLint("ResourceAsColor")
+//                public boolean onMenuItemClick(MenuItem item) {
+//                    selectField.setText(item.getTitle());
+//                    return true;
+//                }
+//            });
+//
+//            popup.show();
+//        });
 
         plus.setOnClickListener(v -> {
 
@@ -420,7 +483,7 @@ public class EmptyCart extends Fragment {
         color = colorField.getText().toString();
         price = priceField.getText().toString();
         countString = countField.getText().toString();
-        selectedString = selectField.getText().toString();
+        selectedString = selectAnOptionSpinner.getSelectedItem().toString();
         if (check.isChecked()) {
             isLiquid = true;
 

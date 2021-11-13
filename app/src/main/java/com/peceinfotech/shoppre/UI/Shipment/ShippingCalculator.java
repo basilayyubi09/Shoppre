@@ -55,7 +55,7 @@ public class ShippingCalculator extends Fragment {
     LinearLayout kgLinearLayout, cmLinearLayout, chooseCategoryLinearLayout;
     String[] kgDropdownItem = {"Kilogram (kg)", "Pounds (lb)"};
     String[] cmDropdownItem = {"Centimeter (cm)", "Inches (in)"};
-    String[] chooseCategoryItem = {"Choose Category","Clothing",  "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
+    String[] chooseCategoryItem = {"Choose Category","Clothing",  "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories     ", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
     final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
     TextView packageMinus, packagePlus, packageTextView, lenghtPlus, lenghtMinus, lengthTextView, heightPlus, heightMinus, heightTextView, widthPlus, widthMinus, widthTextView;
