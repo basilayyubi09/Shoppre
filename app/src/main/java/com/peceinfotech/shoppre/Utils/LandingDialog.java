@@ -34,7 +34,7 @@ public class LandingDialog {
         final Dialog dialog = new Dialog(context);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.landing_dialog);
 

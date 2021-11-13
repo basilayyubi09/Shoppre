@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.PriceTableAdapter;
+import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.ShipmentModelResponse.PriceTableResponse;
 
@@ -20,10 +22,10 @@ import java.util.List;
 
 public class PricingTableDialog{
 
-    List<PriceTableResponse> list = new ArrayList<>();
+
     RecyclerView pricingTableRecycler;
 
-    public void showDialog(Context context){
+    public void showDialog(Context context, List<SlabResponse> list){
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -32,13 +34,7 @@ public class PricingTableDialog{
 
         pricingTableRecycler = dialog.findViewById(R.id.pricingTableRecycler);
 
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
-        list.add(new PriceTableResponse("0.5", "1,445", "19"));
+
 
 
 

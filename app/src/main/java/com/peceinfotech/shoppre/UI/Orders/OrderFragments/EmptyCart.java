@@ -71,11 +71,12 @@ public class EmptyCart extends Fragment {
     MaterialCheckBox check;
     int count = 1, id;
     boolean isLiquid = false;
-
+    TextView productCount;
     ImageView cartImage;
     FrameLayout badgeCartImage;
+    Integer productCountInt = 0;
     TextView badgeTextView, selectAnOptionTextView;
-
+    MaterialCardView fifteen;
     Spinner selectAnOptionSpinner;
 
     String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other available items            ", "Cancel all the items from this site"};
@@ -99,6 +100,8 @@ public class EmptyCart extends Fragment {
         shoppreFee = view.findViewById(R.id.shoppreFee);
         total = view.findViewById(R.id.total);
         addMore = view.findViewById(R.id.addMore);
+        fifteen = view.findViewById(R.id.fifteen);
+        productCount = view.findViewById(R.id.productCount);
         liquidCard = view.findViewById(R.id.liquidCard);
         downwardTriangle = view.findViewById(R.id.downwardTriangle);
         upwardTriangle = view.findViewById(R.id.upwardTriangle);
@@ -201,19 +204,7 @@ public class EmptyCart extends Fragment {
 
         count = Integer.parseInt(String.valueOf(countString));
 
-//        dropdownLayout.setOnClickListener(v -> {
-//            PopupMenu popup = new PopupMenu(getActivity(), dropdownLayout);
-//            popup.getMenuInflater().inflate(R.menu.item_menu, popup.getMenu());
-//            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                @SuppressLint("ResourceAsColor")
-//                public boolean onMenuItemClick(MenuItem item) {
-//                    selectField.setText(item.getTitle());
-//                    return true;
-//                }
-//            });
-//
-//            popup.show();
-//        });
+
 
         plus.setOnClickListener(v -> {
 
@@ -271,8 +262,15 @@ public class EmptyCart extends Fragment {
 //                        OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderSummaryFragment(), null)
 //                                .addToBackStack(null).commit();
 
-                        LoadingDialog.showLoadingDialog(getActivity(), "");
-                        callAddOrderApi();
+                        if (productCountInt > 15){
+                            fifteen.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            fifteen.setVisibility(View.GONE);
+                            LoadingDialog.showLoadingDialog(getActivity(), "");
+                            callAddOrderApi();
+                        }
+
                     }
                 }
 
@@ -322,6 +320,7 @@ public class EmptyCart extends Fragment {
                     upwardTriangle.setVisibility(View.VISIBLE);
                     downwardTriangle.setVisibility(View.GONE);
 
+
                     int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0 , totalBadgeQuantity = 0;
                     for (int i = 0; i < list.size(); i++) {
 
@@ -330,6 +329,9 @@ public class EmptyCart extends Fragment {
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
                     }
+                    productCountInt = totalBadgeQuantity;
+                    productCount.setText(String.valueOf(productCountInt+1));
+                    Toast.makeText(getActivity(), String.valueOf(productCountInt), Toast.LENGTH_SHORT).show();
                     badgeTextView.setText(String.valueOf(list.size()));
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
@@ -410,15 +412,21 @@ public class EmptyCart extends Fragment {
                     productCartCard.setVisibility(View.VISIBLE);
                     upwardTriangle.setVisibility(View.VISIBLE);
                     downwardTriangle.setVisibility(View.GONE);
+                    cartImage.setVisibility(View.GONE);
+                    badgeCartImage.setVisibility(View.VISIBLE);
 
-                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0 ;
+                    Integer  totalBadgeQuantity = 0;
                     for (int i = 0; i < list.size(); i++) {
 
-
+                        totalBadgeQuantity = totalBadgeQuantity+response.body().getOrders().get(i).getTotalQuantity();
                         totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
                     }
+                    productCountInt = totalBadgeQuantity;
+                    productCount.setText(String.valueOf(productCountInt+1));
+                    badgeTextView.setText(String.valueOf(totalBadgeQuantity));
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                     orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
@@ -452,7 +460,6 @@ public class EmptyCart extends Fragment {
         colorField.setText("");
         priceField.setText("");
         countField.setText("");
-        selectField.setText("");
         check.setChecked(false);
     }
 

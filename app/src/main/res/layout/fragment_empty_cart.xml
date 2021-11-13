@@ -51,7 +51,7 @@
 
                     <include
                         layout="@layout/cart_badge_text"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
 
                     <ImageView
@@ -126,7 +126,7 @@
                             android:id="@+id/orderTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="₹ 5174.00"
+                            android:text="₹ 00.00"
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
@@ -155,7 +155,7 @@
                             android:id="@+id/shoppreFee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="₹ 400.00"
+                            android:text="₹ 00.00"
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
@@ -191,7 +191,7 @@
                             android:id="@+id/total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="₹ 5536.18"
+                            android:text="₹ 00.00"
                             android:textColor="@color/black"
                             android:textFontWeight="700"
                             android:textSize="18sp" />
@@ -230,15 +230,30 @@
                         android:textFontWeight="700"
                         android:textSize="14sp" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="28dp"
-                        android:layout_marginTop="26dp"
-                        android:text="Product 1"
-                        android:textColor="@color/black"
-                        android:textFontWeight="600"
-                        android:textSize="12sp" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="28dp"
+                            android:layout_marginTop="26dp"
+                            android:text="Product "
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/productCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="26dp"
+                            android:text=" 1"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -530,8 +545,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="28dp"
                                 android:layout_weight="1"
-                                android:overlapAnchor="false"
-                                android:background="@null" />
+                                android:background="@null"
+                                android:overlapAnchor="false" />
 
                             <View
                                 android:layout_width="1dp"
@@ -582,6 +597,29 @@
                             android:textFontWeight="500"
                             android:textSize="10sp" />
 
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/fifteen"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="33dp"
+                            android:layout_marginVertical="10dp"
+                            android:backgroundTint="#E68499"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E68499">
+
+                            <TextView
+                                android:layout_margin="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Orders more than 15 items per website will incur an additional service fees of INR 50 per item"
+                                android:textSize="8sp"
+                                android:textColor="@color/white"
+                                android:textFontWeight="600"
+                                android:gravity="center"
+                                />
+                        </com.google.android.material.card.MaterialCardView>
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/proceedToCartBtn"
                             android:layout_width="wrap_content"
@@ -589,9 +627,9 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="46dp"
                             android:layout_marginBottom="30dp"
+                            android:enabled="false"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            android:enabled="false"
                             android:text="Proceed To Cart"
                             android:textAllCaps="false"
                             android:textColor="@color/white"

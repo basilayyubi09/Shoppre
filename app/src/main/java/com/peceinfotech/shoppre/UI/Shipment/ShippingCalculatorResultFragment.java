@@ -30,6 +30,7 @@ import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.SelfShopper;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
+import com.peceinfotech.shoppre.Utils.PricingTableDialog;
 
 import java.util.List;
 
@@ -39,12 +40,13 @@ import retrofit2.Response;
 
 public class ShippingCalculatorResultFragment extends Fragment {
     ShippingRateResponse shippingRateResponse;
-    TextView location, weight, unit, courierCharges, chooseCountry;
+    TextView location, weight, unit, courierCharges, chooseCountry , viewPricingTable;
     MaterialButton placeOrderBtn;
     Spinner cmDropdown;
     List<Item> list, duplicateList;
     Integer countryId, categoryId;
     ArrayAdapter<Item> arrayAdapter;
+    List<SlabResponse> slabResponse;
     LinearLayout edit, chooseCountryLayout , viewCountry;
     String weightFromBundle, kg, liquid, height, width, length;
 
@@ -57,6 +59,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);
         unit = view.findViewById(R.id.unit);
+        viewPricingTable = view.findViewById(R.id.viewPricingTable);
         chooseCountryLayout = view.findViewById(R.id.chooseCountryLayout);
         edit = view.findViewById(R.id.edit);
         chooseCountry = view.findViewById(R.id.chooseCountry);
@@ -80,12 +83,19 @@ public class ShippingCalculatorResultFragment extends Fragment {
 
             courierCharges.setText("₹ " + shippingRateResponse.getCustomerRate().toString());
         }
-
+        callSlabApi();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
                         .addToBackStack(null).commit();
+            }
+        });
+        viewPricingTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PricingTableDialog pricingTableDialog = new PricingTableDialog();
+                pricingTableDialog.showDialog(getActivity() , slabResponse);
             }
         });
         placeOrderBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +115,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         viewCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callSlabApi();
+
             }
         });
         chooseCountry.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +138,9 @@ public class ShippingCalculatorResultFragment extends Fragment {
             @Override
             public void onResponse(Call<List<SlabResponse>> call, Response<List<SlabResponse>> response) {
                 if (response.code()==200){
-                    List<SlabResponse> slabResponse = response.body();
+                     slabResponse = response.body();
 
-                    Toast.makeText(getActivity(), String.valueOf(slabResponse.get(0).getCustomerRate()), Toast.LENGTH_SHORT).show();
+
                     LoadingDialog.cancelLoading();
 
                 }

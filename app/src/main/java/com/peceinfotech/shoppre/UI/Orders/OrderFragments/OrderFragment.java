@@ -263,6 +263,7 @@ public class OrderFragment extends Fragment {
                     }
 
                     if (shoppreId != null) {
+                        addNewOrderBtn.setText("Add More Orders");
                         forgetSomething.setVisibility(View.VISIBLE);
                         flag = 1;
                     } else {

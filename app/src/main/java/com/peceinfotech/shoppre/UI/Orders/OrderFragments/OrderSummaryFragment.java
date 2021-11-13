@@ -107,7 +107,7 @@ public class OrderSummaryFragment extends Fragment {
                     jsonObject.addProperty("instruction",instruction);
                     jsonObject.addProperty("buy_if_price_changed",priceChange);
                     jsonArray.add(jsonObject);
-                    Toast.makeText(getActivity(), jsonArray.toString(), Toast.LENGTH_SHORT).show();
+
                 }
                 LoadingDialog.showLoadingDialog(getActivity() , "");
                 callSubmitOrderApi(jsonArray , list);

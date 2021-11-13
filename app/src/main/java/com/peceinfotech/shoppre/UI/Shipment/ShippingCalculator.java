@@ -360,7 +360,7 @@ public class ShippingCalculator extends Fragment {
                     bundle.putInt("countryId" , countryId);
                     bundle.putInt("categoryId" , Id);
                     bundle.putString("liquid" , liquid);
-                    bundle.putSerializable("rate" , (Serializable) shippingRateResponse);
+                    bundle.putSerializable("rate" ,  shippingRateResponse);
                     ShippingCalculatorResultFragment shippingCalculatorResultFragment = new ShippingCalculatorResultFragment();
                     shippingCalculatorResultFragment.setArguments(bundle);
 

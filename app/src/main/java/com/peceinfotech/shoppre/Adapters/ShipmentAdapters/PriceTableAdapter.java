@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.AccountResponse.Item;
+import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.ShipmentModelResponse.PriceTableResponse;
 
@@ -16,10 +18,10 @@ import java.util.List;
 
 public class PriceTableAdapter extends RecyclerView.Adapter<PriceTableAdapter.viewHolder> {
 
-    List<PriceTableResponse> list;
+    List<SlabResponse> list;
     Context context;
 
-    public PriceTableAdapter(List<PriceTableResponse> list, Context context) {
+    public PriceTableAdapter(List<SlabResponse> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -34,11 +36,14 @@ public class PriceTableAdapter extends RecyclerView.Adapter<PriceTableAdapter.vi
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        PriceTableResponse priceTableResponse = list.get(position);
 
-        holder.pricingTableKg.setText(priceTableResponse.getTableKg());
-        holder.priceInr.setText(priceTableResponse.getPriceInr());
-        holder.priceUsd.setText(priceTableResponse.getPriceUsd());
+        String string = list.get(position).getCountryCurrencyRates();
+        String[] parts = string.split("-");
+
+        String part2 = parts[1]; // 034556
+        holder.pricingTableKg.setText(String.valueOf(list.get(position).getWeight()));
+        holder.priceInr.setText(list.get(position).getRate());
+        holder.priceUsd.setText(part2);
 
 
     }

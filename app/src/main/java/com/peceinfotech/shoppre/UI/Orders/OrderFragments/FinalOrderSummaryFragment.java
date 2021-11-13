@@ -101,9 +101,9 @@ public class FinalOrderSummaryFragment extends Fragment {
                         totalCount = totalCount+ list.get(i).getSubTotal();
                         subTotal = subTotal+ list.get(i).getPriceAmount();
                     }
-                    total.setText(String.valueOf(totalCount));
-                    shoppreFee.setText(String.valueOf(shoppreTotal));
-                    orderTotal.setText(String.valueOf(subTotal));
+                    total.setText("₹ "+String.valueOf(totalCount));
+                    shoppreFee.setText("₹ "+String.valueOf(shoppreTotal));
+                    orderTotal.setText("₹ "+String.valueOf(subTotal));
                     adapter = new ParentFinalOrderSummaryAdapter(list , getActivity() );
                     recyclerView.setAdapter(adapter);
                     LoadingDialog.cancelLoading();

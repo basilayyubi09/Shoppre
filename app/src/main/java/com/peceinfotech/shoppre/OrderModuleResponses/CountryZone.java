@@ -3,7 +3,9 @@ package com.peceinfotech.shoppre.OrderModuleResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CountryZone {
+import java.io.Serializable;
+
+public class CountryZone implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
