@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 import android.opengl.Visibility;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,7 +21,9 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -35,6 +38,7 @@ public class SelfShopper extends Fragment {
     LinearLayout shopForMeBorder, shopForMySelfBorder;
     ImageView shopForMeCheckImage, shopForMySelfCheckImage;
     MaterialButton personalShopProceedBtn;
+    CardView selfShopperVirtualAddress, selfShopperShippingCalculator, selfShopperFaqAndHelp;
 
     int flag = 0;
 
@@ -54,6 +58,25 @@ public class SelfShopper extends Fragment {
         shopForMeCheckImage = view.findViewById(R.id.shopForMeCheckImage);
         shopForMySelfCheckImage = view.findViewById(R.id.shopForMySelfCheckImage);
         personalShopProceedBtn = view.findViewById(R.id.personalShopProceedBtn);
+        selfShopperVirtualAddress = view.findViewById(R.id.selfShopperVirtualAddress);
+        selfShopperShippingCalculator = view.findViewById(R.id.selfShopperShippingCalculator);
+        selfShopperFaqAndHelp = view.findViewById(R.id.selfShopperFaqAndHelp);
+
+        selfShopperVirtualAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new VertualAddress(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        selfShopperShippingCalculator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
 
         shopForMeBorder.setOnClickListener(new View.OnClickListener() {

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,8 @@ import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -35,6 +38,7 @@ public class CancelledOrderFragment extends Fragment {
     List<Order> list;
     TextView text;
     OrdersAdapter ordersAdapter;
+    CardView cancelOrderVirtualAddressCard, cancelOrderShippingCalculatorCard, cancelOrderFaqAndHelpCard;
     LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -46,6 +50,27 @@ public class CancelledOrderFragment extends Fragment {
 
         recycle = view.findViewById(R.id.recycle);
         text = view.findViewById(R.id.text);
+        cancelOrderVirtualAddressCard = view.findViewById(R.id.cancelOrderVirtualAddressCard);
+        cancelOrderShippingCalculatorCard = view.findViewById(R.id.cancelOrderShippingCalculatorCard);
+        cancelOrderFaqAndHelpCard = view.findViewById(R.id.cancelOrderFaqAndHelpCard);
+
+
+        cancelOrderVirtualAddressCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new VertualAddress(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+        cancelOrderShippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
