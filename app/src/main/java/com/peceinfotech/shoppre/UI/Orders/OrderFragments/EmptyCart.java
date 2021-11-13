@@ -459,7 +459,7 @@ public class EmptyCart extends Fragment {
         sizeField.setText("");
         colorField.setText("");
         priceField.setText("");
-        countField.setText("");
+        countField.setText("1");
         check.setChecked(false);
     }
 
