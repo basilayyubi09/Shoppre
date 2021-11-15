@@ -169,6 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -216,7 +217,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:layout_marginVertical="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -241,6 +242,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="400"
                             android:text="Not Charged per item"
+                            android:layout_marginLeft="17dp"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
 
@@ -285,7 +287,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:layout_marginTop="26dp"
+                    android:layout_marginBottom="18dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -330,9 +333,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Chargeable Weight will be the greater of volumetric
-weight or gross weight"
+                    android:text="Chargeable Weight will be the greater of volumetric\nweight or gross weight"
                     android:textSize="10sp"
+                    android:layout_gravity="center_horizontal"
                     android:textFontWeight="600"
                     android:gravity="center"
                     android:textColor="#2D8DFF"/>
@@ -340,12 +343,12 @@ weight or gross weight"
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="How to calculate volumetric weight"
                     android:layout_gravity="center"
                     android:layout_marginTop="11dp"
+                    android:text="How to calculate volumetric weight"
                     android:textColor="@color/black"
-                    android:textSize="10sp"
-                    android:textFontWeight="400"/>
+                    android:textFontWeight="400"
+                    android:textSize="10sp" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"

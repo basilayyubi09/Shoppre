@@ -189,10 +189,17 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/dots"
-        android:layout_marginLeft="19dp"/>
+        android:id="@+id/three_dots"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/three_dots"
+        android:layout_marginLeft="19dp"
+        android:visibility="gone"/>
 
+    <CheckBox
+        android:id="@+id/packageDetailCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"/>
 
 </LinearLayout>

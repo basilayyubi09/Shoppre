@@ -70,8 +70,8 @@ public class ShippingCalculator extends Fragment {
     String cm, kg;
     ShippingRateResponse shippingRateResponse;
     LinearLayout kgLinearLayout, cmLinearLayout, chooseCategoryLinearLayout;
-    String[] kgDropdownItem = {"Kilogram (kg)", "Pounds (lb)"};
-    String[] cmDropdownItem = {"Centimeter (cm)", "Inches (in)"};
+    String[] kgDropdownItem = {"Kilogram (KG)", "Pounds (lb)"};
+    String[] cmDropdownItem = {"Centimeter (CM)", "Inches (in)"};
     String[] chooseCategoryItem = {"Choose Category", "Clothing", "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
     final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
@@ -201,7 +201,7 @@ public class ShippingCalculator extends Fragment {
                 if (widthCount == 0.5) {
                     lengthTextView.setText("0.5");
                 } else {
-                    weightCount -= 0.5;
+                    widthCount -= 0.5;
                     widthTextView.setText("" + weightCount);
                 }
             }
