@@ -312,6 +312,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:layout_weight="400"
+                            android:layout_marginLeft="17dp"
                             android:text="if applicable to be paid in the destination\ncountry, check country guides below"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
