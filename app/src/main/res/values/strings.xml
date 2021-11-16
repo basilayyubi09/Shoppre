@@ -72,6 +72,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="ill_shop_for_my_self_text">Shop directly on any Indian sites and get it delivered to your ShoppRe Virtual Address. We\'ll receive your package &amp; ship it to anywhere across the globe</string>
     <string name="please_note_">Please Note that the shipping rates for Liquid/ Semi-Liquid products are higher. Check our Shipping Price Calculator for estimate pricing.</string>
     <string name="shop_for_me_text"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
+    <string name="return_item_string">You’ve selected <b>1</b> item for <b>Return</b></string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

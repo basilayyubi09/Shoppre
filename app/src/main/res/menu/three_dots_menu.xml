@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group>
+
+        <item
+            android:id="@+id/return_menu"
+            android:textSize="10sp"
+            android:title="RETURN" />
+
+        <item
+            android:id="@+id/exchange"
+            android:textSize="10sp"
+            android:title="EXCHANGE" />
+
+        <item
+            android:id="@+id/discard"
+            android:textSize="10sp"
+            android:title="DISCARD" />
+
+    </group>
+
+
+    <item
+        android:id="@+id/split_package"
+        android:textSize="10sp"
+        android:title="SPLIT PACKAGE" />
+
+
+    <item
+        android:id="@+id/ship_to_india"
+        android:textSize="10sp"
+        android:title="SHIP TO INDIA" />
+
+</menu>

@@ -87,8 +87,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
-                        .addToBackStack(null).commit();
+                OrderActivity.fragmentManager.popBackStack();
             }
         });
         viewPricingTable.setOnClickListener(new View.OnClickListener() {
