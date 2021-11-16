@@ -2,12 +2,18 @@ package com.peceinfotech.shoppre.Adapters.LockerAdapters;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,8 +26,10 @@ import androidx.annotation.NonNull;
 import androidx.core.view.MenuCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageDetailsResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.List;
 
@@ -30,6 +38,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
     List<PackageDetailsResponse> list;
     Context context;
     private PopupWindow mDropdown = null;
+    SharedPrefManager sharedPrefManager = new SharedPrefManager(getApplicationContext());
 
     public PackageDetailsAdapter(List<PackageDetailsResponse> list, Context context) {
         this.list = list;
@@ -68,6 +77,27 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         switch (item.getItemId()){
                             case R.id.return_menu:
                                 Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
+//                                View dialogView = LayoutInflater.from(v.getRootView().getContext()).inflate(R.layout.return_item_dialog_box, null);
+//
+//                                MaterialButton addMoreProductBtn, proceedWith1ItemBtn;
+//                                addMoreProductBtn = dialogView.findViewById(R.id.addMoreProductBtn);
+//                                proceedWith1ItemBtn = dialogView.findViewById(R.id.proceedWith1ItemBtn);
+//
+//                                addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        holder.three_dots.setVisibility(View.GONE);
+//                                        holder.packageDetailCheckbox.setVisibility(View.VISIBLE);
+//                                    }
+//                                });
+//
+//                                builder.setView(dialogView);
+//                                builder.setCancelable(true);
+//                                builder.show();
+                                showDialog();
+
+
                                 break;
                             case R.id.exchange:
                                 Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
@@ -85,6 +115,36 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
                         return true;
                     }
+
+                    private void showDialog() {
+                            final Dialog dialog = new Dialog(context);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setCancelable(true);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.setContentView(R.layout.return_item_dialog_box);
+
+                        MaterialButton addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
+
+                        addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                for (int i=0; i<list.size(); i++){
+//                                    holder.three_dots.setVisibility(View.GONE);
+//                                    holder.packageDetailCheckbox.setVisibility(View.VISIBLE);
+
+                                    notifyDataSetChanged();
+                                }
+
+                                dialog.dismiss();
+
+                            }
+                        });
+
+
+                            dialog.show();
+
+                        }
                 });
                 popupMenu.show();
 
@@ -92,7 +152,10 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         });
 
 
+
     }
+
+
 
     @Override
     public int getItemCount() {
