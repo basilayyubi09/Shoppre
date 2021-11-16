@@ -239,7 +239,7 @@ public interface AppApi {
 
     //https://staging-app1.shoppreglobal.com/api/orders/submitOptions
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PUT("api/orders/submitOptions")
+    @POST("api/orders/submitOptions")
     Call<ResponseBody> submitOrder(
             @Header("Authorization") String auth,
             @Body String objects);

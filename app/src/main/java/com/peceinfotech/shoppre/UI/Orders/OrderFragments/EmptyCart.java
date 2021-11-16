@@ -288,7 +288,7 @@ public class EmptyCart extends Fragment {
                     OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
                     orderSummaryFragment.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, orderSummaryFragment, null)
-                                .addToBackStack(null).commit();
+                            .addToBackStack(null).commit();
 
                 }
             }
@@ -329,10 +329,9 @@ public class EmptyCart extends Fragment {
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
                     }
-                    productCountInt = totalBadgeQuantity;
-                    productCount.setText(String.valueOf(productCountInt+1));
-                    Toast.makeText(getActivity(), String.valueOf(productCountInt), Toast.LENGTH_SHORT).show();
-                    badgeTextView.setText(String.valueOf(list.size()));
+                    productCountInt = list.get(0).getOrderItems().size();
+                    productCount.setText(String.valueOf(list.get(0).getOrderItems().size()+1));
+                    badgeTextView.setText(String.valueOf(list.get(0).getOrderItems().size()));
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                     orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
@@ -423,10 +422,11 @@ public class EmptyCart extends Fragment {
                         totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
                         shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
                         orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                        productCountInt = list.get(0).getOrderItems().size();
+                        productCount.setText(String.valueOf(list.get(i).getOrderItems().size()+1));
+                        badgeTextView.setText(String.valueOf(list.get(i).getOrderItems().size()));
                     }
-                    productCountInt = totalBadgeQuantity;
-                    productCount.setText(String.valueOf(productCountInt+1));
-                    badgeTextView.setText(String.valueOf(totalBadgeQuantity));
+
                     total.setText(String.valueOf("₹ " + totalCount));
                     shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                     orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
@@ -454,12 +454,12 @@ public class EmptyCart extends Fragment {
     }
 
     private void clearFields() {
-         urlField.setText("");
+        urlField.setText("");
         nameField.setText("");
         sizeField.setText("");
         colorField.setText("");
         priceField.setText("");
-        countField.setText("");
+        countField.setText("1");
         check.setChecked(false);
     }
 

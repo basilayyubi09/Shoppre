@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonArray;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
@@ -34,12 +36,14 @@ import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,6 +93,7 @@ public class OrderFragment extends Fragment {
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
 
         list = new ArrayList<>();
+
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
@@ -237,9 +242,14 @@ public class OrderFragment extends Fragment {
         return view;
     }
 
+
+
+
     private void callGetOrderListing() {
         Call<OrderListingResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().getOrderListing("Bearer " + sharedPrefManager.getBearerToken());
+
+        Log.i("TAG", "callGetOrderListing:bearer "+ sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<OrderListingResponse>() {
             @Override
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
@@ -256,7 +266,7 @@ public class OrderFragment extends Fragment {
                         sevenDay.setVisibility(View.VISIBLE);
                     }
 
-                    if (response.body().getPendingOrders().size() != 0) {
+                    if (response.body().getPendingOrders().size()>0) {
                         id = response.body().getPendingOrders().get(0).getId();
                         shoppreId = response.body().getPendingOrders().get(0).getShopperOrderId();
                          orderState = response.body().getPendingOrders().get(0).getOrderState();
@@ -286,7 +296,7 @@ public class OrderFragment extends Fragment {
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
-                    callShopperOrdersApi();
+//                    callShopperOrdersApi();
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

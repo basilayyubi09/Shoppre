@@ -47,7 +47,7 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
 
 
         holder.weSiteName.setText(list.get(position).getStore().getName());
-         cartItemsAdapter = new CartItemsAdapter(order, context);
+        cartItemsAdapter = new CartItemsAdapter(order, context);
         holder.productItemRecycler.setAdapter(cartItemsAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
