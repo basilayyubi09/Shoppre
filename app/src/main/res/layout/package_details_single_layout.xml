@@ -85,11 +85,29 @@
 
     </LinearLayout>
 
+
+
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Return Item(s)"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="#2D8DFF"
+            android:textSize="14sp"
+            android:textFontWeight="600"
+            app:cornerRadius="5dp"
+            android:visibility="gone"
+            android:drawableRight="@drawable/return_arrow"/>
+
 
         <TextView
             android:layout_width="wrap_content"
