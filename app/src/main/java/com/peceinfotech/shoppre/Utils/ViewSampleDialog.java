@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.peceinfotech.shoppre.R;
 
 public class ViewSampleDialog {

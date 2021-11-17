@@ -71,7 +71,7 @@ public class LandingDialog {
     }
 
     private void callCancelOrderApi(Context context, int id, String bearerToken) {
-        LoadingDialog.showLoadingDialog(context , "");
+        LoadingDialog.showLoadingDialog(context, "");
 
         JsonArray jsonArray = new JsonArray();
         JsonObject jsonObject = new JsonObject();

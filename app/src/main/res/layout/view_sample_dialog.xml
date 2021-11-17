@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="15dp">
 
+
         <ImageView
             android:id="@+id/close"
             android:layout_width="16dp"
