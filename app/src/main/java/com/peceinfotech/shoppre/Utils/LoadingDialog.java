@@ -1,6 +1,7 @@
 package com.peceinfotech.shoppre.Utils;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 
 import dmax.dialog.SpotsDialog;
@@ -15,6 +16,7 @@ public class LoadingDialog {
     public static void showLoadingDialog(Context context, String message) {
 
         if (!(progressDialog != null && progressDialog.isShowing())) {
+
             progressDialog = new SpotsDialog.Builder()
                     .setContext(context)
                     .setCancelable(false)

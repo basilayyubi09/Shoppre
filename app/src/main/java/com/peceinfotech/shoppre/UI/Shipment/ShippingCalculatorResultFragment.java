@@ -32,6 +32,7 @@ import com.peceinfotech.shoppre.UI.Orders.OrderFragments.SelfShopper;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.PricingTableDialog;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import retrofit2.Call;
@@ -80,8 +81,10 @@ public class ShippingCalculatorResultFragment extends Fragment {
             location.setText(shippingRateResponse.getName());
             unit.setText(kg);
             weight.setText(weightFromBundle);
+            double rate = shippingRateResponse.getCustomerRate();
+            rate =Double.parseDouble(new DecimalFormat("##.##").format(rate));
 
-            courierCharges.setText("₹ " + shippingRateResponse.getCustomerRate().toString());
+            courierCharges.setText("₹ " + String.valueOf(rate));
         }
         callSlabApi();
         edit.setOnClickListener(new View.OnClickListener() {

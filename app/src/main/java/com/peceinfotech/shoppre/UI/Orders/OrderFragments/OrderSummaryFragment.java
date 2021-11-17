@@ -46,9 +46,6 @@ public class OrderSummaryFragment extends Fragment {
     MaterialButton orderSummaryProceedBtn;
     Integer id;
     String orderCode;
-    String additionalCharges;
-    String instruction;
-    String priceChange;
     String[] ac , ins , pc ;
     int flag = 0;
     Integer shoppreId;
@@ -112,7 +109,7 @@ public class OrderSummaryFragment extends Fragment {
                         flag=1;
                             jsonObject.addProperty("id",id);
                             jsonObject.addProperty("order_code",orderCode);
-                            jsonObject.addProperty("additional_charges",ac[i]);
+                            jsonObject.addProperty("additional_charges",Integer.parseInt(ac[i]));
                             jsonObject.addProperty("instruction",ins[i]);
                             jsonObject.addProperty("buy_if_price_changed",pc[i]);
                             jsonArray.add(jsonObject);}

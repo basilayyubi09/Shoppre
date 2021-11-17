@@ -23,12 +23,12 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShippingRateResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
 
 import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -210,8 +210,8 @@ public interface AppApi {
 
     //https://staging-engage.shoppre.com/api/orders/170/comments
     @GET("api/orders/{id}/comments")
-        Call<List<GetCommentsResponse>> getComments(
-                @Path("id") String id
+    Call<List<GetCommentsResponse>> getComments(
+            @Path("id") String id
     );
 
     //https://staging-engage.shoppre.com/api/orders/171/comments?type=customer
@@ -224,6 +224,7 @@ public interface AppApi {
 
 
     );
+
     //https://staging-app1.shoppreglobal.com/api/shopperOrders/cancel
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @PUT("api/shopperOrders/cancel")
@@ -243,4 +244,12 @@ public interface AppApi {
     Call<ResponseBody> submitOrder(
             @Header("Authorization") String auth,
             @Body String objects);
+
+    //https://staging-app1.shoppreglobal.com/api/orders/item/428
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/orders/item/{orderId}")
+    Call<UpdateOrderResponse> updateOrder(
+            @Header("Authorization") String auth,
+            @Path("orderId") String id, @Body String object);
+
 }

@@ -74,12 +74,13 @@
             </androidx.cardview.widget.CardView>
 
 
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/productCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="-30dp"
+                android:layout_marginTop="-20dp"
                 android:layout_marginBottom="28dp"
                 android:visibility="gone"
                 app:cardCornerRadius="10dp"
@@ -96,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="39dp"
-                        android:layout_marginTop="64dp"
+                        android:layout_marginTop="10dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
@@ -577,6 +578,7 @@
                                 android:src="@drawable/ic_add_more_orders" />
 
                             <TextView
+                                android:id="@+id/addMoreText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -635,7 +637,7 @@
                             android:textColor="@color/white"
                             android:textFontWeight="700"
                             android:textSize="12sp"
-
+                            app:backgroundTint="@color/material_on_background_disabled"
                             app:cornerRadius="5dp" />
 
 
