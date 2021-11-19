@@ -36,7 +36,6 @@
                 android:layout_marginHorizontal="68dp"
                 android:layout_marginTop="181dp"
                 android:backgroundTint="#F3F6F9"
-                android:fontFamily="@font/montserrat"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:letterSpacing="0.03"

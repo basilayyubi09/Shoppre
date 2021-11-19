@@ -2,21 +2,29 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,6 +48,10 @@ import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,29 +64,37 @@ public class ViewProfile extends Fragment {
     MaterialButton logoutBtn, inviteBtn, updateBtn;
     EditText fullNameEditText, phoneNumberEditText, updateProfileEmail;
     TextInputLayout updateProfileNumber;
-    CircleImageView profileImage;
+    LinearLayout viewProfileWalletText;
+    ImageView profileImage;
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
     LinearLayout resend;
-    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError;
+    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue;
     SharedPrefManager sharedPrefManager;
     ArrayAdapter arrayAdapter;
     //For Title Spinner
-    String[] title = {"Mr", "Ms", "Mrs"};
+    String[] title = new String[]{"Title", "Mr", "Ms", "Mrs"};
     String email, phoneNumber, name, ccp, titleText ;
     TextView nameError, emailError, numberError, unverified, emailWrong;
 
+    char firstLetter;
+    TextDrawable textDrawable;
+    ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
+    int randomColor = colorGenerator.getRandomColor();
+
+    Spinner chooseTitle;
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
-        titleSpinner.setAdapter(arrayAdapter);
-
-
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
+//        titleSpinner.setAdapter(arrayAdapter);
+//
+//
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +125,7 @@ public class ViewProfile extends Fragment {
         updateProfileEmail = view.findViewById(R.id.updateProfileEmail);
         updateProfileNumber = view.findViewById(R.id.updateProfileNumber);
 //        phoneNumberEditText = view.findViewById(R.id.phoneNumberEditText);
-        titleSpinner = view.findViewById(R.id.titleSpinner);
+        chooseTitle = view.findViewById(R.id.chooseTitle);
 
 //        ccpSpinner = view.findViewById(R.id.ccpSpinner);
         profileImage = view.findViewById(R.id.profileImage);
@@ -113,6 +133,74 @@ public class ViewProfile extends Fragment {
         profilePrice = view.findViewById(R.id.profilePrice);
         profileName = view.findViewById(R.id.profileName);
         lockerNo = view.findViewById(R.id.lockerNo);
+        titleValue = view.findViewById(R.id.titleValue);
+        viewProfileWalletText = view.findViewById(R.id.viewProfileWalletText);
+
+        firstLetter = sharedPrefManager.getFirstName().charAt(0);
+
+        ////Profile RoundImage with Letter
+
+        textDrawable = TextDrawable.builder()
+                .beginConfig().endConfig()
+                .beginConfig().withBorder(4)
+                .bold().toUpperCase()
+                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
+
+        profileImage.setImageDrawable(textDrawable);
+
+        ///Title Spinner
+
+        final List<String> titleList = new ArrayList<>(Arrays.asList(title));
+
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getDropDownView(position, convertView, parent);
+                TextView titleTv = (TextView) view1;
+                if (position == 0){
+                    titleTv.setVisibility(View.GONE);
+                    titleTv.setTextColor(Color.GRAY);
+                }else {
+                    titleTv.setTextColor(Color.BLACK);
+                }
+                return view1;
+            }
+        };
+        titleSpinerArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
+        chooseTitle.setAdapter(titleSpinerArrayAdapter);
+
+        chooseTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0){
+                    Toast.makeText(getContext(),(String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        viewProfileWalletText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new WalletFragment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
 
 
         LoadingDialog.showLoadingDialog(getActivity(),"");
@@ -471,7 +559,7 @@ public class ViewProfile extends Fragment {
     }
 
     private void getTextFromFields() {
-        titleText = titleSpinner.getText().toString();
+        titleText = chooseTitle.getSelectedItem().toString();
         name = fullNameEditText.getText().toString().trim();
         email = updateProfileEmail.getText().toString().trim();
         ccp = countryCodePicker.getSelectedCountryCode();
@@ -480,7 +568,7 @@ public class ViewProfile extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void setTextsToUpdateFields() {
-        titleSpinner.setHint("Title");
+
         updateProfileEmail.setText(sharedPrefManager.getEmail());
         fullNameEditText.setText(sharedPrefManager.getFullName());
         updateProfileNumber.getEditText().setText(sharedPrefManager.getPhone());
