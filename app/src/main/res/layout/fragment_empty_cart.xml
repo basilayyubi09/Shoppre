@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     tools:context=".UI.Orders.OrderFragments.EmptyCart">
 
     <androidx.core.widget.NestedScrollView
@@ -72,7 +73,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
 
             <androidx.cardview.widget.CardView
@@ -287,6 +287,53 @@
                             android:textSize="12sp"
                             app:boxStrokeColor="@color/hint_color" />
 
+                        <com.google.android.material.card.MaterialCardView
+
+                            android:id="@+id/dontPlace"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:backgroundTint="#4DF4A337"
+                            android:visibility="gone"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#4DF4A337">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
+                                android:text="@string/we_usually_don_t"
+                                android:textColor="#FF891C"
+                                android:textFontWeight="600"
+                                android:textSize="8sp"
+
+                                />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+
+                            android:id="@+id/ePharmacy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:backgroundTint="#4DF4A337"
+                            android:visibility="gone"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#4DF4A337">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
+                                android:text="@string/looks_like_you_are_"
+                                android:textColor="#FF891C"
+                                android:textFontWeight="600"
+                                android:textSize="8sp"
+
+                                />
+                        </com.google.android.material.card.MaterialCardView>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -601,25 +648,24 @@
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/fifteen"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="33dp"
                             android:layout_marginVertical="10dp"
                             android:backgroundTint="#E68499"
+                            android:visibility="gone"
                             app:cardElevation="0dp"
                             app:strokeColor="#E68499">
 
                             <TextView
-                                android:layout_margin="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
                                 android:text="Orders more than 15 items per website will incur an additional service fees of INR 50 per item"
-                                android:textSize="8sp"
                                 android:textColor="@color/white"
                                 android:textFontWeight="600"
-                                android:gravity="center"
-                                />
+                                android:textSize="8sp" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.button.MaterialButton

@@ -1,6 +1,8 @@
 package com.peceinfotech.shoppre.Adapters.LockerAdapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.LockerModelResponse.ReadyToShipResponse;
 import com.peceinfotech.shoppre.UI.Locker.LockerViewPackage;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
@@ -20,10 +22,10 @@ import java.util.List;
 
 public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.viewHolder> {
 
-    List<ReadyToShipResponse> list;
+    List<PackageModel> list;
     Context context;
 
-    public ReadyToShipAdapter(List<ReadyToShipResponse> list, Context context) {
+    public ReadyToShipAdapter(List<PackageModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -38,20 +40,52 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        ReadyToShipResponse readyToShipResponse = list.get(position);
 
         holder.readyToShipImg.getDrawable();
-        holder.packageId.setText(readyToShipResponse.getPackageId());
-        holder.readyToShipWebSiteName.setText(readyToShipResponse.getReadyToShipWebSiteName());
+        holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
+        holder.packageId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
+        holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
+
+        if (list.get(position).getStateName().equals("In Review")) {
+            holder.lockerViewMore.setVisibility(View.GONE);
+            holder.process.setVisibility(View.VISIBLE);
+            holder.action.setText(list.get(position).getStateName());
+            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.price_changed_background));
+        } else if (list.get(position).getStateName().equals("Action Required")) {
+            holder.lockerViewMore.setVisibility(View.VISIBLE);
+            holder.process.setVisibility(View.GONE);
+            holder.action.setText(list.get(position).getStateName());
+            holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
+        } else if (list.get(position).getStateName().equals("Ready To Send")) {
+            holder.lockerViewMore.setVisibility(View.VISIBLE);
+            holder.process.setVisibility(View.GONE);
+            holder.action.setText(list.get(position).getStateName());
+            holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
+        }else {
+            holder.lockerViewMore.setVisibility(View.VISIBLE);
+            holder.process.setVisibility(View.GONE);
+            holder.action.setText(list.get(position).getStateName());
+            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+        }
 
         holder.lockerViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerViewPackage(), null)
+
+                bundle.putInt("id", list.get(position).getId());
+
+                LockerViewPackage lockerViewPackage = new LockerViewPackage();
+                lockerViewPackage.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerViewPackage, null)
                         .addToBackStack(null).commit();
+
 
             }
         });
@@ -63,11 +97,12 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         ImageView readyToShipImg;
-        TextView readyToShipWebSiteName, packageId;
+        TextView readyToShipWebSiteName, packageId, quantity, action;
         LinearLayout lockerViewMore;
+        LinearLayout process;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +110,9 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
             readyToShipImg = itemView.findViewById(R.id.readyToShipImg);
             readyToShipWebSiteName = itemView.findViewById(R.id.readyToShipWebSiteName);
             packageId = itemView.findViewById(R.id.packageId);
+            quantity = itemView.findViewById(R.id.quantity);
+            action = itemView.findViewById(R.id.action);
+            process = itemView.findViewById(R.id.process);
             lockerViewMore = itemView.findViewById(R.id.lockerViewMore);
         }
     }

@@ -1,13 +1,21 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,10 +39,14 @@ import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.Vertua
 import com.peceinfotech.shoppre.UI.Orders.CancelledOrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -56,7 +68,7 @@ public class OrderFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
-
+    FrameLayout main;
 
     List<Order> list;
     LinearLayout orderListing;
@@ -79,6 +91,7 @@ public class OrderFragment extends Fragment {
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         banner = view.findViewById(R.id.banner);
+        main = view.findViewById(R.id.main);
         forgetSomething = view.findViewById(R.id.forgetSomething);
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
@@ -94,6 +107,7 @@ public class OrderFragment extends Fragment {
 
         list = new ArrayList<>();
 
+        setupUI(main);
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
@@ -515,5 +529,39 @@ public class OrderFragment extends Fragment {
                 snackbar.show();
             }
         });
+
     }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
+
 }

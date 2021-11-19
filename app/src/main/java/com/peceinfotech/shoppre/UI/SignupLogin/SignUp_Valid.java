@@ -1,11 +1,16 @@
 package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +27,6 @@ import com.peceinfotech.shoppre.AccountResponse.AccessTokenResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.RegisterVerifyResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -57,7 +61,7 @@ public class SignUp_Valid extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
         if (sharedPrefManager.checkLogin()){
             startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
-            finish();
+
         }
         //Hooks
 
@@ -74,7 +78,7 @@ public class SignUp_Valid extends AppCompatActivity {
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
         main = findViewById(R.id.main);
 
-
+        setupUI(main );
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -203,7 +207,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
         //calling RetrofitClient2 for different BASE_URL
-        Call<RegisterVerifyResponse> call = RetrofitClient2
+        Call<RegisterVerifyResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
                 .registerVerify(paramObject.toString());
@@ -217,18 +221,25 @@ public class SignUp_Valid extends AppCompatActivity {
                 RegisterVerifyResponse registerVerifyResponse = response.body();
 
                 //If user already register then send to login screen and show error in fields
-                if (registerVerifyResponse.getMessage().equals(message))
-                {
-                    LoadingDialog.cancelLoading();
-                    Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
-                    intent.putExtra("flag" , 1);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    String bearer = response.body().getToken().getAccessToken();
-                    callAuthApi(bearer);
+                if (response.code()==200){
+                    if (registerVerifyResponse.getMessage().equals(message))
+                    {
+                        LoadingDialog.cancelLoading();
+                        Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
+                        intent.putExtra("flag" , 1);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        String bearer = response.body().getToken().getAccessToken();
+                        callAuthApi(bearer);
 
+                    }
                 }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+
             }
 
 
@@ -303,12 +314,12 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
+
                     String token = response.body().getAccessToken();
                     sharedPrefManager.storeBearerToken(token);
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     clearFields();
-
+                    LoadingDialog.cancelLoading();
                     startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
                     finish();
                 }
@@ -399,6 +410,7 @@ public class SignUp_Valid extends AppCompatActivity {
         }
     }
 
+
     @SuppressLint("ResourceAsColor")
     private Boolean validatePasswordField() {
 
@@ -454,5 +466,36 @@ public class SignUp_Valid extends AppCompatActivity {
 
     }
 
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(SignUp_Valid.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
 }
 

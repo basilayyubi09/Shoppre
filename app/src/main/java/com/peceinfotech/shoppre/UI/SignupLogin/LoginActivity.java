@@ -1,9 +1,14 @@
 package com.peceinfotech.shoppre.UI.SignupLogin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 setError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
             }
         }
-
+        setupUI(main);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -198,7 +203,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, SignUp_Valid.class));
-                finish();
             }
         });
 
@@ -225,7 +229,7 @@ public class LoginActivity extends AppCompatActivity {
         paramObject.addProperty("referral_code", "");
 
 
-        Call<SignUpGoogleResponse> call = RetrofitClient2
+        Call<SignUpGoogleResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
                 .signUpFacebook(paramObject.toString());
@@ -408,7 +412,7 @@ public class LoginActivity extends AppCompatActivity {
         paramObject.addProperty("is_email_verified", true);
         paramObject.addProperty("referral_code", "");
 
-        Call<SignUpGoogleResponse> call = RetrofitClient2
+        Call<SignUpGoogleResponse> call = RetrofitClient
                 .getInstance()
                 .getApi().signUpGoogle(paramObject.toString());
         call.enqueue(new Callback<SignUpGoogleResponse>() {
@@ -643,6 +647,37 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(LoginActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 }
 

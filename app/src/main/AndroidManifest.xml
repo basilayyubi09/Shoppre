@@ -13,18 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoppre"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true"
+        >
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.AccountAndWallet.AccountWalletActivity"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.Orders.OrderActivity"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.OnBoarding.OnBoardingActivity"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.SignUpActivity"
             android:exported="true" >
             <intent-filter>
@@ -34,25 +39,32 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.LoginActivity"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.ResetPassword"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.ForgotPasswordMessage"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.ForgetPassword"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.SignUp_Valid"
             android:exported="true" /> <!-- Facebook -->
         <activity
+            android:screenOrientation="portrait"
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
+
             android:name="com.facebook.CustomTabActivity"
             android:exported="true" >
             <intent-filter>

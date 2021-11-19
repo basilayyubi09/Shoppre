@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.PackageDetailsAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageDetailsResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.PackageItem;
+import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.peceinfotech.shoppre.R;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.List;
 public class PackageDetails extends Fragment {
 
     RecyclerView packageDetailsRecycler;
-    List<PackageDetailsResponse> list = new ArrayList<>();
+    List<PackageItem> list;
     PackageDetailsAdapter packageDetailsAdapter;
 
 
@@ -31,19 +33,15 @@ public class PackageDetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_package_details, container, false);
-
         packageDetailsRecycler = view.findViewById(R.id.packageDetailsRecycler);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            list = (List<PackageItem>) bundle.getSerializable("list");
+
+        }
 
 
-
-
-
-        list.add(new PackageDetailsResponse(R.drawable.shoppre_ic, "VASTRAMANIAA Wommann", "#29357", "Qty: " + "03", "19000"));
-        list.add(new PackageDetailsResponse(R.drawable.mobile1, "Redmi Note 9 Pro Max", "#29357", "Qty: " + "03", "19000"));
-        list.add(new PackageDetailsResponse(R.drawable.mobile1, "Reebok Men's Essential mamamks", "#29357", "Qty: " + "03", "19000"));
-        list.add(new PackageDetailsResponse(R.drawable.mobile1, "Slurrp Farm Organic Ba...", "#29357", "Qty: " + "03", "19000"));
-        list.add(new PackageDetailsResponse(R.drawable.mobile1, "Redmi Note 9 Pro Maxbdkja", "#29357", "Qty: " + "03", "19000"));
 
 
          packageDetailsAdapter = new PackageDetailsAdapter(list, getContext(), new PackageDetailsAdapter.GetData() {

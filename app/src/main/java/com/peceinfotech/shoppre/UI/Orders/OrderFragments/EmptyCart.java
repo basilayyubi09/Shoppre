@@ -1,12 +1,17 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -30,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CartGroupAdapter;
+import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.DeleteOrderResponse;
@@ -40,6 +46,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -58,21 +65,22 @@ public class EmptyCart extends Fragment {
 
     SharedPrefManager sharedPrefManager;
     RecyclerView cartRecycler, productItemRecycler;
-    CardView itemCartCard, productCartCard , emptyCard;
+    CardView itemCartCard, productCartCard ;
     ImageView downwardTriangle, upwardTriangle;
     MaterialButton proceedToCartBtn;
     int flag = 1;
-    MaterialCardView liquidCard;
+    MaterialCardView liquidCard, ePharmacy , dontPlace;
     List<Order> list = new ArrayList<>();
     LinearLayout dropdownLayout, addMore;
-    TextView selectField, orderTotal, shoppreFee, total;
+    TextView orderTotal, shoppreFee, total;
     String url, name, color, size, price, countString, selectedString;
     EditText urlField, nameField, colorField, priceField, sizeField;
-    TextView minus, plus, countField;
+    TextView minus, plus, countField ;
     MaterialCheckBox check;
     int count = 1, id;
     boolean isUpdate = false;
     boolean isLiquid = false;
+    boolean goNext = false;
     TextView productCount, addMoreText;
     ImageView cartImage;
     CartGroupAdapter cartGroupAdapter;
@@ -81,12 +89,13 @@ public class EmptyCart extends Fragment {
     OrderItem orderFromAdapter;
     TextView badgeTextView, selectAnOptionTextView;
     MaterialCardView fifteen;
+    FrameLayout main;
     Spinner selectAnOptionSpinner;
     Integer orderId, deleteOrderId, deleteItemId;
 
     String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other available items            ", "Cancel all the items from this site"};
 
-    int badgeNumber = 0;
+
 
 
     @Override
@@ -102,6 +111,9 @@ public class EmptyCart extends Fragment {
         itemCartCard = view.findViewById(R.id.itemInCartCard);
         productCartCard = view.findViewById(R.id.productCard);
         orderTotal = view.findViewById(R.id.orderTotal);
+        main = view.findViewById(R.id.main);
+        ePharmacy = view.findViewById(R.id.ePharmacy);
+        dontPlace = view.findViewById(R.id.dontPlace);
         addMoreText = view.findViewById(R.id.addMoreText);
         shoppreFee = view.findViewById(R.id.shoppreFee);
         total = view.findViewById(R.id.total);
@@ -132,7 +144,7 @@ public class EmptyCart extends Fragment {
         badgeTextView = view.findViewById(R.id.badgeTextView);
         selectAnOptionTextView = view.findViewById(R.id.selectAnOptionTextView);
 
-
+        setupUI(main);
         final List<String> selectAnOptionList = new ArrayList<>(Arrays.asList(selectAnOptionSpinnerItems));
 
         final ArrayAdapter<String> selectAnOptionAdapter = new ArrayAdapter<String>(getContext(), R.layout.select_an_option_spinner_text, selectAnOptionList) {
@@ -160,6 +172,26 @@ public class EmptyCart extends Fragment {
                 return view;
             }
         };
+
+        urlField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length()>0){
+
+                    callVerifyLinkApi(s);
+                }
+
+            }
+        });
         selectAnOptionAdapter.setDropDownViewResource(R.layout.select_an_option_spinner_text);
         selectAnOptionSpinner.setAdapter(selectAnOptionAdapter);
 
@@ -268,15 +300,26 @@ public class EmptyCart extends Fragment {
 //                                .addToBackStack(null).commit();
 
                         if (isUpdate) {
-                            callUpdateOrder();
+                            if (goNext){
+                                callUpdateOrder();
+                            }
+                            else {
+
+                            }
+
 
                         } else {
                             if (productCountInt > 15) {
                                 fifteen.setVisibility(View.VISIBLE);
                             } else {
-                                fifteen.setVisibility(View.GONE);
-                                LoadingDialog.showLoadingDialog(getActivity(), "");
-                                callAddOrderApi();
+                                if (goNext) {
+                                    fifteen.setVisibility(View.GONE);
+                                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                                    callAddOrderApi();
+                                }
+                                else {
+
+                                }
                             }
                         }
 
@@ -305,6 +348,50 @@ public class EmptyCart extends Fragment {
 
 
         return view;
+    }
+
+    private void callVerifyLinkApi(Editable s) {
+        String abcd = "="+urlField.getText().toString();
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        Call<VerifyLinkResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().verifyLink(abcd);
+        call.enqueue(new Callback<VerifyLinkResponse>() {
+            @Override
+            public void onResponse(Call<VerifyLinkResponse> call, Response<VerifyLinkResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    if (response.body().getStore()==null){
+                        dontPlace.setVisibility(View.VISIBLE);
+                        goNext = false;
+
+                    }
+                   else if (response.body().getStore().getIsEPharmacy()!=null){
+                        Toast.makeText(getActivity(), " pharmacy", Toast.LENGTH_SHORT).show();
+                        dontPlace.setVisibility(View.GONE);
+                        ePharmacy.setVisibility(View.VISIBLE);
+                        goNext = true;
+                    }
+                   else {
+                       goNext = true;
+                       dontPlace.setVisibility(View.GONE);
+                       ePharmacy.setVisibility(View.GONE);
+                    }
+
+
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VerifyLinkResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -782,5 +869,36 @@ public class EmptyCart extends Fragment {
             return true;
         }
 
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 }

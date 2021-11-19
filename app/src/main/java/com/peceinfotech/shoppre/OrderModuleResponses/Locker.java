@@ -5,23 +5,26 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Store implements Serializable {
+public class Locker implements Serializable {
+    @SerializedName("short_name")
+    @Expose
+    private String shortName;
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("is_e_pharmacy")
+    @SerializedName("allocated_at")
     @Expose
-    private Object isEPharmacy;
+    private String allocatedAt;
 
-    public Object getIsEPharmacy() {
-        return isEPharmacy;
+    public String getShortName() {
+        return shortName;
     }
 
-    public void setIsEPharmacy(Object isEPharmacy) {
-        this.isEPharmacy = isEPharmacy;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public Integer getId() {
@@ -38,5 +41,13 @@ public class Store implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAllocatedAt() {
+        return allocatedAt;
+    }
+
+    public void setAllocatedAt(String allocatedAt) {
+        this.allocatedAt = allocatedAt;
     }
 }

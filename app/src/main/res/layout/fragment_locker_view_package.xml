@@ -57,6 +57,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/websiteName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Myntra"
@@ -65,6 +66,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/comment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -108,6 +110,7 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:id="@+id/weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="2.5 KG"
@@ -144,6 +147,7 @@
                             android:textSize="10sp" />
 
                         <TextView
+                            android:id="@+id/packageId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="600"
@@ -167,6 +171,7 @@
                             android:textSize="9sp" />
 
                         <TextView
+                            android:id="@+id/trackingNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="500"
@@ -190,6 +195,7 @@
                             android:textSize="10sp" />
 
                         <TextView
+                            android:id="@+id/date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="600"
@@ -227,6 +233,7 @@
                                 android:textSize="10sp" />
 
                             <TextView
+                                android:id="@+id/amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="To Be Calculated"

@@ -21,4 +21,7 @@
     <color name="selected_btn_color">#2D8DFF</color>
     <color name="unselected_btn_color">#F8F8F8</color>
     <color name="grey">#AFADAD</color>
+    <color name="ready_to_ship_green_color">#00A781</color>
+    <color name="action_required_yellow_color">#F8B800</color>
+    <color name="in_review_blue_color">#0073FF</color>
 </resources>

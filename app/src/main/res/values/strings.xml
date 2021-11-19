@@ -73,6 +73,8 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="please_note_">Please Note that the shipping rates for Liquid/ Semi-Liquid products are higher. Check our Shipping Price Calculator for estimate pricing.</string>
     <string name="shop_for_me_text"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
     <string name="return_item_string">You’ve selected <b>1</b> item for <b>Return</b></string>
+    <string name="we_usually_don_t">We usually don’t place orders on this website. Please go through return/refund policies before placing your order. If you trust this website, we’ll still place this order on your behalf.</string>
+    <string name="looks_like_you_are_">Looks like you are ordering from an e-Pharmacy. Click here to read medicine related shipping guidelines before placing your order.</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

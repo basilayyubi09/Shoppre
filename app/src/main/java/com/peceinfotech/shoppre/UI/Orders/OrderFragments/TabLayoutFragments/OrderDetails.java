@@ -34,11 +34,10 @@ import retrofit2.Response;
 public class OrderDetails extends Fragment {
 
     RecyclerView orderDetailsRecycler;
-    List<ViewOrderResponse> list = new ArrayList<>();
+
     List<OrderItem> list1 = new ArrayList<>();
     ViewOrderAdapter viewOrderAdapter;
-    ShowOrderResponse showOrderResponse;
-    OrderItem orderItem;
+
     TextView text;
     SharedPrefManager sharedPrefManager ;
     String orderCode;

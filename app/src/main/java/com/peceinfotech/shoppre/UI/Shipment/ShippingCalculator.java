@@ -6,16 +6,21 @@ import static com.peceinfotech.shoppre.R.drawable.yes_btn_bg;
 import static com.peceinfotech.shoppre.R.drawable.yes_btn_bg1;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -37,6 +42,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.LogisticClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 
@@ -68,6 +74,7 @@ public class ShippingCalculator extends Fragment {
     int flag = 1;
     Integer Id, countryId;
     String cm, kg;
+    FrameLayout main;
     ShippingRateResponse shippingRateResponse;
     LinearLayout kgLinearLayout, cmLinearLayout, chooseCategoryLinearLayout;
     String[] kgDropdownItem = {"Kilogram (KG)", "Pounds (lb)"};
@@ -105,6 +112,7 @@ public class ShippingCalculator extends Fragment {
         categoryError = view.findViewById(R.id.categoryError);
         kgLinearLayout = view.findViewById(R.id.kgLinearLayout);
         cmDropdown = view.findViewById(R.id.cmDropdown);
+        main = view.findViewById(R.id.main);
         cmLinearLayout = view.findViewById(R.id.cmLinearLayout);
         chooseCategoryDropdown = view.findViewById(R.id.chooseCategoryDropdown);
         chooseCategoryLinearLayout = view.findViewById(R.id.chooseCategoryLinearLayout);
@@ -136,7 +144,7 @@ public class ShippingCalculator extends Fragment {
             }
         });
 
-
+        setupUI(main);
         packageMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -568,5 +576,35 @@ public class ShippingCalculator extends Fragment {
             }
         });
     }
+    public void setupUI(View view) {
 
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
 }
