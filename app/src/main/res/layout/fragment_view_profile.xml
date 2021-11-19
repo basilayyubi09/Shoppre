@@ -36,7 +36,7 @@
                         android:id="@+id/profileImage"
                         android:layout_width="112dp"
                         android:layout_height="112dp"
-                        android:layout_marginVertical="20dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="29dp"
                         android:src="@drawable/profile_pic"
                         app:civ_border_color="#2F4CAB"
@@ -45,13 +45,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/profileName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="27dp"
 
                             android:lineHeight="17sp"
@@ -63,8 +64,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:layout_gravity="center_horizontal">
+                            android:layout_marginTop="12dp">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -87,8 +87,7 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal">
+                            android:layout_height="wrap_content">
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:layout_width="24dp"
@@ -369,9 +368,8 @@
                         android:layout_marginRight="59dp"
                         android:background="@drawable/edittext_bg"
                         android:hint="nikkitha@gmail.com"
-                        android:inputType="textEmailAddress"
+                        android:inputType="none"
                         android:paddingLeft="10dp"
-                        android:textCursorDrawable="@color/hint_color"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"

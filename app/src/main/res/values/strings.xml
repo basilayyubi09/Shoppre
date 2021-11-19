@@ -65,7 +65,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="wow_can_i_use_my_wallet_balance">Wow can I use My Wallet balance?</string>
     <string name="delete"><u>Delete</u></string>
     <string name="edit"><u>Edit</u></string>
-    <string name="varify_your_account_details">We’ve sent an email with the verification link to your ID which is valid for 7 days only. Please verify your account to access all the features.</string>
+    <string name="varify_your_account_details">We’ve sent an email with the verification link to your ID which is valid for <b>7 days only</b>. Please verify your account to access all the features.</string>
     <string name="delivery_address">24 Airport Rd -<br />Garhoud - Dubai -<br />United Arab Emirates</string>
     <string name="update_address">Update Address</string>
     <string name="i_agree_to_all_terms_conditions">I agree to all  <font color='#8F8F8F'><u><bold>Terms &amp; Conditions</bold></u></font></string>
@@ -73,6 +73,10 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="please_note_">Please Note that the shipping rates for Liquid/ Semi-Liquid products are higher. Check our Shipping Price Calculator for estimate pricing.</string>
     <string name="shop_for_me_text"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
     <string name="return_item_string">You’ve selected <b>1</b> item for <b>Return</b></string>
+    <string name="seller_pick_up_text">The sender will pick up the package directly from the ShoppRe facility.\n \nFree for 3 days of item reaching your locker, you’ll be charged ₹50/item each day thereafter</string>
+    <string name="ship_it_to_seller_text">Shoppre has to return the package for you to the sender.\n \nA shipment will be created and you’ll be charged as per the domestic shipping rates which will be notified via email.</string>
+    <string name="ship_it_to_seller_landing_text">Add the address provided by the eCommerce where the product needs to be returned.\n \nDomestic Shipping Charges will be applied based on the weight of your package</string>
+    <string name="add_more_photo_text">You’ve selected 1 item for <b>Additional</b> Photo<br></br><br></br>Do you want to select more?</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

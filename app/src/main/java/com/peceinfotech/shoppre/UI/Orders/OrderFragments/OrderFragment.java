@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -52,6 +53,7 @@ public class OrderFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
+    TextView bannerVirtualAddress;
 
 
     List<Order> list;
@@ -87,6 +89,7 @@ public class OrderFragment extends Fragment {
         virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
         cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
+        bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
         list = new ArrayList<>();
 
@@ -108,6 +111,13 @@ public class OrderFragment extends Fragment {
 //            forgetSomething.setVisibility(View.VISIBLE);
 //        }
 
+        bannerVirtualAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new VertualAddress(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override

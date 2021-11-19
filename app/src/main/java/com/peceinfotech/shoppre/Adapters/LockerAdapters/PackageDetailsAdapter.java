@@ -24,7 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageDetailsResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Locker.ReturnLanding;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
+import com.peceinfotech.shoppre.Utils.ViewPhotoDialog;
 
 import java.util.List;
 
@@ -74,26 +77,11 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         switch (item.getItemId()){
                             case R.id.return_menu:
                                 Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-//                                View dialogView = LayoutInflater.from(v.getRootView().getContext()).inflate(R.layout.return_item_dialog_box, null);
-//
-//                               MaterialButton addMoreProductBtn, proceedWith1ItemBtn;
-//                                addMoreProductBtn = dialogView.findViewById(R.id.addMoreProductBtn);
-//                                proceedWith1ItemBtn = dialogView.findViewById(R.id.proceedWith1ItemBtn);
-//
-//                                addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                      holder.three_dots.setVisibility(View.GONE);
-//                                        holder.packageDetailCheckbox.setVisibility(View.VISIBLE);
-//                                    }
-//                                });
-//
-//                                builder.setView(dialogView);
-//                                builder.setCancelable(true);
-//                                builder.show();
+
+                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReturnLanding(), null)
+                                        .addToBackStack(null).commit();
+
 //                                showDialog();
-                                showDialog();
 
 
                                 break;
@@ -144,6 +132,16 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             }
         });
 
+        holder.viewPhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog();
+                viewPhotoDialog.showDialog(context);
+
+            }
+        });
+
 
 
     }
@@ -157,8 +155,8 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
     public class viewHolder extends RecyclerView.ViewHolder{
 
-        ImageView packageItemImage, editPackageItem, three_dots;
-        TextView packageItemName, packageItemId, packageQuantity, packageItemPrice;
+        ImageView packageItemImage, editPackageItem, three_dots ;
+        TextView packageItemName, packageItemId, packageQuantity, packageItemPrice, viewPhotoBtn;
         CheckBox packageDetailCheckbox;
         GetData getData;
 
@@ -174,6 +172,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             packageItemPrice = itemView.findViewById(R.id.packageItemPrice);
             three_dots = itemView.findViewById(R.id.three_dots);
             packageDetailCheckbox = itemView.findViewById(R.id.packageDetailCheckbox);
+            viewPhotoBtn = itemView.findViewById(R.id.viewPhotoBtn);
 
         }
 

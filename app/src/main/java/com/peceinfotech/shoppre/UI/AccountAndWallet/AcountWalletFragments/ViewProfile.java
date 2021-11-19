@@ -134,7 +134,7 @@ public class ViewProfile extends Fragment {
             @Override
             public void onClick(View view) {
                 getTextFromFields();
-                if (!validateSalutation() || !validateName() || !validateEmail() || !validateNumber()) {
+                if (!validateSalutation() || !validateName() || !validateNumber()) {
                     return;
                 } else {
                     if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available

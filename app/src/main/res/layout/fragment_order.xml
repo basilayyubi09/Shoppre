@@ -29,8 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="22dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="28dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp"
                     android:id="@+id/sevenDay">
@@ -40,14 +39,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="5dp"
-                        android:layout_marginBottom="5dp">
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_marginRight="5dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -61,8 +59,8 @@
                                 android:textSize="11sp" />
 
                             <EditText
-                                android:layout_width="194dp"
-                                android:layout_height="28dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="24dp"
                                 android:layout_marginLeft="19dp"
                                 android:layout_marginTop="4dp"
                                 android:background="@drawable/edittext_bg"
@@ -75,10 +73,11 @@
                                 android:textSize="12sp" />
 
                             <com.google.android.material.button.MaterialButton
-                                android:layout_width="118dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="24dp"
-                                android:layout_marginHorizontal="57dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="12dp"
+                                android:paddingHorizontal="40dp"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
                                 android:text="Submit"
@@ -93,7 +92,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="31dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="12dp"
                                 android:layout_marginBottom="15dp"
                                 android:text="*Refferal valid only for 7 days from Sign-up"
@@ -279,8 +278,10 @@
                             android:layout_gravity="center_horizontal"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/bannerVirtualAddress"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="18dp"
                             android:layout_marginBottom="15dp"
                             android:text="View Virtual Address"
