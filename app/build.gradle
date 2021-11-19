@@ -76,6 +76,10 @@ dependencies {
     //youtube player
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    ///Profile image Letter
+
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
     
 }
 

@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,6 +70,8 @@ public class OrderFragment extends Fragment {
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
     FrameLayout main;
+    TextView bannerVirtualAddress;
+
 
     List<Order> list;
     LinearLayout orderListing;
@@ -104,6 +107,7 @@ public class OrderFragment extends Fragment {
         virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
         cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
+        bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
         list = new ArrayList<>();
 
@@ -127,6 +131,13 @@ public class OrderFragment extends Fragment {
 //            forgetSomething.setVisibility(View.VISIBLE);
 //        }
 
+        bannerVirtualAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new VertualAddress(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,7 +321,7 @@ public class OrderFragment extends Fragment {
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
-//                    callShopperOrdersApi();
+                    callShopperOrdersApi();
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
