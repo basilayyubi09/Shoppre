@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.R;
-import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
-import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
-import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
@@ -57,9 +54,6 @@ public class OrderListing extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         orderRecycler.setLayoutManager(linearLayoutManager);
-
-
-
 
 
         return view;

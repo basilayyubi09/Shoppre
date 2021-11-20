@@ -1,12 +1,15 @@
 package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -56,19 +59,18 @@ import retrofit2.Response;
 
 public class ViewProfile extends Fragment {
 
-    MaterialAutoCompleteTextView ccpSpinners, titleSpinner;
     MaterialCardView redBoxText;
     MaterialButton logoutBtn, inviteBtn, updateBtn;
-    EditText fullNameEditText, phoneNumberEditText;
+    EditText fullNameEditText;
     TextInputLayout updateProfileNumber;
     LinearLayout viewProfileWalletText;
     ImageView profileImage;
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
-    LinearLayout resend;
+    LinearLayout resend , main;
     TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue;
     SharedPrefManager sharedPrefManager;
-    ArrayAdapter arrayAdapter;
+
     //For Title Spinner
     String[] title = new String[]{"Title", "Mr", "Ms", "Mrs"};
     String email, phoneNumber, name, ccp, titleText ;
@@ -112,6 +114,7 @@ public class ViewProfile extends Fragment {
         unverified = view.findViewById(R.id.unverified);
         salutationError = view.findViewById(R.id.salutationError);
         numberError = view.findViewById(R.id.numberError);
+        main = view.findViewById(R.id.main);
         emailWrong = view.findViewById(R.id.emailWrong);
         manageAddresses = view.findViewById(R.id.manageAddresses);
         virtualIndianAddress = view.findViewById(R.id.virtualIndianAddress);
@@ -133,17 +136,7 @@ public class ViewProfile extends Fragment {
         titleValue = view.findViewById(R.id.titleValue);
         viewProfileWalletText = view.findViewById(R.id.viewProfileWalletText);
 
-        firstLetter = sharedPrefManager.getFirstName().charAt(0);
 
-        ////Profile RoundImage with Letter
-
-        textDrawable = TextDrawable.builder()
-                .beginConfig().endConfig()
-                .beginConfig().withBorder(4)
-                .bold().toUpperCase()
-                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
-
-        profileImage.setImageDrawable(textDrawable);
 
         ///Title Spinner
 
@@ -213,6 +206,7 @@ public class ViewProfile extends Fragment {
 
         getTextFromFields();
 
+        setupUI(main);
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -304,7 +298,17 @@ public class ViewProfile extends Fragment {
             }
         });
 
+        firstLetter = name.charAt(0);
 
+        ////Profile RoundImage with Letter
+
+        textDrawable = TextDrawable.builder()
+                .beginConfig().endConfig()
+                .beginConfig().withBorder(4)
+                .bold().toUpperCase()
+                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
+
+        profileImage.setImageDrawable(textDrawable);
         return view;
     }
 
@@ -500,7 +504,15 @@ public class ViewProfile extends Fragment {
                     sharedPrefManager.storeFullName(name);
                     sharedPrefManager.storePhone("+" + ccp + phoneNumber);
 
+                    ////Profile RoundImage with Letter
+                    firstLetter = name.charAt(0);
+                    textDrawable = TextDrawable.builder()
+                            .beginConfig().endConfig()
+                            .beginConfig().withBorder(4)
+                            .bold().toUpperCase()
+                            .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
 
+                    profileImage.setImageDrawable(textDrawable);
                     setProfileCredentials();
                     setTextsToUpdateFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Successfully updated", Snackbar.LENGTH_LONG);
@@ -553,6 +565,47 @@ public class ViewProfile extends Fragment {
         } else {
             profileName.setText("User Name");
         }
+        final List<String> titleList = new ArrayList<>(Arrays.asList(title));
+
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getDropDownView(position, convertView, parent);
+                TextView titleTv = (TextView) view1;
+                if (position == 0){
+                    titleTv.setVisibility(View.GONE);
+                    titleTv.setTextColor(Color.GRAY);
+                }else {
+                    titleTv.setTextColor(Color.BLACK);
+                }
+                return view1;
+            }
+        };
+        titleSpinerArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
+        chooseTitle.setAdapter(titleSpinerArrayAdapter);
+
+        chooseTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0){
+                    Toast.makeText(getContext(),(String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void getTextFromFields() {
@@ -585,7 +638,7 @@ public class ViewProfile extends Fragment {
 
     public boolean validateSalutation() {
 
-        if (titleText.equals("Ti")) {
+        if (titleText.equals("Title")) {
             salutationError.setVisibility(View.VISIBLE);
 
             return false;
@@ -622,6 +675,40 @@ public class ViewProfile extends Fragment {
         } else {
             numberError.setVisibility(View.GONE);
             return true;
+        }
+    }
+
+
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
         }
     }
 }

@@ -106,7 +106,7 @@ public class LockerViewPackage extends Fragment {
                     bundle1.putSerializable("list" , (Serializable) list);
                     packageDetails.setArguments(bundle1);
                     viewPackageViewPagerAdapter = new ViewPackageViewPager(getChildFragmentManager());
-                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details ");
+                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details "+"("+String.valueOf(list.size())+")");
                     viewPackageViewPagerAdapter.addFragment(packageUpdates, "Locker Updates");
 
                     viewPackageViewPager.setAdapter(viewPackageViewPagerAdapter);
