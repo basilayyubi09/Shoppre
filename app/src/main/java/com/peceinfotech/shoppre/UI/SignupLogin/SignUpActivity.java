@@ -1,10 +1,17 @@
 package com.peceinfotech.shoppre.UI.SignupLogin;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
+
         //Hooks
         loginText = findViewById(R.id.signup_already_acnt);
         getStartedBtn = findViewById(R.id.get_started_btn);
@@ -71,15 +79,14 @@ public class SignUpActivity extends AppCompatActivity {
         fbSignInBtn = findViewById(R.id.signup_fb_btn);
         emailIdField = findViewById(R.id.emailIdField);
         main = findViewById(R.id.main);
-
+        SignUp_Valid.hideSoftKeyboard(SignUpActivity.this);
         //callBack for facebook
         callbackManager = CallbackManager.Factory.create();
 
-
+        setupUI(main);
         //Click listener on Login Text
         loginText.setOnClickListener(view -> {
             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-            finish();
         });
 
         //Click listener on Get started Button
@@ -195,7 +202,21 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-//    private void setFacebookData(LoginResult loginResult) {
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure want to exit?")
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
+    }
+    //    private void setFacebookData(LoginResult loginResult) {
 //
 //            GraphRequest request = GraphRequest.newMeRequest(
 //                    loginResult.getAccessToken(),
@@ -255,7 +276,7 @@ public class SignUpActivity extends AppCompatActivity {
         paramObject.addProperty("referral_code", "");
 
 
-        Call<SignUpGoogleResponse> call = RetrofitClient2
+        Call<SignUpGoogleResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
                 .signUpFacebook(paramObject.toString());
@@ -469,7 +490,7 @@ public class SignUpActivity extends AppCompatActivity {
         paramObject.addProperty("is_email_verified", true);
         paramObject.addProperty("referral_code", "");
 
-        Call<SignUpGoogleResponse> call = RetrofitClient2
+        Call<SignUpGoogleResponse> call = RetrofitClient
                 .getInstance()
                 .getApi().signUpGoogle(paramObject.toString());
         call.enqueue(new Callback<SignUpGoogleResponse>() {
@@ -610,5 +631,36 @@ public class SignUpActivity extends AppCompatActivity {
                 snackbar.show();
             }
         });
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(SignUpActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 }

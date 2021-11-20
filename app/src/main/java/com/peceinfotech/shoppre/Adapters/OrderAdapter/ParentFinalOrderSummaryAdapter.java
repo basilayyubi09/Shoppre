@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.Adapters.OrderAdapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,14 +35,18 @@ public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentF
         return new viewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
+        Order order = list.get(position);
 
-        holder.websiteName.setText(list.get(position).getStore().getName());
-        holder.personal.setText("₹ "+String.valueOf(list.get(position).getPersonalShopperCost()));
-        holder.additional.setText("₹ "+String.valueOf(list.get(position).getAdditionalCharges()));
+        holder.websiteName.setText(order.getStore().getName());
+        holder.personal.setText("₹ "+order.getPersonalShopperCost());
+        holder.additional.setText("₹ "+order.getAdditionalCharges());
+
         List<OrderItem> list1 = list.get(position).getOrderItems();
+
         ChildFinalOrderSummaryAdapter adapter = new ChildFinalOrderSummaryAdapter(list1 , context);
         if( position == getItemCount() - 1 ){
 

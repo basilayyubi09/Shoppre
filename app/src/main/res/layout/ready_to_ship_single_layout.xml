@@ -34,6 +34,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" (2)"
@@ -111,45 +112,25 @@
             android:textSize="8sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+
+            android:id="@+id/action"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal
+"
             android:layout_marginTop="5dp"
             android:background="@drawable/order_placed_background"
-            android:paddingHorizontal="9dp"
+
             android:paddingVertical="3dp"
             android:text="Action Required"
-            android:textColor="#F8B800"
+            android:textColor="@color/action_required_yellow_color"
             android:textFontWeight="500"
             android:textSize="9sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/price_changed_background"
-            android:paddingHorizontal="22dp"
-            android:paddingVertical="3dp"
-            android:text="In Review"
-            android:textColor="#0073FF"
-            android:textFontWeight="500"
-            android:textSize="9sp"
-            android:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/ready_to_ship_background"
-            android:paddingHorizontal="13dp"
-            android:paddingVertical="3dp"
-            android:text="Ready To Ship"
-            android:textColor="#00A781"
-            android:textFontWeight="500"
-            android:textSize="9sp"
-            android:visibility="gone" />
+
+
 
         <LinearLayout
             android:id="@+id/lockerViewMore"
@@ -178,7 +159,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:visibility="gone">
+            android:id="@+id/process"
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"

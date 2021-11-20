@@ -3,7 +3,9 @@ package com.peceinfotech.shoppre.OrderModuleResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
     @SerializedName("name")
     @Expose
     private String name;
@@ -28,6 +30,12 @@ public class Customer {
     @SerializedName("phone")
     @Expose
     private String phone;
+    @SerializedName("Country")
+    @Expose
+    private Object country;
+    @SerializedName("Locker")
+    @Expose
+    private Locker locker;
 
     public String getName() {
         return name;
@@ -91,5 +99,21 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Object getCountry() {
+        return country;
+    }
+
+    public void setCountry(Object country) {
+        this.country = country;
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
     }
 }

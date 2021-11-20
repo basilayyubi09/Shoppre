@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.DeleteOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -32,17 +33,21 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
     Order productItemList;
     Context context;
     SharedPrefManager sharedPrefManager;
+    Interface interfaceObject;
 
-    public CartItemsAdapter(Order productItemList, Context context) {
+
+
+    public CartItemsAdapter(Order productItemList, Context context , Interface interfaceObject) {
         this.productItemList = productItemList;
         this.context = context;
+        this.interfaceObject = interfaceObject;
     }
 
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cart_item_single_layout, parent, false);
-        return new viewHolder(view);
+        return new viewHolder(view , interfaceObject);
     }
 
     @Override
@@ -59,48 +64,23 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
         holder.productDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingDialog.showLoadingDialog(context, "");
-                callDeleteApi(position, productItemList.getId(), productItemList.getOrderItems().get(position).getId());
+                interfaceObject.delete(productItemList.getId() , productItemList.getOrderItems().get(position).getId());
+//                LoadingDialog.showLoadingDialog(context, "");
+//                callDeleteApi(position, productItemList.getId(), productItemList.getOrderItems().get(position).getId());
 
+            }
+        });
+
+        holder.productEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interfaceObject.getData(productItemList.getOrderItems().get(position) , productItemList.getId());
             }
         });
 
     }
 
-    private void callDeleteApi(int position, Integer id, Integer itemId) {
 
-//        Toast.makeText(context.getApplicationContext(), String.valueOf(itemId ), Toast.LENGTH_SHORT).show();
-        Call<List<DeleteOrderResponse>> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi().deleteOrder("Bearer " + sharedPrefManager.getBearerToken(),
-                        id, itemId);
-        call.enqueue(new Callback<List<DeleteOrderResponse>>() {
-            @Override
-            public void onResponse(Call<List<DeleteOrderResponse>> call, Response<List<DeleteOrderResponse>> response) {
-                if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    productItemList.getOrderItems().remove(position);
-                    notifyItemRemoved(position);
-
-                    notifyDataSetChanged();
-                    notifyItemRangeChanged(position, productItemList.getOrderItems().size());
-                    Toast.makeText(context.getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
-                } else if (response.code() == 401) {
-                    callRefreshTokenApi(position, id, itemId);
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(context.getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<DeleteOrderResponse>> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(context.getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     @Override
     public int getItemCount() {
@@ -111,10 +91,11 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
 
         TextView productSerialNo, productName, productQuantity, productPrice;
         ImageView productEditButton, productDeleteBtn;
+        Interface interfaceObject;
 
-        public viewHolder(@NonNull View itemView) {
+        public viewHolder(@NonNull View itemView, Interface interfaceObject) {
             super(itemView);
-
+            this.interfaceObject = interfaceObject;
             productSerialNo = itemView.findViewById(R.id.productSerialNo);
             productName = itemView.findViewById(R.id.productName);
             productQuantity = itemView.findViewById(R.id.productQuantity);
@@ -136,7 +117,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callDeleteApi(position, id, itemId);
+//                    callDeleteApi(position, id, itemId);
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(context.getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
@@ -150,5 +131,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
             }
         });
 
+    }
+    public interface Interface{
+        void getData(OrderItem order, Integer id);
+        void delete(Integer orderId, Integer itemId);
     }
 }

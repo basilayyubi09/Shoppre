@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.viewHolder> {
-    List<Order> list ;
+    List<Order> list;
     Context context;
     ArrayAdapter arrayAdapterDropdown;
 
@@ -38,7 +36,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
     final ArrayList<String> optionSelectList = new ArrayList<>(Arrays.asList(optionSelection));
 
-    public OrderSummaryAdapter(List<Order> list , Context context) {
+    public OrderSummaryAdapter(List<Order> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -46,7 +44,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.order_summary_single_layout , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.order_summary_single_layout, parent, false);
 
         return new viewHolder(view);
     }
@@ -56,7 +54,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
         holder.websiteName.setText(list.get(position).getStore().getName());
 
-        if( position == getItemCount() - 1 ){
+        if (position == getItemCount() - 1) {
 
             holder.view1.setVisibility(View.GONE);
 
@@ -64,13 +62,13 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 //        arrayAdapterDropdown = new ArrayAdapter(context, R.layout.option_selection_layout, optionSelection);
 //        holder.dropdown.setAdapter(arrayAdapterDropdown);
 
-        final ArrayAdapter<String> dropdownArrayAdapter = new ArrayAdapter<String>(context, R.layout.option_selection_layout, optionSelectList){
+        final ArrayAdapter<String> dropdownArrayAdapter = new ArrayAdapter<String>(context, R.layout.option_selection_layout, optionSelectList) {
 
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else {
+                } else {
                     return true;
                 }
             }
@@ -83,10 +81,10 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
                 TextView selectOptionTextView = (TextView) view;
 
-                if (position == 0){
+                if (position == 0) {
                     selectOptionTextView.setVisibility(View.INVISIBLE);
                     selectOptionTextView.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     selectOptionTextView.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -101,7 +99,7 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedText = (String) parent.getItemAtPosition(position);
 
-                if (position > 0){
+                if (position > 0) {
 
                 }
             }
@@ -111,7 +109,6 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
 
             }
         });
-
 
 
         holder.selectOptionLayout.setOnClickListener(new View.OnClickListener() {
@@ -127,11 +124,11 @@ public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapte
         return list.size();
     }
 
-    public static class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder {
         TextView websiteName;
         Spinner dropdown;
         LinearLayout selectOptionLayout;
-        EditText charges , instruction ;
+        EditText charges, instruction;
         View view1;
 
         public viewHolder(@NonNull View itemView) {

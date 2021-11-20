@@ -46,9 +46,8 @@ public class OrderSummaryFragment extends Fragment {
     MaterialButton orderSummaryProceedBtn;
     Integer id;
     String orderCode;
-    String additionalCharges;
-    String instruction;
-    String priceChange;
+    String[] ac , ins , pc ;
+    int flag = 0;
     Integer shoppreId;
 
     @Override
@@ -76,41 +75,56 @@ public class OrderSummaryFragment extends Fragment {
         adapter = new OrderSummaryAdapter(list, getActivity());
         recycle.setAdapter(adapter);
 
-
+        ins = new String[list.size()];
+        pc = new String[list.size()];
+        ac = new String[list.size()];
         orderSummaryProceedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                JsonArray jsonArray = new JsonArray();
                 for (int i = 0; i < list.size(); i++) {
                     View view1 = recycle.getChildAt(i);
 
                     Spinner spinner = view1.findViewById(R.id.dropdown);
-                    EditText editText = view1.findViewById(R.id.charges);
-                    EditText editText1 = view1.findViewById(R.id.instruction);
-                     id = list.get(i).getId();
+                    EditText charges = view1.findViewById(R.id.charges);
+                    EditText instructionField = view1.findViewById(R.id.instruction);
+
+                    id = list.get(i).getId();
                     orderCode = list.get(i).getOrderCode();
-                    additionalCharges = editText.getText().toString();
-                    instruction = editText1.getText().toString();
-                    priceChange = spinner.getSelectedItem().toString();
-                    if (priceChange.equals("Select an option")){
-                        priceChange = "";
-                    }
+                    ac[i] = charges.getText().toString();
+                    ins[i] = instructionField.getText().toString();
+
+
+                    pc[i] = spinner.getSelectedItem().toString();
+                        if (pc[i].equals("Select an option")){
+
+                            pc[i] = "";
+                        }
+                        if (ac[i].equals("")||ins[i].equals("")||pc[i].equals("")){
+                            flag = 0;
+                        }
+                        else {JsonObject jsonObject = new JsonObject();
+
+                        flag=1;
+                            jsonObject.addProperty("id",id);
+                            jsonObject.addProperty("order_code",orderCode);
+                            jsonObject.addProperty("additional_charges",Integer.parseInt(ac[i]));
+                            jsonObject.addProperty("instruction",ins[i]);
+                            jsonObject.addProperty("buy_if_price_changed",pc[i]);
+                            jsonArray.add(jsonObject);}
 
                 }
-                JsonArray jsonArray = new JsonArray();
-                JsonObject jsonObject = new JsonObject();
-                for (int i=0 ; i< list.size() ; i++) {
-                    jsonObject.addProperty("id",list.get(i).getId());
-                    jsonObject.addProperty("order_code",list.get(i).getOrderCode());
-                    jsonObject.addProperty("additional_charges",additionalCharges);
-                    jsonObject.addProperty("instruction",instruction);
-                    jsonObject.addProperty("buy_if_price_changed",priceChange);
-                    jsonArray.add(jsonObject);
 
+
+                if (flag==0){
+                    Toast.makeText(getActivity(), "Please fill all the details to continue", Toast.LENGTH_SHORT).show();
                 }
-                LoadingDialog.showLoadingDialog(getActivity() , "");
-                callSubmitOrderApi(jsonArray , list);
+                else {
+                    LoadingDialog.showLoadingDialog(getActivity() , "");
+                    callSubmitOrderApi(jsonArray , list);
+                }
+
             }
         });
 
@@ -118,9 +132,13 @@ public class OrderSummaryFragment extends Fragment {
     }
 
     private void callSubmitOrderApi(JsonArray jsonArray, List<Order> list) {
+
+
+
         Call<ResponseBody> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi().submitOrder("Bearer "+sharedPrefManager.getBearerToken(),jsonArray.toString() );
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

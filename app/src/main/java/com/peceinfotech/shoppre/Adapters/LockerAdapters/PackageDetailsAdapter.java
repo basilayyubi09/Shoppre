@@ -21,8 +21,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-import com.peceinfotech.shoppre.LockerModelResponse.PackageDetailsResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.PackageItem;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Locker.ReturnLanding;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
@@ -31,15 +32,15 @@ import com.peceinfotech.shoppre.Utils.ViewPhotoDialog;
 
 import java.util.List;
 
-public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAdapter.viewHolder>{
+public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAdapter.viewHolder> {
 
-    List<PackageDetailsResponse> list;
+    List<PackageItem> list;
     Context context;
     private PopupWindow mDropdown = null;
     SharedPrefManager sharedPrefManager = new SharedPrefManager(getApplicationContext());
     GetData getData;
 
-    public PackageDetailsAdapter(List<PackageDetailsResponse> list, Context context, GetData getData) {
+    public PackageDetailsAdapter(List<PackageItem> list, Context context, GetData getData) {
         this.list = list;
         this.context = context;
         this.getData = getData;
@@ -54,13 +55,16 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        PackageDetailsResponse packageDetailsResponse = list.get(position);
-
+        PackageItem packageDetailsResponse = list.get(position);
+        String url = (String) packageDetailsResponse.getUrl();
         holder.packageItemImage.getDrawable();
-        holder.packageItemName.setText(packageDetailsResponse.getPackageItemName());
-        holder.packageItemId.setText(packageDetailsResponse.getPackageItemId());
-        holder.packageQuantity.setText(packageDetailsResponse.getPackageItemQuantity());
-        holder.packageItemPrice.setText(packageDetailsResponse.getPackageItemPrice());
+        holder.packageItemName.setText(packageDetailsResponse.getName());
+        holder.packageItemId.setText("Item ID: #"+String.valueOf(packageDetailsResponse.getId()));
+        holder.packageQuantity.setText("Qty:"+String.valueOf(packageDetailsResponse.getQuantity()));
+        Glide.with(context)
+                .load(url)
+                .into(holder.packageItemImage);
+        holder.packageItemPrice.setText(String.valueOf(packageDetailsResponse.getPriceAmount()));
 
 
         holder.three_dots.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +78,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        switch (item.getItemId()){
+                        switch (item.getItemId()) {
                             case R.id.return_menu:
                                 Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
 
@@ -103,11 +107,11 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                     }
 
                     private void showDialog() {
-                            final Dialog dialog = new Dialog(context);
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setCancelable(true);
-                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            dialog.setContentView(R.layout.return_item_dialog_box);
+                        final Dialog dialog = new Dialog(context);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(true);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.setContentView(R.layout.return_item_dialog_box);
 
                         MaterialButton addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
 
@@ -115,7 +119,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                             @Override
                             public void onClick(View v) {
 
-                               getData.dotsVisiblity();
+                                getData.dotsVisiblity();
 
                                 dialog.dismiss();
 
@@ -123,9 +127,9 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         });
 
 
-                            dialog.show();
+                        dialog.show();
 
-                        }
+                    }
                 });
                 popupMenu.show();
 
@@ -143,9 +147,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         });
 
 
-
     }
-
 
 
     @Override
@@ -153,7 +155,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         ImageView packageItemImage, editPackageItem, three_dots ;
         TextView packageItemName, packageItemId, packageQuantity, packageItemPrice, viewPhotoBtn;
@@ -179,7 +181,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
     }
 
-    public interface GetData{
+    public interface GetData {
         void dotsVisiblity();
     }
 

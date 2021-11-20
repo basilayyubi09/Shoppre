@@ -104,27 +104,7 @@ public class ViewOrderPersonalShop extends Fragment {
             public void onResponse(Call<ShowOrderResponse> call, Response<ShowOrderResponse> response) {
                 if (response.code() == 200) {
 
-
-//                    //Create object of class
-//                    OrderDetails orderDetails = new OrderDetails();
-//
-//                    //create object of Bundle
-//                    Bundle bundle1 = new Bundle();
-//
-//                    //set Serializable
-//                    bundle1.putSerializable("order" , (Serializable) response.body().getOrderItems());
-//
-//                    orderDetails.setArguments(bundle1);
-//                    viewPagerAdapter.addFragment(orderDetails, "Order Details");
-//                    viewPagerAdapter.addFragment(new OrderUpdates(), "Order Updates");
-//                    viewOrderViewPager.setAdapter(viewPagerAdapter);
-//                    viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
-
                     addTextToFields(response.body());
-
-
-
-
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {

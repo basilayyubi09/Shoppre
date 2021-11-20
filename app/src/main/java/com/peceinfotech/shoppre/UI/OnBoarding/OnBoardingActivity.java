@@ -1,5 +1,7 @@
 package com.peceinfotech.shoppre.UI.OnBoarding;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,7 +52,25 @@ public class OnBoardingActivity extends AppCompatActivity {
         }
 
     }
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount()>0){
+            super.onBackPressed();
+        }
+        else {
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure want to exit?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No",null)
+                    .show();
+        }
 
+    }
 //    private void callMeApi() {
 //        String bearer = sharedPrefManager.getBearerToken();
 //        Toast.makeText(getApplicationContext(), "Bearer " + bearer, Toast.LENGTH_SHORT).show();

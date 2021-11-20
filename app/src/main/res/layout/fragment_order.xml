@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:background="@color/box_background_color"
     tools:context=".UI.Orders.OrderFragments.OrderFragment">
 
@@ -29,6 +30,7 @@
                     android:layout_height="200dp">
 
                 </com.google.android.exoplayer2.ui.PlayerView>
+
 
                 <androidx.cardview.widget.CardView
                     android:visibility="gone"
@@ -70,7 +72,7 @@
                                 android:layout_marginLeft="19dp"
                                 android:layout_marginTop="4dp"
                                 android:background="@drawable/edittext_bg"
-                                android:hint="Enter referal code"
+                                android:hint="Enter referral code"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:paddingLeft="10dp"

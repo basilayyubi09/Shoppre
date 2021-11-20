@@ -1,5 +1,7 @@
 package com.peceinfotech.shoppre.UI.Orders;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -284,7 +286,26 @@ public class OrderActivity extends AppCompatActivity{
         });
 
     }
+    @Override
+    public void onBackPressed() {
+        if (fragmentManager.getBackStackEntryCount()>0){
+            super.onBackPressed();
+        }
+        else {
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure want to exit?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No",null)
+                    .show();
+        }
 
+    }
     private void internetCheck() {
 
         if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available

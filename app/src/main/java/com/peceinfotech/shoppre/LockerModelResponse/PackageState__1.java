@@ -1,18 +1,15 @@
-package com.peceinfotech.shoppre.OrderModuleResponses;
+package com.peceinfotech.shoppre.LockerModelResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class State__1 implements Serializable {
-
+public class PackageState__1 {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("name")
+    @SerializedName("state_id")
     @Expose
-    private String name;
+    private Integer stateId;
 
     public Integer getId() {
         return id;
@@ -22,11 +19,11 @@ public class State__1 implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getStateId() {
+        return stateId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStateId(Integer stateId) {
+        this.stateId = stateId;
     }
 }

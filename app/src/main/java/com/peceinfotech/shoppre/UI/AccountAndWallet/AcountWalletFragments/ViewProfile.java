@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -52,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,7 +59,7 @@ public class ViewProfile extends Fragment {
     MaterialAutoCompleteTextView ccpSpinners, titleSpinner;
     MaterialCardView redBoxText;
     MaterialButton logoutBtn, inviteBtn, updateBtn;
-    EditText fullNameEditText, phoneNumberEditText, updateProfileEmail;
+    EditText fullNameEditText, phoneNumberEditText;
     TextInputLayout updateProfileNumber;
     LinearLayout viewProfileWalletText;
     ImageView profileImage;
@@ -75,7 +72,7 @@ public class ViewProfile extends Fragment {
     //For Title Spinner
     String[] title = new String[]{"Title", "Mr", "Ms", "Mrs"};
     String email, phoneNumber, name, ccp, titleText ;
-    TextView nameError, emailError, numberError, unverified, emailWrong;
+    TextView nameError, emailError, numberError, unverified, emailWrong ,updateProfileEmail;
 
     char firstLetter;
     TextDrawable textDrawable;
@@ -588,7 +585,7 @@ public class ViewProfile extends Fragment {
 
     public boolean validateSalutation() {
 
-        if (titleText.equals("")) {
+        if (titleText.equals("Ti")) {
             salutationError.setVisibility(View.VISIBLE);
 
             return false;

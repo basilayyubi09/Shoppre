@@ -3,9 +3,10 @@ package com.peceinfotech.shoppre.OrderModuleResponses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
     @SerializedName("total_quantity")
     @Expose
     private Integer totalQuantity;

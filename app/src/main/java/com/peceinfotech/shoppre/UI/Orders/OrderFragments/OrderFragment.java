@@ -1,24 +1,30 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonArray;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
@@ -31,20 +37,27 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Orders.CancelledOrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,6 +70,7 @@ public class OrderFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
+    FrameLayout main;
     TextView bannerVirtualAddress;
 
 
@@ -81,6 +95,7 @@ public class OrderFragment extends Fragment {
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         banner = view.findViewById(R.id.banner);
+        main = view.findViewById(R.id.main);
         forgetSomething = view.findViewById(R.id.forgetSomething);
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
@@ -99,7 +114,7 @@ public class OrderFragment extends Fragment {
 
         list = new ArrayList<>();
 
-
+        setupUI(main);
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
@@ -196,10 +211,11 @@ public class OrderFragment extends Fragment {
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                LandingDialog alert = new LandingDialog();
-//                alert.showDialog(getActivity());
-                LoadingDialog.showLoadingDialog(getActivity(), "");
-                callVerifyEmailId();
+
+
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
+                        .addToBackStack(null).commit();
             }
         });
 
@@ -255,9 +271,14 @@ public class OrderFragment extends Fragment {
         return view;
     }
 
+
+
+
     private void callGetOrderListing() {
         Call<OrderListingResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().getOrderListing("Bearer " + sharedPrefManager.getBearerToken());
+
+        Log.i("TAG", "callGetOrderListing:bearer "+ sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<OrderListingResponse>() {
             @Override
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
@@ -274,7 +295,7 @@ public class OrderFragment extends Fragment {
                         sevenDay.setVisibility(View.VISIBLE);
                     }
 
-                    if (response.body().getPendingOrders().size() != 0) {
+                    if (response.body().getPendingOrders().size()>0) {
                         id = response.body().getPendingOrders().get(0).getId();
                         shoppreId = response.body().getPendingOrders().get(0).getShopperOrderId();
                          orderState = response.body().getPendingOrders().get(0).getOrderState();
@@ -493,35 +514,38 @@ public class OrderFragment extends Fragment {
 
     }
 
-    private void callVerifyEmailId() {
-        Call<VerifyEmailResponse> call = RetrofitClient.getInstance()
-                .getApi().getVerify("Bearer " + sharedPrefManager.getBearerToken(), sharedPrefManager.getId());
-        call.enqueue(new Callback<VerifyEmailResponse>() {
-            @Override
-            public void onResponse(Call<VerifyEmailResponse> call, Response<VerifyEmailResponse> response) {
-                if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Verification link has sent to your email.", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if (response.code() == 403) {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
 
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
                 }
-            }
+            });
+        }
 
-            @Override
-            public void onFailure(Call<VerifyEmailResponse> call, Throwable t) {
-
-                LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
-                snackbar.show();
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
             }
-        });
+        }
     }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
+
 }

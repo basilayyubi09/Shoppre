@@ -1,20 +1,23 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +35,18 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CartGroupAdapter;
+import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.CartModelResponse;
+import com.peceinfotech.shoppre.OrderModuleResponses.DeleteOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
+import com.peceinfotech.shoppre.OrderModuleResponses.OrderItem;
+import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -56,32 +64,38 @@ import retrofit2.Response;
 public class EmptyCart extends Fragment {
 
     SharedPrefManager sharedPrefManager;
-    RecyclerView cartRecycler;
-    CardView itemCartCard, productCartCard;
+    RecyclerView cartRecycler, productItemRecycler;
+    CardView itemCartCard, productCartCard ;
     ImageView downwardTriangle, upwardTriangle;
     MaterialButton proceedToCartBtn;
     int flag = 1;
-    MaterialCardView liquidCard;
+    MaterialCardView liquidCard, ePharmacy , dontPlace;
     List<Order> list = new ArrayList<>();
     LinearLayout dropdownLayout, addMore;
-    TextView selectField, orderTotal, shoppreFee, total;
+    TextView orderTotal, shoppreFee, total;
     String url, name, color, size, price, countString, selectedString;
     EditText urlField, nameField, colorField, priceField, sizeField;
-    TextView minus, plus, countField;
+    TextView minus, plus, countField ;
     MaterialCheckBox check;
     int count = 1, id;
+    boolean isUpdate = false;
     boolean isLiquid = false;
-    TextView productCount;
+    boolean goNext = false;
+    TextView productCount, addMoreText;
     ImageView cartImage;
+    CartGroupAdapter cartGroupAdapter;
     FrameLayout badgeCartImage;
     Integer productCountInt = 0;
+    OrderItem orderFromAdapter;
     TextView badgeTextView, selectAnOptionTextView;
     MaterialCardView fifteen;
+    FrameLayout main;
     Spinner selectAnOptionSpinner;
+    Integer orderId, deleteOrderId, deleteItemId;
 
     String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other available items            ", "Cancel all the items from this site"};
 
-    int badgeNumber = 0;
+
 
 
     @Override
@@ -97,10 +111,16 @@ public class EmptyCart extends Fragment {
         itemCartCard = view.findViewById(R.id.itemInCartCard);
         productCartCard = view.findViewById(R.id.productCard);
         orderTotal = view.findViewById(R.id.orderTotal);
+        main = view.findViewById(R.id.main);
+        ePharmacy = view.findViewById(R.id.ePharmacy);
+        dontPlace = view.findViewById(R.id.dontPlace);
+        addMoreText = view.findViewById(R.id.addMoreText);
         shoppreFee = view.findViewById(R.id.shoppreFee);
         total = view.findViewById(R.id.total);
+        productItemRecycler = view.findViewById(R.id.productItemRecycler);
         addMore = view.findViewById(R.id.addMore);
         fifteen = view.findViewById(R.id.fifteen);
+
         productCount = view.findViewById(R.id.productCount);
         liquidCard = view.findViewById(R.id.liquidCard);
         downwardTriangle = view.findViewById(R.id.downwardTriangle);
@@ -124,18 +144,16 @@ public class EmptyCart extends Fragment {
         badgeTextView = view.findViewById(R.id.badgeTextView);
         selectAnOptionTextView = view.findViewById(R.id.selectAnOptionTextView);
 
-
-
-
+        setupUI(main);
         final List<String> selectAnOptionList = new ArrayList<>(Arrays.asList(selectAnOptionSpinnerItems));
 
-        final ArrayAdapter<String> selectAnOptionAdapter = new ArrayAdapter<String>(getContext(), R.layout.select_an_option_spinner_text, selectAnOptionList){
+        final ArrayAdapter<String> selectAnOptionAdapter = new ArrayAdapter<String>(getContext(), R.layout.select_an_option_spinner_text, selectAnOptionList) {
 
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else {
+                } else {
                     return true;
                 }
             }
@@ -145,22 +163,42 @@ public class EmptyCart extends Fragment {
                 View view = super.getDropDownView(position, convertView, parent);
 
                 TextView selectAnOptionTextView = (TextView) view;
-                if (position == 0){
+                if (position == 0) {
                     selectAnOptionTextView.setVisibility(View.GONE);
                     selectAnOptionTextView.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     selectAnOptionTextView.setTextColor(Color.BLACK);
                 }
                 return view;
             }
         };
+
+        urlField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length()>0){
+
+                    callVerifyLinkApi(s);
+                }
+
+            }
+        });
         selectAnOptionAdapter.setDropDownViewResource(R.layout.select_an_option_spinner_text);
         selectAnOptionSpinner.setAdapter(selectAnOptionAdapter);
 
         selectAnOptionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position>0){
+                if (position > 0) {
 //                    Toast.makeText(getContext(), String.valueOf(parent.getItemAtPosition(position)), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -179,7 +217,6 @@ public class EmptyCart extends Fragment {
         });
 
 
-
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             String type = bundle.getString("type");
@@ -188,6 +225,7 @@ public class EmptyCart extends Fragment {
 
             } else {
                 id = bundle.getInt("id");
+                LoadingDialog.showLoadingDialog(getActivity(), "");
                 callCartApi(id);
             }
 
@@ -203,7 +241,6 @@ public class EmptyCart extends Fragment {
         });
 
         count = Integer.parseInt(String.valueOf(countString));
-
 
 
         plus.setOnClickListener(v -> {
@@ -249,7 +286,7 @@ public class EmptyCart extends Fragment {
             @Override
             public void onClick(View v) {
                 getTextFromFields();
-                if (!validateUrl() || !validateName() || !validatePrice()) {
+                if (!validateUrl() || !validateName() || !validatePrice() || !validateString()) {
                     return;
                 } else {
 
@@ -262,13 +299,28 @@ public class EmptyCart extends Fragment {
 //                        OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderSummaryFragment(), null)
 //                                .addToBackStack(null).commit();
 
-                        if (productCountInt > 15){
-                            fifteen.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            fifteen.setVisibility(View.GONE);
-                            LoadingDialog.showLoadingDialog(getActivity(), "");
-                            callAddOrderApi();
+                        if (isUpdate) {
+                            if (goNext){
+                                callUpdateOrder();
+                            }
+                            else {
+
+                            }
+
+
+                        } else {
+                            if (productCountInt > 15) {
+                                fifteen.setVisibility(View.VISIBLE);
+                            } else {
+                                if (goNext) {
+                                    fifteen.setVisibility(View.GONE);
+                                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                                    callAddOrderApi();
+                                }
+                                else {
+
+                                }
+                            }
                         }
 
                     }
@@ -281,20 +333,67 @@ public class EmptyCart extends Fragment {
         proceedToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!list.isEmpty()){
+                if (!list.isEmpty()) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("list" , (Serializable) list);
-                    bundle.putInt("id" , id);
+                    bundle.putSerializable("list", (Serializable) list);
+                    bundle.putInt("id", id);
                     OrderSummaryFragment orderSummaryFragment = new OrderSummaryFragment();
                     orderSummaryFragment.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, orderSummaryFragment, null)
-                                .addToBackStack(null).commit();
+                            .addToBackStack(null).commit();
 
                 }
             }
         });
+
+
         return view;
     }
+
+    private void callVerifyLinkApi(Editable s) {
+        String abcd = "="+urlField.getText().toString();
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        Call<VerifyLinkResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().verifyLink(abcd);
+        call.enqueue(new Callback<VerifyLinkResponse>() {
+            @Override
+            public void onResponse(Call<VerifyLinkResponse> call, Response<VerifyLinkResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    if (response.body().getStore()==null){
+                        dontPlace.setVisibility(View.VISIBLE);
+                        goNext = false;
+
+                    }
+                   else if (response.body().getStore().getIsEPharmacy()!=null){
+                        Toast.makeText(getActivity(), " pharmacy", Toast.LENGTH_SHORT).show();
+                        dontPlace.setVisibility(View.GONE);
+                        ePharmacy.setVisibility(View.VISIBLE);
+                        goNext = true;
+                    }
+                   else {
+                       goNext = true;
+                       dontPlace.setVisibility(View.GONE);
+                       ePharmacy.setVisibility(View.GONE);
+                    }
+
+
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VerifyLinkResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     private void callCartApi(int id) {
         Call<CartModelResponse> call = RetrofitClient3
@@ -304,39 +403,87 @@ public class EmptyCart extends Fragment {
             @Override
             public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
                 if (response.code() == 200) {
-                    list = response.body().getOrders();
-                    if (!list.isEmpty()){
 
+                    list = response.body().getOrders();
+
+                    if (!list.isEmpty()) {
+                         cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
+                            @Override
+                            public void second(OrderItem order, Integer id) {
+                                LoadingDialog.cancelLoading();
+                                orderFromAdapter = order;
+                                orderId = id;
+                                setdata();
+
+                            }
+
+                            @Override
+                            public void delete(Integer orderId, Integer itemId) {
+                                deleteOrderId = orderId;
+                                deleteItemId = itemId;
+                                LoadingDialog.showLoadingDialog(getActivity(), "");
+                                callDeleteApi();
+                            }
+                        });
+                        cartRecycler.setAdapter(cartGroupAdapter);
+                        cartGroupAdapter.notifyDataSetChanged();
+                        productCartCard.setVisibility(View.VISIBLE);
+                        upwardTriangle.setVisibility(View.VISIBLE);
+                        downwardTriangle.setVisibility(View.GONE);
                         cartImage.setVisibility(View.GONE);
                         badgeCartImage.setVisibility(View.VISIBLE);
 
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.button_blue)));
+                        int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0, totalBadgeQuantity = 0;
+                        for (int i = 0; i < list.size(); i++) {
+
+                            totalBadgeQuantity = totalBadgeQuantity + list.get(i).getOrderItems().size();
+                            totalCount = totalCount + list.get(i).getSubTotal();
+                            shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
+                            orderTotalCount = orderTotalCount + list.get(i).getPriceAmount();
+                            productCountInt = list.get(i).getOrderItems().size();
+                            productCount.setText(String.valueOf(totalBadgeQuantity + 1));
+
+                        }
+                        badgeTextView.setText(String.valueOf(totalBadgeQuantity));
+                        total.setText(String.valueOf("₹ " + totalCount));
+                        shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                        orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                        clearFields();
+                        View targetView = itemCartCard;
+                        targetView.getParent().requestChildFocus(targetView, targetView);
+
                     }
-                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
-                    cartRecycler.setAdapter(cartGroupAdapter);
-                    cartGroupAdapter.notifyDataSetChanged();
-                    productCartCard.setVisibility(View.VISIBLE);
-                    upwardTriangle.setVisibility(View.VISIBLE);
-                    downwardTriangle.setVisibility(View.GONE);
+                    else {
+                        cartGroupAdapter = new CartGroupAdapter(list, getActivity(), new CartGroupAdapter.SecondInterface() {
+                            @Override
+                            public void second(OrderItem order, Integer id) {
 
+                            }
 
-                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0 , totalBadgeQuantity = 0;
-                    for (int i = 0; i < list.size(); i++) {
+                            @Override
+                            public void delete(Integer orderId, Integer itemId) {
 
-                        totalBadgeQuantity = totalBadgeQuantity+response.body().getOrders().get(i).getTotalQuantity();
-                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
-                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
-                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                            }
+                        });
+                        cartRecycler.setAdapter(cartGroupAdapter);
+                        productCountInt = 1;
+                        productCount.setText(String.valueOf(1));
+                        badgeTextView.setText(String.valueOf(0));
+                        total.setText(String.valueOf("₹ " + 00));
+                        shoppreFee.setText("₹ " + String.valueOf(00));
+                        orderTotal.setText("₹ " + String.valueOf(00));
+                        productCartCard.setVisibility(View.GONE);
+                        upwardTriangle.setVisibility(View.GONE);
+                        downwardTriangle.setVisibility(View.VISIBLE);
+                        cartImage.setVisibility(View.VISIBLE);
+                        badgeCartImage.setVisibility(View.GONE);
+                        proceedToCartBtn.setEnabled(false);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
                     }
-                    productCountInt = totalBadgeQuantity;
-                    productCount.setText(String.valueOf(productCountInt+1));
-                    Toast.makeText(getActivity(), String.valueOf(productCountInt), Toast.LENGTH_SHORT).show();
-                    badgeTextView.setText(String.valueOf(list.size()));
-                    total.setText(String.valueOf("₹ " + totalCount));
-                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
-                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
                     LoadingDialog.cancelLoading();
+
                 } else if (response.code() == 401) {
                     callRefreshTokenApi("cart");
                 } else {
@@ -358,6 +505,7 @@ public class EmptyCart extends Fragment {
 
     private void callAddOrderApi() {
 
+        isUpdate = false;
         /*
         "color": "Black",
                 "if_item_unavailable": "Cancel this item, purchase all other available items",
@@ -398,14 +546,26 @@ public class EmptyCart extends Fragment {
 
                     list = response.body().getOrders();
 //                    id = list.get(0).getId();
-                    if (!list.isEmpty()){
+                    if (!list.isEmpty()) {
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
-                    }
+                        CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
+                        @Override
+                        public void second(OrderItem order, Integer id) {
+                            orderFromAdapter = order;
+                            orderId = id;
 
+                            setdata();
+                        }
 
-
-                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext());
+                        @Override
+                        public void delete(Integer orderId, Integer itemId) {
+                            deleteOrderId = orderId;
+                            deleteItemId = itemId;
+                            LoadingDialog.showLoadingDialog(getActivity(), "");
+                            callDeleteApi();
+                        }
+                    });
                     cartRecycler.setAdapter(cartGroupAdapter);
                     cartGroupAdapter.notifyDataSetChanged();
 
@@ -415,22 +575,54 @@ public class EmptyCart extends Fragment {
                     cartImage.setVisibility(View.GONE);
                     badgeCartImage.setVisibility(View.VISIBLE);
 
-                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0 ;
-                    Integer  totalBadgeQuantity = 0;
-                    for (int i = 0; i < list.size(); i++) {
+                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                    Integer totalBadgeQuantity = 0;
+                        for (int i = 0; i < list.size(); i++) {
 
-                        totalBadgeQuantity = totalBadgeQuantity+response.body().getOrders().get(i).getTotalQuantity();
-                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
-                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
-                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
-                    }
-                    productCountInt = totalBadgeQuantity;
-                    productCount.setText(String.valueOf(productCountInt+1));
-                    badgeTextView.setText(String.valueOf(totalBadgeQuantity));
-                    total.setText(String.valueOf("₹ " + totalCount));
-                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
-                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                            totalBadgeQuantity = totalBadgeQuantity + list.get(i).getOrderItems().size();
+                            totalCount = totalCount + list.get(i).getSubTotal();
+                            shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
+                            orderTotalCount = orderTotalCount + list.get(i).getPriceAmount();
+                            productCountInt = list.get(i).getOrderItems().size();
+                            productCount.setText(String.valueOf(totalBadgeQuantity + 1));
+
+                        }
+                        badgeTextView.setText(String.valueOf(totalBadgeQuantity));
+                        total.setText(String.valueOf("₹ " + totalCount));
+                        shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                        orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
                     clearFields();
+                    }
+                    else {
+                        cartGroupAdapter = new CartGroupAdapter(list, getActivity(), new CartGroupAdapter.SecondInterface() {
+                            @Override
+                            public void second(OrderItem order, Integer id) {
+
+                            }
+
+                            @Override
+                            public void delete(Integer orderId, Integer itemId) {
+
+                            }
+                        });
+                        cartRecycler.setAdapter(cartGroupAdapter);
+                        productCountInt = 1;
+                        productCount.setText(String.valueOf(1));
+                        badgeTextView.setText(String.valueOf(0));
+                        total.setText(String.valueOf("₹ " + 00));
+                        shoppreFee.setText("₹ " + String.valueOf(00));
+                        orderTotal.setText("₹ " + String.valueOf(00));
+                        productCartCard.setVisibility(View.GONE);
+                        upwardTriangle.setVisibility(View.GONE);
+                        downwardTriangle.setVisibility(View.VISIBLE);
+                        cartImage.setVisibility(View.VISIBLE);
+                        badgeCartImage.setVisibility(View.GONE);
+                        proceedToCartBtn.setEnabled(false);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
+                    }
+
+
+
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
@@ -453,14 +645,143 @@ public class EmptyCart extends Fragment {
         });
     }
 
+    private void setdata() {
+        View targetView = priceField;
+        targetView.getParent().requestChildFocus(targetView, targetView);
+        addMoreText.setText("Update Product");
+        isUpdate = true;
+        urlField.setText(orderFromAdapter.getUrl());
+        nameField.setText(orderFromAdapter.getName());
+        sizeField.setText(orderFromAdapter.getSize());
+        colorField.setText(orderFromAdapter.getColor());
+        priceField.setText(String.valueOf(orderFromAdapter.getPriceAmount()));
+        countField.setText(String.valueOf(orderFromAdapter.getQuantity()));
+        check.setChecked(false);
+
+    }
+
+    private void callDeleteApi() {
+
+//        Toast.makeText(context.getApplicationContext(), String.valueOf(itemId ), Toast.LENGTH_SHORT).show();
+        Call<List<DeleteOrderResponse>> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().deleteOrder("Bearer " + sharedPrefManager.getBearerToken(),
+                        deleteOrderId, deleteItemId);
+        call.enqueue(new Callback<List<DeleteOrderResponse>>() {
+            @Override
+            public void onResponse(Call<List<DeleteOrderResponse>> call, Response<List<DeleteOrderResponse>> response) {
+                if (response.code() == 200) {
+
+
+                    callCartApi(id);
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DeleteOrderResponse>> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void callUpdateOrder() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        getTextFromFields();
+//        {
+//            "color": "Blue",
+//                "id": 502,
+//                "if_item_unavailable": "Cancel this item, purchase all other available items",
+//                "is_liquid": null,
+//                "name": "men dress",
+//                "order_id": 366,
+//                "price_amount": 300,
+//                "quantity": 1,
+//                "size": "s",
+//                "url": "https://www.amazo"
+//        }
+        JsonObject object = new JsonObject();
+
+        object.addProperty("color", color);
+        object.addProperty("id", orderFromAdapter.getId());
+        object.addProperty("if_item_unavailable", selectedString);
+        object.addProperty("is_liquid", isLiquid);
+        object.addProperty("name", name);
+        object.addProperty("order_id", orderId);
+        object.addProperty("price_amount", price);
+        object.addProperty("quantity", countString);
+        object.addProperty("size", size);
+        object.addProperty("url", url);
+        Call<UpdateOrderResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().updateOrder("Bearer " + sharedPrefManager.getBearerToken(), String.valueOf(orderId), object.toString());
+        call.enqueue(new Callback<UpdateOrderResponse>() {
+            @Override
+            public void onResponse(Call<UpdateOrderResponse> call, Response<UpdateOrderResponse> response) {
+                if (response.code() == 200) {
+                    isUpdate = false;
+                    addMoreText.setText("Add More Product");
+                    callCartApi(id);
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("update");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateOrderResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
     private void clearFields() {
-         urlField.setText("");
+        urlField.setText("");
         nameField.setText("");
         sizeField.setText("");
         colorField.setText("");
         priceField.setText("");
         countField.setText("1");
         check.setChecked(false);
+        final List<String> selectAnOptionList = new ArrayList<>(Arrays.asList(selectAnOptionSpinnerItems));
+
+        final ArrayAdapter<String> selectAnOptionAdapter = new ArrayAdapter<String>(getContext(), R.layout.select_an_option_spinner_text, selectAnOptionList) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+
+                TextView selectAnOptionTextView = (TextView) view;
+                if (position == 0) {
+                    selectAnOptionTextView.setVisibility(View.GONE);
+                    selectAnOptionTextView.setTextColor(Color.GRAY);
+                } else {
+                    selectAnOptionTextView.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        selectAnOptionAdapter.setDropDownViewResource(R.layout.select_an_option_spinner_text);
+        selectAnOptionSpinner.setAdapter(selectAnOptionAdapter);
     }
 
     private void callRefreshTokenApi(String code) {
@@ -478,6 +799,10 @@ public class EmptyCart extends Fragment {
                         callAddOrderApi();
                     } else if (code.equals("cart")) {
                         callCartApi(id);
+                    } else if (code.equals("update")) {
+                        callUpdateOrder();
+                    } else if (code.equals("delete")) {
+                        callDeleteApi();
                     }
 
                 } else {
@@ -506,6 +831,7 @@ public class EmptyCart extends Fragment {
         price = priceField.getText().toString();
         countString = countField.getText().toString();
         selectedString = selectAnOptionSpinner.getSelectedItem().toString();
+
         if (check.isChecked()) {
             isLiquid = true;
 
@@ -530,6 +856,18 @@ public class EmptyCart extends Fragment {
             return true;
         }
 
+    }
+
+    private boolean validateString() {
+        if (selectedString.equals("Select an option")) {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Select one Option", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
+            return false;
+        } else {
+
+            return true;
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -561,5 +899,36 @@ public class EmptyCart extends Fragment {
             return true;
         }
 
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 }
