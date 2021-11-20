@@ -78,6 +78,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lineHeight="17sp"
+                                android:layout_marginRight="5dp"
                                 android:text="SA-976-6767"
                                 android:textColor="@color/black"
                                 android:textFontWeight="600"

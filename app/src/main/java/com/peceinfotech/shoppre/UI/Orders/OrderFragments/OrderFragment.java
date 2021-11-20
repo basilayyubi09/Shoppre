@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
@@ -91,7 +95,11 @@ public class OrderFragment extends Fragment {
         shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
+
+
         list = new ArrayList<>();
+
+
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
