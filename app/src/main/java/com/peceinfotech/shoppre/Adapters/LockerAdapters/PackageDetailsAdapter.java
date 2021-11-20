@@ -26,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageItem;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Locker.ReturnLanding;
+import com.peceinfotech.shoppre.UI.Locker.ShipWithinIndiaFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 import com.peceinfotech.shoppre.Utils.ViewPhotoDialog;
@@ -99,7 +100,10 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                                 Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.ship_to_india:
-                                Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipWithinIndiaFragment(), null)
+                                        .addToBackStack(null).commit();
+
                                 break;
                         }
 

@@ -6,9 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Locker.ShipWithinIndiaFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -293,6 +297,7 @@
             android:layout_marginHorizontal="21dp"
             android:layout_marginTop="23dp"
             app:cardCornerRadius="10dp"
+            android:layout_marginBottom="28dp"
             app:cardElevation="4dp">
 
             <LinearLayout
@@ -312,187 +317,216 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
-
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="22dp"
-                            android:layout_marginBottom="14dp"
-                            android:layout_marginHorizontal="16dp">
-
+                            android:layout_marginTop="49dp"
+                            android:layout_marginLeft="20dp">
 
                             <RadioButton
-                                android:id="@+id/addressRadioBtn"
                                 android:layout_width="26dp"
-                                android:layout_height="22dp"
-                                android:layout_marginTop="5dp"
-                                android:padding="0dp" />
-
+                                android:layout_height="22dp"/>
 
                             <LinearLayout
-                                android:layout_width="150dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_marginLeft="15dp">
-
+                                android:layout_marginLeft="20dp"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Deliver To"
                                     android:textColor="@color/black"
-                                    android:textFontWeight="400"
-                                    android:textSize="12sp" />
-
+                                    android:textSize="10sp"
+                                    android:textFontWeight="400"/>
 
                                 <TextView
-                                    android:id="@+id/deliverToName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Nikkitha Shanker"
                                     android:textColor="@color/black"
-                                    android:textFontWeight="400"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Deliver Address"
-                                    android:textColor="@color/black"
-                                    android:layout_marginTop="12dp"
-                                    android:textFontWeight="400"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/line1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="12dp"
-                                    android:text="Line 1"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="500"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/state"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="12dp"
-                                    android:text="State"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="500"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/country"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="12dp"
-                                    android:text="Country"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="500"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:id="@+id/edit"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="12dp"
-                                        android:layout_marginRight="12dp"
-                                        android:text="@string/edit"
-                                        android:textColor="#3A5FD8"
-                                        android:textFontWeight="500"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/delete"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="12dp"
-                                        android:layout_marginRight="12dp"
-                                        android:text="@string/delete"
-                                        android:textColor="#3A5FD8"
-                                        android:textFontWeight="500"
-                                        android:textSize="12sp"
-                                        android:textStyle="bold" />
-
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/defaultButton"
-                                    android:layout_width="72dp"
-                                    android:layout_height="18dp"
-                                    android:backgroundTint="#E5E5E5"
-                                    android:insetTop="0dp"
-                                    android:insetBottom="0dp"
-                                    android:text="Default"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/black"
-                                    android:textSize="8sp"
-                                    app:cornerRadius="6dp"
-                                    app:elevation="0dp"
-                                    />
-
+                                    android:textSize="10sp"
+                                    android:textFontWeight="500"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Contact Number"
-                                    android:layout_marginTop="16dp"
-                                    android:textColor="@color/black"
+                                    android:textSize="10sp"
                                     android:textFontWeight="400"
-                                    android:textSize="12sp" />
+                                    android:layout_marginTop="32dp"
+                                    android:textColor="@color/black"/>
+
 
                                 <TextView
-                                    android:id="@+id/deliverToContact"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="+9714702 4444"
-                                    android:layout_marginRight="14dp"
                                     android:textColor="@color/black"
-                                    android:textFontWeight="400"
-                                    android:textSize="12sp" />
-
-
+                                    android:textSize="10sp"
+                                    android:textFontWeight="500"/>
 
 
                             </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="26dp"
+                        android:orientation="vertical">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/defaultButton"
+                        android:layout_width="72dp"
+                        android:layout_height="18dp"
+                        android:backgroundTint="#E5E5E5"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Default"
+                        android:layout_gravity="center_horizontal"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="8sp"
+                        app:cornerRadius="6dp"
+                        app:elevation="0dp"
+                        />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/edit"
+                            android:layout_marginRight="38dp"/>
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/delete"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="21dp"
+                            android:layout_marginLeft="15dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delivery Address"
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            android:textFontWeight="400"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="182, 1st Floor, 2nd Cross Rd,\n7th Main, Koramangala\nBengaluru, Karnataka,\nIndia. 560034."
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            android:textFontWeight="500"/>
+
+
 
                         </LinearLayout>
 
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/hint_color"
+                    android:layout_marginTop="26dp"
+                    android:layout_marginHorizontal="23dp"/>
+
+                <LinearLayout
+                    android:id="@+id/addMoreShipmentAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="22dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add more address"
+                        android:textColor="#3A5FD8"
+                        android:textSize="12sp"
+                        android:textFontWeight="500"/>
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/ic_add"
+                        android:layout_marginLeft="6dp"/>
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add the address where the product needs to be\nshipped in India.\n\nDomestic Shipping Charges will be applied based on\n the weight of your package."
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="24dp"
+                    android:textFontWeight="400"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    android:textFontWeight="400"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:paddingHorizontal="71dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginBottom="46dp"
+                    android:backgroundTint="#17B28F"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:letterSpacing="0.03"
+                    android:lineHeight="14sp"
+                    android:text="Confirm"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textFontWeight="700"
+                    android:textSize="12sp"
+                    app:cornerRadius="5dp" />
 
             </LinearLayout>
 
@@ -501,5 +535,5 @@
 
     </LinearLayout>
 
-
+    </ScrollView>
 </FrameLayout>

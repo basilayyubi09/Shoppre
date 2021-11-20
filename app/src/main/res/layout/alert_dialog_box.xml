@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp">
+
+        <ImageView
+            android:id="@+id/alertIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_alert"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALERT"
+            android:textFontWeight="600"
+            android:layout_toRightOf="@id/alertIcon"
+            android:textSize="12sp"
+            android:layout_marginLeft="5dp"/>
+
+        <ImageView
+            android:id="@+id/alert_close_btn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="21dp"
+            android:src="@drawable/cross" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="36dp"
+        android:orientation="vertical"
+        android:layout_marginTop="13dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please note"
+            android:textSize="10sp"
+            android:textFontWeight="400"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="- Your package contains damaged items "
+            android:textSize="10sp"
+            android:textFontWeight="400"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="- Your package contains restricted items, which\ncan be shipped only within India. Deselect the\npackage to ship internationally. "
+            android:textSize="10sp"
+            android:textFontWeight="400"
+            android:textColor="@color/black"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to proceed with the ship request"
+            android:textSize="10sp"
+            android:textFontWeight="400"
+            android:layout_gravity="center"
+            android:textColor="#8F8F8F"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#17B28F"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="17dp"
+            android:text="Proceed to Ship Request"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textFontWeight="600"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
