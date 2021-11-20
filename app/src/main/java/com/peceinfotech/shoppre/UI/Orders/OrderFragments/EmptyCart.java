@@ -438,14 +438,15 @@ public class EmptyCart extends Fragment {
                         int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0, totalBadgeQuantity = 0;
                         for (int i = 0; i < list.size(); i++) {
 
-                            totalBadgeQuantity = totalBadgeQuantity + response.body().getOrders().get(i).getTotalQuantity();
-                            totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
-                            shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
-                            orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
+                            totalBadgeQuantity = totalBadgeQuantity + list.get(i).getOrderItems().size();
+                            totalCount = totalCount + list.get(i).getSubTotal();
+                            shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
+                            orderTotalCount = orderTotalCount + list.get(i).getPriceAmount();
+                            productCountInt = list.get(i).getOrderItems().size();
+                            productCount.setText(String.valueOf(totalBadgeQuantity + 1));
+
                         }
-                        productCountInt = list.get(0).getOrderItems().size();
-                        productCount.setText(String.valueOf(list.get(0).getOrderItems().size() + 1));
-                        badgeTextView.setText(String.valueOf(list.get(0).getOrderItems().size()));
+                        badgeTextView.setText(String.valueOf(totalBadgeQuantity));
                         total.setText(String.valueOf("₹ " + totalCount));
                         shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                         orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
@@ -478,7 +479,8 @@ public class EmptyCart extends Fragment {
                         downwardTriangle.setVisibility(View.VISIBLE);
                         cartImage.setVisibility(View.VISIBLE);
                         badgeCartImage.setVisibility(View.GONE);
-
+                        proceedToCartBtn.setEnabled(false);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
                     }
                     LoadingDialog.cancelLoading();
 
@@ -547,10 +549,7 @@ public class EmptyCart extends Fragment {
                     if (!list.isEmpty()) {
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
-                    }
-
-
-                    CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
+                        CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
                         @Override
                         public void second(OrderItem order, Integer id) {
                             orderFromAdapter = order;
@@ -578,21 +577,52 @@ public class EmptyCart extends Fragment {
 
                     int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
                     Integer totalBadgeQuantity = 0;
-                    for (int i = 0; i < list.size(); i++) {
+                        for (int i = 0; i < list.size(); i++) {
 
-                        totalBadgeQuantity = totalBadgeQuantity + response.body().getOrders().get(i).getTotalQuantity();
-                        totalCount = totalCount + response.body().getOrders().get(i).getSubTotal();
-                        shoppreTotal = shoppreTotal + response.body().getOrders().get(i).getPersonalShopperCost();
-                        orderTotalCount = orderTotalCount + response.body().getOrders().get(i).getPriceAmount();
-                        productCountInt = list.get(0).getOrderItems().size();
-                        productCount.setText(String.valueOf(list.get(i).getOrderItems().size() + 1));
-                        badgeTextView.setText(String.valueOf(list.get(i).getOrderItems().size()));
+                            totalBadgeQuantity = totalBadgeQuantity + list.get(i).getOrderItems().size();
+                            totalCount = totalCount + list.get(i).getSubTotal();
+                            shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
+                            orderTotalCount = orderTotalCount + list.get(i).getPriceAmount();
+                            productCountInt = list.get(i).getOrderItems().size();
+                            productCount.setText(String.valueOf(totalBadgeQuantity + 1));
+
+                        }
+                        badgeTextView.setText(String.valueOf(totalBadgeQuantity));
+                        total.setText(String.valueOf("₹ " + totalCount));
+                        shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
+                        orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
+                    clearFields();
+                    }
+                    else {
+                        cartGroupAdapter = new CartGroupAdapter(list, getActivity(), new CartGroupAdapter.SecondInterface() {
+                            @Override
+                            public void second(OrderItem order, Integer id) {
+
+                            }
+
+                            @Override
+                            public void delete(Integer orderId, Integer itemId) {
+
+                            }
+                        });
+                        cartRecycler.setAdapter(cartGroupAdapter);
+                        productCountInt = 1;
+                        productCount.setText(String.valueOf(1));
+                        badgeTextView.setText(String.valueOf(0));
+                        total.setText(String.valueOf("₹ " + 00));
+                        shoppreFee.setText("₹ " + String.valueOf(00));
+                        orderTotal.setText("₹ " + String.valueOf(00));
+                        productCartCard.setVisibility(View.GONE);
+                        upwardTriangle.setVisibility(View.GONE);
+                        downwardTriangle.setVisibility(View.VISIBLE);
+                        cartImage.setVisibility(View.VISIBLE);
+                        badgeCartImage.setVisibility(View.GONE);
+                        proceedToCartBtn.setEnabled(false);
+                        proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
                     }
 
-                    total.setText(String.valueOf("₹ " + totalCount));
-                    shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
-                    orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
-                    clearFields();
+
+
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {

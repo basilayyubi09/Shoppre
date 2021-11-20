@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:orientation="vertical"
+
     tools:context=".UI.AccountAndWallet.AcountWalletFragments.ReferralFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -21,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="22dp"
                 android:background="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
@@ -31,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="23dp"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="22dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -46,7 +48,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="31dp"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/image_bg"
                         >
 
@@ -60,7 +62,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="31dp"
+                        android:layout_marginTop="25dp"
                         android:text="@string/share_the_unique"
                         android:textAlignment="center"
                         android:textColor="#818181"
@@ -70,7 +72,7 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="48dp"
+                        android:layout_marginVertical="30dp"
                         android:layout_gravity="center_horizontal">
 
                         <RelativeLayout
@@ -107,6 +109,7 @@
                         </RelativeLayout>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/shareBtn"
                             android:layout_width="94dp"
                             android:layout_height="34dp"
                             android:layout_marginLeft="11dp"
@@ -133,9 +136,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="22dp"
                 android:background="@color/white"
                 android:visibility="gone"
+                android:fitsSystemWindows="true"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
                 app:strokeColor="@color/box_background_color">
@@ -162,6 +166,8 @@
                         android:background="@drawable/edittext_bg">
 
                         <EditText
+
+                            android:id="@+id/have"
                             android:layout_width="174dp"
                             android:layout_height="34dp"
                             android:background="@null"
@@ -210,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="22dp"
                 android:background="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
@@ -308,6 +314,7 @@
                     android:padding="22dp">
 
                     <TextView
+                        android:id="@+id/faq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Referral FAQs"

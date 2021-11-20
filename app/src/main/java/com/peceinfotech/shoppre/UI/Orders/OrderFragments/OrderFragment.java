@@ -37,6 +37,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Orders.CancelledOrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
@@ -208,10 +209,11 @@ public class OrderFragment extends Fragment {
         verifyEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                LandingDialog alert = new LandingDialog();
-//                alert.showDialog(getActivity());
-                LoadingDialog.showLoadingDialog(getActivity(), "");
-                callVerifyEmailId();
+
+
+
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
+                        .addToBackStack(null).commit();
             }
         });
 
@@ -510,38 +512,7 @@ public class OrderFragment extends Fragment {
 
     }
 
-    private void callVerifyEmailId() {
-        Call<VerifyEmailResponse> call = RetrofitClient.getInstance()
-                .getApi().getVerify("Bearer " + sharedPrefManager.getBearerToken(), sharedPrefManager.getId());
-        call.enqueue(new Callback<VerifyEmailResponse>() {
-            @Override
-            public void onResponse(Call<VerifyEmailResponse> call, Response<VerifyEmailResponse> response) {
-                if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Verification link has sent to your email.", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else if (response.code() == 403) {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
 
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<VerifyEmailResponse> call, Throwable t) {
-
-                LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        });
-
-    }
 
     public void setupUI(View view) {
 

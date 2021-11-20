@@ -683,7 +683,7 @@
                             android:textColor="@color/white"
                             android:textFontWeight="700"
                             android:textSize="12sp"
-                            app:backgroundTint="@color/material_on_background_disabled"
+                            app:backgroundTint="@color/grey"
                             app:cornerRadius="5dp" />
 
 

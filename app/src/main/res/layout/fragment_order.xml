@@ -66,7 +66,7 @@
                                 android:layout_marginLeft="19dp"
                                 android:layout_marginTop="4dp"
                                 android:background="@drawable/edittext_bg"
-                                android:hint="Enter referal code"
+                                android:hint="Enter referral code"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:paddingLeft="10dp"
