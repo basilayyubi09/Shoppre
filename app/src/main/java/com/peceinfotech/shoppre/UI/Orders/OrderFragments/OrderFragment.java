@@ -50,6 +50,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,6 +112,9 @@ public class OrderFragment extends Fragment {
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
 
+        YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
+
 
         list = new ArrayList<>();
 
@@ -141,6 +145,8 @@ public class OrderFragment extends Fragment {
                         .addToBackStack(null).commit();
             }
         });
+
+
 
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
