@@ -501,6 +501,8 @@ public class ViewProfile extends Fragment {
                     sharedPrefManager.storePhone("+" + ccp + phoneNumber);
 
 
+
+
                     setProfileCredentials();
                     setTextsToUpdateFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Successfully updated", Snackbar.LENGTH_LONG);

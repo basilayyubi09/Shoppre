@@ -148,7 +148,7 @@
                     android:id="@+id/defaultButton"
                     android:layout_width="72dp"
                     android:layout_height="18dp"
-                    android:backgroundTint="#959595"
+                    android:backgroundTint="#E5E5E5"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="Default"
@@ -157,7 +157,7 @@
                     android:textSize="8sp"
                     app:cornerRadius="6dp"
                     app:elevation="0dp"
-                    android:visibility="gone"/>
+                    />
 
 
                     <TextView
