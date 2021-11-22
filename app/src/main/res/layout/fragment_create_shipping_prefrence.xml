@@ -497,15 +497,17 @@
                                 android:textSize="10sp" />
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:text="Contains Restricted Items"
-                                android:textColor="#FF0101"
-                                android:textFontWeight="500"
+                            <EditText
+                                android:visibility="gone"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="26dp"
                                 android:textSize="10sp"
-                                android:visibility="gone" />
+                                android:textColor="@color/black"
+                                android:hint="hashius"
+                                android:paddingLeft="10dp"
+                                android:layout_marginTop="12dp"
+                                android:background="@drawable/edittext_bg"/>
 
 
                             <TextView
