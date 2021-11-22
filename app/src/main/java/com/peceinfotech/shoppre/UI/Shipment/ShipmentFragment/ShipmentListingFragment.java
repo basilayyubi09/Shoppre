@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentListingAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
@@ -33,13 +34,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ShipmentListing extends Fragment {
+public class ShipmentListingFragment extends Fragment {
 ///////// implemented LockerReadyToShip's ReadyToShipAdapter will change to accordingly
     // change single adapter ready to ship single layout to shipment listing single
     SharedPrefManager sharedPrefManager;
     List<PackageModel> list = new ArrayList<>();
-    ReadyToShipAdapter readyToShipAdapter;
-    RecyclerView lockerReadyToShipRecycler;
+    ShipmentListingAdapter shipmentListingAdapter;
+    RecyclerView recyclerView;
     LinearLayout returnAndDiscardText;
 
     @Override
@@ -49,7 +50,7 @@ public class ShipmentListing extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_shipment_listing, container, false);
 
 
-        lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
+        recyclerView = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -71,7 +72,7 @@ public class ShipmentListing extends Fragment {
             @Override
             public void onClick(View v) {
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReadyToShipReturnedAndDiscard(), null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewPreviousShipmentFragment(), null)
                         .addToBackStack(null).commit();
 
             }
@@ -90,8 +91,8 @@ public class ShipmentListing extends Fragment {
             public void onResponse(Call<PackageListingResponse> call, Response<PackageListingResponse> response) {
                 if (response.code() == 201) {
                     list = response.body().getPackages();
-                    readyToShipAdapter = new ReadyToShipAdapter(list, getContext());
-                    lockerReadyToShipRecycler.setAdapter(readyToShipAdapter);
+                    shipmentListingAdapter = new ShipmentListingAdapter(list, getContext());
+                    recyclerView.setAdapter(shipmentListingAdapter);
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

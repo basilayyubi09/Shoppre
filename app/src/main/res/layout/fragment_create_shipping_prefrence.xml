@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.CreateShipRequest.CreateShippingPrefrenceFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginTop="28dp"
+                        android:text="@string/shipping_preference"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="25dp">
+
+
+                        <CheckBox
+                            android:id="@+id/check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/webSiteName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Discard Shoe Boxes"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/packageId"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Reduces shipment weight "
+                                android:textColor="@color/black"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Damaged &amp; Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+                                android:id="@+id/action"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="₹ 100"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="per shipment"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="25dp">
+
+
+                        <CheckBox
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Add Extra Packaging Material"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Save your packeges from damage"
+                                android:textColor="@color/black"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Damaged &amp; Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="₹ 500"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="per shipment"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="25dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="25dp">
+
+
+                        <CheckBox
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ship in original boxes"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Do not repack items"
+                                android:textColor="@color/black"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Damaged &amp; Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="FREE"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="25dp"
+                        android:layout_marginTop="25dp">
+
+
+                        <CheckBox
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Gift Wrap"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Surprise your loved ones"
+                                android:textColor="@color/black"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Damaged &amp; Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="₹ 100"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="per shipment"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="25dp"
+                        android:layout_marginTop="25dp">
+
+
+                        <CheckBox
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Gift Note"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Write a personal message &amp; place it inside"
+                                android:textColor="@color/black"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Contains Damaged &amp; Restricted Items"
+                                android:textColor="#FF0101"
+                                android:textFontWeight="500"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="₹ 50"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="per shipment"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="10sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#AFADAD"
+                        android:layout_marginHorizontal="25dp"
+                        android:layout_marginTop="36dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="25dp"
+                        android:layout_marginTop="36dp">
+
+
+                        <CheckBox
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+
+                        <LinearLayout
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Express Processing"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="500"
+                                    android:textSize="12sp" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/get_vip_treatment"
+                                android:textColor="@color/black"
+                                android:layout_marginRight="10dp"
+                                android:textFontWeight="100"
+                                android:textSize="10sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="₹ 200"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="99dp"
+                        android:layout_marginBottom="44dp"
+                        android:layout_gravity="center_horizontal">
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:insetBottom="0dp"
+                            android:insetTop="0dp"
+                            android:backgroundTint="@color/white"
+                            android:text="Back"
+                            android:textAllCaps="false"
+                            android:textColor="#2D8DFF"
+                            android:textFontWeight="700"
+                            android:letterSpacing="0.03"
+                            android:paddingHorizontal="40dp"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            app:strokeColor="#2D8DFF"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:paddingHorizontal="20dp"
+                            android:insetBottom="0dp"
+                            android:layout_marginLeft="20dp"
+                            android:insetTop="0dp"
+                            android:text="Proceed"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textFontWeight="700"
+                            app:icon="@drawable/return_arrow"
+                            app:backgroundTint="#2D8DFF"
+                            app:iconGravity="end"
+                            app:iconTint="@color/white"
+                            android:letterSpacing="0.03"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</FrameLayout>
