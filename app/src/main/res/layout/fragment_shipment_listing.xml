@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.Shipment.ShipmentFragment.ShipmentListing">
+    tools:context=".UI.Shipment.ShipmentFragment.ShipmentListingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="24dp"
                         android:layout_marginTop="24dp"
-                        android:text="Locker"
+                        android:text="Shipments"
                         android:textColor="@color/black"
                         android:textFontWeight="700"
                         android:textSize="14sp" />

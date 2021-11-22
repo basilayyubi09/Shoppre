@@ -3,22 +3,18 @@ package com.peceinfotech.shoppre.UI.Orders;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
@@ -26,15 +22,15 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
+import com.peceinfotech.shoppre.UI.CreateShipRequest.CreateShipRequestFragment;
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
-import com.peceinfotech.shoppre.UI.Shipment.ShipmentList;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 import retrofit2.Call;
@@ -99,7 +95,7 @@ public class OrderActivity extends AppCompatActivity{
                         break;
 
                     case R.id.shipmentMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentList(), null)
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
                                 .addToBackStack(null).commit();
                         break;
 
