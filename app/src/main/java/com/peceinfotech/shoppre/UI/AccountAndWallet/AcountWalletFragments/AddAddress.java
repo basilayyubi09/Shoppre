@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,9 +20,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.fragment.app.Fragment;
 
@@ -54,10 +58,10 @@ public class AddAddress extends Fragment {
 
 
 
-    AutoCompleteTextView spinnerTitle;
+    Spinner chooseTitleAddAddress;
     ImageView closeBtn, triangleDropdown;
     TextView spinnerCountry;
-    TextInputLayout salutationText;
+    TextView salutationText;
     LinearLayout phoneInputLayout;
     EditText name, addressLine1, addressLine2, city, state, pinCode, phoneNumber;
     AppCompatCheckBox checkBox;
@@ -71,12 +75,12 @@ public class AddAddress extends Fragment {
     DeliveryListModel.Address address;
     int countryId;
     boolean is_default = false;
-    String[] titleValue = {"Mr", "Ms", "Mrs"};
+    String[] titleArray = new String[]{"Title", "Mr", "Ms", "Mrs"};
     String nameString, addressLine1String, addressLine2String, countryCode, cityString, stateString, pinCodeString, phoneNumberString, salutation, country;
     Integer cc;
     int id;
     FrameLayout main;
-    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError;
+    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError, titleError;
     LinearLayout spinnerCountryLayout;
 
     @Override
@@ -95,7 +99,7 @@ public class AddAddress extends Fragment {
         setCountryList("");
 
         //Hooks
-        spinnerTitle = view.findViewById(R.id.spinnerTitle);
+        chooseTitleAddAddress = view.findViewById(R.id.chooseTitleAddAddress);
 //        spinnerPhoneNo = view.findViewById(R.id.countryCodeTextView);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
 
@@ -104,10 +108,11 @@ public class AddAddress extends Fragment {
 //        errorNo = view.findViewById(R.id.errorNo);
 
         name = view.findViewById(R.id.name);
-        salutationText = view.findViewById(R.id.salutationTextInput);
+        salutationText = view.findViewById(R.id.addAddressTitle);
         phoneInputLayout = view.findViewById(R.id.phoneInputLayout);
         nameError = view.findViewById(R.id.nameError);
         phoneError = view.findViewById(R.id.phoneError);
+        titleError = view.findViewById(R.id.titleError);
         countryError = view.findViewById(R.id.countryError);
         countryCodeTextView = view.findViewById(R.id.countryCodeTextView);
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
@@ -128,6 +133,52 @@ public class AddAddress extends Fragment {
         closeBtn = view.findViewById(R.id.closeBtn);
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
         spinnerCountryLayout = view.findViewById(R.id.spinnerCountryLayout);
+
+
+
+        final List<String> titleList = new ArrayList<>(Arrays.asList(titleArray));
+
+
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getDropDownView(position, convertView, parent);
+                TextView titleTv = (TextView) view1;
+                if (position == 0){
+                    titleTv.setVisibility(View.GONE);
+                    titleTv.setTextColor(Color.GRAY);
+                }else {
+                    titleTv.setTextColor(Color.BLACK);
+                }
+                return view1;
+            }
+        };
+        titleSpinerArrayAdapter.setDropDownViewResource(R.layout.add_address_title);
+        chooseTitleAddAddress.setAdapter(titleSpinerArrayAdapter);
+
+        chooseTitleAddAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0){
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
 
@@ -216,7 +267,6 @@ public class AddAddress extends Fragment {
         state.setText(address.getState());
         pinCode.setText(address.getPincode());
         phoneNumber.setText(address.getPhone());
-        spinnerTitle.setText(address.getSalutation());
         spinnerCountry.setText(address.getCountry().getName());
 
 
@@ -473,10 +523,56 @@ public class AddAddress extends Fragment {
         state.setText("");
         pinCode.setText("");
         phoneNumber.setText("");
-        spinnerTitle.setText("");
+
         spinnerCountry.setText("");
         countryCodeTextView.setText("+91");
         countryCodeTextView.setTextColor(R.color.hint_color);
+
+
+
+
+        final List<String> titleList = new ArrayList<>(Arrays.asList(titleArray));
+
+
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList){
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getDropDownView(position, convertView, parent);
+                TextView titleTv = (TextView) view1;
+                if (position == 0){
+                    titleTv.setVisibility(View.GONE);
+                    titleTv.setTextColor(Color.GRAY);
+                }else {
+                    titleTv.setTextColor(Color.BLACK);
+                }
+                return view1;
+            }
+        };
+        titleSpinerArrayAdapter.setDropDownViewResource(R.layout.add_address_title);
+        chooseTitleAddAddress.setAdapter(titleSpinerArrayAdapter);
+
+        chooseTitleAddAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0){
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void getTextFromField() {
@@ -487,25 +583,17 @@ public class AddAddress extends Fragment {
         stateString = state.getText().toString().trim();
         pinCodeString = pinCode.getText().toString().trim();
         phoneNumberString = phoneNumber.getText().toString().trim();
-        salutation = spinnerTitle.getText().toString();
+        salutation =  chooseTitleAddAddress.getSelectedItem().toString();
         country = spinnerCountry.getText().toString();
         countryCode = countryCodeTextView.getText().toString();
         if (checkBox.isChecked()) {
             is_default = true;
         } else is_default = false;
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(titleValue));
-        ArrayAdapter<String> tittleArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_items, arrayList);
-        spinnerTitle.setAdapter(tittleArrayAdapter);
 
 
     }
+
 
     private void setCountryList(String typedString) {
         Call<CountryResponse> call = RetrofitClient3.getInstance3().getAppApi()
@@ -624,17 +712,11 @@ public class AddAddress extends Fragment {
     private Boolean validateSalutation() {
 
 
-        if (salutation.equals("")) {
-            salutationText.setErrorEnabled(true);
-            salutationText.setBoxStrokeWidthFocused(2);
-            salutationText.setBoxStrokeWidth(2);
-            salutationText.setError("* This is a required field");
+        if (salutation.equals("Title")) {
+            titleError.setVisibility(View.VISIBLE);
             return false;
         } else {
-            salutationText.setErrorEnabled(false);
-            salutationText.setBoxStrokeWidthFocused(0);
-            salutationText.setBoxStrokeWidth(0);
-            salutationText.setError(null);
+            titleError.setVisibility(View.GONE);
             return true;
         }
 
