@@ -37,9 +37,20 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Your order was successfully placed.\nWe’ll accept the package for you."
+                        android:text="@string/your_order_was"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/shipment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/your_shipment_request"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="10sp" />
@@ -96,6 +107,47 @@
                     android:layout_weight="1.2"
                     android:src="@drawable/ic_thank_you_details" />
             </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp"
+                android:visibility="gone">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="NOTE"
+                        android:textFontWeight="600"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/we_ll_share_the"
+                        android:textSize="10sp"
+                        android:textColor="@color/black"
+                        android:textFontWeight="400"
+                        android:layout_marginHorizontal="14dp"
+                        android:padding="15dp"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -201,6 +253,7 @@ our warehouse"
             </RelativeLayout>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/addressCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"

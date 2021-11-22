@@ -88,6 +88,9 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="airport_rd">Airport Rd - Garhoud - Dubai - United Arab Emirates</string>
     <string name="change"><u>Change</u></string>
     <string name="add"><u>Add</u></string>
+    <string name="your_order_was">Your order was successfully placed.\nWe’ll accept the package for you.</string>
+    <string name="your_shipment_request">Your shipment request is in queue. We’ll notify you once your packages are ready to be shipped.</string>
+    <string name="we_ll_share_the">We’ll share the payment link once your packages\n are ready to be shipped.\n\n Please make the payment within 7 days of recieving the link.\n There will be a storage fee of INR 100/day after the 7th day.</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

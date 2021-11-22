@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     TextInputLayout loginEmailIdField;
-
+    String personId;
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
 
@@ -350,12 +350,12 @@ public class LoginActivity extends AppCompatActivity {
             String firstName = acct.getGivenName();
             String lastName = acct.getFamilyName();
             String email = acct.getEmail();
-            String personId = acct.getId();
+             personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {
 
-                signInGoogle(email, firstName, lastName);
+                signUpGoogle(email, firstName, lastName);
 
             }
 
@@ -406,7 +406,7 @@ public class LoginActivity extends AppCompatActivity {
         paramObject.addProperty("last_name", lastName);
         paramObject.addProperty("email", email);
         paramObject.addProperty("phone", "");
-        paramObject.addProperty("password", "");
+        paramObject.addProperty("password", personId);
         paramObject.addProperty("domain", "app");
         paramObject.addProperty("login_type", "google");
         paramObject.addProperty("is_email_verified", true);
