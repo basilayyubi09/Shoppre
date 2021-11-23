@@ -447,6 +447,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -456,22 +457,22 @@
                     android:textColor="@color/black"
                     android:textFontWeight="400"
                     android:textSize="8sp" />
-                
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     app:cardCornerRadius="5dp"
-                    android:backgroundTint="#8000D1FF"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp">
                     <TextView
-                        android:layout_gravity="center_vertical"
+                        android:background="#8000D1FF"
+                        android:gravity="center_vertical"
                         android:paddingHorizontal="23dp"
                         android:textSize="8sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="In Review"/>
                 </com.google.android.material.card.MaterialCardView>
 
