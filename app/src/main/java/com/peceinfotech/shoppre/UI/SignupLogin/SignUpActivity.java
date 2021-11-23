@@ -56,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
     SharedPrefManager sharedPrefManager;
     LinearLayout main;
     String checkLogin;
+    String personId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,14 +292,8 @@ public class SignUpActivity extends AppCompatActivity {
                     // both true and false condition coming in 200 response code
                     // hence checking token if user already register will receive token null and vise versa
                     if (signUpGoogleResponse.getToken() != null) {
-//                        LoadingDialog.cancelLoading();
                         checkLogin = "signup";
                         callAuthApi(response.body().getToken().getAccessToken());
-//                        sharedPrefManager.storeEmail(emailId);
-//                        sharedPrefManager.storeGrantType("facebook");
-//                        sharedPrefManager.setLogin();
-//                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
-//                        finish();
 
                     } else if (signUpGoogleResponse.getToken() == null) {
                         signInFacebook(emailId, firstName, lastName);
@@ -424,12 +419,12 @@ public class SignUpActivity extends AppCompatActivity {
             String firstName = acct.getGivenName();
             String lastName = acct.getFamilyName();
             String email = acct.getEmail();
-            String personId = acct.getId();
+             personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {
 
-                signInGoogle(email, firstName, lastName);
+                signUpGoogle(email, firstName, lastName);
 
             }
 
@@ -454,7 +449,6 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<SignInGoogleResponse>() {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
-                LoadingDialog.cancelLoading();
 
                 if (response.code() == 200) {
 
@@ -484,7 +478,7 @@ public class SignUpActivity extends AppCompatActivity {
         paramObject.addProperty("last_name", lastName);
         paramObject.addProperty("email", email);
         paramObject.addProperty("phone", "");
-        paramObject.addProperty("password", "");
+        paramObject.addProperty("password", personId);
         paramObject.addProperty("domain", "app");
         paramObject.addProperty("login_type", "google");
         paramObject.addProperty("is_email_verified", true);
@@ -557,11 +551,10 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (response.code()==200){
                     String code = response.body();
-                    //split string from = sign
+                    //split string from "=" sign
                     String[] parts = code.split("=");
 //                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
-//                    Log.d("Auth api response ",code);
                     callAccessTokenApi(part2 , bearer);
 
                 }

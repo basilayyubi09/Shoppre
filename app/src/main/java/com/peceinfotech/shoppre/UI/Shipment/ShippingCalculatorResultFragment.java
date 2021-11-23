@@ -73,7 +73,17 @@ public class ShippingCalculatorResultFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             shippingRateResponse = (ShippingRateResponse) bundle.getSerializable("rate");
+
+            /*
+            *
+            *  bundle.putString("weight" , weight);
+                    bundle.putString("length" , length);
+                    bundle.putString("width" , width);
+                    bundle.putString("height" , height);*/
             weightFromBundle = bundle.getString("weight");
+            length = bundle.getString("length");
+            width = bundle.getString("width");
+            height = bundle.getString("height");
             kg = bundle.getString("kg");
             liquid = bundle.getString("liquid");
             countryId = bundle.getInt("countryId");
@@ -90,7 +100,16 @@ public class ShippingCalculatorResultFragment extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderActivity.fragmentManager.popBackStack();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("weight" , weightFromBundle);
+                bundle1.putString("length" , length);
+                bundle1.putString("width" , width);
+                bundle1.putString("height" , height);
+                bundle1.putString("liquid" , liquid);
+                ShippingCalculator  shippingCalculator = new ShippingCalculator();
+                shippingCalculator.setArguments(bundle1);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, shippingCalculator, null)
+                        .addToBackStack(null).commit();
             }
         });
         viewPricingTable.setOnClickListener(new View.OnClickListener() {

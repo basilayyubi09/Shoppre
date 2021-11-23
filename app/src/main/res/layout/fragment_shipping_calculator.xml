@@ -227,7 +227,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
                                     android:layout_weight="1"
-
+                                    android:textColor="@color/black"
+                                    android:background="@drawable/no_btn_bg1"
                                     android:gravity="center"
                                     android:text="No"
                                     android:textFontWeight="600"
@@ -241,6 +242,8 @@
                                     android:layout_weight="1"
                                     android:gravity="center"
                                     android:text="Yes"
+                                    android:textColor="@color/white"
+                                    android:background="@drawable/yes_btn_bg"
                                     android:textFontWeight="600"
                                     android:textSize="12sp" />
 

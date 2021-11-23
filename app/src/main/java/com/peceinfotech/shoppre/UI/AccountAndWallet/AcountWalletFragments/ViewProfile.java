@@ -298,17 +298,7 @@ public class ViewProfile extends Fragment {
             }
         });
 
-        firstLetter = name.charAt(0);
 
-        ////Profile RoundImage with Letter
-
-        textDrawable = TextDrawable.builder()
-                .beginConfig().endConfig()
-                .beginConfig().withBorder(4)
-                .bold().toUpperCase()
-                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
-
-        profileImage.setImageDrawable(textDrawable);
         return view;
     }
 
@@ -386,6 +376,17 @@ public class ViewProfile extends Fragment {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code()==200){
                     LoadingDialog.cancelLoading();
+                    firstLetter = response.body().getFirstName().charAt(0);
+
+                    ////Profile RoundImage with Letter
+
+                    textDrawable = TextDrawable.builder()
+                            .beginConfig().endConfig()
+                            .beginConfig().withBorder(4)
+                            .bold().toUpperCase()
+                            .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
+
+                    profileImage.setImageDrawable(textDrawable);
                     if (response.body().getIsEmailVerified()==0){
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);

@@ -145,6 +145,30 @@ public class ShippingCalculator extends Fragment {
         });
 
         setupUI(main);
+
+        Bundle bundle = this.getArguments();
+        if (bundle!=null){
+
+
+             packageTextView.setText(bundle.getString("weight"));
+             lengthTextView.setText(bundle.getString("length"));
+             heightTextView.setText(bundle.getString("height"));
+            widthTextView.setText(bundle.getString("width"));
+            if (bundle.getString("liquid").equals("true")){
+                yesButton.setTextColor(getResources().getColor(R.color.white));
+                noButton.setTextColor(getResources().getColor(R.color.black));
+                yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
+                noButton.setBackground(getResources().getDrawable(no_btn_bg1));
+            }
+            else if (bundle.getString("liquid").equals("false")){
+                yesButton.setTextColor(getResources().getColor(R.color.black));
+                yesButton.setBackground(getResources().getDrawable(yes_btn_bg1));
+                noButton.setTextColor(getResources().getColor(R.color.white));
+                noButton.setBackground(getResources().getDrawable(no_btn_bg));
+
+            }
+
+        }
         packageMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,8 +287,7 @@ public class ShippingCalculator extends Fragment {
         });
 
 
-        yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
-        yesButton.setTextColor(getResources().getColor(R.color.white));
+
 
         noButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"ResourceAsColor", "ResourceType"})
@@ -274,9 +297,6 @@ public class ShippingCalculator extends Fragment {
                 flag = 2;
                 noButton.setTextColor(getResources().getColor(R.color.white));
                 yesButton.setTextColor(getResources().getColor(R.color.black));
-//                noButton.setBackgroundColor(getResources().getColor(R.color.selected_btn_color));
-//                yesButton.setBackgroundColor(getResources().getColor(R.color.unselected_btn_color));
-//                yesNoButtonLayout.setBackgroundResource(edit_text_bg);
                 noButton.setBackground(getResources().getDrawable(no_btn_bg));
                 yesButton.setBackground(getResources().getDrawable(yes_btn_bg1));
 
@@ -293,10 +313,6 @@ public class ShippingCalculator extends Fragment {
                 flag = 1;
                 yesButton.setTextColor(getResources().getColor(R.color.white));
                 noButton.setTextColor(getResources().getColor(R.color.black));
-
-//                yesButton.setBackgroundColor(getResources().getColor(R.color.selected_btn_color));
-//                noButton.setBackgroundColor(getResources().getColor(R.color.unselected_btn_color));
-//                yesNoButtonLayout.setBackgroundResource(yes_btn_bg);
                 yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
                 noButton.setBackground(getResources().getDrawable(no_btn_bg1));
 
@@ -362,12 +378,16 @@ public class ShippingCalculator extends Fragment {
                     LoadingDialog.cancelLoading();
                      shippingRateResponse = response.body();
                     Bundle bundle = new Bundle();
-                    bundle.putString("weight" , weight);
 
+                    bundle.putString("weight" , weight);
+                    bundle.putString("length" , length);
+                    bundle.putString("width" , width);
+                    bundle.putString("height" , height);
                     bundle.putString("kg" , kg);
                     bundle.putInt("countryId" , countryId);
                     bundle.putInt("categoryId" , Id);
                     bundle.putString("liquid" , liquid);
+
                     bundle.putSerializable("rate" ,  shippingRateResponse);
                     ShippingCalculatorResultFragment shippingCalculatorResultFragment = new ShippingCalculatorResultFragment();
                     shippingCalculatorResultFragment.setArguments(bundle);

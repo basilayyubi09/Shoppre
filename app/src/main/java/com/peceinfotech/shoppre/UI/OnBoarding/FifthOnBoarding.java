@@ -110,6 +110,10 @@ public class FifthOnBoarding extends Fragment {
                 else  if(response.code() == 401){
                     callRefreshTokenApi();
                 }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
