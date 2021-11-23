@@ -91,6 +91,9 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="your_order_was">Your order was successfully placed.\nWe’ll accept the package for you.</string>
     <string name="your_shipment_request">Your shipment request is in queue. We’ll notify you once your packages are ready to be shipped.</string>
     <string name="we_ll_share_the">We’ll share the payment link once your packages\n are ready to be shipped.\n\n Please make the payment within 7 days of recieving the link.\n There will be a storage fee of INR 100/day after the 7th day.</string>
+    <string name="the_shipment_cannot">The shipment cannot be processed without invoices for all the packages. Please upload the invoice to avoid any delays in shipment. You can cancel your order within one hour of creating shipment.</string>
+    <string name="we_re_processing_">We’re processing your shipment request.\nYou will recieve the payment link shortly.</string>
+    <string name="please_make_the_payment">Please make the payment within 7 days of initiation after which there’ll be a charge of ₹ 100/day. The charges will be added to the wallet.</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

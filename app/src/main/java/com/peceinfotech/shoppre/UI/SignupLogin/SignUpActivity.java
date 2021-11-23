@@ -449,7 +449,6 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<SignInGoogleResponse>() {
             @Override
             public void onResponse(Call<SignInGoogleResponse> call, Response<SignInGoogleResponse> response) {
-                LoadingDialog.cancelLoading();
 
                 if (response.code() == 200) {
 
@@ -552,7 +551,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (response.code()==200){
                     String code = response.body();
-                    //split string from = sign
+                    //split string from "=" sign
                     String[] parts = code.split("=");
 //                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b

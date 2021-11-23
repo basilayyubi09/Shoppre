@@ -25,7 +25,6 @@ import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewPr
 import com.peceinfotech.shoppre.UI.CreateShipRequest.CreateShipRequestFragment;
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
-import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -37,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderActivity extends AppCompatActivity{
+public class OrderActivity extends AppCompatActivity {
 
     MaterialCardView locker, shipment, account, order;
     ImageView lockerImage, orderImage, accountImage, shipmentImage;
@@ -82,7 +81,7 @@ public class OrderActivity extends AppCompatActivity{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
 
                     case R.id.orderMenu:
                         fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
@@ -110,10 +109,6 @@ public class OrderActivity extends AppCompatActivity{
                 return true;
             }
         });
-
-
-
-
 
 
 //        integerDeque.push(R.id.orderMenu);
@@ -154,7 +149,6 @@ public class OrderActivity extends AppCompatActivity{
 //                return true;
 //            }
 //        });
-
 
 
     }
@@ -209,17 +203,12 @@ public class OrderActivity extends AppCompatActivity{
 //    }
 
 
-
-
-
-
-
-    private void callMeApi(String bearerToken) {
+    private void callMeApi() {
 
         Call<MeResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .getUser("Bearer " + bearerToken);
+                .getUser("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
@@ -238,11 +227,11 @@ public class OrderActivity extends AppCompatActivity{
                     sharedPrefManager.storeGroupId(response.body().getGroupId());
                     sharedPrefManager.storePhone(response.body().getPhone());
                     sharedPrefManager.storeCreateDate(response.body().getCreatedAt());
+                    LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -264,13 +253,13 @@ public class OrderActivity extends AppCompatActivity{
         call.enqueue(new Callback<RefreshTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code()==200){
-                    LoadingDialog.cancelLoading();
+                if (response.code() == 200) {
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                }
-                else {
-                    callMeApi(sharedPrefManager.getBearerToken());
+                    callMeApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -282,12 +271,12 @@ public class OrderActivity extends AppCompatActivity{
         });
 
     }
+
     @Override
     public void onBackPressed() {
-        if (fragmentManager.getBackStackEntryCount()>0){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
-        }
-        else {
+        } else {
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure want to exit?")
                     .setCancelable(true)
@@ -297,11 +286,12 @@ public class OrderActivity extends AppCompatActivity{
                             finish();
                         }
                     })
-                    .setNegativeButton("No",null)
+                    .setNegativeButton("No", null)
                     .show();
         }
 
     }
+
     private void internetCheck() {
 
         if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
@@ -310,13 +300,12 @@ public class OrderActivity extends AppCompatActivity{
             Snackbar snackbar = Snackbar.make(findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
-            String token = sharedPrefManager.getBearerToken();
+
             LoadingDialog.showLoadingDialog(OrderActivity.this, "");
-            callMeApi(token);
+            callMeApi();
         }
 
     }
-
 
 
 }
