@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.DummyCreateAdapter;
 import com.peceinfotech.shoppre.Models.DummyShipModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Utils.AlertDialogBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class CreateShipRequestFragment extends Fragment {
     List<DummyShipModel> list = new ArrayList<>();
     int checkCount = 0;
     TextView selectedNumber;
+    MaterialButton choosePackageProceedBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +39,7 @@ public class CreateShipRequestFragment extends Fragment {
         checkBox = view.findViewById(R.id.check);
         recyclerView = view.findViewById(R.id.recycle);
         selectedNumber = view.findViewById(R.id.selectedNumber);
+        choosePackageProceedBtn = view.findViewById(R.id.choosePackageProceedBtn);
 
         list.add(new DummyShipModel("Myntra","2","8473"));
         list.add(new DummyShipModel("Myntra","2","8473"));
@@ -83,6 +87,14 @@ public class CreateShipRequestFragment extends Fragment {
 //
 //            }
 //        }
+
+        choosePackageProceedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialogBox alertDialogBox = new AlertDialogBox();
+                alertDialogBox.showAlertDialog(getContext());
+            }
+        });
 
         return view;
     }

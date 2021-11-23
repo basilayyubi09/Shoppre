@@ -214,6 +214,9 @@ public class AddAddress extends Fragment {
                 is_billing = true;
                 Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
                 title.setText("Update Billing Address");
+            }else if (type.equals("deliveryAddress")){
+                is_billing = false;
+                title.setText("Add Shipping Address");
             }
             else {
                 is_billing = false;

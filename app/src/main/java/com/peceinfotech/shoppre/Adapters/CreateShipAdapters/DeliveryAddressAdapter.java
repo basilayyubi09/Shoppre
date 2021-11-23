@@ -38,7 +38,6 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         holder.name.setText(deliveryAddressModelResponse.getName());
         holder.line1.setText(deliveryAddressModelResponse.getLine1());
-        holder.city.setText(deliveryAddressModelResponse.getCity());
         holder.contactNo.setText(deliveryAddressModelResponse.getPhoneNo());
 
     }
