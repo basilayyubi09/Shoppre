@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -82,16 +83,6 @@ public class OrderUpdates extends Fragment {
                 }
             }
         });
-//        list.add(new OrderUpdateResponse(R.drawable.n_logo, "Nikkitha", "New Order Placed", "15 Dec 2020, 2:20 PM IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.shoppre_ic, "Shoppre Team", "Order Arrived at Facility", " 19 Dec 2020, 4:05 PM IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.n_logo, "Nikkitha", "Where is my order?", "22 Dec 2020, 09:45 AM IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.shoppre_ic, "Shoppre Team", "The Order is at our warehouse ready to be shipped", "24 Dec 2020, 3:26 IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.n_logo, "Nikkitha", "New Order Placed", "15 Dec 2020, 2:20 PM IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.n_logo, "Nikkitha", "New Order Placed", "15 Dec 2020, 2:20 PM IST"));
-//        list.add(new OrderUpdateResponse(R.drawable.n_logo, "Nikkitha", "New Order Placed", "15 Dec 2020, 2:20 PM IST"));
-
-
-
 
 
         return view;
@@ -109,6 +100,14 @@ public class OrderUpdates extends Fragment {
                      list = response.body();
                     orderUpdateAdapter = new OrderUpdateAdapter(list, getContext());
                     orderUpdatesRecycler.setAdapter(orderUpdateAdapter);
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
+//                    linearLayoutManager.setReverseLayout(true);
+//                    linearLayoutManager.setStackFromEnd(true);
+//                    layoutManager.scrollToPosition(0);
+                    orderUpdatesRecycler.smoothScrollToPosition(0);
+                    orderUpdatesRecycler.setLayoutManager(layoutManager);
+
                     LoadingDialog.cancelLoading();
                 }
                 else {

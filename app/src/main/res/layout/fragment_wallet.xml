@@ -222,12 +222,13 @@
                             android:textFontWeight="600"
                             android:textColor="#3A5FD8"
                             android:textSize="10sp"
-                            android:layout_gravity="center_vertical" />
+                             />
                         <ImageView
+                            android:layout_gravity="center_vertical"
                             android:layout_marginLeft="6dp"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@mipmap/showmore" />
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@mipmap/dropdown_bottom_arrow" />
                     </LinearLayout>
 
                 </LinearLayout>

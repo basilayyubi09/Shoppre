@@ -81,15 +81,9 @@ public class LoginActivity extends AppCompatActivity {
         fbLoginBtn = findViewById(R.id.login_fb_logo);
         main = findViewById(R.id.main);
 
-        //get Email Id from previous activity
-        Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
-            int flag = extras.getInt("flag");
-            if (flag == 1) {
-                setError("Looks like the Email ID and Password you entered are incorrect. Please try again!");
-            }
-        }
+
+
         setupUI(main);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -210,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), ForgetPassword.class));
+                finish();
             }
         });
     }
@@ -488,15 +483,7 @@ public class LoginActivity extends AppCompatActivity {
         password = passwordField.getEditText().getText().toString().trim();
     }
 
-    public void setError(String message) {
-        passwordField.setBoxStrokeWidth(2);
-        passwordField.setBoxStrokeWidthFocused(2);
-        passwordField.setError(" ");
-        loginEmailIdField.setBoxStrokeWidthFocused(2);
-        loginEmailIdField.setBoxStrokeWidth(2);
-        loginEmailIdField.setError(message);
 
-    }
 
     private void callAuthApi(String bearer) {
         String bearerToken = bearer;
@@ -626,11 +613,11 @@ public class LoginActivity extends AppCompatActivity {
                             response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
                     if (checkLogin.equals("login")){
                         startActivity(new Intent(LoginActivity.this , OrderActivity.class));
-                        finish();
+                        finishAffinity();
                     }
                     else{
                         startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
-                        finish();
+                        finishAffinity();
                     }
 
                 }
@@ -678,6 +665,12 @@ public class LoginActivity extends AppCompatActivity {
                     0
             );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(LoginActivity.this , SignUpActivity.class));
+        finish();
     }
 }
 

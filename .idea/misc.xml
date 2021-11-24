@@ -173,7 +173,7 @@
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/country_search.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/create_ship_single_layout.xml" value="0.22" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/dropdown_text_layout.xml" value="0.27291666666666664" />
-        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/dummy.xml" value="0.33" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/dummy.xml" value="0.18" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/eallet_transaction_single_layout.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.25" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_address_book.xml" value="0.2" />
@@ -211,10 +211,11 @@
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_vertual_address.xml" value="0.5" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_view_order_personal_shop.xml" value="0.33" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_view_previous_shipment.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_view_profile.xml" value="0.25" />
-        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_wallet.xml" value="0.22" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_view_profile.xml" value="1.1" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/fragment_wallet.xml" value="0.25" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/landing_dialog.xml" value="0.33" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/order_summary_single_layout.xml" value="0.29295426452410384" />
+        <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/order_updates_single_layout.xml" value="0.9" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/progress_layout.xml" value="0.2074074074074074" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/ready_to_ship_single_layout.xml" value="0.25" />
         <entry key="..\:/Users/Peace Infotech/shoppre-android/app/src/main/res/layout/refer_single_layout.xml" value="0.5" />

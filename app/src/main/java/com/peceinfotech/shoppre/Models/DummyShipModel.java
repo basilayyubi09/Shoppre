@@ -1,12 +1,21 @@
 package com.peceinfotech.shoppre.Models;
 
 public class DummyShipModel {
-    String webSiteName , quantity , packageId ;
+    String id, webSiteName , quantity , packageId ;
 
-    public DummyShipModel(String webSiteName, String quantity, String packageId) {
+    public DummyShipModel(String id , String webSiteName, String quantity, String packageId) {
+        this.id = id;
         this.webSiteName = webSiteName;
         this.quantity = quantity;
         this.packageId = packageId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getWebSiteName() {

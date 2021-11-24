@@ -331,7 +331,7 @@ public class OrderFragment extends Fragment {
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
-                    callShopperOrdersApi();
+//                    callShopperOrdersApi();
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
@@ -350,94 +350,7 @@ public class OrderFragment extends Fragment {
         });
     }
 
-    private void callCreateShopper() {
-        Call<ShopperOrdersResponse> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi().shopperOrder("Bearer " + sharedPrefManager.getBearerToken());
-        call.enqueue(new Callback<ShopperOrdersResponse>() {
-            @Override
-            public void onResponse(Call<ShopperOrdersResponse> call, Response<ShopperOrdersResponse> response) {
-                if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", response.body().getShopperOrder().getId());
-                    bundle.putString("type", "new");
-                    EmptyCart emptyCart = new EmptyCart();
-                    emptyCart.setArguments(bundle);
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, emptyCart, null)
-                            .commit();
-                } else if (response.code() == 401) {
-                    callRefreshTokenApia();
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ShopperOrdersResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void callRefreshTokenApia() {
-        Call<RefreshTokenResponse> call = RetrofitClient
-                .getInstance().getApi()
-                .getRefreshToken(sharedPrefManager.getRefreshToken());
-        call.enqueue(new Callback<RefreshTokenResponse>() {
-            @Override
-            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code() == 200) {
-
-                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callCreateShopper();
-
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        });
-
-    }
-
-    private void callShopperOrdersApi() {
-        Call<ShopperOrdersResponse> call =
-                RetrofitClient3
-                        .getInstance3()
-                        .getAppApi().shopperOrder("Bearer " + sharedPrefManager.getBearerToken());
-        call.enqueue(new Callback<ShopperOrdersResponse>() {
-            @Override
-            public void onResponse(Call<ShopperOrdersResponse> call, Response<ShopperOrdersResponse> response) {
-                if (response.code() == 200) {
-//                    sharedPrefManager.storeOrderId(response.body().getShopperOrder().getId());
-                    LoadingDialog.cancelLoading();
-                } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ShopperOrdersResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//
 
     private void callMeApi(String bearerToken) {
         Call<MeResponse> call = RetrofitClient
@@ -553,5 +466,92 @@ public class OrderFragment extends Fragment {
             );
         }
     }
-
+//    private void callCreateShopper() {
+//        Call<ShopperOrdersResponse> call = RetrofitClient3
+//                .getInstance3()
+//                .getAppApi().shopperOrder("Bearer " + sharedPrefManager.getBearerToken());
+//        call.enqueue(new Callback<ShopperOrdersResponse>() {
+//            @Override
+//            public void onResponse(Call<ShopperOrdersResponse> call, Response<ShopperOrdersResponse> response) {
+//                if (response.code() == 200) {
+//                    LoadingDialog.cancelLoading();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("id", response.body().getShopperOrder().getId());
+//                    bundle.putString("type", "new");
+//                    EmptyCart emptyCart = new EmptyCart();
+//                    emptyCart.setArguments(bundle);
+//                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, emptyCart, null)
+//                            .commit();
+//                } else if (response.code() == 401) {
+////                    callRefreshTokenApia();
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ShopperOrdersResponse> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void callRefreshTokenApia() {
+//        Call<RefreshTokenResponse> call = RetrofitClient
+//                .getInstance().getApi()
+//                .getRefreshToken(sharedPrefManager.getRefreshToken());
+//        call.enqueue(new Callback<RefreshTokenResponse>() {
+//            @Override
+//            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+//                if (response.code() == 200) {
+//
+//                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+//                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+////                    callCreateShopper();
+//
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//            }
+//        });
+//
+//    }
+//
+//    private void callShopperOrdersApi() {
+//        Call<ShopperOrdersResponse> call =
+//                RetrofitClient3
+//                        .getInstance3()
+//                        .getAppApi().shopperOrder("Bearer " + sharedPrefManager.getBearerToken());
+//        call.enqueue(new Callback<ShopperOrdersResponse>() {
+//            @Override
+//            public void onResponse(Call<ShopperOrdersResponse> call, Response<ShopperOrdersResponse> response) {
+//                if (response.code() == 200) {
+////                    sharedPrefManager.storeOrderId(response.body().getShopperOrder().getId());
+//                    LoadingDialog.cancelLoading();
+//                } else if (response.code() == 401) {
+//                    callRefreshTokenApi();
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ShopperOrdersResponse> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

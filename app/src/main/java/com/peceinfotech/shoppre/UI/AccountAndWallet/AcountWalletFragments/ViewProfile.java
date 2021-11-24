@@ -294,7 +294,7 @@ public class ViewProfile extends Fragment {
             public void onClick(View view) {
                 sharedPrefManager.logOut();
                 startActivity(new Intent(getActivity(), SignUpActivity.class));
-                getActivity().finish();
+                getActivity().finishAffinity();
             }
         });
 

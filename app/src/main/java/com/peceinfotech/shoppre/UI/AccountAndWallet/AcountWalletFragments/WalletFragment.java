@@ -53,6 +53,7 @@ public class WalletFragment extends Fragment {
     ImageView emptyWalletImage;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -184,7 +185,7 @@ public class WalletFragment extends Fragment {
 
         int id = sharedPrefManager.getId();
         Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
-                .getAppApi().getDetails(id, "0", "20", "Bearer " + bearerToken);
+                .getAppApi().getDetails(id, "0", "5", "Bearer " + bearerToken);
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
@@ -206,8 +207,8 @@ public class WalletFragment extends Fragment {
                     int myReward = response.body().getUser().getParcelWalletAmount() + response.body().getUser().getPsWalletAmount()
                             + response.body().getUser().getCourierWalletAmount();
 
-                    myWalletMyCash.setText("₹ " + response.body().getUser().getMarketingWalletAmount().toString());
-                    myWalletMyRewards.setText("₹ " + String.valueOf(myReward));
+                    myWalletMyCash.setText("₹ " +String.valueOf(myReward) );
+                    myWalletMyRewards.setText("₹ " + response.body().getUser().getMarketingWalletAmount().toString());
                     LoadingDialog.cancelLoading();
                     int number = recyclerView.getAdapter().getItemCount();
                     if (number == 0) {

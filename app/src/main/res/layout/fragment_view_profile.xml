@@ -92,12 +92,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
+                            <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
 
                                 android:layout_marginTop="20dp"
-                                android:src="@drawable/small_round" />
+                                android:src="@drawable/empty_wallet" />
 
                             <LinearLayout
                                 android:id="@+id/viewProfileWalletText"

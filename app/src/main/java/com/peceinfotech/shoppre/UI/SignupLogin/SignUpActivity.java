@@ -34,7 +34,6 @@ import com.peceinfotech.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.SignUpGoogleResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
-import com.peceinfotech.shoppre.Retrofit.RetrofitClient2;
 import com.peceinfotech.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -80,14 +79,24 @@ public class SignUpActivity extends AppCompatActivity {
         fbSignInBtn = findViewById(R.id.signup_fb_btn);
         emailIdField = findViewById(R.id.emailIdField);
         main = findViewById(R.id.main);
-        SignUp_Valid.hideSoftKeyboard(SignUpActivity.this);
+//        SignUp_Valid.hideSoftKeyboard(SignUpActivity.this);
         //callBack for facebook
         callbackManager = CallbackManager.Factory.create();
 
         setupUI(main);
+
+        //get Email Id from previous activity
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int flag = extras.getInt("flag");
+            if (flag == 1) {
+                setError("Looks like this user already exists! Please use a new Email ID");
+            }
+        }
         //Click listener on Login Text
         loginText.setOnClickListener(view -> {
             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+            finish();
         });
 
         //Click listener on Get started Button
@@ -101,6 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(SignUpActivity.this, SignUp_Valid.class);
                 intent.putExtra("emailId", emailId);
                 startActivity(intent);
+                finish();
             }
 
         });
@@ -214,7 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
                         finish();
                     }
                 })
-                .setNegativeButton("No",null)
+                .setNegativeButton("No", null)
                 .show();
     }
     //    private void setFacebookData(LoginResult loginResult) {
@@ -419,7 +429,7 @@ public class SignUpActivity extends AppCompatActivity {
             String firstName = acct.getGivenName();
             String lastName = acct.getFamilyName();
             String email = acct.getEmail();
-             personId = acct.getId();
+            personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {
@@ -433,7 +443,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             LoadingDialog.cancelLoading();
             Snackbar snackbar = Snackbar.make(getApplicationContext()
-            , findViewById(R.id.main) , e.toString(),Snackbar.LENGTH_SHORT);
+                    , findViewById(R.id.main), e.toString(), Snackbar.LENGTH_SHORT);
             snackbar.show();
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -531,7 +541,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
     private void callAuthApi(String bearer) {
-
+        String bearerToken = bearer;
 
         JsonObject paramObject = new JsonObject();
 
@@ -544,18 +554,19 @@ public class SignUpActivity extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearer , paramObject.toString());
+                .getAuth("Bearer "+bearerToken , paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.code()==200){
                     String code = response.body();
-                    //split string from "=" sign
+                    //split string from = sign
                     String[] parts = code.split("=");
-//                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
-                    callAccessTokenApi(part2 , bearer);
+//                    Log.d("Auth api response ",code);
+                    callAccessTokenApi(part2 , bearerToken);
 
                 }
                 else if (response.code()==401){
@@ -579,13 +590,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
     private void callAccessTokenApi(String part2, String bearer1) {
 
-
+        String auth =bearer1;
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , bearer1);
+                .getAccessToken(part2 , auth);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
@@ -597,11 +609,12 @@ public class SignUpActivity extends AppCompatActivity {
                     LoadingDialog.cancelLoading();
                     if (checkLogin.equals("login")){
                         startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                        finishAffinity();
                     }
                     else{
                         startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
+                        finishAffinity();
                     }
-                    finish();
                 }
 
                 else if (response.code()==400){
@@ -618,13 +631,102 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AccessTokenResponse> call, @NonNull Throwable t) {
+            public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
     }
+//    private void callAuthApi(String bearer) {
+//
+//
+//        JsonObject paramObject = new JsonObject();
+//
+//        paramObject.addProperty("allow", "true");
+//        paramObject.addProperty("client_id", "app1");
+//        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+//        paramObject.addProperty("response_type", "code");
+//
+//
+//        Call<String> call = RetrofitClient
+//                .getInstance()
+//                .getApi()
+//                .getAuth("Bearer " + bearer, paramObject.toString());
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//
+//                if (response.code() == 200) {
+//                    String code = response.body();
+//                    //split string from "=" sign
+//                    String[] parts = code.split("=");
+////                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+//                    String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
+//                    callAccessTokenApi(part2, bearer);
+//
+//                } else if (response.code() == 401) {
+//                    LoadingDialog.cancelLoading();
+//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token", Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//            }
+//        });
+//    }
+//
+//    private void callAccessTokenApi(String part2, String bearer1) {
+//
+//
+//        Call<AccessTokenResponse> call = RetrofitClient
+//                .getInstance()
+//                .getApi()
+//                .getAccessToken(part2, bearer1);
+//        call.enqueue(new Callback<AccessTokenResponse>() {
+//            @Override
+//            public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+//                if (response.code() == 200) {
+////                  callMeApi(response.body().getAccessToken());
+//                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+//                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+//                    sharedPrefManager.setLogin();
+//                    LoadingDialog.cancelLoading();
+//                    if (checkLogin.equals("login")) {
+//                        startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
+//                    } else {
+//                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
+//                    }
+//                    finish();
+//                } else if (response.code() == 400) {
+//                    LoadingDialog.cancelLoading();
+//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired", Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AccessTokenResponse> call, @NonNull Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//            }
+//        });
+//    }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -645,15 +747,24 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0
             );
         }
+    }
+
+    public void setError(String message) {
+
+        emailIdField.setBoxStrokeWidthFocused(2);
+        emailIdField.setBoxStrokeWidth(2);
+        emailIdField.setError(message);
+
     }
 }

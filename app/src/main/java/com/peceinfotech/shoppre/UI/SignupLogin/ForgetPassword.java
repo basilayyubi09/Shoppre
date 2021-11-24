@@ -127,4 +127,10 @@ public class ForgetPassword extends AppCompatActivity {
             return true;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
+    }
 }

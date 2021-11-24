@@ -41,7 +41,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn ;
     protected EditText passwordField;
-    TextView signUpValdAlrdyAcnt, passwordErrorText;
+    TextView signUpValdAlrdyAcnt, passwordErrorText , helperText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword,checkLogin, referalCode, firstName, lastName , emailIdFromIntent;
@@ -70,6 +70,7 @@ public class SignUp_Valid extends AppCompatActivity {
         firstlNameField = findViewById(R.id.firstNameField);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
+        helperText = findViewById(R.id.helperText);
         passwordErrorText = findViewById(R.id.passwordErrorText);
         passwordField = findViewById(R.id.pf);
         confirmPasswordField = findViewById(R.id.confirmPassword);
@@ -93,6 +94,8 @@ public class SignUp_Valid extends AppCompatActivity {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(SignUp_Valid.this , SignUpActivity.class));
                 finish();
             }
         });
@@ -216,22 +219,17 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
 
 
-                String message = "Already User Is Registered, Please Verify Your email To Continue";
-
-                RegisterVerifyResponse registerVerifyResponse = response.body();
-
                 //If user already register then send to login screen and show error in fields
                 if (response.code()==200){
-                    if (registerVerifyResponse.getMessage().equals(message))
+                    if (response.body().getCustomerId()==null)
                     {
                         LoadingDialog.cancelLoading();
-                        Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
+                        Intent intent = new Intent(SignUp_Valid.this , SignUpActivity.class);
                         intent.putExtra("flag" , 1);
                         startActivity(intent);
                         finish();
                     } else {
-                        String bearer = response.body().getToken().getAccessToken();
-                        callAuthApi(bearer);
+                        callAuthApi(response.body().getToken().getAccessToken());
 
                     }
                 }
@@ -253,7 +251,7 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
     private void callAuthApi(String bearer) {
-        String bearerToken = bearer;
+
 
         JsonObject paramObject = new JsonObject();
 
@@ -266,7 +264,7 @@ public class SignUp_Valid extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearerToken , paramObject.toString());
+                .getAuth("Bearer "+bearer , paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -275,10 +273,10 @@ public class SignUp_Valid extends AppCompatActivity {
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
-                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+//                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
 //                    Log.d("Auth api response ",code);
-                    callAccessTokenApi(part2 , bearerToken);
+                    callAccessTokenApi(part2 , bearer);
 
                 }
                 else if (response.code()==401){
@@ -303,25 +301,25 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
-    private void callAccessTokenApi(String part2, String bearer1) {
+    private void callAccessTokenApi(String part2, String bearer) {
 
-        String auth =bearer1;
+
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , auth);
+                .getAccessToken(part2 , bearer);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
                 if (response.code()==200){
 
-                    String token = response.body().getAccessToken();
-                    sharedPrefManager.storeBearerToken(token);
+
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     clearFields();
                     LoadingDialog.cancelLoading();
                     startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
-                    finish();
+                    finishAffinity();
                 }
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
@@ -419,14 +417,17 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
             passwordErrorText.setVisibility(View.VISIBLE);
+            helperText.setVisibility(View.GONE);
             strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
 
         } else if (!password.matches(passwordPattern)) {
+            helperText.setVisibility(View.GONE);
             passwordErrorText.setVisibility(View.VISIBLE);
             strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
         } else {
+            helperText.setVisibility(View.VISIBLE);
             passwordErrorText.setVisibility(View.GONE);
             return true;
         }
@@ -496,6 +497,12 @@ public class SignUp_Valid extends AppCompatActivity {
                     0
             );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SignUp_Valid.this , SignUpActivity.class));
+        finish();
     }
 }
 
