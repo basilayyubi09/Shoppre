@@ -287,6 +287,23 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
 
                 if (response.code() == 201) {
+
+                    list = response.body().getOrders();
+                    ordersAdapter = new OrdersAdapter(list, getContext());
+                    orderRecycler.setAdapter(ordersAdapter);
+                    int number = orderRecycler.getAdapter().getItemCount();
+                    if (number == 0) {
+                        banner.setVisibility(View.VISIBLE);
+                        ordersCard.setVisibility(View.VISIBLE);
+                        secondContainer.setVisibility(View.VISIBLE);
+                        orderListing.setVisibility(View.GONE);
+                    } else {
+                        banner.setVisibility(View.GONE);
+                        ordersCard.setVisibility(View.GONE);
+                        secondContainer.setVisibility(View.GONE);
+                        orderListing.setVisibility(View.VISIBLE);
+                    }
+                    ordersAdapter.notifyDataSetChanged();
                     String s = sharedPrefManager.getCreateDate();
                     String[] split = s.split("T");
                     String date = split[0];
@@ -314,22 +331,7 @@ public class OrderFragment extends Fragment {
                     }
 
 
-                    list = response.body().getOrders();
-                    ordersAdapter = new OrdersAdapter(list, getContext());
-                    orderRecycler.setAdapter(ordersAdapter);
-                    int number = orderRecycler.getAdapter().getItemCount();
-                    if (number == 0) {
-                        banner.setVisibility(View.VISIBLE);
-                        ordersCard.setVisibility(View.VISIBLE);
-                        secondContainer.setVisibility(View.VISIBLE);
-                        orderListing.setVisibility(View.GONE);
-                    } else {
-                        banner.setVisibility(View.GONE);
-                        ordersCard.setVisibility(View.GONE);
-                        secondContainer.setVisibility(View.GONE);
-                        orderListing.setVisibility(View.VISIBLE);
-                    }
-                    ordersAdapter.notifyDataSetChanged();
+
 //                    callShopperOrdersApi();
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {

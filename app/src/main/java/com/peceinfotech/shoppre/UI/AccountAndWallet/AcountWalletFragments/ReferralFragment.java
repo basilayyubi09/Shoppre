@@ -205,7 +205,10 @@ public class ReferralFragment extends Fragment {
             public void onResponse(Call<ReferralHistoryResponse> call, Response<ReferralHistoryResponse> response) {
                 if (response.code() == 200) {
                     String code = response.body().getUser().getReferralCode();
-                    referralCodeText.setText(code);
+                    if (!code.equals("")){
+                        referralCodeText.setText(code);
+                    }
+
                     list = response.body().getReferralHistory();
                     referralAdapter = new ReferralAdapter(getActivity(), list);
                     referralRecycle.setAdapter(referralAdapter);

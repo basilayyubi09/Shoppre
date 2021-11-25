@@ -198,7 +198,17 @@ public class ViewProfile extends Fragment {
 
 
 
+        firstLetter = sharedPrefManager.getFirstName().charAt(0);
 
+        ////Profile RoundImage with Letter
+
+        textDrawable = TextDrawable.builder()
+                .beginConfig().endConfig()
+                .beginConfig().withBorder(4)
+                .bold().toUpperCase()
+                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
+
+        profileImage.setImageDrawable(textDrawable);
         setProfileCredentials();
 
 
@@ -375,17 +385,7 @@ public class ViewProfile extends Fragment {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code()==200){
-                    firstLetter = response.body().getFirstName().charAt(0);
 
-                    ////Profile RoundImage with Letter
-
-                    textDrawable = TextDrawable.builder()
-                            .beginConfig().endConfig()
-                            .beginConfig().withBorder(4)
-                            .bold().toUpperCase()
-                            .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
-
-                    profileImage.setImageDrawable(textDrawable);
                     if (response.body().getIsEmailVerified()==0){
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);
@@ -651,22 +651,22 @@ public class ViewProfile extends Fragment {
     }
 
 
-    public boolean validateEmail() {
-        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (email.equals("")) {
-            emailError.setVisibility(View.VISIBLE);
-            return false;
-        } else if (!email.matches(emailPattern)) {
-            emailWrong.setVisibility(View.VISIBLE);
-            return false;
-        } else {
-            emailWrong.setVisibility(View.GONE);
-            emailError.setVisibility(View.GONE);
-            return true;
-        }
-
-
-    }
+//    public boolean validateEmail() {
+//        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+//        if (email.equals("")) {
+//            emailError.setVisibility(View.VISIBLE);
+//            return false;
+//        } else if (!email.matches(emailPattern)) {
+//            emailWrong.setVisibility(View.VISIBLE);
+//            return false;
+//        } else {
+//            emailWrong.setVisibility(View.GONE);
+//            emailError.setVisibility(View.GONE);
+//            return true;
+//        }
+//
+//
+//    }
 
     public boolean validateNumber() {
 

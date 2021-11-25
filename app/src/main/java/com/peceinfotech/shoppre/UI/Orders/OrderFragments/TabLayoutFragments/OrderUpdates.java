@@ -104,7 +104,7 @@ public class OrderUpdates extends Fragment {
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
 //                    linearLayoutManager.setReverseLayout(true);
 //                    linearLayoutManager.setStackFromEnd(true);
-//                    layoutManager.scrollToPosition(0);
+                    layoutManager.scrollToPosition(0);
                     orderUpdatesRecycler.smoothScrollToPosition(0);
                     orderUpdatesRecycler.setLayoutManager(layoutManager);
 
