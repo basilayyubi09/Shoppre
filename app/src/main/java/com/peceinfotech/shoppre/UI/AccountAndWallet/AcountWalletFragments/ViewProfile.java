@@ -75,6 +75,7 @@ public class ViewProfile extends Fragment {
     LinearLayout resend , main;
     TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue;
     SharedPrefManager sharedPrefManager;
+    EditText phoneNoEditText;
 
     //For Title Spinner
     String[] title = new String[]{"Title", "Mr", "Ms", "Mrs"};
@@ -144,6 +145,7 @@ public class ViewProfile extends Fragment {
         nameCheck = view.findViewById(R.id.nameCheck);
         emailCheck = view.findViewById(R.id.emailCheck);
         phoneNoCheck = view.findViewById(R.id.phoneNoCheck);
+        phoneNoEditText = view.findViewById(R.id.phoneNoEditText);
 
 
 
@@ -349,6 +351,41 @@ public class ViewProfile extends Fragment {
                 sharedPrefManager.logOut();
                 startActivity(new Intent(getActivity(), SignUpActivity.class));
                 getActivity().finish();
+            }
+        });
+
+
+        phoneNoEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (phoneNoEditText.getText().length()==10)
+                {
+                    phoneNoCheck.setVisibility(View.VISIBLE);
+                }else {
+                    phoneNoCheck.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (phoneNoEditText.getText().length()==10)
+                {
+                    phoneNoCheck.setVisibility(View.VISIBLE);
+                }else {
+                    phoneNoCheck.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (phoneNoEditText.getText().length()==10)
+                {
+                    phoneNoCheck.setVisibility(View.VISIBLE);
+                }else {
+                    phoneNoCheck.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -694,6 +731,7 @@ public class ViewProfile extends Fragment {
             nameError.setVisibility(View.GONE);
             return true;
         }
+
     }
 
     public boolean validateSalutation() {
@@ -732,8 +770,14 @@ public class ViewProfile extends Fragment {
         if (phoneNumber.equals("")) {
             numberError.setVisibility(View.VISIBLE);
             return false;
-        } else {
+
+        }else if (phoneNumber.equals("")){
+            phoneNoCheck.setVisibility(View.GONE);
+            return false;
+        }
+        else {
             numberError.setVisibility(View.GONE);
+            phoneNoCheck.setVisibility(View.VISIBLE);
             return true;
         }
     }
