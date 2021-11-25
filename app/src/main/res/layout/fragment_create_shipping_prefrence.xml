@@ -648,6 +648,7 @@
                             android:layout_height="32dp"
                             android:insetBottom="0dp"
                             android:insetTop="0dp"
+                            android:textSize="12sp"
                             android:backgroundTint="@color/white"
                             android:text="Back"
                             android:textAllCaps="false"
@@ -659,6 +660,7 @@
                             app:strokeColor="#2D8DFF"/>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/shippingPrefProceedBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
                             android:paddingHorizontal="20dp"
@@ -666,6 +668,7 @@
                             android:layout_marginLeft="20dp"
                             android:insetTop="0dp"
                             android:text="Proceed"
+                            android:textSize="12sp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="700"

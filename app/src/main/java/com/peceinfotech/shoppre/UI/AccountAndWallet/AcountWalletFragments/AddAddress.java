@@ -205,15 +205,27 @@ public class AddAddress extends Fragment {
                 id = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getId();
                 is_billing = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getBillingAddress();
                 setTextsOnFields();
+                addAddressBtn.setText("Update Address");
+                addAddressBtn.setLetterSpacing((float) 0.03);
+
                 title.setText(R.string.update_address);
             } else if (type.equals("billing")) {
                 title.setText("Billing Address");
+
                 is_billing = true;
             }
             else if(type.equals("updateBilling")){
                 is_billing = true;
-                Toast.makeText(getActivity(), type, Toast.LENGTH_SHORT).show();
+                address = (DeliveryListModel.Address) getArguments().getSerializable("address");
+                id = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getId();
+                is_billing = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getBillingAddress();
+                setTextsOnFields();
                 title.setText("Update Billing Address");
+                addAddressBtn.setText("Update Address");
+                addAddressBtn.setLetterSpacing((float) 0.03);
+            }else if (type.equals("deliveryAddress")){
+                is_billing = false;
+                title.setText("Add Shipping Address");
             }
             else {
                 is_billing = false;
@@ -328,6 +340,7 @@ public class AddAddress extends Fragment {
                     clearFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 } else {
                     LoadingDialog.cancelLoading();
 
@@ -458,6 +471,7 @@ public class AddAddress extends Fragment {
                     clearFields();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Added Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 } else if(response.code() == 401){
 
                     callRefreshTokenApi();

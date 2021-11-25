@@ -35,25 +35,24 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="20dp"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:paddingTop="20dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+
                             android:src="@drawable/ic_virtual_address" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="20dp"
-                            android:gravity="center"
+
                             android:text="Virtual\nAddress"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
@@ -67,10 +66,10 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cancelOrderShippingCalculatorCard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="114dp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="5dp"
-                    android:layout_marginLeft="14dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
@@ -79,39 +78,38 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="20dp"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:paddingTop="20dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+
                             android:src="@drawable/ic_shipping_calculator" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="20dp"
-                            android:gravity="center"
-                            android:text="Shipping\nCalculator"
+
+                            android:text="Virtual\nAddress"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
                             android:textSize="10sp" />
 
                     </LinearLayout>
 
+
                 </androidx.cardview.widget.CardView>
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cancelOrderFaqAndHelpCard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="114dp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="5dp"
-                    android:layout_marginLeft="14dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="10dp"
@@ -121,29 +119,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="20dp"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingHorizontal="20dp"
-                            android:paddingTop="20dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+
                             android:src="@drawable/ic_help___faq" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="20dp"
-                            android:gravity="center"
-                            android:text="Help &amp;\nFAQ"
+
+                            android:text="Virtual\nAddress"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
                             android:textSize="10sp" />
 
                     </LinearLayout>
+
 
                 </androidx.cardview.widget.CardView>
 

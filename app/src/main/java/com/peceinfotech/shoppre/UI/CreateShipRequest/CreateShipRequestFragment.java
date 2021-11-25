@@ -12,9 +12,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.DummyCreateAdapter;
 import com.peceinfotech.shoppre.Models.DummyShipModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Utils.AlertDialogBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,9 @@ public class CreateShipRequestFragment extends Fragment {
     List<DummyShipModel> list = new ArrayList<>();
     TextView selectedNumber , totalNumber;
     List<String> list1 = new ArrayList<>();
+
+
+    MaterialButton choosePackageProceedBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +68,7 @@ public class CreateShipRequestFragment extends Fragment {
                         }
 
                     }
+        choosePackageProceedBtn = view.findViewById(R.id.choosePackageProceedBtn);
 
                 }
                 else {
@@ -106,6 +112,14 @@ public class CreateShipRequestFragment extends Fragment {
         });
 
 
+
+        choosePackageProceedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialogBox alertDialogBox = new AlertDialogBox();
+                alertDialogBox.showAlertDialog(getContext());
+            }
+        });
 
         return view;
     }

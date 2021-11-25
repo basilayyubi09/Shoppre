@@ -302,9 +302,11 @@
                                 android:layout_height="30dp"
                                 android:background="@null"
                                 android:paddingLeft="0dp"
+                                android:dropDownWidth="66dp"
                                 android:overlapAnchor="false"/>
 
                             <ImageView
+                                android:id="@+id/triangleImage"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
                                 android:src="@drawable/triangle"
@@ -337,7 +339,8 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="center"
-                            android:id="@+id/check"
+                            android:visibility="gone"
+                            android:id="@+id/nameCheck"
                             android:layout_marginLeft="11dp"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
@@ -378,6 +381,12 @@
                         android:textSize="12sp" />
 
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="30dp"
+                        android:orientation="horizontal">
 
                     <TextView
                         android:gravity="center_vertical"
@@ -385,15 +394,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_marginTop="3dp"
-                        android:layout_marginHorizontal="34dp"
                         android:background="@drawable/edittext_bg"
                         android:hint="nikkitha@gmail.com"
                         android:inputType="none"
                         android:paddingLeft="10dp"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color"
                         android:textSize="12sp"
                         android:maxLines="1"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/emailCheck"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="11dp"
+                            android:src="@mipmap/check_symbol" />
+
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/emailError"
                         android:layout_width="wrap_content"
@@ -483,8 +505,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="30dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:layout_marginHorizontal="34dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
                         android:background="@drawable/edittext_bg">
 
                         <com.hbb20.CountryCodePicker
@@ -513,6 +543,7 @@
                            android:id="@+id/updateProfileNumber"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
+
                             app:boxStrokeWidthFocused="0dp"
                             app:boxStrokeWidth="0dp"
                             app:hintEnabled="false"
@@ -530,6 +561,17 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/phoneNoCheck"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="11dp"
+                        android:src="@mipmap/check_symbol" />
+
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/numberError"
                         android:layout_width="wrap_content"
@@ -600,13 +642,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginHorizontal="15dp">
 
                     <ImageView
                         android:layout_width="175dp"
-                        android:layout_height="102dp"
+                        android:layout_height="match_parent"
                         android:contentDescription="@string/app_name"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/referral_invite" />
 
                     <LinearLayout
@@ -619,6 +661,7 @@
                             android:layout_height="wrap_content"
                             android:text="Invite Your Friends"
                             android:textColor="#3876D3"
+                            android:layout_marginTop="13dp"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
 
@@ -643,7 +686,8 @@
                             android:text="Invite"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
+                            android:textFontWeight="700"
                             app:backgroundTint="#17B28F" />
                     </LinearLayout>
 
@@ -743,22 +787,61 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/logoutBtn"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:text="Logout"
-                app:elevation="4dp"
-                android:textAllCaps="false"
-                android:layout_marginHorizontal="21dp"
-                android:insetBottom="0dp"
-                android:insetTop="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:elevation="4dp"
                 android:layout_marginVertical="28dp"
-                app:strokeColor="#2D8DFF"
-                android:textColor="#2D8DFF"
-                android:textFontWeight="600"
-                android:textSize="12sp"
-                android:id="@+id/logoutBtn"/>
+                android:layout_marginHorizontal="21dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Logout"
+                    android:textColor="#2D8DFF"
+                    android:background="@drawable/logout_shadow"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"/>
+
+
+            </androidx.cardview.widget.CardView>
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginHorizontal="10dp"-->
+<!--                    android:layout_marginVertical="28dp"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:background="@drawable/logout_shadow">-->
+
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:text="Logout"-->
+<!--                android:textColor="#2D8DFF"-->
+<!--                app:elevation="4dp"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="@drawable/logout_btn_background"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:layout_marginHorizontal="3dp"-->
+<!--                android:insetBottom="0dp"-->
+<!--                android:insetTop="0dp"-->
+<!--                android:layout_marginVertical="3dp"-->
+<!--                android:textFontWeight="600"-->
+<!--                android:textSize="12sp"-->
+<!--                android:id="@+id/logoutBtn"/>-->
+
+<!--                </LinearLayout>-->
+
+<!--            </RelativeLayout>-->
 
         </LinearLayout>
     </ScrollView>

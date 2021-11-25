@@ -365,6 +365,7 @@
                                 android:textSize="12sp" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/submit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
@@ -378,8 +379,7 @@
                                 android:textFontWeight="700"
                                 android:textSize="10sp"
                                 app:backgroundTint="#17B28F"
-                                app:cornerRadius="5dp"
-                                android:id="@+id/submit"/>
+                                app:cornerRadius="5dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -455,6 +455,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:paddingHorizontal="27dp"

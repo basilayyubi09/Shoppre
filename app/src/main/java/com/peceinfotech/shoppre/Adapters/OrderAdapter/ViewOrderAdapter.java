@@ -79,7 +79,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             @Override
             public void onClick(View v) {
 
-                showToolTip(v, Gravity.TOP);
+                showToolTip(v);
 
             }
         });
@@ -112,12 +112,11 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
         }
     }
 
-    public void showToolTip(View v, int gravity){
+    public void showToolTip(View v){
         ImageView tooltipImage = (ImageView) v;
         @SuppressLint("ResourceAsColor") Tooltip tooltip = new Tooltip.Builder(tooltipImage)
                 .setText("Cancel this item & purchase\nall the other available items")
                 .setTextColor(Color.BLACK)
-                .setGravity(gravity)
                 .setCornerRadius(5f)
                 .setBackgroundColor(Color.WHITE)
                 .setCancelable(true)

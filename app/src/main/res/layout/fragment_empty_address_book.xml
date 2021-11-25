@@ -202,7 +202,7 @@
                     android:layout_marginTop="28dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp"
-                    android:visibility="gone">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,14 +224,21 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="92dp"
                             android:layout_marginTop="15dp"
-                            android:src="@drawable/ic_empty_book" />
+                            android:src="@drawable/ic_emptyaddres" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center_horizontal"
+                            android:visibility="visible"
+                            android:text="Looks like you’ve not added \nany address yet!" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/deliveryAddAdrsbtn"
                             android:layout_width="138dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="20dp"
                             android:layout_marginBottom="31dp"
                             android:backgroundTint="@color/white"
                             android:text="Add Address"
@@ -411,19 +418,8 @@
                             android:paddingBottom="13dp"
                             android:text="Your Indian Virtual Address"
                             android:textColor="@color/white"
-                            android:textFontWeight="700"
-                            android:textSize="20sp" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="23dp"
-                            android:layout_marginTop="28dp"
-                            android:text="Billing Address"
-                            android:textColor="@color/black"
-                            android:textFontWeight="700"
-                            android:textSize="14sp" />
+                            android:textFontWeight="600"
+                            android:textSize="16sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

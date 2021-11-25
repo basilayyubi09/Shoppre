@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,9 @@ import retrofit2.Response;
 
 public class WalletFragment extends Fragment {
 
-    List<WalletTransaction> list , list1;
-    String[] title = {"All", "My Cash", "Rewards"};
-    MaterialAutoCompleteTextView allSpinner;
+    List<WalletTransaction> list;
+    String[] title = {"  All  ", "  My Cash  ", "  Rewards  "};
+    Spinner allSpinner;
     ArrayAdapter arrayAdapter;
     WalletTransactionAdapter walletAdapter;
     LinearLayoutManager linearLayoutManager;

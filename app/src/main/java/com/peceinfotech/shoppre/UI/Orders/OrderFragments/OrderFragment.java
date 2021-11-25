@@ -323,6 +323,7 @@ public class OrderFragment extends Fragment {
 
                     if (shoppreId != null) {
                         addNewOrderBtn.setText("Add More Orders");
+                        addNewOrderBtn.setLetterSpacing((float) 0.03);
                         forgetSomething.setVisibility(View.VISIBLE);
                         flag = 1;
                     } else {

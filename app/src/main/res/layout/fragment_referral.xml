@@ -39,18 +39,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="start"
                         android:text="Refer &amp; Earn"
                         android:textColor="@color/black"
                         android:textFontWeight="700"
-                        android:textSize="14sp"
-                        android:gravity="start"/>
+                        android:textSize="14sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/image_bg"
-                        >
+                        android:background="@drawable/image_bg">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -72,27 +71,28 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="30dp"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginVertical="30dp">
 
                         <RelativeLayout
+                            android:id="@+id/btnRelative"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_bg"
-                            android:id="@+id/btnRelative">
+                            android:background="@drawable/edittext_bg">
 
                             <TextView
                                 android:id="@+id/referralCodeText"
-                                android:layout_width="wrap_content"
+                                android:layout_width="154dp"
                                 android:layout_height="32dp"
                                 android:gravity="center"
                                 android:paddingHorizontal="24dp"
-                                android:text="NIK5XY12 "
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textFontWeight="700"
                                 android:textSize="14sp" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/copyBtn"
                                 android:layout_width="34dp"
                                 android:layout_height="34dp"
                                 android:layout_marginLeft="-5dp"
@@ -103,30 +103,56 @@
                                 android:paddingStart="6dp"
                                 app:icon="@mipmap/clipboard"
                                 app:iconSize="20dp"
-                                app:iconTint="@color/black"
-                                android:id="@+id/copyBtn"/>
+                                app:iconTint="@color/black" />
 
                         </RelativeLayout>
 
-                        <com.google.android.material.button.MaterialButton
+                        <LinearLayout
                             android:id="@+id/shareBtn"
-                            android:layout_width="94dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="34dp"
-                            android:layout_marginLeft="11dp"
+                            android:layout_marginLeft="22dp"
                             android:layout_toRightOf="@id/btnRelative"
-                            android:backgroundTint="#2D8DFF"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:letterSpacing="0.03"
-                            android:text="Share"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textFontWeight="600"
-                            android:textSize="12sp"
-                            app:icon="@mipmap/share"
-                            app:iconGravity="end"
-                            app:iconSize="18sp"
-                            app:iconTint="@color/white" />
+                            android:background="@drawable/share_btn_background"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="14dp"
+                                android:text="Share"
+                                android:textColor="@color/white"
+                                android:textFontWeight="600"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/referal_share" />
+
+                        </LinearLayout>
+
+                        <!--                        <com.google.android.material.button.MaterialButton-->
+                        <!--                            android:id="@+id/shareBtn"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="34dp"-->
+                        <!--                            android:layout_marginLeft="15dp"-->
+                        <!--                            -->
+                        <!--                            android:backgroundTint="#2D8DFF"-->
+                        <!--                            android:insetTop="0dp"-->
+                        <!--                            android:insetBottom="0dp"-->
+                        <!--                            android:letterSpacing="0.03"-->
+                        <!--                            android:text="Share"-->
+                        <!--                            android:textAllCaps="false"-->
+                        <!--                            android:textColor="@color/white"-->
+                        <!--                            android:textFontWeight="600"-->
+                        <!--                            android:textSize="12sp"-->
+                        <!--                            app:icon="@mipmap/share"-->
+                        <!--                            app:iconGravity="end"-->
+                        <!--                            app:iconSize="18sp"-->
+                        <!--                            app:iconTint="@color/white" />-->
                     </RelativeLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -138,7 +164,7 @@
                 android:layout_marginHorizontal="22dp"
                 android:layout_marginTop="22dp"
                 android:background="@color/white"
-                android:visibility="gone"
+
                 android:fitsSystemWindows="true"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp"
@@ -172,20 +198,21 @@
                             android:layout_height="34dp"
                             android:background="@null"
                             android:gravity="center"
+                            android:layout_weight="1"
                             android:textColor="@color/black"
                             android:textFontWeight="700"
                             android:textSize="14sp" />
 
-                        <com.google.android.material.button.MaterialButton
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="34dp"
-                            android:layout_marginLeft="-5dp"
-                            android:backgroundTint="#17B28F"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
+                            android:background="@drawable/submit_button_radius"
                             android:letterSpacing="0.03"
-                            android:padding="0dp"
+                            android:gravity="center"
                             android:text="Submit"
+                            android:textFontWeight="600"
+                            android:textColor="@color/white"
+                            android:paddingHorizontal="15dp"
                             android:textAllCaps="false"
                             android:textSize="14sp" />
                     </LinearLayout>

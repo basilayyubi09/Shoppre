@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
@@ -19,6 +20,7 @@ import com.peceinfotech.shoppre.LockerModelResponse.ReadyToShipResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.CreateShipRequest.CreateShipRequestFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
@@ -39,6 +41,7 @@ public class LockerReadyToShip extends Fragment {
     ReadyToShipAdapter readyToShipAdapter;
     RecyclerView lockerReadyToShipRecycler;
     LinearLayout returnAndDiscardText;
+    MaterialButton createShipRequestBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,9 +52,17 @@ public class LockerReadyToShip extends Fragment {
 
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
+        createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 
+        createShipRequestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {

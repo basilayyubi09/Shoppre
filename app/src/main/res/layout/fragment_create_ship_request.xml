@@ -187,6 +187,7 @@
                            app:strokeColor="#2D8DFF"/>
 
                        <com.google.android.material.button.MaterialButton
+                           android:id="@+id/choosePackageProceedBtn"
                            android:layout_width="wrap_content"
                            android:layout_height="32dp"
                            android:paddingHorizontal="20dp"

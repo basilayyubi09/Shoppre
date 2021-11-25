@@ -35,6 +35,7 @@ import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class EmptyAddressBook extends Fragment {
             emptyAddressStateText, emptyAddressPincodeText,
             emptyAddressPhoneNoText;
 
+    DeliveryListModel.Address deliveryAddress;
 
     Integer addressId = null, id;
     LinearLayout billingAddressBox;
@@ -314,18 +316,31 @@ public class EmptyAddressBook extends Fragment {
         billingAddressEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddAddress addAddress = new AddAddress();
-//                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+//                AddAddress addAddress = new AddAddress();
+////                Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("id", id);
+//                bundle.putString("type", "updateBilling");
+
+
+
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
+                bundle.putSerializable("address", (Serializable) deliveryAddress);
                 bundle.putString("type", "updateBilling");
 
                 // Set Fragment class Arguments
-
-                addAddress.setArguments(bundle);
+                AddAddress addAddress1 = new AddAddress();
+                addAddress1.setArguments(bundle);
                 OrderActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.orderFrameLayout, addAddress, null).addToBackStack(null).commit();
+                        .replace(R.id.orderFrameLayout, addAddress1, null).addToBackStack(null).commit();
+
+                // Set Fragment class Arguments
+
+//                addAddress1.setArguments(bundle);
+//                OrderActivity.fragmentManager.beginTransaction()
+//                        .replace(R.id.orderFrameLayout, addAddress1, null).addToBackStack(null).commit();
 
             }
         });
@@ -486,7 +501,9 @@ public class EmptyAddressBook extends Fragment {
                         list = response.body().getAddresses();
 
 
+
                         for (int i = 0; i < list.size(); i++) {
+                            deliveryAddress = list.get(i);
                             boolean isBilling = response.body().getAddresses().get(i).getBillingAddress();
 
                             if (isBilling) {
