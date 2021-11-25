@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -31,6 +34,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
@@ -60,11 +64,12 @@ import retrofit2.Response;
 public class ViewProfile extends Fragment {
 
     MaterialCardView redBoxText;
-    MaterialButton logoutBtn, inviteBtn, updateBtn;
+    MaterialButton inviteBtn, updateBtn;
+    CardView logoutBtn;
     EditText fullNameEditText;
     TextInputLayout updateProfileNumber;
     LinearLayout viewProfileWalletText;
-    ImageView profileImage;
+    ImageView profileImage, triangleImage, nameCheck, emailCheck, phoneNoCheck;
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
     LinearLayout resend , main;
@@ -135,6 +140,13 @@ public class ViewProfile extends Fragment {
         lockerNo = view.findViewById(R.id.lockerNo);
         titleValue = view.findViewById(R.id.titleValue);
         viewProfileWalletText = view.findViewById(R.id.viewProfileWalletText);
+        triangleImage = view.findViewById(R.id.triangleImage);
+        nameCheck = view.findViewById(R.id.nameCheck);
+        emailCheck = view.findViewById(R.id.emailCheck);
+        phoneNoCheck = view.findViewById(R.id.phoneNoCheck);
+
+
+
 
 
 
@@ -172,13 +184,20 @@ public class ViewProfile extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0){
-                    Toast.makeText(getContext(),(String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        triangleImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseTitle.performClick();
             }
         });
 
@@ -190,6 +209,8 @@ public class ViewProfile extends Fragment {
                         .addToBackStack(null).commit();
             }
         });
+
+
 
 
 
@@ -207,6 +228,39 @@ public class ViewProfile extends Fragment {
         getTextFromFields();
 
         setupUI(main);
+
+        fullNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                if (fullNameEditText.getText().toString().equals("") && titleText.equals("Title")){
+                    nameCheck.setVisibility(View.GONE);
+                }else {
+                    nameCheck.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (fullNameEditText.getText().toString().equals("")){
+//                    nameCheck.setVisibility(View.GONE);
+//                }else {
+//                    nameCheck.setVisibility(View.VISIBLE);
+//                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (fullNameEditText.getText().toString().equals("")  && titleText.equals("Title")){
+                    nameCheck.setVisibility(View.GONE);
+                }else {
+                    nameCheck.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
         updateBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -395,6 +449,7 @@ public class ViewProfile extends Fragment {
 
                         unverified.setVisibility(View.GONE);
                         resend.setVisibility(View.GONE);
+                        emailCheck.setVisibility(View.VISIBLE);
                     }
                 }
                 else if (response.code()==401){
@@ -597,8 +652,12 @@ public class ViewProfile extends Fragment {
         chooseTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0){
-                    Toast.makeText(getContext(),(String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                if (position > 0) {
+                    if (position == 0 && fullNameEditText.getText().toString().equals("")) {
+                        nameCheck.setVisibility(View.GONE);
+                    } else {
+                        nameCheck.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

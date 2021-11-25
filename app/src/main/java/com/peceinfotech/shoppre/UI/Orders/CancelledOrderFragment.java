@@ -52,7 +52,6 @@ public class CancelledOrderFragment extends Fragment {
         text = view.findViewById(R.id.text);
         cancelOrderVirtualAddressCard = view.findViewById(R.id.cancelOrderVirtualAddressCard);
         cancelOrderShippingCalculatorCard = view.findViewById(R.id.cancelOrderShippingCalculatorCard);
-        cancelOrderFaqAndHelpCard = view.findViewById(R.id.cancelOrderFaqAndHelpCard);
 
 
         cancelOrderVirtualAddressCard.setOnClickListener(new View.OnClickListener() {

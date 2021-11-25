@@ -29,7 +29,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
     List<DeliveryAddressModelResponse> list = new ArrayList<>();
     CardView emptyAddressCard, createShipmentDeliveryAddressCard;
     LinearLayout addMoreDeliveryAddressText;
-    MaterialButton createShipmentAddAddrsBtn;
+    MaterialButton createShipmentAddAddrsBtn, deliveryAddrsProceedBtn;
     Bundle bundle;
 
     @Override
@@ -43,6 +43,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
         createShipmentDeliveryAddressCard = view.findViewById(R.id.createShipmentDeliveryAddressCard);
         addMoreDeliveryAddressText = view.findViewById(R.id.addMoreDeliveryAddressText);
         createShipmentAddAddrsBtn = view.findViewById(R.id.createShipmentAddAddrsBtn);
+        deliveryAddrsProceedBtn = view.findViewById(R.id.deliveryAddrsProceedBtn);
 
         bundle = new Bundle();
         bundle.putString("type", "deliveryAddress");
@@ -86,6 +87,14 @@ public class CreateShipmentDeliveryAddress extends Fragment {
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, addAddress, null)
                         .addToBackStack(null).commit();
 
+            }
+        });
+
+        deliveryAddrsProceedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShippingPrefrenceFragment(), null)
+                        .addToBackStack(null).commit();
             }
         });
 

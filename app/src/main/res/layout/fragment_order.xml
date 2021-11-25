@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:background="@color/box_background_color"
     tools:context=".UI.Orders.OrderFragments.OrderFragment">
 
@@ -23,17 +23,15 @@
                 android:orientation="vertical">
 
 
-
                 <androidx.cardview.widget.CardView
-                    android:visibility="gone"
+                    android:id="@+id/sevenDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="22dp"
                     android:layout_marginTop="28dp"
+                    android:visibility="gone"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    android:id="@+id/sevenDay">
-
+                    app:cardElevation="4dp">
 
 
                     <LinearLayout
@@ -44,8 +42,8 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginRight="5dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -73,21 +71,21 @@
                                 android:textSize="12sp" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/submit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="12dp"
-                                android:paddingHorizontal="40dp"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
+                                android:paddingHorizontal="40dp"
                                 android:text="Submit"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textFontWeight="700"
                                 android:textSize="10sp"
                                 app:backgroundTint="#17B28F"
-                                app:cornerRadius="5dp"
-                                android:id="@+id/submit"/>
+                                app:cornerRadius="5dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -115,21 +113,20 @@
 
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/verifyEmailBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginHorizontal="22dp"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    android:id="@+id/verifyEmailBox"
-                    >
+                    app:cardElevation="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="13dp">
+                        android:layout_margin="13dp"
+                        android:orientation="vertical">
 
 
                         <LinearLayout
@@ -160,21 +157,21 @@
                         </LinearLayout>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/verifyEmailBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:paddingHorizontal="27dp"
                             android:text="Verify Email"
                             android:textAllCaps="false"
+                            android:textColor="@color/white"
                             android:textFontWeight="700"
                             android:textSize="10sp"
-                            android:layout_marginTop="8dp"
                             app:backgroundTint="#17B28F"
-                            android:textColor="@color/white"
-                            app:cornerRadius="5dp"
-                            android:id="@+id/verifyEmailBtn"/>
+                            app:cornerRadius="5dp" />
 
                     </LinearLayout>
 
@@ -182,14 +179,14 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:visibility="gone"
+                    android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
                     android:layout_marginHorizontal="22dp"
+                    android:layout_marginTop="28dp"
+                    android:visibility="gone"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    android:id="@+id/banner">
+                    app:cardElevation="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -200,84 +197,84 @@
                             android:id="@+id/youtube_player_view"
                             android:layout_width="match_parent"
                             android:layout_height="243dp"
-                            app:videoId="vb99LF4U1ew"
                             app:autoPlay="false"
-                            app:showFullScreenButton="false" />
+                            app:showFullScreenButton="false"
+                            app:videoId="vb99LF4U1ew" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
+                            android:gravity="center_horizontal"
                             android:text="SHOP"
                             android:textColor="#DF1D37"
                             android:textFontWeight="700"
-                            android:gravity="center_horizontal"
-                            android:textSize="24sp"/>
+                            android:textSize="24sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
                             android:text="from any Indian websites"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
-                            android:gravity="center_horizontal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
+                            android:gravity="center_horizontal"
                             android:text="SHIP"
                             android:textColor="#F3A10E"
                             android:textFontWeight="700"
-                            android:gravity="center_horizontal"
-                            android:textSize="24sp"/>
+                            android:textSize="24sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
                             android:text="across 220+ countries"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
-                            android:gravity="center_horizontal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
+                            android:gravity="center_horizontal"
                             android:text="SAVE"
                             android:textColor="#0B84A0"
                             android:textFontWeight="700"
-                            android:gravity="center_horizontal"
-                            android:textSize="24sp"/>
+                            android:textSize="24sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
                             android:text="60-80% on shipping prices"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
-                            android:gravity="center_horizontal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/shippingCalculator"
                             android:layout_width="240dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="18dp"
-                            android:text="Calculate Shipping Prices"
-                            android:textSize="14sp"
-                            android:textFontWeight="700"
-                            app:cornerRadius="5dp"
-                            app:backgroundTint="#17B28F"
-                            android:textColor="@color/white"
                             android:padding="0dp"
+                            android:text="Calculate Shipping Prices"
                             android:textAllCaps="false"
-                            android:layout_gravity="center_horizontal"/>
+                            android:textColor="@color/white"
+                            android:textFontWeight="700"
+                            android:textSize="14sp"
+                            app:backgroundTint="#17B28F"
+                            app:cornerRadius="5dp" />
 
                         <TextView
                             android:id="@+id/bannerVirtualAddress"
@@ -286,11 +283,11 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="18dp"
                             android:layout_marginBottom="15dp"
+                            android:gravity="center_horizontal"
                             android:text="View Virtual Address"
                             android:textColor="#2F4CAB"
                             android:textFontWeight="400"
-                            android:gravity="center_horizontal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -298,64 +295,64 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:visibility="gone"
+                    android:id="@+id/ordersCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="22dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginBottom="28dp"
-                    android:layout_marginHorizontal="22dp"
+                    android:visibility="gone"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="4dp"
-                    android:id="@+id/ordersCard">
+                    app:cardElevation="4dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Orders"
-                        android:textColor="@color/black"
-                        android:textFontWeight="700"
-                        android:textSize="11sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="17dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Orders"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="11sp" />
 
-                    <ImageView
-                        android:layout_width="89dp"
-                        android:layout_height="72dp"
-                        android:src="@drawable/ic_empty_orders"
-                        android:layout_marginTop="27dp"
-                        android:layout_gravity="center_horizontal"/>
+                        <ImageView
+                            android:layout_width="89dp"
+                            android:layout_height="72dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="27dp"
+                            android:src="@drawable/ic_empty_orders" />
 
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="19dp"
+                            android:gravity="center_horizontal"
                             android:text="Looks like your order list is empty!"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
-                            android:gravity="center_horizontal"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/addYourFirstOrderBtn"
                             android:layout_width="240dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="18dp"
                             android:layout_marginBottom="33dp"
-                            android:text="Add Your First Order"
-                            android:textSize="14sp"
-                            android:textFontWeight="700"
-                            app:cornerRadius="5dp"
-                            app:backgroundTint="#17B28F"
-                            android:textColor="@color/white"
                             android:padding="0dp"
+                            android:text="Add Your First Order"
                             android:textAllCaps="false"
-                            android:layout_gravity="center_horizontal"/>
+                            android:textColor="@color/white"
+                            android:textFontWeight="700"
+                            android:textSize="14sp"
+                            app:backgroundTint="#17B28F"
+                            app:cornerRadius="5dp" />
 
 
                     </LinearLayout>
@@ -369,13 +366,11 @@
                 android:id="@+id/orderListing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
                     android:layout_marginTop="20dp"
                     android:gravity="center">
 
@@ -392,25 +387,24 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingHorizontal="20dp"
-                                android:paddingTop="20dp"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+
                                 android:src="@drawable/ic_virtual_address" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="20dp"
-                                android:gravity="center"
+
                                 android:text="Virtual\nAddress"
                                 android:textColor="#86888C"
                                 android:textFontWeight="600"
@@ -424,10 +418,10 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/shippingCalculatorCard"
-                        android:layout_width="wrap_content"
+                        android:layout_width="114dp"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
-                        android:layout_marginLeft="14dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_weight="1"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="4dp">
@@ -436,38 +430,38 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingHorizontal="20dp"
-                                android:paddingTop="20dp"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+
                                 android:src="@drawable/ic_shipping_calculator" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="20dp"
-                                android:gravity="center"
-                                android:text="Shipping\nCalculator"
+
+                                android:text="Virtual\nAddress"
                                 android:textColor="#86888C"
                                 android:textFontWeight="600"
                                 android:textSize="10sp" />
 
                         </LinearLayout>
 
+
                     </androidx.cardview.widget.CardView>
 
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
+                        android:layout_width="114dp"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"
-                        android:layout_marginLeft="14dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_weight="1"
                         app:cardCornerRadius="10dp"
@@ -477,29 +471,29 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="20dp"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingHorizontal="20dp"
-                                android:paddingTop="20dp"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+
                                 android:src="@drawable/ic_help___faq" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="20dp"
-                                android:gravity="center"
-                                android:text="Help &amp;\nFAQ"
+
+                                android:text="Virtual\nAddress"
                                 android:textColor="#86888C"
                                 android:textFontWeight="600"
                                 android:textSize="10sp" />
 
                         </LinearLayout>
+
 
                     </androidx.cardview.widget.CardView>
 
@@ -513,16 +507,18 @@
                     android:layout_marginTop="23dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="26dp">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="8dp"
                             android:layout_weight="1"
+                            android:layout_marginVertical="26dp"
+                            android:layout_marginLeft="12dp"
                             android:orientation="vertical">
 
 
@@ -530,7 +526,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:layout_weight="400"
+                                android:layout_weight="600"
                                 android:lineSpacingExtra="2dp"
                                 android:text="Forgot Something?\nYour previous Personal Shopper order is still waiting for you..."
                                 android:textColor="@color/black"
@@ -544,6 +540,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginRight="12dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:text="Continue Order"
@@ -556,7 +553,6 @@
 
 
                     </LinearLayout>
-
 
 
                 </androidx.cardview.widget.CardView>
@@ -597,12 +593,14 @@
 
                                 <com.google.android.material.button.MaterialButton
                                     android:id="@+id/addNewOrderBtn"
-                                    android:layout_width="152dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="24dp"
+                                    android:paddingHorizontal="27dp"
                                     android:layout_marginTop="19dp"
                                     android:insetTop="0dp"
                                     android:insetBottom="0dp"
                                     android:text="Add New Order"
+                                    android:letterSpacing="0.03"
                                     android:textAllCaps="false"
                                     android:textColor="@color/white"
                                     android:textFontWeight="700"
@@ -625,12 +623,12 @@
 
                         <LinearLayout
                             android:id="@+id/cancel"
-                            android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="19dp"
-                            android:gravity="center"
-                            android:layout_marginTop="10dp">
+                            android:gravity="center">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -645,7 +643,7 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_marginLeft="4dp"
-                                android:src="@mipmap/showmore" />
+                                android:src="@drawable/play_ic" />
                         </LinearLayout>
 
                     </LinearLayout>

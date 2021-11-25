@@ -312,7 +312,7 @@
                     app:tabIndicatorColor="#3A5FD8"
                     app:tabIndicatorHeight="1dp"
                     app:tabSelectedTextColor="#3A5FD8"
-                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                    app:tabTextAppearance="@style/MineCustomTabText"
                     app:tabTextColor="@color/black">
 
                 </com.google.android.material.tabs.TabLayout>

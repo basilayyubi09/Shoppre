@@ -116,7 +116,7 @@
                         android:layout_marginTop="24dp">
 
                         <CheckBox
-                            android:id="@+id/check"
+                            android:id="@+id/checkBoxCreateShipment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -140,7 +140,6 @@
                         android:background="@color/hint_color" />
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/addressForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -149,158 +148,75 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:layout_marginTop="29dp"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="18dp"
                             android:text="Add Billing Address"
                             android:textColor="@color/black"
                             android:textFontWeight="700"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:id="@+id/title"/>
 
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="34dp"
-                            android:layout_marginTop="27dp"
-                            android:orientation="vertical">
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="29dp"
+                            android:layout_marginRight="34dp"
+                            android:orientation="vertical"
+                            android:paddingBottom="21dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Full Name"
                                 android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Address Line 1"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Address Line 2"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="City"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="State / Province"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Country"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
 
                             <LinearLayout
-                                android:id="@+id/shipItToSellerCountry"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_text_bg"
-                                android:orientation="horizontal">
+                                android:layout_marginTop="3dp">
 
+                                <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                                <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                                <!--                            android:layout_width="wrap_content"-->
+                                <!--                            android:layout_height="28dp"-->
+                                <!--                            app:boxStrokeWidth="0dp"-->
+                                <!--                            app:boxStrokeWidthFocused="0dp"-->
+                                <!--                            app:endIconTint="@color/hint_color"-->
+                                <!--                            app:hintAnimationEnabled="false"-->
+                                <!--                            app:hintEnabled="false"-->
+                                <!--                            android:id="@+id/salutationTextInput">-->
 
-                                <TextView
-                                    android:id="@+id/shipToSellerCountryTextView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="28dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center|left"
-                                    android:text=""
-                                    android:paddingLeft="15dp"
-                                    android:singleLine="true"
-                                    android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                                <!--                                android:id="@+id/spinnerTitle"-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_height="28dp"-->
+                                <!--                                android:hint="Title"-->
+                                <!--                                android:inputType="none"-->
+                                <!--                                android:padding="0dp"-->
+                                <!--                                android:textSize="12sp" />-->
+
+                                <!--                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                    android:id="@+id/createShipmentTitleSpinner"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:background="@null"
+                                    android:paddingLeft="0dp"
+                                    android:overlapAnchor="false"/>
+
+                                <ImageView
+                                    android:id="@+id/titleTriangle"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:src="@drawable/triangle"
+                                    android:layout_marginRight="8dp"
+                                    android:layout_gravity="center_vertical"/>
 
                                 <View
                                     android:layout_width="1dp"
@@ -308,7 +224,280 @@
                                     android:background="@color/hint_color" />
 
 
+                                <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:id="@+id/name"
+                                    android:background="@null"
+                                    android:hint="John Doe"
+                                    android:paddingLeft="7dp"
+                                    android:singleLine="true"
+                                    android:inputType="textPersonName"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phone Number"
+                                android:layout_marginTop="12dp"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edittext_bg">
+
+                                <com.hbb20.CountryCodePicker
+                                    android:id="@+id/countryCodePicker"
+                                    app:ccp_textGravity="CENTER"
+                                    android:layout_width="64dp"
+                                    android:layout_height="30dp"
+                                    app:ccp_showFlag="false"
+                                    app:ccp_hintExampleNumber="true"
+                                    app:ccp_hintExampleNumberType="FIXED_LINE"
+                                    app:ccp_showNameCode="false"
+                                    app:ccp_textSize="12sp"
+                                    app:ccpDialog_textColor="@color/black"
+                                    android:gravity="center"
+
+                                    android:layout_gravity="center_vertical"
+                                    />
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/hint_color"/>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:padding="0dp"
+                                    android:id="@+id/updateProfileNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    app:boxStrokeWidthFocused="0dp"
+                                    app:boxStrokeWidth="0dp"
+                                    app:hintEnabled="false"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    app:hintAnimationEnabled="false">
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:padding="0dp"
+                                        android:textSize="12sp"
+                                        android:inputType="number"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:layout_marginTop="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/titleError"
+                                android:visibility="gone"
+                                />
+
+                            <TextView
+                                android:id="@+id/nameError"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Address Line 1"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+
+                            <EditText
+                                android:layout_marginTop="3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="5dp"
+                                android:id="@+id/addressLine1"
+                                android:background="@drawable/edittext_bg"
+                                android:hint="1313 Disneyland Dr,"
+                                android:paddingLeft="13dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/hint_color"
+                                android:textSize="12sp"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:id="@+id/addressError"
+                                android:layout_gravity="right"
+                                android:visibility="gone"
+                                android:textColor="@color/design_default_color_error"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Address Line 2"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+                            <EditText
+                                android:layout_marginTop="3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingVertical="5dp"
+                                android:id="@+id/addressLine2"
+                                android:background="@drawable/edittext_bg"
+                                android:hint="5th Avenue"
+                                android:paddingLeft="13dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/hint_color"
+                                android:textSize="12sp"
+                                app:boxStrokeColor="@color/hint_color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="City"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+                            <EditText
+                                android:layout_marginTop="3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="28dp"
+                                android:id="@+id/city"
+                                android:background="@drawable/edittext_bg"
+                                android:hint="Anaheim"
+                                android:paddingLeft="13dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/hint_color"
+                                android:textSize="12sp"
+                                app:boxStrokeColor="@color/hint_color" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/cityError"
+                                android:layout_gravity="right"
+                                android:visibility="gone"
+                                />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="State / Province"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="28dp"
+                                android:id="@+id/state"
+                                android:background="@drawable/edittext_bg"
+                                android:hint="California"
+                                android:paddingLeft="13dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/hint_color"
+                                android:textSize="12sp"
+                                app:boxStrokeColor="@color/hint_color" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_gravity="right"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/stateError"
+                                android:visibility="gone"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Country"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+
+
+
+
+                            <LinearLayout
+                                android:id="@+id/spinnerCountryLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/edit_text_bg">
+
+
+                                <TextView
+                                    android:id="@+id/spinnerCountry"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@null"
+                                    android:gravity="center|left"
+                                    android:hint="Select country"
+                                    android:inputType="textPersonName"
+                                    android:paddingLeft="15dp"
+                                    android:singleLine="true"
+                                    android:textColor="@color/hint_color"
+                                    android:textColorHint="@color/hint_color"
+                                    android:textSize="12sp"
+                                    app:boxStrokeColor="@color/hint_color" />
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/hint_color"/>
+
+
                                 <ImageView
+                                    android:id="@+id/triangleDropdown"
                                     android:layout_width="12dp"
                                     android:layout_height="12dp"
                                     android:layout_gravity="center"
@@ -316,74 +505,134 @@
                                     android:src="@drawable/triangle" />
 
 
+
                             </LinearLayout>
 
+
+
+
+
+
+
+                            <!--                    <LinearLayout-->
+                            <!--                        android:layout_width="match_parent"-->
+                            <!--                        android:layout_height="wrap_content"-->
+                            <!--                        android:background="@drawable/edit_text_bg"-->
+                            <!--                        android:layout_marginTop="3dp">-->
+
+                            <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                            <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                            <!--                            android:layout_width="match_parent"-->
+                            <!--                            android:layout_height="28dp"-->
+                            <!--                            app:boxStrokeWidth="0dp"-->
+                            <!--                            app:boxStrokeWidthFocused="0dp"-->
+                            <!--                            app:endIconTint="@color/hint_color"-->
+                            <!--                            app:hintAnimationEnabled="false"-->
+                            <!--                            app:hintEnabled="false">-->
+
+                            <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                            <!--                                -->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="28dp"-->
+                            <!--                                android:hint="Choose Your Country"-->
+                            <!--                                android:inputType="none"-->
+                            <!--                                android:padding="0dp"-->
+                            <!--                                android:textSize="12sp"-->
+                            <!--                                />-->
+
+                            <!--                        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                            <!--                    </LinearLayout>-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/countryError"
+                                android:layout_gravity="right"
+                                android:visibility="gone"
+                                />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:text="Pincode"
                                 android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
 
                             <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="28dp"
+                                android:id="@+id/pinCode"
                                 android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
+                                android:hint="92802"
+                                android:inputType="number"
                                 android:paddingLeft="13dp"
+                                android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_gravity="right"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/pinCodeError"
+                                android:visibility="gone"/>
+
+
+                            <TextView
+                                android:layout_marginTop="2dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/errorNo"
+                                android:layout_gravity="right"
+                                android:visibility="gone"
+                                />
 
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Phone Number"
-                                android:textColor="@color/black"
-                                android:textFontWeight="500"
-                                android:textSize="10sp" />
-
-                            <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:background="@drawable/edittext_bg"
-                                android:paddingVertical="5dp"
-                                android:paddingLeft="13dp"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                app:boxStrokeColor="@color/hint_color" />
-
-
-
+                                android:text="* This is a required field"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_gravity="right"
+                                android:textColor="@color/design_default_color_error"
+                                android:id="@+id/phoneError"
+                                android:visibility="gone"
+                                />
 
                             <com.google.android.material.button.MaterialButton
-                                android:id="@+id/return_landing_proceed_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="32dp"
-                                android:paddingHorizontal="71dp"
+                                android:id="@+id/addAddressBtn"
                                 android:layout_gravity="center"
-                                android:layout_marginTop="34dp"
-                                android:layout_marginBottom="46dp"
+                                android:layout_marginTop="21dp"
+                                android:layout_marginBottom="18dp"
                                 android:backgroundTint="#17B28F"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
-                                android:letterSpacing="0.03"
-                                android:lineHeight="14sp"
                                 android:text="Add Address"
-                                android:textAllCaps="false"
                                 android:textColor="@color/white"
+                                android:textAllCaps="false"
                                 android:textFontWeight="700"
                                 android:textSize="12sp"
                                 app:cornerRadius="5dp" />
-
 
                         </LinearLayout>
 
@@ -804,7 +1053,7 @@
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
-
+                            app:cornerRadius="5dp"
                             android:backgroundTint="@color/white"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
@@ -817,12 +1066,13 @@
                             app:strokeColor="#2D8DFF" />
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/createShipBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
-                            android:id="@+id/createShipBtn"
                             android:layout_marginLeft="20dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
+                            app:cornerRadius="5dp"
                             android:letterSpacing="0.03"
                             android:text="Create Ship Request"
                             android:textAllCaps="false"

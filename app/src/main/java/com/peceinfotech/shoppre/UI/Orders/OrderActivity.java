@@ -25,6 +25,8 @@ import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewPr
 import com.peceinfotech.shoppre.UI.CreateShipRequest.CreateShipRequestFragment;
 import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -94,7 +96,7 @@ public class OrderActivity extends AppCompatActivity {
                         break;
 
                     case R.id.shipmentMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentLanding(), null)
                                 .addToBackStack(null).commit();
                         break;
 

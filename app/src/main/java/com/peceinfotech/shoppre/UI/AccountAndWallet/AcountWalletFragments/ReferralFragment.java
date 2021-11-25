@@ -50,11 +50,11 @@ public class ReferralFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     RecyclerView referralRecycle;
     MaterialCardView haveARefCard;
-    LinearLayout emptyReferralLayout, showMoreLayout, readMoreLayout, main;
+    LinearLayout emptyReferralLayout, showMoreLayout, readMoreLayout, main, shareBtn;
     SharedPrefManager sharedPrefManager;
     String bearerToken;
     TextView referralCodeText;
-    MaterialButton copyBtn, shareBtn;
+    MaterialButton copyBtn;
     TextView refer, share, use, faq;
     EditText have;
 

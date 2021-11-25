@@ -6,6 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.CreateShipRequest.CreateShipmentDeliveryAddress">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,13 +26,7 @@
         android:layout_marginBottom="21dp"
         app:cardElevation="4dp">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -100,6 +98,7 @@
                 app:strokeColor="#2D8DFF"/>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/deliveryAddrsProceedBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:paddingHorizontal="20dp"
@@ -120,9 +119,7 @@
 
     </LinearLayout>
 
-        </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
 
     </androidx.cardview.widget.CardView>
 
@@ -182,4 +179,6 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
 </FrameLayout>
