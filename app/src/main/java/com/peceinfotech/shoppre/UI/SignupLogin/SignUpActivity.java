@@ -424,12 +424,16 @@ public class SignUpActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-
             String fullName = acct.getDisplayName();
-            String firstName = acct.getGivenName();
-            String lastName = acct.getFamilyName();
-            String email = acct.getEmail();
-            personId = acct.getId();
+            String firstName = "asd";
+            String lastName = "lastName";
+            String email = "abcd@gmail.commma";
+            personId = "id";
+//            String fullName = acct.getDisplayName();
+//            String firstName = acct.getGivenName();
+//            String lastName = acct.getFamilyName();
+//            String email = acct.getEmail();
+//            personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {

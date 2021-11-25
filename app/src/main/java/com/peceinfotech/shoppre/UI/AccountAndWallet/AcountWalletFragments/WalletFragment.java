@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 public class WalletFragment extends Fragment {
 
-    List<WalletTransaction> list;
+    List<WalletTransaction> list , list1;
     String[] title = {"  All  ", "  My Cash  ", "  Rewards  "};
     Spinner allSpinner;
     ArrayAdapter arrayAdapter;
@@ -223,7 +223,6 @@ public class WalletFragment extends Fragment {
                     }
 
 
-                    Toast.makeText(getActivity(), String.valueOf(list1.size()), Toast.LENGTH_SHORT).show();
                         if (list1.size()==0 || list1.size()<5){
                             showMoreContent.setVisibility(View.GONE);
                         }
