@@ -21,4 +21,14 @@
 <!--        <item name="DialogSpotColor">@color/hint_color</item>-->
 <!--        <item name="DialogSpotCount">8</item>-->
 <!--    </style>-->
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/black</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
+    </style>
+
 </resources>
