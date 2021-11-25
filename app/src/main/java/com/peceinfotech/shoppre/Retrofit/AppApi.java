@@ -88,8 +88,8 @@ public interface AppApi {
     @GET("api/users/{id}/transactions")
     Call<WalletTransactionResponse> getDetails(
             @Path("id") int id,
-            @Query("offset") String offset,
-            @Query("limit") String limit,
+            @Query("offset") Integer offset,
+            @Query("limit") Integer limit,
             @Header("Authorization") String auth
     );
 

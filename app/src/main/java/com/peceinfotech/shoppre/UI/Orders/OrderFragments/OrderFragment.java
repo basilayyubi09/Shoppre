@@ -1,8 +1,7 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,15 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonArray;
+
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
-import com.peceinfotech.shoppre.AccountResponse.VerifyEmailResponse;
+
 import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderState__1;
-import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
+
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -41,24 +40,21 @@ import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewPr
 import com.peceinfotech.shoppre.UI.Orders.CancelledOrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShippingCalculator;
-import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +72,7 @@ public class OrderFragment extends Fragment {
 
 
     List<Order> list;
-    LinearLayout orderListing;
+    LinearLayout orderListing , secondContainer;
     OrdersAdapter ordersAdapter;
     LinearLayout cancel;
     OrderState__1 orderState;
@@ -101,6 +97,7 @@ public class OrderFragment extends Fragment {
         ordersCard = view.findViewById(R.id.ordersCard);
         orderListing = view.findViewById(R.id.orderListing);
         submit = view.findViewById(R.id.submit);
+        secondContainer = view.findViewById(R.id.secondContainer);
         forgotContinueBtn  = view.findViewById(R.id.forgotContinueBtn);
         sevenDay = view.findViewById(R.id.sevenDay);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
@@ -324,10 +321,12 @@ public class OrderFragment extends Fragment {
                     if (number == 0) {
                         banner.setVisibility(View.VISIBLE);
                         ordersCard.setVisibility(View.VISIBLE);
+                        secondContainer.setVisibility(View.VISIBLE);
                         orderListing.setVisibility(View.GONE);
                     } else {
                         banner.setVisibility(View.GONE);
                         ordersCard.setVisibility(View.GONE);
+                        secondContainer.setVisibility(View.GONE);
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
@@ -369,7 +368,6 @@ public class OrderFragment extends Fragment {
                         verifyEmailBox.setVisibility(View.GONE);
                     }
 
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
                     callGetOrderListing();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

@@ -148,7 +148,7 @@ public class ReferralFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plane");
+                shareIntent.setType("text/*");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, referralCodeText.getText().toString());
                 getActivity().startActivity(shareIntent);
             }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 
 public class WalletFragment extends Fragment {
 
-    List<WalletTransaction> list;
+    List<WalletTransaction> list , list1;
     String[] title = {"All", "My Cash", "Rewards"};
     MaterialAutoCompleteTextView allSpinner;
     ArrayAdapter arrayAdapter;
@@ -51,6 +52,7 @@ public class WalletFragment extends Fragment {
     String bearerToken;
     TextView myWalletMyCash, myWalletMyRewards, emptyWalletText, myCash, myRewards, howCanI;
     ImageView emptyWalletImage;
+    Integer offSet =0, limit=5;
 
 
 
@@ -80,6 +82,7 @@ public class WalletFragment extends Fragment {
 
         //Initialize
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         //shared pref manager
@@ -119,6 +122,21 @@ public class WalletFragment extends Fragment {
             }
         });
 
+        showMoreContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+                {
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    //Wallet Transaction api
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callApi();
+                }
+            }
+        });
         myRewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,18 +184,7 @@ public class WalletFragment extends Fragment {
     }
 
     private void showHideContents() {
-        int number = recyclerView.getAdapter().getItemCount();
-        if (number == 0) {
-            showMoreContent.setVisibility(View.GONE);
-            emptyWalletImage.setVisibility(View.VISIBLE);
-            emptyWalletText.setVisibility(View.VISIBLE);
 
-        } else {
-            showMoreContent.setVisibility(View.VISIBLE);
-            emptyWalletImage.setVisibility(View.GONE);
-            emptyWalletText.setVisibility(View.GONE);
-
-        }
     }
 
 
@@ -185,22 +192,52 @@ public class WalletFragment extends Fragment {
 
         int id = sharedPrefManager.getId();
         Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
-                .getAppApi().getDetails(id, "0", "5", "Bearer " + bearerToken);
+                .getAppApi().getDetails(id, offSet, limit, "Bearer " + bearerToken);
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.isSuccessful()) {
 
-                    list = response.body().getWalletTransactions();
-//                    int date = walletTransactionResponse.getUser().getId();
-//                    Toast.makeText(getActivity(), String.valueOf(date), Toast.LENGTH_SHORT).show();
+
+                        list1 = response.body().getWalletTransactions();
+                    for (int i=0 ; i<list1.size() ; i++){
+
+                        list.add( list1.get(i));
+
+
+                    }
                     walletAdapter = new WalletTransactionAdapter(getContext(), list);
                     recyclerView.setAdapter(walletAdapter);
+                    int number = recyclerView.getAdapter().getItemCount();
+                    if (number == 0) {
+
+                        emptyWalletImage.setVisibility(View.VISIBLE);
+                        emptyWalletText.setVisibility(View.VISIBLE);
+
+                    } else {
+
+                        emptyWalletImage.setVisibility(View.GONE);
+                        emptyWalletText.setVisibility(View.GONE);
+
+                    }
+
+
+                    Toast.makeText(getActivity(), String.valueOf(list1.size()), Toast.LENGTH_SHORT).show();
+                        if (list1.size()==0 || list1.size()<5){
+                            showMoreContent.setVisibility(View.GONE);
+                        }
+                        else {
+                            showMoreContent.setVisibility(View.VISIBLE);
+                        }
+
+
+                    list1.clear();
+                    offSet = limit;
+                    limit = limit+5;
+//                    int date = walletTransactionResponse.getUser().getId();
+//                    Toast.makeText(getActivity(), String.valueOf(date), Toast.LENGTH_SHORT).show();
 
                     recyclerView.setVisibility(View.VISIBLE);
-
-                    showMoreContent.setVisibility(View.VISIBLE);
-
 
                     walletAdapter.notifyDataSetChanged();
 
@@ -210,18 +247,7 @@ public class WalletFragment extends Fragment {
                     myWalletMyCash.setText("₹ " +String.valueOf(myReward) );
                     myWalletMyRewards.setText("₹ " + response.body().getUser().getMarketingWalletAmount().toString());
                     LoadingDialog.cancelLoading();
-                    int number = recyclerView.getAdapter().getItemCount();
-                    if (number == 0) {
-                        showMoreContent.setVisibility(View.GONE);
-                        emptyWalletImage.setVisibility(View.VISIBLE);
-                        emptyWalletText.setVisibility(View.VISIBLE);
 
-                    } else {
-                        showMoreContent.setVisibility(View.VISIBLE);
-                        emptyWalletImage.setVisibility(View.GONE);
-                        emptyWalletText.setVisibility(View.GONE);
-
-                    }
 
                     walletAdapter.notifyDataSetChanged();
                 } else if (response.code() == 401) {

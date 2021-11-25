@@ -196,8 +196,8 @@ public class ViewProfile extends Fragment {
         LoadingDialog.showLoadingDialog(getActivity(),"");
         callMeApi(sharedPrefManager.getBearerToken());
 
-        LoadingDialog.showLoadingDialog(getActivity(),"");
-        callApi();
+
+
 
         setProfileCredentials();
 
@@ -306,14 +306,14 @@ public class ViewProfile extends Fragment {
 
         int id = sharedPrefManager.getId();
         Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
-                .getAppApi().getDetails(id,"0" , "20" , "Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().getDetails(id,0 , 20 , "Bearer "+sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.isSuccessful()) {
 
                     User user = response.body().getUser();
-                    profilePrice.setText("\u20B9 "+String.valueOf(user.getWalletAmount()));
+                    profilePrice.setText("₹ "+String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
 
                 }else{
@@ -375,7 +375,6 @@ public class ViewProfile extends Fragment {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
                     firstLetter = response.body().getFirstName().charAt(0);
 
                     ////Profile RoundImage with Letter
@@ -396,6 +395,7 @@ public class ViewProfile extends Fragment {
                         unverified.setVisibility(View.GONE);
                         resend.setVisibility(View.GONE);
                     }
+                    callApi();
                 }
                 else if (response.code()==401){
                     callRefreshTokenApi();
