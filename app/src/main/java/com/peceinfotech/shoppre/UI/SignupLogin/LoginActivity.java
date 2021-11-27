@@ -415,10 +415,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getToken()!=null) {
-                       checkLogin = "signup";
+                    if (signUpGoogleResponse.getToken() != null) {
+                        checkLogin = "signup";
                         callAuthApi(response.body().getToken().getAccessToken());
-                    } else if (signUpGoogleResponse.getToken()==null) {
+                    } else if (signUpGoogleResponse.getToken() == null) {
                         signInGoogle(email, firstName, lastName);
                     }
                 }

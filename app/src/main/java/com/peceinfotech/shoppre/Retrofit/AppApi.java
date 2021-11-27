@@ -11,6 +11,7 @@ import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.ReturnPackageResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddCommentResponse;
@@ -284,4 +285,28 @@ public interface AppApi {
     Call<PackageListingResponse> cancelPackage(
             @Header("Authorization") String auth
     );
+
+    //https://staging-engage.shoppre.com/api/packages/171/comments
+    @GET("api/packages/{id}/comments")
+    Call<List<GetCommentsResponse>> getPackageComments(
+            @Path("id") Integer id
+    );
+
+    //https://staging-engage.shoppre.com/api/packages/171/comments?type=customer
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/packages/{id}/comments?type=customer")
+    Call<AddCommentResponse> addPackageComment(
+            @Header("Authorization") String bearer,
+            @Path("id") Integer id,
+            @Body String comment);
+
+    //https://staging-app1.shoppreglobal.com/api/packages/899/return
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/return")
+    Call<ReturnPackageResponse> returnPackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
 }

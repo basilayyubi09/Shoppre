@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center_vertical"
     android:layout_marginTop="33dp"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -36,10 +36,10 @@
             android:id="@+id/viewPhotoBtn"
             android:layout_width="41dp"
             android:layout_height="12dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="-5dp"
             android:background="@drawable/view_package_background"
             android:paddingHorizontal="9dp"
-            android:layout_marginTop="-5dp"
-            android:layout_marginLeft="6dp"
             android:text="VIEW"
             android:textColor="@color/white"
             android:textSize="8sp" />
@@ -51,20 +51,20 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
         android:layout_weight="1"
-        android:layout_marginLeft="8dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/packageItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxEms="10"
+            android:singleLine="true"
             android:text="Redmi Note 9 Pro Max"
             android:textColor="@color/black"
-            android:textSize="12sp"
             android:textFontWeight="500"
-            android:singleLine="true"
-            android:maxEms="10"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/packageItemId"
@@ -72,8 +72,8 @@
             android:layout_height="wrap_content"
             android:text="Item ID: #29357"
             android:textColor="@color/black"
-            android:textSize="10sp"
-            android:textFontWeight="400" />
+            android:textFontWeight="400"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/packageQuantity"
@@ -81,13 +81,10 @@
             android:layout_height="wrap_content"
             android:text="Qty: 01"
             android:textColor="@color/black"
-            android:textSize="10sp"
-            android:textFontWeight="400" />
+            android:textFontWeight="400"
+            android:textSize="10sp" />
 
     </LinearLayout>
-
-
-
 
 
     <LinearLayout
@@ -99,173 +96,136 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#2D8DFF"
+            android:drawableRight="@drawable/return_arrow"
+            android:letterSpacing="0"
+            android:padding="4dp"
             android:text="Return Item(s)"
-            android:textColor="@color/white"
             android:textAllCaps="false"
-            android:backgroundTint="#2D8DFF"
-            android:textSize="14sp"
+            android:textColor="@color/white"
             android:textFontWeight="600"
-            app:cornerRadius="5dp"
-            android:padding="4dp"
-            android:letterSpacing="0"
+            android:textSize="14sp"
             android:visibility="gone"
-            android:drawableRight="@drawable/return_arrow"/>
+            app:cornerRadius="5dp" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#2D8DFF"
+            android:drawableRight="@drawable/return_arrow"
+            android:letterSpacing="0"
+            android:padding="4dp"
             android:text="Exchange Item(s)"
-            android:textColor="@color/white"
             android:textAllCaps="false"
-            android:backgroundTint="#2D8DFF"
-            android:textSize="14sp"
+            android:textColor="@color/white"
             android:textFontWeight="600"
-            app:cornerRadius="5dp"
-            android:padding="4dp"
-            android:letterSpacing="0"
+            android:textSize="14sp"
             android:visibility="gone"
-            android:drawableRight="@drawable/return_arrow"/>
+            app:cornerRadius="5dp" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#2D8DFF"
+            android:drawableRight="@drawable/return_arrow"
+            android:letterSpacing="0"
+            android:padding="4dp"
             android:text="Discard Item(s)"
-            android:textColor="@color/white"
             android:textAllCaps="false"
-            android:backgroundTint="#2D8DFF"
-            android:textSize="14sp"
+            android:textColor="@color/white"
             android:textFontWeight="600"
-            app:cornerRadius="5dp"
-            android:padding="4dp"
-            android:letterSpacing="0"
+            android:textSize="14sp"
             android:visibility="gone"
-            android:drawableRight="@drawable/return_arrow"/>
+            app:cornerRadius="5dp" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#2D8DFF"
+            android:drawableRight="@drawable/return_arrow"
+            android:letterSpacing="0"
+            android:padding="4dp"
             android:text="Split Package"
-            android:textColor="@color/white"
             android:textAllCaps="false"
-            android:backgroundTint="#2D8DFF"
-            android:textSize="14sp"
+            android:textColor="@color/white"
             android:textFontWeight="600"
-            app:cornerRadius="5dp"
-            android:padding="4dp"
-            android:letterSpacing="0"
+            android:textSize="14sp"
             android:visibility="gone"
-            android:drawableRight="@drawable/return_arrow"/>
+            app:cornerRadius="5dp" />
 
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ship within India"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
             android:backgroundTint="#2D8DFF"
-            android:textSize="14sp"
-            android:textFontWeight="600"
-            app:cornerRadius="5dp"
-            android:padding="4dp"
+            android:drawableRight="@drawable/return_arrow"
             android:letterSpacing="0"
+            android:padding="4dp"
+            android:text="Ship within India"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textFontWeight="600"
+            android:textSize="14sp"
             android:visibility="gone"
-            android:drawableRight="@drawable/return_arrow"/>
-
-
+            app:cornerRadius="5dp" />
 
 
         <TextView
+            android:id="@+id/priceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price Per Item"
-            android:textSize="10sp"
-            android:textFontWeight="400"
-            android:textColor="@color/black"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/packageItemPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹ 19,999.00"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textFontWeight="600"/>
+            android:textFontWeight="400"
+            android:textSize="10sp" />
 
-            <ImageView
-                android:id="@+id/editPackageItem"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
 
-                android:src="@drawable/edit_package" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="93dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="3dp"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="@drawable/price_per_item_border">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textFontWeight="600"
-                android:text=""/>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#FF0101"
-                android:layout_gravity="right"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="!"
-                android:textColor="#FF0101"
-                android:layout_marginHorizontal="7dp"/>
-
-        </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="93dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="3dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            android:background="@drawable/price_per_item_border2">
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#7A7A7A"
-                android:textFontWeight="600"
-                android:text="₹ 1950.00"/>
+            <LinearLayout
+                android:id="@+id/layoutBg"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                >
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#00A781"
-                android:layout_gravity="right"/>
+                <EditText
+                    android:id="@+id/priceEditText"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:layout_width="70dp"
+                    android:paddingLeft="8dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:enabled="false"/>
+                <View
+                    android:id="@+id/viewVertical"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    />
 
-            <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:src="@drawable/checked"
-                android:textColor="#00A781" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/edit"
+                    android:textColor="#00A781" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -276,16 +236,15 @@
         android:id="@+id/three_dots"
         android:layout_width="18dp"
         android:layout_height="match_parent"
-        android:src="@drawable/three_dots"
         android:layout_marginLeft="19dp"
-        />
+        android:src="@drawable/three_dots" />
 
     <CheckBox
         android:id="@+id/packageDetailCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="-10dp"
         android:layout_marginLeft="10dp"
-        android:visibility="gone"/>
+        android:layout_marginRight="-10dp"
+        android:visibility="gone" />
 
 </LinearLayout>

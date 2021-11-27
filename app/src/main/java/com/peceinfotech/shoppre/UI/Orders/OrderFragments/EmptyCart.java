@@ -46,7 +46,6 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
-import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -65,17 +64,17 @@ public class EmptyCart extends Fragment {
 
     SharedPrefManager sharedPrefManager;
     RecyclerView cartRecycler, productItemRecycler;
-    CardView itemCartCard, productCartCard ;
+    CardView itemCartCard, productCartCard;
     ImageView downwardTriangle, upwardTriangle;
     MaterialButton proceedToCartBtn;
     int flag = 1;
-    MaterialCardView liquidCard, ePharmacy , dontPlace;
+    MaterialCardView liquidCard, ePharmacy, dontPlace;
     List<Order> list = new ArrayList<>();
     LinearLayout dropdownLayout, addMore;
     TextView orderTotal, shoppreFee, total;
     String url, name, color, size, price, countString, selectedString;
     EditText urlField, nameField, colorField, priceField, sizeField;
-    TextView minus, plus, countField ;
+    TextView minus, plus, countField;
     MaterialCheckBox check;
     int count = 1, id;
     boolean isUpdate = false;
@@ -93,9 +92,7 @@ public class EmptyCart extends Fragment {
     Spinner selectAnOptionSpinner;
     Integer orderId, deleteOrderId, deleteItemId;
 
-    String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other available items            ", "Cancel all the items from this site"};
-
-
+    String[] selectAnOptionSpinnerItems = {"Select an option", "Cancel this item & purchase all the other         \navailable items", "Cancel all the items from this site"};
 
 
     @Override
@@ -185,7 +182,7 @@ public class EmptyCart extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length()>0){
+                if (s.length() > 0) {
 
                     callVerifyLinkApi(s);
                 }
@@ -300,29 +297,22 @@ public class EmptyCart extends Fragment {
 //                                .addToBackStack(null).commit();
 
                         if (isUpdate) {
-                            if (goNext){
+                            if (goNext) {
                                 callUpdateOrder();
-                            }
-                            else {
+                            } else {
 
                             }
 
 
                         } else {
-                            if (productCountInt > 15) {
-                                fifteen.setVisibility(View.VISIBLE);
-                            } else {
-                                if (goNext) {
-                                    fifteen.setVisibility(View.GONE);
-                                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                                    callAddOrderApi();
-                                }
-                                else {
 
-                                }
+                            if (goNext) {
+
+                                LoadingDialog.showLoadingDialog(getActivity(), "");
+                                callAddOrderApi();
+                            } else {
                             }
                         }
-
                     }
                 }
 
@@ -351,36 +341,33 @@ public class EmptyCart extends Fragment {
     }
 
     private void callVerifyLinkApi(Editable s) {
-        String abcd = "="+urlField.getText().toString();
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        String abcd = "=" + urlField.getText().toString();
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<VerifyLinkResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi().verifyLink(abcd);
         call.enqueue(new Callback<VerifyLinkResponse>() {
             @Override
             public void onResponse(Call<VerifyLinkResponse> call, Response<VerifyLinkResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
-                    if (response.body().getStore()==null){
+                    if (response.body().getStore() == null) {
                         dontPlace.setVisibility(View.VISIBLE);
                         goNext = false;
 
-                    }
-                   else if (response.body().getStore().getIsEPharmacy()!=null){
+                    } else if (response.body().getStore().getIsEPharmacy() != null) {
                         Toast.makeText(getActivity(), " pharmacy", Toast.LENGTH_SHORT).show();
                         dontPlace.setVisibility(View.GONE);
                         ePharmacy.setVisibility(View.VISIBLE);
                         goNext = true;
-                    }
-                   else {
-                       goNext = true;
-                       dontPlace.setVisibility(View.GONE);
-                       ePharmacy.setVisibility(View.GONE);
+                    } else {
+                        goNext = true;
+                        dontPlace.setVisibility(View.GONE);
+                        ePharmacy.setVisibility(View.GONE);
                     }
 
 
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -407,7 +394,7 @@ public class EmptyCart extends Fragment {
                     list = response.body().getOrders();
 
                     if (!list.isEmpty()) {
-                         cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
+                        cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
                             @Override
                             public void second(OrderItem order, Integer id) {
                                 LoadingDialog.cancelLoading();
@@ -446,6 +433,12 @@ public class EmptyCart extends Fragment {
                             productCount.setText(String.valueOf(totalBadgeQuantity + 1));
 
                         }
+                        if (productCountInt>=14){
+                            fifteen.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            fifteen.setVisibility(View.GONE);
+                        }
                         badgeTextView.setText(String.valueOf(totalBadgeQuantity));
                         total.setText(String.valueOf("₹ " + totalCount));
                         shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
@@ -454,8 +447,7 @@ public class EmptyCart extends Fragment {
                         View targetView = itemCartCard;
                         targetView.getParent().requestChildFocus(targetView, targetView);
 
-                    }
-                    else {
+                    } else {
                         cartGroupAdapter = new CartGroupAdapter(list, getActivity(), new CartGroupAdapter.SecondInterface() {
                             @Override
                             public void second(OrderItem order, Integer id) {
@@ -550,33 +542,33 @@ public class EmptyCart extends Fragment {
                         proceedToCartBtn.setEnabled(true);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
                         CartGroupAdapter cartGroupAdapter = new CartGroupAdapter(list, getContext(), new CartGroupAdapter.SecondInterface() {
-                        @Override
-                        public void second(OrderItem order, Integer id) {
-                            orderFromAdapter = order;
-                            orderId = id;
+                            @Override
+                            public void second(OrderItem order, Integer id) {
+                                orderFromAdapter = order;
+                                orderId = id;
 
-                            setdata();
-                        }
+                                setdata();
+                            }
 
-                        @Override
-                        public void delete(Integer orderId, Integer itemId) {
-                            deleteOrderId = orderId;
-                            deleteItemId = itemId;
-                            LoadingDialog.showLoadingDialog(getActivity(), "");
-                            callDeleteApi();
-                        }
-                    });
-                    cartRecycler.setAdapter(cartGroupAdapter);
-                    cartGroupAdapter.notifyDataSetChanged();
+                            @Override
+                            public void delete(Integer orderId, Integer itemId) {
+                                deleteOrderId = orderId;
+                                deleteItemId = itemId;
+                                LoadingDialog.showLoadingDialog(getActivity(), "");
+                                callDeleteApi();
+                            }
+                        });
+                        cartRecycler.setAdapter(cartGroupAdapter);
+                        cartGroupAdapter.notifyDataSetChanged();
 
-                    productCartCard.setVisibility(View.VISIBLE);
-                    upwardTriangle.setVisibility(View.VISIBLE);
-                    downwardTriangle.setVisibility(View.GONE);
-                    cartImage.setVisibility(View.GONE);
-                    badgeCartImage.setVisibility(View.VISIBLE);
+                        productCartCard.setVisibility(View.VISIBLE);
+                        upwardTriangle.setVisibility(View.VISIBLE);
+                        downwardTriangle.setVisibility(View.GONE);
+                        cartImage.setVisibility(View.GONE);
+                        badgeCartImage.setVisibility(View.VISIBLE);
 
-                    int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
-                    Integer totalBadgeQuantity = 0;
+                        int totalCount = 0, shoppreTotal = 0, orderTotalCount = 0;
+                        Integer totalBadgeQuantity = 0;
                         for (int i = 0; i < list.size(); i++) {
 
                             totalBadgeQuantity = totalBadgeQuantity + list.get(i).getOrderItems().size();
@@ -587,13 +579,18 @@ public class EmptyCart extends Fragment {
                             productCount.setText(String.valueOf(totalBadgeQuantity + 1));
 
                         }
+                        if (productCountInt>14){
+                            fifteen.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            fifteen.setVisibility(View.GONE);
+                        }
                         badgeTextView.setText(String.valueOf(totalBadgeQuantity));
                         total.setText(String.valueOf("₹ " + totalCount));
                         shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                         orderTotal.setText("₹ " + String.valueOf(orderTotalCount));
-                    clearFields();
-                    }
-                    else {
+                        clearFields();
+                    } else {
                         cartGroupAdapter = new CartGroupAdapter(list, getActivity(), new CartGroupAdapter.SecondInterface() {
                             @Override
                             public void second(OrderItem order, Integer id) {
@@ -620,7 +617,6 @@ public class EmptyCart extends Fragment {
                         proceedToCartBtn.setEnabled(false);
                         proceedToCartBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
                     }
-
 
 
                     LoadingDialog.cancelLoading();
@@ -900,6 +896,7 @@ public class EmptyCart extends Fragment {
         }
 
     }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -920,11 +917,12 @@ public class EmptyCart extends Fragment {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0

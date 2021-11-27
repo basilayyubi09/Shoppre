@@ -6,31 +6,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Locker.ViewPackageTabLayout.PackageDetails">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       android:gravity="center"
-       android:visibility="gone">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
 
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:src="@drawable/waiting"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/waiting" />
 
-       <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="Your package is going through a quality check so that it can be shipped safely and securely internationally. We’ll update the package details here within 24 hours."
-           android:textSize="10sp"
-           android:textFontWeight="500"
-           android:textColor="@color/black"
-           android:gravity="center"
-           android:lineHeight="12dp"
-           android:layout_marginTop="28dp"
-           android:layout_marginHorizontal="40dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:lineHeight="12dp"
+            android:text="Your package is going through a quality check so that it can be shipped safely and securely internationally. We’ll update the package details here within 24 hours."
+            android:textColor="@color/black"
+            android:textFontWeight="500"
+            android:textSize="10sp" />
 
-   </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,5 +49,26 @@
 
 
     </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/floatingBtn"
+        android:visibility="gone"
+        android:layout_marginBottom="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:textFontWeight="600"
+        android:letterSpacing="0.03"
+        android:textColor="@color/white"
+        android:backgroundTint="#2D8DFF"
+        android:layout_gravity="bottom|right"
+        android:contentDescription="Return Item(s)"
+        android:text="Return Item(s)"
+        app:iconPadding="5dp"
+        app:icon="@drawable/return_arrow"
+        app:iconSize="14dp"
+        app:iconTint="@color/white"
+        app:iconGravity="end"
+        android:textSize="12sp"
+        android:textAllCaps="false"/>
 
 </FrameLayout>

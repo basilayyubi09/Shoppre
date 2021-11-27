@@ -97,7 +97,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="4dp"
-                        android:src="@mipmap/showmore" />
+                        android:src="@drawable/play_ic" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -186,6 +186,7 @@ public class SharedPrefManager {
 
     public void logOut() {
         editor.clear();
+        editor.apply();
         editor.commit();
     }
 

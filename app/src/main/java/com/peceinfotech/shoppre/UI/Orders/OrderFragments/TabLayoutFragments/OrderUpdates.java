@@ -100,10 +100,7 @@ public class OrderUpdates extends Fragment {
                      list = response.body();
                     orderUpdateAdapter = new OrderUpdateAdapter(list, getContext());
                     orderUpdatesRecycler.setAdapter(orderUpdateAdapter);
-//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
-//                    linearLayoutManager.setReverseLayout(true);
-//                    linearLayoutManager.setStackFromEnd(true);
                     layoutManager.scrollToPosition(0);
                     orderUpdatesRecycler.smoothScrollToPosition(0);
                     orderUpdatesRecycler.setLayoutManager(layoutManager);
@@ -123,6 +120,16 @@ public class OrderUpdates extends Fragment {
             }
         });
     }
+    private boolean validateBtn() {
+        textString = text.getText().toString();
+        if (textString.equals("")) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
     private void callAddComment() {
         JsonObject object = new JsonObject();
@@ -154,16 +161,6 @@ public class OrderUpdates extends Fragment {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private boolean validateBtn() {
-        textString = text.getText().toString();
-        if (textString.equals("")) {
-            return false;
-        } else {
-            return true;
-        }
-
     }
 
     private void callRefreshTokenApi() {

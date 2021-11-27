@@ -22,8 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="39dp"
             android:layout_marginTop="50dp"
-            app:reverseLayout="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
     </LinearLayout>
@@ -40,7 +38,7 @@
         android:paddingBottom="24dp">
 
         <EditText
-            android:id="@+id/packageQueryEditText"
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,7 +53,7 @@
             app:boxStrokeColor="@color/box_background_color" />
 
         <ImageView
-            android:id="@+id/packageCommentBtn"
+            android:id="@+id/send"
             android:layout_width="43dp"
             android:layout_height="45dp"
             android:layout_marginLeft="6dp"

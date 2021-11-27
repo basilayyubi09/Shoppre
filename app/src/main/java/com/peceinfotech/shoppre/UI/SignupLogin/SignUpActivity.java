@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
 
 
         // Check for existing Google Sign In account, if the user is already signed in
@@ -424,16 +424,16 @@ public class SignUpActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
 
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-            String fullName = acct.getDisplayName();
-            String firstName = "asd";
-            String lastName = "lastName";
-            String email = "abcd@gmail.commma";
-            personId = "id";
 //            String fullName = acct.getDisplayName();
-//            String firstName = acct.getGivenName();
-//            String lastName = acct.getFamilyName();
-//            String email = acct.getEmail();
-//            personId = acct.getId();
+//            String firstName = "asd";
+//            String lastName = "lastName";
+//            String email = "abcd@sdasdsadgmail.commma";
+//            personId = "id";
+            String fullName = acct.getDisplayName();
+            String firstName = acct.getGivenName();
+            String lastName = acct.getFamilyName();
+            String email = acct.getEmail();
+            personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {
