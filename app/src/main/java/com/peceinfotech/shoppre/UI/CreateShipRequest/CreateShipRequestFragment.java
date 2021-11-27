@@ -43,6 +43,7 @@ public class CreateShipRequestFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycle);
         selectedNumber = view.findViewById(R.id.selectedNumber);
         totalNumber = view.findViewById(R.id.totalNumber);
+        choosePackageProceedBtn = view.findViewById(R.id.choosePackageProceedBtn);
         selectedNumber.setText(String.valueOf(list1.size()));
         list.add(new DummyShipModel("1","Myntra","2","8473"));
         list.add(new DummyShipModel("2","Myntra","2","8473"));
@@ -68,7 +69,7 @@ public class CreateShipRequestFragment extends Fragment {
                         }
 
                     }
-        choosePackageProceedBtn = view.findViewById(R.id.choosePackageProceedBtn);
+
 
                 }
                 else {

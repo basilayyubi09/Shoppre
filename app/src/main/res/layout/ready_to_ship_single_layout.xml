@@ -14,6 +14,7 @@
         android:src="@drawable/ic_personal_shopper" />
 
     <LinearLayout
+        android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -54,6 +55,28 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/damageRestricted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:text="Contains Damaged &amp;\nRestricted Items"
+            android:textColor="#FF0101"
+            android:textFontWeight="500"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/restrictedItemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"
+            android:text="Contains Restricted Items"
+            android:textColor="#FF0101"
+            android:textFontWeight="500"
+            android:textSize="10sp" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/damageItemText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"

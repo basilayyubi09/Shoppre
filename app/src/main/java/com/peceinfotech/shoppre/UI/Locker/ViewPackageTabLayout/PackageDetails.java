@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ public class PackageDetails extends Fragment {
     JsonArray jsonArray = new JsonArray();
     String type;
     Integer packageId;
+    LinearLayout emptyView;
     SharedPrefManager sharedPrefManager;
 
     @Override
@@ -50,7 +52,12 @@ public class PackageDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_package_details, container, false);
         packageDetailsRecycler = view.findViewById(R.id.packageDetailsRecycler);
         floatingBtn = view.findViewById(R.id.floatingBtn);
+        emptyView = view.findViewById(R.id.emptyView);
         sharedPrefManager = new SharedPrefManager(getActivity());
+
+        ids = new ArrayList<>();
+
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             list = (List<PackageItem>) bundle.getSerializable("list");
@@ -58,8 +65,11 @@ public class PackageDetails extends Fragment {
 
         }
 
-        ids = new ArrayList<>();
 
+        if (list.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            packageDetailsRecycler.setVisibility(View.GONE);
+        }
 
         packageDetailsAdapter = new PackageDetailsAdapter(list, getContext(), new PackageDetailsAdapter.GetData() {
             @Override
@@ -79,13 +89,14 @@ public class PackageDetails extends Fragment {
                     dots.setVisibility(View.GONE);
                     checkBox.setVisibility(View.VISIBLE);
                     if (position == i) {
-                        if (checkBox.isChecked()){
+                        if (checkBox.isChecked()) {
                             ids.add(id);
+                            jsonArray.add(id);
                             showButton();
-                        }
-                        else {
+                        } else {
                             checkBox.setChecked(true);
                             ids.add(id);
+                            jsonArray.add(id);
                             showButton();
                         }
 
@@ -120,16 +131,19 @@ public class PackageDetails extends Fragment {
             public void getId(Integer ida, CheckBox packageDetailCheckbox) {
                 for (int i = 0; i < list.size(); i++) {
 
-                    if (packageDetailCheckbox.isChecked()) {
+                    if (!jsonArray.toString().contains(String.valueOf(ida))) {
                         if (!ids.contains(ida)) {
+
                             ids.add(ida);
+                            jsonArray.add(ida);
                             packageDetailCheckbox.setChecked(true);
 
                         }
                     } else {
 
-                        if (ids.contains(ida)) {
+                        if (jsonArray.toString().contains(String.valueOf(ida))) {
                             ids.remove(ida);
+                            jsonArray.remove(ida);
                             packageDetailCheckbox.setChecked(false);
                         }
                     }
@@ -150,9 +164,11 @@ public class PackageDetails extends Fragment {
                     jsonArray.add(id);
                     callReturnPackageApi();
                 } else if (type.equals("exchange")) {
-//                    Toast.makeText(getActivity(), String.valueOf(jsonArray1)+"\n"+type, Toast.LENGTH_SHORT).show();
+                    jsonArray.add(id);
+                    callExchangePackageApi();
                 } else if (type.equals("discard")) {
-//                    Toast.makeText(getActivity(), String.valueOf(jsonArray1)+"\n"+type, Toast.LENGTH_SHORT).show();
+                    jsonArray.add(id);
+                    callDiscardPackageApi();
                 } else if (type.equals("split")) {
 //                    Toast.makeText(getActivity(), String.valueOf(jsonArray1)+"\n"+type, Toast.LENGTH_SHORT).show();
                 }
@@ -166,6 +182,97 @@ public class PackageDetails extends Fragment {
         return view;
     }
 
+    private void callExchangePackageApi() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+//        "message1": "",
+//                "message2": "testing exchange",
+//                "return_pickup": 1,
+//                "return_shoppre": "",
+//                "itemIds": [
+//        638
+//    ]
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message1", "");
+        jsonObject.addProperty("message2", "testing exchange");
+        jsonObject.addProperty("return_pickup", 1);
+        jsonObject.addProperty("return_shoppre", "");
+        jsonObject.add("itemIds", jsonArray);
+
+        Call<ReturnPackageResponse> call = RetrofitClient3
+                .getInstance3().getAppApi()
+                .exchangePackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
+        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<ReturnPackageResponse>() {
+            @Override
+            public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
+                if (response.code() == 201) {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+                    while (jsonArray.size() > 0) {
+                        jsonArray.remove(0);
+                    }
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReturnPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callDiscardPackageApi() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+//        "message1": "",
+//    "message2": "",
+//    "return_pickup": 1,
+//    "return_shoppre": "",
+//    "itemIds": [
+//        639
+//    ]
+//    ]
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message1", "");
+        jsonObject.addProperty("message2", "");
+        jsonObject.addProperty("return_pickup", 1);
+        jsonObject.addProperty("return_shoppre", "");
+        jsonObject.add("itemIds", jsonArray);
+
+        Call<ReturnPackageResponse> call = RetrofitClient3
+                .getInstance3().getAppApi()
+                .discardPackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
+        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+        call.enqueue(new Callback<ReturnPackageResponse>() {
+            @Override
+            public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
+                if (response.code() == 201) {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+                    while (jsonArray.size() > 0) {
+                        jsonArray.remove(0);
+                    }
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReturnPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void callReturnPackageApi() {
         LoadingDialog.showLoadingDialog(getActivity(), "");
         JsonObject jsonObject = new JsonObject();
@@ -174,16 +281,18 @@ public class PackageDetails extends Fragment {
         jsonObject.addProperty("message2", "");
         Call<ReturnPackageResponse> call = RetrofitClient3
                 .getInstance3().getAppApi()
-                .returnPackage("Bearer "+sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
+                .returnPackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
         call.enqueue(new Callback<ReturnPackageResponse>() {
             @Override
             public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
                 if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+                    while (jsonArray.size() > 0) {
+                        jsonArray.remove(0);
+                    }
                 } else if (response.code() == 401) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "R", Toast.LENGTH_SHORT).show();
+                    callRefreshTokenApi();
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -213,11 +322,11 @@ public class PackageDetails extends Fragment {
             @Override
             public void onClick(View v) {
                 if (type.equals("return")) {
-                    floatingBtn.setText("Return Item(s)");
+                    callReturnPackageApi();
                 } else if (type.equals("exchange")) {
-                    floatingBtn.setText("Exchange Item(s)");
+                    callExchangePackageApi();
                 } else if (type.equals("discard")) {
-                    floatingBtn.setText("Discard Item(s)");
+                    callDiscardPackageApi();
                 } else if (type.equals("split")) {
                     floatingBtn.setText("Split Item(s)");
                 }
@@ -235,6 +344,7 @@ public class PackageDetails extends Fragment {
             }
         });
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
@@ -246,8 +356,10 @@ public class PackageDetails extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    Toast.makeText(getActivity(), "Something Went Wrong Please try again!", Toast.LENGTH_SHORT).show();
                 } else {
-//                    callListingApi();
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -47,6 +47,21 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
         holder.packageId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
         holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
+        if (list.get(position).getIsRestrictedItem() != null && list.get(position).getIsWrongItem() != null) {
+            holder.damageRestricted.setVisibility(View.VISIBLE);
+            holder.restrictedItemText.setVisibility(View.GONE);
+            holder.damageRestricted.setVisibility(View.GONE);
+        } else if (list.get(position).getIsRestrictedItem() != null) {
+            holder.damageRestricted.setVisibility(View.GONE);
+            holder.restrictedItemText.setVisibility(View.VISIBLE);
+            holder.damageRestricted.setVisibility(View.GONE);
+        } else if (list.get(position).getIsWrongItem() != null) {
+            holder.damageRestricted.setVisibility(View.VISIBLE);
+            holder.restrictedItemText.setVisibility(View.GONE);
+            holder.damageRestricted.setVisibility(View.GONE);
+        } else {
+
+        }
 
         if (list.get(position).getStateName().equals("In Review")) {
             holder.lockerViewMore.setVisibility(View.GONE);
@@ -66,7 +81,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
             holder.action.setText(list.get(position).getStateName());
             holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
             holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
-        }else {
+        } else {
             holder.lockerViewMore.setVisibility(View.VISIBLE);
             holder.process.setVisibility(View.GONE);
             holder.action.setText(list.get(position).getStateName());
@@ -103,6 +118,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         TextView readyToShipWebSiteName, packageId, quantity, action;
         LinearLayout lockerViewMore;
         LinearLayout process;
+        TextView damageItemText, damageRestricted, restrictedItemText;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,7 +129,10 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
             quantity = itemView.findViewById(R.id.quantity);
             action = itemView.findViewById(R.id.action);
             process = itemView.findViewById(R.id.process);
+            damageRestricted = itemView.findViewById(R.id.damageRestricted);
+            damageItemText = itemView.findViewById(R.id.damageItemText);
             lockerViewMore = itemView.findViewById(R.id.lockerViewMore);
+            restrictedItemText = itemView.findViewById(R.id.restrictedItemText);
         }
     }
 }
