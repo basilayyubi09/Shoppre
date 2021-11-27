@@ -11,7 +11,8 @@
         android:id="@+id/profileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/shoppre_ic"/>
+        android:src="@drawable/shoppre_ic"
+        android:layout_gravity="top"/>
 
     <LinearLayout
         android:layout_width="match_parent"
