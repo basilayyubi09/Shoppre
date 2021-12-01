@@ -26,6 +26,7 @@
                 android:src="@drawable/cross" />
 
             <ImageView
+                android:id="@+id/mainPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="34dp"
@@ -95,18 +96,21 @@
             android:layout_marginBottom="20dp">
 
             <ImageView
+                android:id="@+id/secondPhoto"
                 android:layout_width="64dp"
                 android:layout_height="65dp"
                 android:layout_weight="1"
                 android:src="@drawable/additional_image"/>
 
             <ImageView
+                android:id="@+id/thirdPhoto"
                 android:layout_width="64dp"
                 android:layout_height="65dp"
                 android:layout_weight="1"
                 android:src="@drawable/additional_image"/>
 
             <ImageView
+                android:id="@+id/fourthPhoto"
                 android:layout_width="64dp"
                 android:layout_height="65dp"
                 android:layout_weight="1"

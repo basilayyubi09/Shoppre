@@ -1,14 +1,19 @@
 package com.peceinfotech.shoppre.UI.Locker.ViewPackageTabLayout;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,9 +24,12 @@ import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.PackageDetailsAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageItem;
 import com.peceinfotech.shoppre.LockerModelResponse.ReturnPackageResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Locker.LockerReadyToShip;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -44,6 +52,7 @@ public class PackageDetails extends Fragment {
     Integer packageId;
     LinearLayout emptyView;
     SharedPrefManager sharedPrefManager;
+    boolean isEditable = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,10 +90,7 @@ public class PackageDetails extends Fragment {
 
                     CheckBox checkBox = view1.findViewById(R.id.packageDetailCheckbox);
                     ImageView dots = view1.findViewById(R.id.three_dots);
-//                    EditText editText = view1.findViewById(R.id.priceEditText);
-//                    View viewVertical = view1.findViewById(R.id.viewVertical);
-//                    LinearLayout layoutBg = view1.findViewById(R.id.layoutBg);
-//                    ImageView image = view1.findViewById(R.id.image);
+
 
                     dots.setVisibility(View.GONE);
                     checkBox.setVisibility(View.VISIBLE);
@@ -102,24 +108,6 @@ public class PackageDetails extends Fragment {
 
                     }
 
-//                    editText.addTextChangedListener(new TextWatcher() {
-//                        @Override
-//                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                            layoutBg.setBackground(getActivity().getDrawable(R.drawable.price_per_item_border));
-//                            viewVertical.setBackground(getActivity().getDrawable(R.color.text_red));
-//                            image.setImageResource(R.mipmap.exclamation);
-//                        }
-//
-//                        @Override
-//                        public void afterTextChanged(Editable s) {
-//
-//                        }
-//                    });
 
                 }
 
@@ -131,19 +119,27 @@ public class PackageDetails extends Fragment {
             public void getId(Integer ida, CheckBox packageDetailCheckbox) {
                 for (int i = 0; i < list.size(); i++) {
 
-                    if (!jsonArray.toString().contains(String.valueOf(ida))) {
+                    if (packageDetailCheckbox.isChecked()) {
                         if (!ids.contains(ida)) {
 
                             ids.add(ida);
                             jsonArray.add(ida);
                             packageDetailCheckbox.setChecked(true);
 
+
                         }
                     } else {
 
                         if (jsonArray.toString().contains(String.valueOf(ida))) {
                             ids.remove(ida);
-                            jsonArray.remove(ida);
+//                            jsonArray.remove(ida);
+                            while (jsonArray.size() > 0) {
+                                jsonArray.remove(0);
+                            }
+                            for (int j = 0; j < ids.size(); j++) {
+                                jsonArray.add(ids.get(j));
+                            }
+
                             packageDetailCheckbox.setChecked(false);
                         }
                     }
@@ -170,16 +166,94 @@ public class PackageDetails extends Fragment {
                     jsonArray.add(id);
                     callDiscardPackageApi();
                 } else if (type.equals("split")) {
-//                    Toast.makeText(getActivity(), String.valueOf(jsonArray1)+"\n"+type, Toast.LENGTH_SHORT).show();
+                    callSplitPackageApi();
                 }
             }
 
+            @Override
+            public void click(Integer quantity, Integer packageId, Integer id, int position,
+                              LinearLayout secondLayoutBg,
+                              LinearLayout layoutBg, EditText thirdPriceEditText, EditText editText) {
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+//                callViewPackage(secondLayoutBg,layoutBg , s);
+                editText.setEnabled(true);
+                editText.setSelection(editText.getText().length());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+                String s = editText.getText().toString();
 
+                callUpdatePriceApi(quantity, secondLayoutBg, layoutBg, s, id, packageId, editText , thirdPriceEditText);
+
+
+            }
         });
         packageDetailsRecycler.setAdapter(packageDetailsAdapter);
 
 
         return view;
+    }
+
+    private void callUpdatePriceApi(Integer quantity,
+                                    LinearLayout secondLayoutBg,
+                                    LinearLayout layoutBg,
+                                    String s, Integer id,
+                                    Integer packageId1, EditText editText, EditText thirdEditText) {
+
+
+        if (s.contains("₹ ")) {
+            String[] separated = s.split("₹ ");
+            s = separated[1];
+        }
+
+
+//
+
+//        separated[1]; // this will contain "400"
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("name", "product Name");
+        jsonObject.addProperty("price_amount", s);
+        jsonObject.addProperty("quantity", quantity);
+        jsonObject.addProperty("total_amount", "10");
+
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(jsonObject);
+        Call<ReturnPackageResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().updatePrice("Bearer " + sharedPrefManager.getBearerToken()
+                        , packageId, jsonArray.toString());
+        String finalS = s;
+        call.enqueue(new Callback<ReturnPackageResponse>() {
+            @Override
+            public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
+                if (response.code() == 200) {
+                    secondLayoutBg.setVisibility(View.GONE);
+                    layoutBg.setVisibility(View.VISIBLE);
+                    packageDetailsAdapter.isEdit = false;
+                    if (finalS.contains("₹ ")) {
+                        thirdEditText.setText(finalS);
+                    } else {
+                        thirdEditText.setText("₹ " + finalS);
+                    }
+
+                    LoadingDialog.cancelLoading();
+                } else if (response.code() == 401) {
+                    LoadingDialog.cancelLoading();
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(),
+                            response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReturnPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(),
+                        t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void callExchangePackageApi() {
@@ -198,19 +272,25 @@ public class PackageDetails extends Fragment {
         jsonObject.addProperty("return_shoppre", "");
         jsonObject.add("itemIds", jsonArray);
 
+
         Call<ReturnPackageResponse> call = RetrofitClient3
                 .getInstance3().getAppApi()
                 .exchangePackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
-        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
         call.enqueue(new Callback<ReturnPackageResponse>() {
             @Override
             public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
                 if (response.code() == 201) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("showToast", true);
+                    LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
+                    lockerReadyToShip.setArguments(bundle);
+                    LoadingDialog.cancelLoading();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
+                            .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {
@@ -247,16 +327,75 @@ public class PackageDetails extends Fragment {
         Call<ReturnPackageResponse> call = RetrofitClient3
                 .getInstance3().getAppApi()
                 .discardPackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
-        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+
         call.enqueue(new Callback<ReturnPackageResponse>() {
             @Override
             public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
                 if (response.code() == 201) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("showToast", true);
+                    LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
+                    lockerReadyToShip.setArguments(bundle);
+                    LoadingDialog.cancelLoading();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
+                            .addToBackStack(null).commit();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReturnPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callSplitPackageApi() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+//      "message1": "",
+//    "message2": "testing split package",
+//    "return_pickup": 1,
+//    "return_shoppre": "",
+//    "itemIds": [
+//        24,
+//        25
+//    ],
+//    "agree": true
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message1", "");
+        jsonObject.addProperty("message2", "testing split package");
+        jsonObject.addProperty("return_pickup", 1);
+        jsonObject.addProperty("return_shoppre", "");
+        jsonObject.add("itemIds", jsonArray);
+        jsonObject.addProperty("agree", true);
+
+        Call<ReturnPackageResponse> call = RetrofitClient3
+                .getInstance3().getAppApi()
+                .splitPackage("Bearer " + sharedPrefManager.getBearerToken(), packageId, jsonObject.toString());
+        call.enqueue(new Callback<ReturnPackageResponse>() {
+            @Override
+            public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
+                if (response.code() == 201) {
+
+                    while (jsonArray.size() > 0) {
+                        jsonArray.remove(0);
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("showToast", true);
+                    LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
+                    lockerReadyToShip.setArguments(bundle);
+                    LoadingDialog.cancelLoading();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
+                            .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {
@@ -286,11 +425,18 @@ public class PackageDetails extends Fragment {
             @Override
             public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
                 if (response.code() == 201) {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "S", Toast.LENGTH_SHORT).show();
+
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("showToast", true);
+                    LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
+                    lockerReadyToShip.setArguments(bundle);
+                    LoadingDialog.cancelLoading();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
+                            .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {
@@ -370,5 +516,54 @@ public class PackageDetails extends Fragment {
             }
         });
 
+    }
+
+
+    private void callViewPackage(LinearLayout secondLayoutBg, LinearLayout layoutBg, String s) {
+        Call<ViewPackageResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().viewPackage("Bearer " + sharedPrefManager.getBearerToken()
+                        , packageId);
+        call.enqueue(new Callback<ViewPackageResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<ViewPackageResponse> call, Response<ViewPackageResponse> response) {
+                if (response.code() == 200) {
+
+                    list = response.body().getPackageItems();
+
+
+//                    bundle1.putInt("id" , response.body().getId());
+//                    bundle1.putSerializable("list", (Serializable) list);
+//                    packageDetails.setArguments(bundle1);
+//                    Bundle bundle = new Bundle();
+//
+//                    bundle.putInt("id", response.body().getId());
+
+//                    packageUpdates.setArguments(bundle);
+//                    viewPackageViewPagerAdapter = new ViewPackageViewPager(getChildFragmentManager());
+//                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details " + "(" + String.valueOf(list.size()) + ")");
+//                    viewPackageViewPagerAdapter.addFragment(packageUpdates, "Locker Updates");
+//
+//                    viewPackageViewPager.setAdapter(viewPackageViewPagerAdapter);
+//                    viewPackageTablayout.setupWithViewPager(viewPackageViewPager);
+//
+//                    setTextToFields(response.body());
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ViewPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

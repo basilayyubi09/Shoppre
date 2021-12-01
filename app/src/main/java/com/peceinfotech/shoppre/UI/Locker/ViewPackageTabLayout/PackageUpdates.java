@@ -166,12 +166,15 @@ public class PackageUpdates extends Fragment {
                 if (response.code()==200){
 
                     list = response.body();
+
+
+
                     packageUpdateAdapter = new PackageUpdateAdapter(list, getContext());
                     packageUpdatesRecycler.setAdapter(packageUpdateAdapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
                     layoutManager.scrollToPosition(0);
-                    packageUpdatesRecycler.smoothScrollToPosition(0);
                     packageUpdatesRecycler.setLayoutManager(layoutManager);
+                    packageUpdatesRecycler.smoothScrollToPosition(0);
 
                     LoadingDialog.cancelLoading();
                 }

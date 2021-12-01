@@ -46,6 +46,46 @@ public class User {
     @Expose
     private Integer groupId;
 
+
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("referral_code")
+    @Expose
+    private String referralCode;
+    @SerializedName("referred_by")
+    @Expose
+    private String referredBy;
+
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
+    }
+
+    public void setReferralCode(String referralCode) {
+        this.referralCode = referralCode;
+    }
+
+    public String getReferredBy() {
+        return referredBy;
+    }
+
+    public void setReferredBy(String referredBy) {
+        this.referredBy = referredBy;
+    }
+
+  
+
     public String getName() {
         return name;
     }
@@ -152,4 +192,5 @@ public class User {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
+
 }

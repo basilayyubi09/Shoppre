@@ -69,7 +69,7 @@ public class PackageItem implements Serializable {
     private Integer packageItemStateId;
     @SerializedName("PhotoRequests")
     @Expose
-    private List<Object> photoRequests = null;
+    private List<PhotoRequest> photoRequests = null;
 
     public Integer getId() {
         return id;
@@ -231,11 +231,11 @@ public class PackageItem implements Serializable {
         this.packageItemStateId = packageItemStateId;
     }
 
-    public List<Object> getPhotoRequests() {
+    public List<PhotoRequest> getPhotoRequests() {
         return photoRequests;
     }
 
-    public void setPhotoRequests(List<Object> photoRequests) {
+    public void setPhotoRequests(List<PhotoRequest> photoRequests) {
         this.photoRequests = photoRequests;
     }
 

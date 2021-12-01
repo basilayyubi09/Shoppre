@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,7 +41,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
     private PopupWindow mDropdown = null;
     SharedPrefManager sharedPrefManager = new SharedPrefManager(getApplicationContext());
     GetData getData;
-    int flag = 0;
+    public boolean isEdit = false;
 
     public PackageDetailsAdapter(List<PackageItem> list, Context context, GetData getData) {
         this.list = list;
@@ -68,14 +67,56 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         Glide.with(context)
                 .load(url)
                 .into(holder.packageItemImage);
-        holder.priceEditText.setText("₹ "+String.valueOf(packageDetailsResponse.getPriceAmount()));
+        holder.priceEditText.setText("₹ " + String.valueOf(packageDetailsResponse.getPriceAmount()));
+        holder.secondPriceEditText.setText("₹ " + String.valueOf(packageDetailsResponse.getPriceAmount()));
+        holder.thirdPriceEditText.setText("₹ " + String.valueOf(packageDetailsResponse.getPriceAmount()));
 
         holder.packageDetailCheckbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getData.getId(packageDetailsResponse.getId() , holder.packageDetailCheckbox);
+                getData.getId(packageDetailsResponse.getId(), holder.packageDetailCheckbox);
             }
         });
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                getData.click(packageDetailsResponse.getId(),position , holder.secondLayoutBg , holder.layoutBg);
+
+                if (!isEdit) {
+                    isEdit = true;
+                    holder.secondLayoutBg.setVisibility(View.VISIBLE);
+                    holder.layoutBg.setVisibility(View.GONE);
+                    holder.secondPriceEditText.setEnabled(true);
+
+                }
+            }
+        });
+
+        holder.secondImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getData.click(packageDetailsResponse.getQuantity(), packageDetailsResponse.getPackageId(), packageDetailsResponse.getId(), position
+                        , holder.secondLayoutBg
+                        , holder.thirdLayoutBg, holder.thirdPriceEditText , holder.secondPriceEditText);
+
+//                getData.click(packageDetailsResponse.getId(),position , holder.image , holder.priceEditText);
+//                holder.thirdLayoutBg.setVisibility(View.VISIBLE);
+//                holder.secondLayoutBg.setVisibility(View.GONE);
+//                holder.thirdPriceEditText.setEnabled(true);
+            }
+        });
+
+//        holder.thirdImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                getData.click(packageDetailsResponse.getId(),position , holder.image , holder.priceEditText);
+//                holder.layoutBg.setVisibility(View.VISIBLE);
+//                holder.thirdLayoutBg.setVisibility(View.GONE);
+//                holder.priceEditText.setEnabled(true);
+//            }
+//        });
 
         holder.three_dots.setOnClickListener(new View.OnClickListener() {
 
@@ -86,6 +127,9 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
                 popupMenu.getMenuInflater().inflate(R.menu.three_dots_menu, popupMenu.getMenu());
 
+                if (list.size() < 2) {
+                    popupMenu.getMenu().findItem(R.id.split_package).setVisible(false);
+                }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -97,7 +141,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 //                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReturnLanding(), null)
 //                                        .addToBackStack(null).commit();
 
-                                showDialog("return" , packageDetailsResponse.getId());
+                                showDialog("return", packageDetailsResponse.getId());
 
 
                                 break;
@@ -108,8 +152,11 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                                 showDialog("discard", packageDetailsResponse.getId());
                                 break;
                             case R.id.split_package:
+
                                 showDialog("split", packageDetailsResponse.getId());
                                 break;
+
+
                             case R.id.ship_to_india:
 
                                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipWithinIndiaFragment(), null)
@@ -129,17 +176,19 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         dialog.setContentView(R.layout.return_item_dialog_box);
 
                         MaterialButton addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
-                        TextView string= dialog.findViewById(R.id.string);
-                        if (type.equals("return")){
+                        TextView string = dialog.findViewById(R.id.string);
+                        if (list.size() < 2) {
+                            addMoreProductBtn.setVisibility(View.GONE);
+                        } else {
+                            addMoreProductBtn.setVisibility(View.VISIBLE);
+                        }
+                        if (type.equals("return")) {
                             string.setText(R.string.return_item_string);
-                        }
-                        else if (type.equals("exchange")){
+                        } else if (type.equals("exchange")) {
                             string.setText(R.string.exchange);
-                        }
-                        else if (type.equals("discard")){
+                        } else if (type.equals("discard")) {
                             string.setText(R.string.discard);
-                        }
-                        else if (type.equals("split")){
+                        } else if (type.equals("split")) {
                             string.setText(R.string.split);
                         }
 
@@ -147,7 +196,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                             @Override
                             public void onClick(View v) {
 
-                                getData.dotsVisiblity(type , id , position);
+                                getData.dotsVisiblity(type, id, position);
 
                                 dialog.dismiss();
 
@@ -158,7 +207,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         continueBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                getData.singleProceed(type , id);
+                                getData.singleProceed(type, id);
                                 dialog.dismiss();
                             }
                         });
@@ -173,18 +222,14 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             }
         });
 
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        holder.viewPhotoBtn.setOnClickListener(new View.OnClickListener() {
+        holder.viewImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog();
-                viewPhotoDialog.showDialog(context);
+                viewPhotoDialog.showDialog(context, packageDetailsResponse);
+
 
             }
         });
@@ -200,13 +245,13 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        ImageView packageItemImage, image, three_dots;
-        TextView packageItemName, packageItemId, packageQuantity, viewPhotoBtn;
+        ImageView packageItemImage, image, three_dots, secondImage, thirdImage;
+        TextView packageItemName, packageItemId, packageQuantity;
         CheckBox packageDetailCheckbox;
         GetData getData;
-        EditText priceEditText;
-        View viewVertical;
-        LinearLayout layoutBg;
+        EditText priceEditText, secondPriceEditText, thirdPriceEditText;
+        View viewVertical, secondViewVertical, thirdViewVertical;
+        LinearLayout layoutBg, secondLayoutBg, thirdLayoutBg, viewImage;
 
         public viewHolder(@NonNull View itemView, GetData getData) {
             super(itemView);
@@ -215,7 +260,16 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             packageItemImage = itemView.findViewById(R.id.packageItemImage);
             viewVertical = itemView.findViewById(R.id.viewVertical);
             image = itemView.findViewById(R.id.image);
+            secondImage = itemView.findViewById(R.id.secondImage);
+            thirdImage = itemView.findViewById(R.id.thirdImage);
             layoutBg = itemView.findViewById(R.id.layoutBg);
+            thirdLayoutBg = itemView.findViewById(R.id.thirdLayoutBg);
+            secondViewVertical = itemView.findViewById(R.id.secondViewVertical);
+            thirdViewVertical = itemView.findViewById(R.id.thirdViewVertical);
+            secondPriceEditText = itemView.findViewById(R.id.secondPriceEditText);
+            thirdPriceEditText = itemView.findViewById(R.id.thirdPriceEditText);
+            secondLayoutBg = itemView.findViewById(R.id.secondLayoutBg);
+            viewImage = itemView.findViewById(R.id.packageDetailsImageLayout);
             priceEditText = itemView.findViewById(R.id.priceEditText);
 
             packageItemName = itemView.findViewById(R.id.packageItemName);
@@ -224,7 +278,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
             three_dots = itemView.findViewById(R.id.three_dots);
             packageDetailCheckbox = itemView.findViewById(R.id.packageDetailCheckbox);
-            viewPhotoBtn = itemView.findViewById(R.id.viewPhotoBtn);
+
 
         }
 
@@ -236,7 +290,10 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
         void getId(Integer id, CheckBox packageDetailCheckbox);
 
-        void singleProceed(String type ,Integer id);
+        void singleProceed(String type, Integer id);
+
+        void click(Integer quantity, Integer packageId, Integer id, int position, LinearLayout secondLayoutBg, LinearLayout LayoutBg, EditText thirdPriceEditText, EditText s);
+
 
     }
 

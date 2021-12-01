@@ -33,7 +33,7 @@
 
 
         <TextView
-            android:id="@+id/viewPhotoBtn"
+
             android:layout_width="41dp"
             android:layout_height="12dp"
             android:layout_marginLeft="6dp"
@@ -225,7 +225,84 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/secondLayoutBg"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/price_per_item_border">
 
+                <EditText
+                    android:id="@+id/secondPriceEditText"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:layout_width="70dp"
+                    android:paddingLeft="8dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:enabled="false"/>
+                <View
+                    android:id="@+id/secondViewVertical"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_red"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/secondImage"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@mipmap/exclamation"
+                    android:textColor="#00A781" />
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:visibility="gone"
+                android:id="@+id/thirdLayoutBg"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/price_per_item_border2">
+
+                <EditText
+                    android:id="@+id/thirdPriceEditText"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:layout_width="70dp"
+                    android:paddingLeft="8dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="12sp"
+                    android:inputType="number"
+                    android:enabled="false"/>
+                <View
+                    android:id="@+id/thirdViewVertical"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#00A781"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/thirdImage"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/checked"
+                    android:textColor="#00A781" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

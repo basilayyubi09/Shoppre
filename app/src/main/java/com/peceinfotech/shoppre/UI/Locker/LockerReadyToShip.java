@@ -61,6 +61,12 @@ public class LockerReadyToShip extends Fragment {
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
+        Bundle bundle = this.getArguments();
+        if (bundle!=null){
+            if (bundle.getBoolean("showToast")){
+                Toast.makeText(getActivity(), "Yaha peele wale toast dikhana hae", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         createShipRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override

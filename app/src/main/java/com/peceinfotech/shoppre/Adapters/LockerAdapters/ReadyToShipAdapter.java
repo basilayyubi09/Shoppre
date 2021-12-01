@@ -88,6 +88,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
             holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
         }
 
+
         holder.lockerViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

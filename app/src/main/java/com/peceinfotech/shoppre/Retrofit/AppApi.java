@@ -325,4 +325,20 @@ public interface AppApi {
             @Path("packageId") Integer id,
             @Body String object);
 
+    //https://staging-app1.shoppreglobal.com/api/packages/23/split
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/split")
+    Call<ReturnPackageResponse> splitPackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packageItems/915/values
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packageItems/{packageId}/values")
+    Call<ReturnPackageResponse> updatePrice(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
 }
