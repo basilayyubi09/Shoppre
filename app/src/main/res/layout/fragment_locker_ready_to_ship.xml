@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.Locker.LockerReadyToShip">
 
     <androidx.core.widget.NestedScrollView
@@ -33,82 +31,80 @@
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="24dp"
+                                android:layout_marginTop="24dp"
+                                android:layout_weight="1"
+                                android:text="Locker"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/createShipRequestBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="27dp"
+                                android:layout_marginTop="19dp"
+                                android:layout_marginRight="24dp"
+                                android:layout_marginBottom="5dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:letterSpacing="0.03"
+                                android:text="Create Ship Request"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textFontWeight="700"
+                                android:textSize="12sp"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/lockerReadyToShipRecycler"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="24dp"
-                            android:layout_marginTop="24dp"
+                            android:layout_marginTop="29dp"
                             android:layout_weight="1"
-                            android:text="Locker"
-                            android:textColor="@color/black"
-                            android:textFontWeight="700"
-                            android:textSize="14sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/createShipRequestBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="27dp"
-                            android:layout_marginTop="19dp"
-                            android:layout_marginRight="24dp"
-                            android:layout_marginBottom="5dp"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:letterSpacing="0.03"
-                            android:text="Create Ship Request"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textFontWeight="700"
-                            android:textSize="12sp"
-                            app:backgroundTint="#17B28F"
-                            app:cornerRadius="5dp" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/lockerReadyToShipRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="29dp"
-                        android:layout_weight="1"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-
-                    </androidx.recyclerview.widget.RecyclerView>
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-                    <LinearLayout
-                        android:id="@+id/returnAndDiscardText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="19dp">
-
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/returnAndDiscardText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Returned / Discarded Packages"
-                            android:textColor="#3A5FD8"
-                            android:textFontWeight="500"
-                            android:textSize="12sp" />
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="19dp">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="4dp"
-                            android:src="@drawable/play_ic" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="Returned / Discarded Packages"
+                                android:textColor="#3A5FD8"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="4dp"
+                                android:src="@drawable/play_ic" />
+                        </LinearLayout>
+
                     </LinearLayout>
-
-                </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
