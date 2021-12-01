@@ -17,10 +17,12 @@ import androidx.viewpager.widget.ViewPager;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,8 @@ public class ShipmentLanding extends Fragment {
         viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
         shipmentTabLayout.setupWithViewPager(viewPager);
+
+
 
 
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {

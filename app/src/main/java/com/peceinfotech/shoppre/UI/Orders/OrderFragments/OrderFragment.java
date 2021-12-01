@@ -103,9 +103,9 @@ public class OrderFragment extends Fragment {
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
         shippingCalculator = view.findViewById(R.id.shippingCalculator);
         addNewOrderBtn = view.findViewById(R.id.addNewOrderBtn);
-        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+        virtualAddressCard = view.findViewById(R.id.virtualCardAddress);
         cancel = view.findViewById(R.id.cancel);
-        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
+        shippingCalculatorCard = view.findViewById(R.id.shippingCardAddress);
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
 
