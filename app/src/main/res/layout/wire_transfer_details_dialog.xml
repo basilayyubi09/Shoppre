@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="312dp"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="-27dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Wire Transfer Details"
+                android:textColor="@color/black"
+                android:textFontWeight="600"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/cross"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="27dp"
+                android:src="@drawable/cross" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="28dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Attach screenshot"
+                android:textSize="12sp"
+                android:textFontWeight="400"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/wire_transfer_edit_border">
+
+                <TextView
+                    android:id="@+id/filePathTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Choose File"
+                    android:textSize="8dp"
+                    android:textFontWeight="300"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="14dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:background="@null" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/browsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Browse"
+                    android:paddingHorizontal="8dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textAllCaps="false"
+                    android:textSize="10dp"
+                    android:textFontWeight="400"
+                    android:textColor="@color/black"
+                    android:background="@drawable/brows_gradient"
+                    app:backgroundTint="@null"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction Reference Number"
+                android:textSize="12sp"
+                android:layout_marginTop="20dp"
+                android:textFontWeight="400"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/wire_transfer_edit_border">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter Reference Number"
+                    android:textSize="8dp"
+                    android:textFontWeight="300"
+                    android:paddingLeft="14dp"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/SubmitBtn"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:insetTop="0dp"
+                android:layout_marginTop="24dp"
+                android:insetBottom="0dp"
+                android:layout_marginBottom="10dp"
+                app:cornerRadius="5dp"
+                app:backgroundTint="#17B28F"
+                android:text="Submit"
+                android:paddingHorizontal="53dp"
+                android:textAllCaps="false"
+                android:letterSpacing="0.03"
+                android:textColor="@color/white"
+                android:textFontWeight="700"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,8 @@ public class LockerReadyToShip extends Fragment {
     RecyclerView lockerReadyToShipRecycler;
     LinearLayout returnAndDiscardText;
     MaterialButton createShipRequestBtn;
+    LinearLayout emptyLockerDiscardText;
+    CardView emptyLockerCard, lockerReadyToShipCard;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +56,21 @@ public class LockerReadyToShip extends Fragment {
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
+        emptyLockerDiscardText = view.findViewById(R.id.emptyLockerDiscardText);
+        emptyLockerCard = view.findViewById(R.id.emptyLockerCard);
+        lockerReadyToShipCard = view.findViewById(R.id.lockerReadyToShipCard);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
+
+
+
+        emptyLockerDiscardText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReadyToShipReturnedAndDiscard(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         createShipRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +118,16 @@ public class LockerReadyToShip extends Fragment {
                     list = response.body().getPackages();
                     readyToShipAdapter = new ReadyToShipAdapter(list, getContext());
                     lockerReadyToShipRecycler.setAdapter(readyToShipAdapter);
+
+                    int count = readyToShipAdapter.getItemCount();
+                    if (count == 0){
+                        emptyLockerCard.setVisibility(View.VISIBLE);
+                        lockerReadyToShipCard.setVisibility(View.GONE);
+                    }else {
+                        emptyLockerCard.setVisibility(View.GONE);
+                        lockerReadyToShipCard.setVisibility(View.VISIBLE);
+                    }
+
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

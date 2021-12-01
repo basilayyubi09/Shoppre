@@ -81,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
                 android:layout_marginTop="-20dp"
-                android:layout_marginBottom="28dp"
                 android:visibility="gone"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
@@ -211,7 +210,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
-                android:layout_marginTop="26dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
@@ -682,7 +681,9 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="700"
+                            android:letterSpacing="0.03"
                             android:textSize="12sp"
+                            android:paddingHorizontal="47dp"
                             app:backgroundTint="@color/grey"
                             app:cornerRadius="5dp" />
 

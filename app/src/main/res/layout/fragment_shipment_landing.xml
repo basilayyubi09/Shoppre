@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+
     tools:context=".UI.Shipment.ShipmentFragment.ShipmentLanding">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:fillViewport="true">
 
         <LinearLayout
@@ -280,7 +282,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="21dp"
@@ -471,25 +472,36 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="24dp">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cancelShipmentBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            app:cardCornerRadius="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Cancel Shipment"
+                                android:textColor="#2D8DFF"
+                                android:textSize="12sp"
+                                android:textFontWeight="600"
+                                android:paddingVertical="8dp"
+                                android:paddingHorizontal="12dp"
+                                android:background="@drawable/logout_shadow"/>
+
+
+                        </androidx.cardview.widget.CardView>
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/uploadInvoiceBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            app:cornerRadius="5dp"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            app:strokeColor="@color/button_blue"
-                            android:text="Cancel Shipment"
-                            android:textAllCaps="false"
-                            android:letterSpacing="0.03"
-                            android:textColor="@color/button_blue"
-                            android:textFontWeight="600"
-                            android:textSize="12sp"/>
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
+                            android:paddingHorizontal="19dp"
+                            android:paddingVertical="8dp"
+                            android:layout_marginBottom="10dp"
                             app:cornerRadius="5dp"
                             android:layout_marginLeft="20dp"
                             app:backgroundTint="#17B28F"
@@ -532,6 +544,7 @@
 
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/makePaymentBtn"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
@@ -683,25 +696,34 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="19dp">
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/downloadInvoiceBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="27dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            app:cardCornerRadius="5dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Download Invoice"
+                                android:textColor="#2D8DFF"
+                                android:textSize="12sp"
+                                android:gravity="center"
+                                android:textFontWeight="700"
+                                android:paddingHorizontal="19dp"
+                                android:background="@drawable/logout_shadow"/>
+
+
+                        </androidx.cardview.widget.CardView>
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="wrap_content"
-                            android:layout_height="32dp"
+                            android:layout_height="27dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            app:cornerRadius="5dp"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            app:strokeColor="@color/button_blue"
-                            android:text="Download Invoice"
-                            android:textAllCaps="false"
-                            android:letterSpacing="0.03"
-                            android:textColor="@color/button_blue"
-                            android:textFontWeight="600"
-                            android:textSize="12sp"/>
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
+                            android:layout_marginBottom="10dp"
+                            android:paddingHorizontal="26dp"
                             app:cornerRadius="5dp"
                             android:layout_marginLeft="20dp"
                             app:backgroundTint="#17B28F"
@@ -717,7 +739,6 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -761,6 +782,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
