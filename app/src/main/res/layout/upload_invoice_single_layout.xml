@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="64dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="23dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_self_shopper"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/uploadInvoiceWebsiteName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Myntra (2)"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textFontWeight="500"/>
+
+            <LinearLayout
+                android:id="@+id/expandBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/uploadInvoicePackageId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Package ID #8473"
+                    android:textColor="@color/black"
+                    android:textSize="8sp"
+                    android:textFontWeight="500"/>
+
+                <ImageView
+                    android:layout_width="12sp"
+                    android:layout_height="12sp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/downward_play_btn"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/uploadInvoiceItemsRecycler"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/uploadInvoiceArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Invoice"
+                android:textColor="#3A5FD8"
+                android:textSize="10sp"
+                android:textFontWeight="500"/>
+
+            <ImageView
+                android:layout_width="12sp"
+                android:layout_height="12sp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/ic_arrow"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/invoiceUploaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Invoice Uploaded"
+            android:textColor="#17B28F"
+            android:textSize="10sp"
+            android:textFontWeight="500"/>
+
+    </LinearLayout>
+
+</LinearLayout>

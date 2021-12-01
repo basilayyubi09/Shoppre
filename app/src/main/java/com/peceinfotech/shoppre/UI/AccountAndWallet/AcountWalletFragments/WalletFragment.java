@@ -273,7 +273,7 @@ public class WalletFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_text_layout, title);
+        arrayAdapter = new ArrayAdapter(getContext(), R.layout.menu_item_text_layout, title);
         allSpinner.setAdapter(arrayAdapter);
 
 

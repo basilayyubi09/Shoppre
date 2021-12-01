@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Shipment.ShipmentFragment.PaymentSummary">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="21dp"
+                android:layout_marginTop="28dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shipment Summary"
+                        android:textColor="@color/black"
+                        android:textFontWeight="700"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Delivery Address"
+                        android:textColor="@color/black"
+                        android:textFontWeight="600"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Nikkitha Shanker"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="22dp"
+                        android:layout_marginBottom="24dp"
+                        android:text="24 Airport Rd - Garhoud - Dubai - United Arab Emirates\n+9714702 4444"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="21dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/linear_layout_border"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="18dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Shipping Charge Summary"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:layout_width="17dp"
+                                android:layout_height="17dp"
+                                android:src="@drawable/black_play_btn" />
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="13dp"
+                            android:background="#D2D2D2" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="18dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Shipping Charge Total"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹8466.00"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/linear_layout_border"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="18dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Service Charges Summary"
+                                android:textColor="@color/black"
+                                android:textFontWeight="700"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:layout_width="17dp"
+                                android:layout_height="17dp"
+                                android:src="@drawable/black_play_btn" />
+
+                        </LinearLayout>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="13dp"
+                            android:background="#D2D2D2" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="18dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Service Charges Total"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹2,300.00"
+                                android:textColor="@color/black"
+                                android:textFontWeight="600"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/linear_layout_border"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginHorizontal="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Service Charges Summary"
+                            android:textSize="14sp"
+                            android:textFontWeight="700"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginLeft="12dp"/>
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="13dp"
+                            android:background="#D2D2D2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="13dp"
+                            android:layout_marginHorizontal="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shipping Charge"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:layout_weight="1"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹8,866.00"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginHorizontal="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Service Charge"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:layout_weight="1"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹2,300.00"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginHorizontal="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Discounts/Additional Charges"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:layout_weight="1"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹200.00"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            >
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#D2D2D2"
+                                android:layout_marginLeft="13dp"/>
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Package Level Discount"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="4dp"
+                                android:textFontWeight="400"
+                                android:layout_weight="1"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- ₹100.00"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:textFontWeight="400"
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            >
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="11dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginLeft="13dp"/>
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginTop="10dp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shipment Level Charges"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="4dp"
+                                android:textFontWeight="400"
+                                android:layout_weight="1"
+                                android:layout_marginTop="4dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹300.00"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:textFontWeight="400"
+                                android:layout_marginTop="4dp"/>
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginHorizontal="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Membership Savings"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:layout_weight="1"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹200.00"
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            >
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#D2D2D2"
+                                android:layout_marginLeft="13dp"/>
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginTop="10dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shipping Charge Discount (5%)"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="4dp"
+                                android:textFontWeight="400"
+                                android:layout_marginTop="4dp"/>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            >
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="11dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginLeft="13dp"/>
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:background="#D2D2D2"
+                                android:layout_marginTop="10dp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Service Charge Discount"
+                                android:textColor="#676767"
+                                android:textSize="10sp"
+                                android:layout_marginLeft="4dp"
+                                android:textFontWeight="400"
+                                android:layout_marginTop="4dp"/>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shipment_summary_border"
+
+                            android:layout_marginTop="18dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Final Shipping Charge"
+                                android:textSize="14sp"
+                                android:textFontWeight="500"
+                                android:layout_marginTop="18dp"
+                                android:textColor="@color/black"
+                                android:gravity="center_horizontal"/>
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="₹ 11,366.00"
+                                android:textSize="16sp"
+                                android:textFontWeight="600"
+                                android:layout_marginTop="12dp"
+                                android:textColor="@color/black"
+                                android:gravity="center_horizontal"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:insetTop="0dp"
+                                android:layout_marginTop="12dp"
+                                android:insetBottom="0dp"
+                                app:cornerRadius="5dp"
+                                app:backgroundTint="#17B28F"
+                                android:text="Make Payment"
+                                android:textAllCaps="false"
+                                android:letterSpacing="0.03"
+                                android:textColor="@color/white"
+                                android:textFontWeight="700"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Charges shown DO NOT include any duties &amp; taxes\ndue upon shipment arrival in your receiving country"
+                                android:textSize="12sp"
+                                android:textFontWeight="700"
+                                android:textColor="#8F8F8F"
+                                android:gravity="center_horizontal"
+                                android:layout_marginHorizontal="6dp"
+                                android:layout_marginTop="14dp"
+                                android:layout_marginBottom="26dp"/>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

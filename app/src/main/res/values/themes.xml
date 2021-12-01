@@ -54,7 +54,21 @@
     <style name="MySpinner" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:dividerHeight">0.5dp</item>
         <item name="android:divider">#C4C4C4</item>
+
     </style>
+
+
+<!--    <style name="menu_text_style" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        <item name="android:textSize">10sp</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:textAllCaps">false</item>-->
+<!--    </style>-->
+
+<!--    <style name="AppThemeActivity" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+<!--        <item name="android:actionMenuTextAppearance">@style/menu_text_style</item>-->
+<!--        ...-->
+<!--    </style>-->
+
 
 
 

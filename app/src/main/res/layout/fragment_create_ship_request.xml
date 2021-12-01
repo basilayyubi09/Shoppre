@@ -167,43 +167,68 @@
                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
                    <LinearLayout
-                       android:layout_width="wrap_content"
+                       android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:layout_gravity="center_horizontal">
-                       <com.google.android.material.button.MaterialButton
+                       android:gravity="center_horizontal">
+
+                       <androidx.cardview.widget.CardView
                            android:layout_width="wrap_content"
-                           android:layout_height="32dp"
-                           android:insetBottom="0dp"
-                           android:insetTop="0dp"
-                           android:layout_marginVertical="20dp"
-                           android:backgroundTint="@color/white"
-                           android:text="Back"
-                           android:textAllCaps="false"
-                           android:textColor="#2D8DFF"
-                           android:textFontWeight="700"
-                           android:letterSpacing="0.03"
-                           android:paddingHorizontal="40dp"
-                           style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                           app:strokeColor="#2D8DFF"/>
+                           android:layout_height="wrap_content"
+                           app:cardCornerRadius="5dp"
+                           android:layout_gravity="center_vertical">
+
+                           <TextView
+                               android:layout_width="match_parent"
+                               android:layout_height="match_parent"
+                               android:text="Back"
+                               android:textColor="#2D8DFF"
+                               android:textSize="12sp"
+                               android:textFontWeight="600"
+                               android:paddingVertical="8dp"
+                               android:paddingHorizontal="50dp"
+                               android:background="@drawable/logout_shadow"/>
+
+
+                       </androidx.cardview.widget.CardView>
+
+<!--                       <com.google.android.material.button.MaterialButton-->
+<!--                           android:layout_width="wrap_content"-->
+<!--                           android:layout_height="32dp"-->
+<!--                           android:insetBottom="0dp"-->
+<!--                           android:insetTop="0dp"-->
+<!--                           app:elevation="4dp"-->
+<!--                           android:textSize="12sp"-->
+<!--                           android:layout_marginVertical="20dp"-->
+<!--                           android:backgroundTint="@null"-->
+<!--                           android:text="Back"-->
+<!--                           android:textAllCaps="false"-->
+<!--                           android:textColor="#2D8DFF"-->
+<!--                           android:textFontWeight="600"-->
+<!--                           android:letterSpacing="0.03"-->
+<!--                           android:paddingHorizontal="50dp"-->
+<!--                           android:background="@drawable/logout_shadow"-->
+<!--                           app:backgroundTint="@null" />-->
 
                        <com.google.android.material.button.MaterialButton
                            android:id="@+id/choosePackageProceedBtn"
                            android:layout_width="wrap_content"
                            android:layout_height="32dp"
-                           android:paddingHorizontal="20dp"
-                           android:insetBottom="0dp"
-                           android:layout_marginLeft="20dp"
-                           android:insetTop="0dp"
                            android:layout_marginVertical="20dp"
+                           android:layout_marginLeft="20dp"
+                           android:paddingVertical="8dp"
+                           android:textSize="12sp"
+                           android:insetTop="0dp"
+                           android:insetBottom="0dp"
+                           android:letterSpacing="0.03"
+                           android:paddingHorizontal="38dp"
                            android:text="Proceed"
                            android:textAllCaps="false"
                            android:textColor="@color/white"
-                           android:textFontWeight="700"
-                           app:icon="@drawable/return_arrow"
+                           android:textFontWeight="600"
                            app:backgroundTint="#2D8DFF"
+                           app:icon="@drawable/return_arrow"
                            app:iconGravity="end"
-                           app:iconTint="@color/white"
-                           android:letterSpacing="0.03"/>
+                           app:iconTint="@color/white" />
                    </LinearLayout>
                </LinearLayout>
 
