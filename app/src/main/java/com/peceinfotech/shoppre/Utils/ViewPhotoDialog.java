@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,9 @@ public class ViewPhotoDialog {
         secondPhoto = dialog.findViewById(R.id.secondPhoto);
         thirdPhoto = dialog.findViewById(R.id.thirdPhoto);
         fourthPhoto = dialog.findViewById(R.id.fourthPhoto);
+        LinearLayout layout = dialog.findViewById(R.id.main);
+        LinearLayout layout1 = dialog.findViewById(R.id.second);
+
 
 
         if (packageDetailsResponse.getPhotoRequests().isEmpty()){
@@ -104,8 +108,10 @@ public class ViewPhotoDialog {
             @Override
             public void onClick(View v) {
 
-                requestDialog(context);
+//                requestDialog(context);
 
+                layout.setVisibility(View.GONE);
+                layout1.setVisibility(View.VISIBLE);
             }
         });
 
