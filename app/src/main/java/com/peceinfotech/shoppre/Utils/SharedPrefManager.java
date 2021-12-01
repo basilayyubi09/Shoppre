@@ -72,12 +72,12 @@ public class SharedPrefManager {
     }
 
     public String getBearerToken() {
-        return userSharedPref.getString("bearer", " ");
+        return userSharedPref.getString("bearer", "");
     }
 
 
     public String getFirstName() {
-        return userSharedPref.getString("firstName", " ");
+        return userSharedPref.getString("firstName", "");
     }
 
     public void storeLastName(String lastname) {
@@ -88,7 +88,7 @@ public class SharedPrefManager {
 
 
     public String getLastName() {
-        return userSharedPref.getString("lastName", " ");
+        return userSharedPref.getString("lastName", "");
     }
 
     public void storeSalutation(String salutation) {
@@ -186,6 +186,7 @@ public class SharedPrefManager {
 
     public void logOut() {
         editor.clear();
+        editor.apply();
         editor.commit();
     }
 

@@ -2,7 +2,6 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,12 +38,12 @@ import retrofit2.Response;
 
 public class SignUp_Valid extends AppCompatActivity {
 
-    Button sendBtn ;
+    Button sendBtn;
     protected EditText passwordField;
-    TextView signUpValdAlrdyAcnt, passwordErrorText;
+    TextView signUpValdAlrdyAcnt, passwordErrorText, helperText;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
-    String emailId, password, confirmPassword,checkLogin, referalCode, firstName, lastName , emailIdFromIntent;
+    String emailId, password, confirmPassword, checkLogin, referalCode, firstName, lastName, emailIdFromIntent;
     ImageView strengthImage, backArrow;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     SharedPrefManager sharedPrefManager;
@@ -59,8 +58,8 @@ public class SignUp_Valid extends AppCompatActivity {
 
         //Shared Preference
         sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
-        if (sharedPrefManager.checkLogin()){
-            startActivity(new Intent(SignUp_Valid.this , OrderActivity.class));
+        if (sharedPrefManager.checkLogin()) {
+            startActivity(new Intent(SignUp_Valid.this, OrderActivity.class));
 
         }
         //Hooks
@@ -70,6 +69,7 @@ public class SignUp_Valid extends AppCompatActivity {
         firstlNameField = findViewById(R.id.firstNameField);
         lastNameField = findViewById(R.id.lastName);
         emailIdField = findViewById(R.id.emailId);
+        helperText = findViewById(R.id.helperText);
         passwordErrorText = findViewById(R.id.passwordErrorText);
         passwordField = findViewById(R.id.pf);
         confirmPasswordField = findViewById(R.id.confirmPassword);
@@ -78,7 +78,7 @@ public class SignUp_Valid extends AppCompatActivity {
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
         main = findViewById(R.id.main);
 
-        setupUI(main );
+        setupUI(main);
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -93,6 +93,8 @@ public class SignUp_Valid extends AppCompatActivity {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
                 finish();
             }
         });
@@ -108,7 +110,7 @@ public class SignUp_Valid extends AppCompatActivity {
                     strengthImage.setImageResource(R.drawable.ic_weak);
                 } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                }else if(s.toString().length()>=7 && s.toString().matches(passwordPattern)){
+                } else if (s.toString().length() >= 7 && s.toString().matches(passwordPattern)) {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -126,7 +128,7 @@ public class SignUp_Valid extends AppCompatActivity {
                     strengthImage.setImageResource(R.drawable.ic_weak);
                 } else if (s.toString().length() > 3 && s.toString().length() < 7) {
                     strengthImage.setImageResource(R.drawable.ic_medium);
-                } else if(s.toString().length()>=7 && s.toString().matches(passwordPattern)){
+                } else if (s.toString().length() >= 7 && s.toString().matches(passwordPattern)) {
                     strengthImage.setImageResource(R.drawable.ic_strong);
                 }
             }
@@ -150,17 +152,13 @@ public class SignUp_Valid extends AppCompatActivity {
                         || !validatePasswordField() || !validateConfirmPasswordField()) {
                     getStringFromFields();
                     return;
-                }
-
-                else{
-                    if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                } else {
+                    if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                     {
 
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    }
-                    else
-                    {
+                    } else {
                         ///registerVerify Api Call
                         registerVerifyApi(firstName,
                                 emailId,
@@ -190,8 +188,7 @@ public class SignUp_Valid extends AppCompatActivity {
                                    String emailId,
                                    String password,
                                    String referalCode,
-                                   String lastName)
-    {
+                                   String lastName) {
 
         //For sending data in JSON
         JsonObject paramObject = new JsonObject();
@@ -216,26 +213,19 @@ public class SignUp_Valid extends AppCompatActivity {
             public void onResponse(Call<RegisterVerifyResponse> call, Response<RegisterVerifyResponse> response) {
 
 
-                String message = "Already User Is Registered, Please Verify Your email To Continue";
-
-                RegisterVerifyResponse registerVerifyResponse = response.body();
-
                 //If user already register then send to login screen and show error in fields
-                if (response.code()==200){
-                    if (registerVerifyResponse.getMessage().equals(message))
-                    {
+                if (response.code() == 200) {
+                    if (response.body().getCustomerId() == null) {
                         LoadingDialog.cancelLoading();
-                        Intent intent = new Intent(SignUp_Valid.this , LoginActivity.class);
-                        intent.putExtra("flag" , 1);
+                        Intent intent = new Intent(SignUp_Valid.this, SignUpActivity.class);
+                        intent.putExtra("flag", 1);
                         startActivity(intent);
                         finish();
                     } else {
-                        String bearer = response.body().getToken().getAccessToken();
-                        callAuthApi(bearer);
+                        callAuthApi(response.body().getToken().getAccessToken());
 
                     }
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -253,7 +243,7 @@ public class SignUp_Valid extends AppCompatActivity {
     }
 
     private void callAuthApi(String bearer) {
-        String bearerToken = bearer;
+
 
         JsonObject paramObject = new JsonObject();
 
@@ -266,30 +256,27 @@ public class SignUp_Valid extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearerToken , paramObject.toString());
+                .getAuth("Bearer " + bearer, paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if (response.code()==200){
+                if (response.code() == 200) {
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
-                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+//                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
 //                    Log.d("Auth api response ",code);
-                    callAccessTokenApi(part2 , bearerToken);
+                    callAccessTokenApi(part2, bearer);
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -297,41 +284,38 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
     }
 
-    private void callAccessTokenApi(String part2, String bearer1) {
+    private void callAccessTokenApi(String part2, String bearer) {
 
-        String auth =bearer1;
+
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , auth);
+                .getAccessToken(part2, bearer);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
-                    String token = response.body().getAccessToken();
-                    sharedPrefManager.storeBearerToken(token);
+
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     clearFields();
                     LoadingDialog.cancelLoading();
-                    startActivity(new Intent(SignUp_Valid.this , OnBoardingActivity.class));
-                    finish();
-                }
-                else if (response.code()==400){
+                    startActivity(new Intent(SignUp_Valid.this, OnBoardingActivity.class));
+                    finishAffinity();
+                } else if (response.code() == 400) {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -339,12 +323,11 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
     }
-
 
 
     private void clearFields() {
@@ -419,14 +402,17 @@ public class SignUp_Valid extends AppCompatActivity {
 
 
             passwordErrorText.setVisibility(View.VISIBLE);
+            helperText.setVisibility(View.GONE);
             strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
 
         } else if (!password.matches(passwordPattern)) {
+            helperText.setVisibility(View.GONE);
             passwordErrorText.setVisibility(View.VISIBLE);
             strengthImage.setImageResource(R.drawable.ic_weak);
             return false;
         } else {
+            helperText.setVisibility(View.VISIBLE);
             passwordErrorText.setVisibility(View.GONE);
             return true;
         }
@@ -486,16 +472,23 @@ public class SignUp_Valid extends AppCompatActivity {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0
             );
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
+        finish();
     }
 }
 

@@ -73,6 +73,9 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="please_note_">Please Note that the shipping rates for Liquid/ Semi-Liquid products are higher. Check our Shipping Price Calculator for estimate pricing.</string>
     <string name="shop_for_me_text"><![CDATA[If you don\'t have an Indian Credit/Debit Card for payment or Indian Mobile Number to register on Shopping websites, we’ll shop on your behalf & ship it to you!]]></string>
     <string name="return_item_string">You’ve selected <b>1</b> item for <b>Return</b></string>
+    <string name="discard">You’ve selected <b>1</b> item for <b>Discard</b></string>
+    <string name="split">You’ve selected <b>1</b> item for <b>Split</b></string>
+    <string name="exchange">You’ve selected <b>1</b> item for <b>Exchange</b></string>
     <string name="seller_pick_up_text">The sender will pick up the package directly from the ShoppRe facility.\n \nFree for 3 days of item reaching your locker, you’ll be charged ₹50/item each day thereafter</string>
     <string name="ship_it_to_seller_text">Shoppre has to return the package for you to the sender.\n \nA shipment will be created and you’ll be charged as per the domestic shipping rates which will be notified via email.</string>
     <string name="ship_it_to_seller_landing_text">Add the address provided by the eCommerce where the product needs to be returned.\n \nDomestic Shipping Charges will be applied based on the weight of your package</string>
@@ -94,6 +97,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="the_shipment_cannot">The shipment cannot be processed without invoices for all the packages. Please upload the invoice to avoid any delays in shipment. You can cancel your order within one hour of creating shipment.</string>
     <string name="we_re_processing_">We’re processing your shipment request.\nYou will recieve the payment link shortly.</string>
     <string name="please_make_the_payment">Please make the payment within 7 days of initiation after which there’ll be a charge of ₹ 100/day. The charges will be added to the wallet.</string>
+    <string name="orders_more_than_15">Orders more than 15 items per website will incur an additional service fees of INR 50 per item</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

@@ -81,16 +81,16 @@ public class FifthOnBoarding extends Fragment {
 
     private void begin() {
         LoadingDialog.showLoadingDialog(getActivity() , "");
-        callMeApi(sharedPrefManager.getBearerToken());
+        callMeApi();
     }
 
-    private void callMeApi(String token) {
+    private void callMeApi() {
 
         //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwNTU4LCJzZXNzaW9uX2lkIjoxMTMzMCwiaWF0IjoxNjM1NDIzNzAyLCJleHAiOjE2MzU0MjczMDJ9.UDJAah-VmB2fkgIob3PRD5-HueU2wuBF8PXW0mcRYXY
         Call<MeResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .getUser("Bearer "+token);
+                .getUser("Bearer "+sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {

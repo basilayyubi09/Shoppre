@@ -11,10 +11,11 @@
         android:id="@+id/profileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/shoppre_ic"/>
+        android:src="@drawable/shoppre_ic"
+        android:layout_gravity="top"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginLeft="14dp">
@@ -31,11 +32,12 @@
 
         <TextView
             android:id="@+id/orderStatus"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Order Placed"
             android:textFontWeight="500"
             android:textSize="12sp"
+            android:layout_marginRight="30dp"
             android:textColor="@color/black"/>
 
         <TextView

@@ -1,10 +1,15 @@
 package com.peceinfotech.shoppre.UI.Locker;
 
+import android.annotation.SuppressLint;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -46,6 +51,7 @@ public class LockerReadyToShip extends Fragment {
     LinearLayout emptyLockerDiscardText;
     CardView emptyLockerCard, lockerReadyToShipCard;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +67,12 @@ public class LockerReadyToShip extends Fragment {
         lockerReadyToShipCard = view.findViewById(R.id.lockerReadyToShipCard);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
+        Bundle bundle = this.getArguments();
+        if (bundle!=null){
+            if (bundle.getBoolean("showToast")){
+                Toast.makeText(getActivity(), "Yaha peele wale toast dikhana hae", Toast.LENGTH_SHORT).show();
+            }
+        }
 
 
 
@@ -82,8 +94,8 @@ public class LockerReadyToShip extends Fragment {
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
-            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
-            snackbar.show();
+//            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
+//            snackbar.show();
         } else {
 
             LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.Loading));
@@ -156,8 +168,10 @@ public class LockerReadyToShip extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                } else {
                     callListingApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

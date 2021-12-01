@@ -30,7 +30,6 @@ import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,7 +42,7 @@ public class LockerViewPackage extends Fragment {
     TabLayout viewPackageTablayout;
     ViewPager viewPackageViewPager;
     SharedPrefManager sharedPrefManager;
-    TextView comment , websiteName , packageId , weight , date , amount , trackingNumber;
+    TextView comment, websiteName, packageId, weight, date, amount, trackingNumber;
     int id;
     Bundle bundle1 = new Bundle();
     PackageDetails packageDetails = new PackageDetails();
@@ -86,27 +85,31 @@ public class LockerViewPackage extends Fragment {
         }
 
 
-
-
         return view;
     }
 
     private void callViewPackage() {
         Call<ViewPackageResponse> call = RetrofitClient3
                 .getInstance3()
-                .getAppApi().viewPackage("Bearer "+sharedPrefManager.getBearerToken()
-                ,id);
+                .getAppApi().viewPackage("Bearer " + sharedPrefManager.getBearerToken()
+                        , id);
         call.enqueue(new Callback<ViewPackageResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ViewPackageResponse> call, Response<ViewPackageResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
                     list = response.body().getPackageItems();
-                    bundle1.putSerializable("list" , (Serializable) list);
+                    bundle1.putInt("id" , response.body().getId());
+                    bundle1.putSerializable("list", (Serializable) list);
                     packageDetails.setArguments(bundle1);
+                    Bundle bundle = new Bundle();
+
+                    bundle.putInt("id", response.body().getId());
+
+                    packageUpdates.setArguments(bundle);
                     viewPackageViewPagerAdapter = new ViewPackageViewPager(getChildFragmentManager());
-                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details "+"("+String.valueOf(list.size())+")");
+                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details " + "(" + String.valueOf(list.size()) + ")");
                     viewPackageViewPagerAdapter.addFragment(packageUpdates, "Locker Updates");
 
                     viewPackageViewPager.setAdapter(viewPackageViewPagerAdapter);
@@ -115,11 +118,9 @@ public class LockerViewPackage extends Fragment {
                     setTextToFields(response.body());
                     LoadingDialog.cancelLoading();
 
-                }
-                else if(response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -146,10 +147,11 @@ public class LockerViewPackage extends Fragment {
         String month_name = dtf2.format(ld);
 
         date.setText(month_name);
+        trackingNumber.setText(list.getInvoiceCode());
         websiteName.setText(list.getStore().getName());
         packageId.setText("#" + String.valueOf(list.getId()));
         weight.setText(String.valueOf(list.getWeight()));
-        amount.setText(String.valueOf(list.getPriceAmount()));
+        amount.setText("₹ "+String.valueOf(list.getPriceAmount()));
 
         if (list.getStateNameAndColor().getStateName().equals("In Review")) {
 

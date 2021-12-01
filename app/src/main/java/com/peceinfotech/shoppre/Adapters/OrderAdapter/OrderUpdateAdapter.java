@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.bumptech.glide.Glide;
 import com.peceinfotech.shoppre.OrderModuleResponses.GetCommentsResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderUpdateResponse;
 import com.peceinfotech.shoppre.R;
@@ -39,11 +42,20 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
 
 
 
-        holder.profileImage.getDrawable();
+
         if (list.get(position).getUser()!=null){
             holder.profileName.setText(list.get(position).getUser().getName());
         }
+        if (list.get(position).getUser().getGroupId()==1){
 
+
+            holder.profileName.setTextColor(context.getResources().getColor(R.color.text_red));
+            holder.profileImage.setImageResource(R.drawable.shoppre_ic);
+
+        }else {
+            holder.profileImage.setImageResource(R.drawable.shoppre_ic);
+            holder.profileName.setTextColor(context.getResources().getColor(R.color.text_blue));
+        }
         holder.orderStatus.setText(list.get(position).getComments());
         holder.dateAndTime.setText(list.get(position).getCreatedAt());
 
@@ -62,7 +74,7 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
-            profileImage = itemView.findViewById(R.id.profileImage);
+            profileImage =itemView.findViewById(R.id.profileImage);
             profileName = itemView.findViewById(R.id.profileName);
             orderStatus = itemView.findViewById(R.id.orderStatus);
             dateAndTime = itemView.findViewById(R.id.dateAndTime);

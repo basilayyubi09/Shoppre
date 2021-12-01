@@ -11,6 +11,7 @@ import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.ReturnPackageResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.AddCommentResponse;
@@ -88,8 +89,8 @@ public interface AppApi {
     @GET("api/users/{id}/transactions")
     Call<WalletTransactionResponse> getDetails(
             @Path("id") int id,
-            @Query("offset") String offset,
-            @Query("limit") String limit,
+            @Query("offset") Integer offset,
+            @Query("limit") Integer limit,
             @Header("Authorization") String auth
     );
 
@@ -284,4 +285,69 @@ public interface AppApi {
     Call<PackageListingResponse> cancelPackage(
             @Header("Authorization") String auth
     );
+
+    //https://staging-engage.shoppre.com/api/packages/171/comments
+    @GET("api/packages/{id}/comments")
+    Call<List<GetCommentsResponse>> getPackageComments(
+            @Path("id") Integer id
+    );
+
+    //https://staging-engage.shoppre.com/api/packages/171/comments?type=customer
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/packages/{id}/comments?type=customer")
+    Call<AddCommentResponse> addPackageComment(
+            @Header("Authorization") String bearer,
+            @Path("id") Integer id,
+            @Body String comment);
+
+    //https://staging-app1.shoppreglobal.com/api/packages/899/return
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/return")
+    Call<ReturnPackageResponse> returnPackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packages/891/exchange
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/exchange")
+    Call<ReturnPackageResponse> exchangePackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packages/889/abandon
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/abandon")
+    Call<ReturnPackageResponse> discardPackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packages/23/split
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packages/{packageId}/split")
+    Call<ReturnPackageResponse> splitPackage(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packageItems/915/values
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/packageItems/{packageId}/values")
+    Call<ReturnPackageResponse> updatePrice(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+
+    //https://staging-app1.shoppreglobal.com/api/photoRequests/899
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/photoRequests/899")
+    Call<ReturnPackageResponse> standardPhoto(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
 }

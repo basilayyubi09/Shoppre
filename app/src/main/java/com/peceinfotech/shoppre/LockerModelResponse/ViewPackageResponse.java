@@ -19,6 +19,18 @@ public class ViewPackageResponse implements Serializable {
     @SerializedName("created_at")
     @Expose
     private String createdAt;
+    @SerializedName("invoice_code")
+    @Expose
+    private String invoiceCode;
+
+    public String getInvoiceCode() {
+        return invoiceCode;
+    }
+
+    public void setInvoiceCode(String invoiceCode) {
+        this.invoiceCode = invoiceCode;
+    }
+
     @SerializedName("weight")
     @Expose
     private Float weight;

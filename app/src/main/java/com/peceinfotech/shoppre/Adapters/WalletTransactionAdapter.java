@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.AccountResponse.WalletTransaction;
 import com.peceinfotech.shoppre.R;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransactionAdapter.viewHolder> {
     Context context;
@@ -39,11 +46,12 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
         return super.getItemViewType(position);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.date.setText(list.get(position).getCreatedAt());
+
 //        holder.image.setImageResource(list.get(position).getImage());
         holder.mainText.setText(list.get(position).getDescription());
 //        if (list.get(position).getMessageText().equals("")){
@@ -53,10 +61,29 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
 //            holder.messageText.setText(list.get(position).getMessageText());
         if (list.get(position).getAmount().toString().startsWith("-")){
             holder.price.setTextColor(Color.parseColor("#EF5261"));
+            holder.price.setText("-"+list.get(position).getAmount().toString());
         }
-        else holder.price.setTextColor(Color.parseColor("#17B28F"));
+        else{
+            holder.price.setTextColor(Color.parseColor("#17B28F"));
+            holder.price.setText("+"+list.get(position).getAmount().toString());
+        }
 
-        holder.price.setText(list.get(position).getAmount().toString());
+
+
+
+
+
+        String date1 = list.get(position).getCreatedAt();
+        String[] split = date1.split("T");
+        String date = split[0];
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+        LocalDate ld = LocalDate.parse(date, dtf);
+        String month_name = dtf2.format(ld);
+        holder.date.setText(month_name);
+
+
     }
 
     @Override

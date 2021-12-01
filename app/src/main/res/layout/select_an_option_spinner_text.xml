@@ -7,7 +7,7 @@
     android:paddingVertical="5dp"
     android:textSize="12sp"
     android:textFontWeight="500"
-    android:maxLines="1"
+    android:maxLines="10"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"/>

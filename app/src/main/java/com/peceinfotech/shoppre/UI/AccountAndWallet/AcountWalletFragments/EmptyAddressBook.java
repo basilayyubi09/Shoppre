@@ -64,7 +64,7 @@ public class EmptyAddressBook extends Fragment {
 
     DeliveryListModel.Address deliveryAddress;
 
-    int addressId, id;
+    Integer addressId = null, id;
     LinearLayout billingAddressBox;
     TextView billingAddressName, billingAddressContactNumber, billingAddressEdit, billingAddress;
 
@@ -350,9 +350,14 @@ public class EmptyAddressBook extends Fragment {
             @Override
             public void onClick(View view) {
 
-                LoadingDialog.showLoadingDialog(getActivity(), "");
+                if (addressId==null){
+                    Toast.makeText(getActivity(), "Please Select an address ", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    setDefaultAddress();
+                }
 
-                setDefaultAddress();
 
 
             }
@@ -415,9 +420,8 @@ public class EmptyAddressBook extends Fragment {
 
                 if (response.code() == 200) {
 
-                    LoadingDialog.cancelLoading();
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
+                    addressId = null;
                     fetchAddress();
 
                     getDeliveryAddrsAdapter.notifyDataSetChanged();
@@ -425,7 +429,7 @@ public class EmptyAddressBook extends Fragment {
 
                 } else if (response.code() == 401) {
 
-                    LoadingDialog.cancelLoading();
+
                     callRefreshTokenApi();
                 } else {
 
@@ -455,6 +459,7 @@ public class EmptyAddressBook extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    fetchAddress();
                 }
                 else {
                     LoadingDialog.cancelLoading();

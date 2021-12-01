@@ -93,10 +93,17 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
             @Override
             public void onClick(View view) {
 
-                lastSelectedposition = holder.getAdapterPosition();
-                addrsId = holder.addrsRadioBtn.getId();
-                mListener.defaultAdddressSet(address);
-                notifyDataSetChanged();
+                if (!address.getIsDefault())
+                {
+                    if (holder.addrsRadioBtn.isChecked()){
+                        lastSelectedposition = holder.getAdapterPosition();
+                        addrsId = holder.addrsRadioBtn.getId();
+                        mListener.defaultAdddressSet(address);
+                        notifyDataSetChanged();
+                    }
+                }
+
+
 
 //                if (position == lastSelectedposition){
 //

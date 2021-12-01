@@ -29,6 +29,9 @@ import androidx.fragment.app.Fragment;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
@@ -219,9 +222,19 @@ public class ViewProfile extends Fragment {
         LoadingDialog.showLoadingDialog(getActivity(),"");
         callMeApi(sharedPrefManager.getBearerToken());
 
-        LoadingDialog.showLoadingDialog(getActivity(),"");
-        callApi();
 
+
+        firstLetter = sharedPrefManager.getFirstName().charAt(0);
+
+        ////Profile RoundImage with Letter
+
+        textDrawable = TextDrawable.builder()
+                .beginConfig().endConfig()
+                .beginConfig().withBorder(4)
+                .bold().toUpperCase()
+                .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
+
+        profileImage.setImageDrawable(textDrawable);
         setProfileCredentials();
 
 
@@ -349,8 +362,14 @@ public class ViewProfile extends Fragment {
             @Override
             public void onClick(View view) {
                 sharedPrefManager.logOut();
+                GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions
+                .DEFAULT_SIGN_IN).build();
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity() , googleSignInOptions);
+
+                googleSignInClient.signOut();
+
                 startActivity(new Intent(getActivity(), SignUpActivity.class));
-                getActivity().finish();
+                getActivity().finishAffinity();
             }
         });
 
@@ -397,14 +416,14 @@ public class ViewProfile extends Fragment {
 
         int id = sharedPrefManager.getId();
         Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
-                .getAppApi().getDetails(id,"0" , "20" , "Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().getDetails(id,0 , 20 , "Bearer "+sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.isSuccessful()) {
 
                     User user = response.body().getUser();
-                    profilePrice.setText("\u20B9 "+String.valueOf(user.getWalletAmount()));
+                    profilePrice.setText("₹ "+String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
 
                 }else{
@@ -466,18 +485,7 @@ public class ViewProfile extends Fragment {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
-                    firstLetter = response.body().getFirstName().charAt(0);
 
-                    ////Profile RoundImage with Letter
-
-                    textDrawable = TextDrawable.builder()
-                            .beginConfig().endConfig()
-                            .beginConfig().withBorder(4)
-                            .bold().toUpperCase()
-                            .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
-
-                    profileImage.setImageDrawable(textDrawable);
                     if (response.body().getIsEmailVerified()==0){
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);
@@ -488,6 +496,7 @@ public class ViewProfile extends Fragment {
                         resend.setVisibility(View.GONE);
                         emailCheck.setVisibility(View.VISIBLE);
                     }
+                    callApi();
                 }
                 else if (response.code()==401){
                     callRefreshTokenApi();
@@ -748,22 +757,22 @@ public class ViewProfile extends Fragment {
     }
 
 
-    public boolean validateEmail() {
-        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (email.equals("")) {
-            emailError.setVisibility(View.VISIBLE);
-            return false;
-        } else if (!email.matches(emailPattern)) {
-            emailWrong.setVisibility(View.VISIBLE);
-            return false;
-        } else {
-            emailWrong.setVisibility(View.GONE);
-            emailError.setVisibility(View.GONE);
-            return true;
-        }
-
-
-    }
+//    public boolean validateEmail() {
+//        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+//        if (email.equals("")) {
+//            emailError.setVisibility(View.VISIBLE);
+//            return false;
+//        } else if (!email.matches(emailPattern)) {
+//            emailWrong.setVisibility(View.VISIBLE);
+//            return false;
+//        } else {
+//            emailWrong.setVisibility(View.GONE);
+//            emailError.setVisibility(View.GONE);
+//            return true;
+//        }
+//
+//
+//    }
 
     public boolean validateNumber() {
 
