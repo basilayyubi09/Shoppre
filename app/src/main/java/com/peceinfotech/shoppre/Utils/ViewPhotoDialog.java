@@ -2,6 +2,7 @@ package com.peceinfotech.shoppre.Utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -21,9 +22,11 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 public class ViewPhotoDialog {
 
     Click click;
+    int size;
 
-    public ViewPhotoDialog(Click click) {
+    public ViewPhotoDialog(int size, Click click) {
         this.click = click;
+        this.size = size;
     }
 
     public void showDialog(Context context, PackageItem packageDetailsResponse) {
@@ -49,7 +52,19 @@ public class ViewPhotoDialog {
         LinearLayout layout = dialog.findViewById(R.id.main);
         LinearLayout layout1 = dialog.findViewById(R.id.second);
 
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog1) {
+                click.Dismiss(dialog);
+            }
+        });
 
+        if (size>1){
+            addMoreProductBtn.setVisibility(View.VISIBLE);
+        }
+        else {
+            addMoreProductBtn.setVisibility(View.GONE);
+        }
         if (!packageDetailsResponse.getObject().isEmpty()) {
             Glide.with(context)
                     .load(packageDetailsResponse.getObject())
@@ -158,7 +173,7 @@ public class ViewPhotoDialog {
         viewPhotoCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                click.Dismiss(dialog);
             }
         });
 
@@ -187,7 +202,8 @@ public class ViewPhotoDialog {
             @Override
             public void onClick(View v) {
 
-                dialog.dismiss();
+//                dialog.dismiss();
+                click.Dismiss(dialog);
                 click.multi(packageDetailsResponse.getId());
             }
         });
@@ -196,7 +212,7 @@ public class ViewPhotoDialog {
             @Override
             public void onClick(View v) {
 
-                dialog.dismiss();
+                click.Dismiss(dialog);
                 click.proceed(packageDetailsResponse.getId());
             }
         });
@@ -217,6 +233,8 @@ public class ViewPhotoDialog {
 
 
         void multi(Integer id);
+
+        void Dismiss(Dialog dialog);
 
 
 

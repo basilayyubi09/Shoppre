@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -202,6 +204,12 @@ public class PackageDetails extends Fragment {
 
 
                         }
+
+                        @Override
+                        public void callApi() {
+                            LoadingDialog.showLoadingDialog(getActivity() , "");
+                            callViewPackage();
+                        }
                     });
                     packageDetailsRecycler.setAdapter(packageDetailsAdapter);
 
@@ -247,7 +255,7 @@ public class PackageDetails extends Fragment {
         jsonObject.add("itemId", jsonArray);
         jsonObject.addProperty("state_id", 53);
         jsonObject.addProperty("type", "advanced_photo");
-        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_LONG).show();
+
 
         Call<ReturnPackageResponse> call = RetrofitClient3
                 .getInstance3()
@@ -260,6 +268,7 @@ public class PackageDetails extends Fragment {
                     LoadingDialog.showLoadingDialog(getActivity(), "");
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
+                    bundle.putString("type", "Additional Photo");
                     LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                     lockerReadyToShip.setArguments(bundle);
                     LoadingDialog.cancelLoading();
@@ -374,6 +383,7 @@ public class PackageDetails extends Fragment {
                     }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
+                    bundle.putString("type", "Exchange");
                     LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                     lockerReadyToShip.setArguments(bundle);
                     LoadingDialog.cancelLoading();
@@ -426,6 +436,7 @@ public class PackageDetails extends Fragment {
                     }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
+                    bundle.putString("type", "Discard");
                     LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                     lockerReadyToShip.setArguments(bundle);
                     LoadingDialog.cancelLoading();
@@ -479,6 +490,7 @@ public class PackageDetails extends Fragment {
                     }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
+                    bundle.putString("type", "Split Package");
                     LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                     lockerReadyToShip.setArguments(bundle);
                     LoadingDialog.cancelLoading();
@@ -520,6 +532,7 @@ public class PackageDetails extends Fragment {
 
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
+                    bundle.putString("type", "return");
                     LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
                     lockerReadyToShip.setArguments(bundle);
                     LoadingDialog.cancelLoading();
@@ -613,51 +626,5 @@ public class PackageDetails extends Fragment {
     }
 
 
-    private void callViewPackage(LinearLayout secondLayoutBg, LinearLayout layoutBg, String s) {
-        Call<ViewPackageResponse> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi().viewPackage("Bearer " + sharedPrefManager.getBearerToken()
-                        , packageId);
-        call.enqueue(new Callback<ViewPackageResponse>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<ViewPackageResponse> call, Response<ViewPackageResponse> response) {
-                if (response.code() == 200) {
 
-                    list = response.body().getPackageItems();
-
-
-//                    bundle1.putInt("id" , response.body().getId());
-//                    bundle1.putSerializable("list", (Serializable) list);
-//                    packageDetails.setArguments(bundle1);
-//                    Bundle bundle = new Bundle();
-//
-//                    bundle.putInt("id", response.body().getId());
-
-//                    packageUpdates.setArguments(bundle);
-//                    viewPackageViewPagerAdapter = new ViewPackageViewPager(getChildFragmentManager());
-//                    viewPackageViewPagerAdapter.addFragment(packageDetails, "Package Details " + "(" + String.valueOf(list.size()) + ")");
-//                    viewPackageViewPagerAdapter.addFragment(packageUpdates, "Locker Updates");
-//
-//                    viewPackageViewPager.setAdapter(viewPackageViewPagerAdapter);
-//                    viewPackageTablayout.setupWithViewPager(viewPackageViewPager);
-//
-//                    setTextToFields(response.body());
-                    LoadingDialog.cancelLoading();
-
-                } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ViewPackageResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

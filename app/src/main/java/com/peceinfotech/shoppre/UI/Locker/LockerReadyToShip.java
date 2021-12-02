@@ -71,19 +71,38 @@ public class LockerReadyToShip extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle!=null){
             if (bundle.getBoolean("showToast")){
+                String type = bundle.getString("type");
 
                 LayoutInflater inflater1 = getLayoutInflater();
                 View layout = inflater1.inflate(R.layout.yellow_toast,
                         (ViewGroup) view.findViewById(R.id.toast_layout_root));
                 TextView toastText = (TextView) layout.findViewById(R.id.toastText);
-                toastText.setText("We’re reviewing your Exchange Request");
-
-
+                toastText.setText("We’re reviewing your "+type+ " Request");
                 Toast toast = new Toast(getContext());
-                toast.setGravity(Gravity.CENTER_VERTICAL, 0, -480);
+                toast.setGravity(Gravity.TOP, 0, 200);
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
+//                if (bundle.getString("type").equals("exchange")){
+//                    toastText.setText(R.string.exchange);
+//                }
+//                else if (bundle.getString("type").equals("photo")){
+//                    toastText.setText(R.string.photo_toast);
+//                }
+//                else if (bundle.getString("type").equals("split")){
+//                    toastText.setText(R.string.split_toast);
+//                }
+//                else if (bundle.getString("type").equals("discard")){
+//                    toastText.setText(R.string.discard_toast);
+//                }
+//                else if (bundle.getString("type").equals("return")){
+//                    toastText.setText(R.string.return_toast);
+//                }
+
+
+
+
+
             }
         }
 
@@ -107,8 +126,8 @@ public class LockerReadyToShip extends Fragment {
 
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
         {
-//            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
-//            snackbar.show();
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
+            snackbar.show();
         } else {
 
             LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.Loading));

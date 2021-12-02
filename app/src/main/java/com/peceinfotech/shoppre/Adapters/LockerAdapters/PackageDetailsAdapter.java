@@ -243,7 +243,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             @Override
             public void onClick(View v) {
 
-                ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog(new ViewPhotoDialog.Click() {
+                ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog(list.size(),new ViewPhotoDialog.Click() {
                     @Override
                     public void fiveRupeesClick(MaterialButton unlockPhotoBtn
                             , TextView orText
@@ -269,6 +269,12 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                     @Override
                     public void multi(Integer id) {
                         getData.singleProceed("singlePhoto", id);
+                    }
+
+                    @Override
+                    public void Dismiss(Dialog dialog) {
+                        dialog.dismiss();
+                        getData.callApi();
                     }
                 });
                 viewPhotoDialog.showDialog(context, packageDetailsResponse);
@@ -416,6 +422,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
         void click(Integer quantity, Integer packageId, Integer id, int position, LinearLayout secondLayoutBg, LinearLayout LayoutBg, EditText thirdPriceEditText, EditText s);
 
+        void callApi();
 
     }
 
