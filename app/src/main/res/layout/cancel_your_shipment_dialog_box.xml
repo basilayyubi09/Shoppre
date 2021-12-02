@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp">
+
+    <ImageView
+        android:id="@+id/cancelShipmentCross"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/cross"
+        android:layout_gravity="right"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="14dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="29dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel Your Shipment Request?"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textFontWeight="600"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click on the ‘Cancel Shipment’ button below\nto confirm cancellation"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:textSize="10sp"
+            android:layout_marginTop="18dp"
+            android:textFontWeight="400"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelled shipment will be moved to your locker.\nYou can place a shipment request anytime."
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:textSize="10sp"
+            android:layout_marginTop="18dp"
+            android:layout_marginHorizontal="33dp"
+            android:textFontWeight="400"
+            android:layout_gravity="center_horizontal"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelShipmentDialogBtn"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:paddingHorizontal="37dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginBottom="29dp"
+            android:layout_marginTop="20dp"
+            app:cornerRadius="5dp"
+            app:backgroundTint="#17B28F"
+            android:text="Cancel Shipment"
+            android:textAllCaps="false"
+            android:letterSpacing="0.03"
+            android:textColor="@color/white"
+            android:textFontWeight="600"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

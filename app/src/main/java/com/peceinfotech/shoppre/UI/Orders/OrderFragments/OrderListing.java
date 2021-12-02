@@ -34,9 +34,9 @@ public class OrderListing extends Fragment {
 
         ///Hoooks
 
-        orderRecycler = view.findViewById(R.id.orderRecyclerView);
-        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
-        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
+//        orderRecycler = view.findViewById(R.id.orderRecyclerView);
+//        virtualAddressCard = view.findViewById(R.id.virtualAddressCard);
+//        shippingCalculatorCard = view.findViewById(R.id.shippingCalculatorCard);
 
 
         OrderListingResponse list = null;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,9 @@
     android:background="@color/box_background_color"
     tools:context=".UI.Orders.OrderActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
         <include
@@ -180,10 +183,13 @@
         android:layout_height="58dp"
         android:layout_alignParentBottom="true"
         android:background="#FFFFFF"
+        
         app:labelVisibilityMode="labeled"
+        app:itemTextColor="@drawable/bottomnav_selector"
+        app:itemIconTint="@drawable/bottomnav_selector"
         app:menu="@menu/bottom_navigation" />
 
 
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

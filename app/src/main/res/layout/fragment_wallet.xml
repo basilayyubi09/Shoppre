@@ -155,7 +155,7 @@
                                 style="@style/MySpinner"
                                 android:id="@+id/allSpinner"
                                 android:layout_width="92dp"
-                                android:layout_height="24dp"
+                                android:layout_height="26dp"
                                 android:layout_marginRight="-15dp"
                                 android:dropDownWidth="92dp"
                                 android:overlapAnchor="false"
