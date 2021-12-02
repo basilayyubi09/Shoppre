@@ -33,6 +33,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
+import com.peceinfotech.shoppre.Utils.CancelShipmentDialog;
 import com.peceinfotech.shoppre.Utils.UploadInvoiceDialog;
 
 public class ShipmentLanding extends Fragment {
@@ -42,7 +43,7 @@ public class ShipmentLanding extends Fragment {
     TabLayout shipmentTabLayout;
     ShipmentDetails shipmentDetails = new ShipmentDetails();
     ShipmentUpdates shipmentUpdates = new ShipmentUpdates();
-    MaterialButton makePaymentBtn, uploadInvoiceBtn;
+    MaterialButton makePaymentBtn, uploadInvoiceBtn, trackShipmentBtn;
     CardView cancelShipmentBtn, downloadInvoiceBtn;
     TextView filePathGlobal;
     String picturePath;
@@ -59,6 +60,7 @@ public class ShipmentLanding extends Fragment {
         uploadInvoiceBtn = view.findViewById(R.id.uploadInvoiceBtn);
         cancelShipmentBtn = view.findViewById(R.id.cancelShipmentBtn);
         downloadInvoiceBtn = view.findViewById(R.id.downloadInvoiceBtn);
+        trackShipmentBtn = view.findViewById(R.id.trackShipmentBtn);
 
         viewPagerAdapter = new ShipmentLandingViewPager(getChildFragmentManager());
 
@@ -67,7 +69,13 @@ public class ShipmentLanding extends Fragment {
         viewPager.setAdapter(viewPagerAdapter);
         shipmentTabLayout.setupWithViewPager(viewPager);
 
-
+        trackShipmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CancelShipmentDialog cancelShipmentDialog = new CancelShipmentDialog();
+                cancelShipmentDialog.showCancelShipmentDialog(getContext());
+            }
+        });
 
 
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,13 +94,18 @@ public class ShipmentLanding extends Fragment {
         });
 
 
+
         uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast ToastMessage = Toast.makeText(getContext(),"We’re reviewing your Return Request",Toast.LENGTH_SHORT);
-                ToastMessage.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-                View toastView = ToastMessage.getView(); toastView.setBackground(getResources().getDrawable(R.drawable.toast_background));
-                ToastMessage.show();
+
+
+
+
+//                Toast ToastMessage = Toast.makeText(getContext(),"We’re reviewing your Return Request",Toast.LENGTH_SHORT);
+//                ToastMessage.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+//                View toastView = ToastMessage.getView(); toastView.setBackground(getResources().getDrawable(R.drawable.toast_background));
+//                ToastMessage.show();
             }
         });
 

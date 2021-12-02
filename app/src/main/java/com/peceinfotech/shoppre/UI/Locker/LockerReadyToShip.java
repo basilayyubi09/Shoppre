@@ -59,6 +59,7 @@ public class LockerReadyToShip extends Fragment {
         View view = inflater.inflate(R.layout.fragment_locker_ready_to_ship, container, false);
 
 
+
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
@@ -70,7 +71,19 @@ public class LockerReadyToShip extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle!=null){
             if (bundle.getBoolean("showToast")){
-                Toast.makeText(getActivity(), "Yaha peele wale toast dikhana hae", Toast.LENGTH_SHORT).show();
+
+                LayoutInflater inflater1 = getLayoutInflater();
+                View layout = inflater1.inflate(R.layout.yellow_toast,
+                        (ViewGroup) view.findViewById(R.id.toast_layout_root));
+                TextView toastText = (TextView) layout.findViewById(R.id.toastText);
+                toastText.setText("We’re reviewing your Exchange Request");
+
+
+                Toast toast = new Toast(getContext());
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, -480);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
             }
         }
 
