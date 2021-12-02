@@ -173,8 +173,10 @@ public class PackageUpdates extends Fragment {
                     packageUpdatesRecycler.setAdapter(packageUpdateAdapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
                     layoutManager.scrollToPosition(0);
-                    packageUpdatesRecycler.setLayoutManager(layoutManager);
                     packageUpdatesRecycler.smoothScrollToPosition(0);
+                    packageUpdatesRecycler.setLayoutManager(layoutManager);
+
+
 
                     LoadingDialog.cancelLoading();
                 }

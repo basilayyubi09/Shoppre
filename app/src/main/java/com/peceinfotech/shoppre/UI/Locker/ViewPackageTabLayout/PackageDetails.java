@@ -1,5 +1,6 @@
 package com.peceinfotech.shoppre.UI.Locker.ViewPackageTabLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,7 +53,6 @@ public class PackageDetails extends Fragment {
     Integer packageId;
     LinearLayout emptyView;
     SharedPrefManager sharedPrefManager;
-    boolean isEditable = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,128 +69,216 @@ public class PackageDetails extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            list = (List<PackageItem>) bundle.getSerializable("list");
+//            list = (List<PackageItem>) bundle.getSerializable("list");
             packageId = bundle.getInt("id");
 
         }
-
-
-        if (list.isEmpty()) {
-            emptyView.setVisibility(View.VISIBLE);
-            packageDetailsRecycler.setVisibility(View.GONE);
-        }
-
-        packageDetailsAdapter = new PackageDetailsAdapter(list, getContext(), new PackageDetailsAdapter.GetData() {
-            @Override
-            public void dotsVisiblity(String type1, Integer id, int position) {
-
-                type = type1;
-                for (int i = 0; i < list.size(); i++) {
-                    View view1 = packageDetailsRecycler.getChildAt(i);
-
-                    CheckBox checkBox = view1.findViewById(R.id.packageDetailCheckbox);
-                    ImageView dots = view1.findViewById(R.id.three_dots);
-
-
-                    dots.setVisibility(View.GONE);
-                    checkBox.setVisibility(View.VISIBLE);
-                    if (position == i) {
-                        if (checkBox.isChecked()) {
-                            ids.add(id);
-                            jsonArray.add(id);
-                            showButton();
-                        } else {
-                            checkBox.setChecked(true);
-                            ids.add(id);
-                            jsonArray.add(id);
-                            showButton();
-                        }
-
-                    }
-
-
-                }
-
-                packageDetailsAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void getId(Integer ida, CheckBox packageDetailCheckbox) {
-                for (int i = 0; i < list.size(); i++) {
-
-                    if (packageDetailCheckbox.isChecked()) {
-                        if (!ids.contains(ida)) {
-
-                            ids.add(ida);
-                            jsonArray.add(ida);
-                            packageDetailCheckbox.setChecked(true);
-
-
-                        }
-                    } else {
-
-                        if (jsonArray.toString().contains(String.valueOf(ida))) {
-                            ids.remove(ida);
-//                            jsonArray.remove(ida);
-                            while (jsonArray.size() > 0) {
-                                jsonArray.remove(0);
-                            }
-                            for (int j = 0; j < ids.size(); j++) {
-                                jsonArray.add(ids.get(j));
-                            }
-
-                            packageDetailCheckbox.setChecked(false);
-                        }
-                    }
-
-                }
-                if (ids.size() > 0) {
-                    showButton();
-
-                } else {
-                    floatingBtn.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void singleProceed(String type1, Integer id) {
-                type = type1;
-                if (type.equals("return")) {
-                    jsonArray.add(id);
-                    callReturnPackageApi();
-                } else if (type.equals("exchange")) {
-                    jsonArray.add(id);
-                    callExchangePackageApi();
-                } else if (type.equals("discard")) {
-                    jsonArray.add(id);
-                    callDiscardPackageApi();
-                } else if (type.equals("split")) {
-                    callSplitPackageApi();
-                }
-            }
-
-            @Override
-            public void click(Integer quantity, Integer packageId, Integer id, int position,
-                              LinearLayout secondLayoutBg,
-                              LinearLayout layoutBg, EditText thirdPriceEditText, EditText editText) {
-                LoadingDialog.showLoadingDialog(getActivity(), "");
-//                callViewPackage(secondLayoutBg,layoutBg , s);
-                editText.setEnabled(true);
-                editText.setSelection(editText.getText().length());
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-                String s = editText.getText().toString();
-
-                callUpdatePriceApi(quantity, secondLayoutBg, layoutBg, s, id, packageId, editText , thirdPriceEditText);
-
-
-            }
-        });
-        packageDetailsRecycler.setAdapter(packageDetailsAdapter);
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        callViewPackage();
 
 
         return view;
+    }
+
+    private void callViewPackage() {
+        Call<ViewPackageResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().viewPackage("Bearer " + sharedPrefManager.getBearerToken()
+                        , packageId);
+        call.enqueue(new Callback<ViewPackageResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<ViewPackageResponse> call, Response<ViewPackageResponse> response) {
+                if (response.code() == 200) {
+
+                    list = response.body().getPackageItems();
+                    packageDetailsAdapter = new PackageDetailsAdapter(list, getContext(), packageId, new PackageDetailsAdapter.GetData() {
+                        @Override
+                        public void dotsVisiblity(String type1, Integer id, int position) {
+
+                            type = type1;
+                            for (int i = 0; i < list.size(); i++) {
+                                View view1 = packageDetailsRecycler.getChildAt(i);
+
+                                CheckBox checkBox = view1.findViewById(R.id.packageDetailCheckbox);
+                                ImageView dots = view1.findViewById(R.id.three_dots);
+
+
+                                dots.setVisibility(View.GONE);
+                                checkBox.setVisibility(View.VISIBLE);
+                                if (position == i) {
+                                    if (checkBox.isChecked()) {
+                                        ids.add(id);
+                                        jsonArray.add(id);
+                                        showButton();
+                                    } else {
+                                        checkBox.setChecked(true);
+                                        ids.add(id);
+                                        jsonArray.add(id);
+                                        showButton();
+                                    }
+
+                                }
+
+
+                            }
+
+                            packageDetailsAdapter.notifyDataSetChanged();
+
+                        }
+
+                        @Override
+                        public void getId(Integer ida, CheckBox packageDetailCheckbox) {
+                            for (int i = 0; i < list.size(); i++) {
+
+                                if (packageDetailCheckbox.isChecked()) {
+                                    if (!ids.contains(ida)) {
+
+                                        ids.add(ida);
+                                        jsonArray.add(ida);
+                                        packageDetailCheckbox.setChecked(true);
+
+
+                                    }
+                                } else {
+
+                                    if (jsonArray.toString().contains(String.valueOf(ida))) {
+                                        ids.remove(ida);
+//                            jsonArray.remove(ida);
+                                        while (jsonArray.size() > 0) {
+                                            jsonArray.remove(0);
+                                        }
+                                        for (int j = 0; j < ids.size(); j++) {
+                                            jsonArray.add(ids.get(j));
+                                        }
+
+                                        packageDetailCheckbox.setChecked(false);
+                                    }
+                                }
+
+                            }
+                            if (ids.size() > 0) {
+                                showButton();
+
+                            } else {
+                                floatingBtn.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void singleProceed(String type1, Integer id) {
+                            type = type1;
+                            if (type.equals("return")) {
+                                jsonArray.add(id);
+                                callReturnPackageApi();
+                            } else if (type.equals("exchange")) {
+                                jsonArray.add(id);
+                                callExchangePackageApi();
+                            } else if (type.equals("discard")) {
+                                jsonArray.add(id);
+                                callDiscardPackageApi();
+                            } else if (type.equals("singlePhoto")) {
+                                jsonArray.add(id);
+                                callAdditionalPhoto();
+                            }else if (type.equals("split")) {
+                                jsonArray.add(id);
+                                callSplitPackageApi();
+                            }
+                        }
+
+                        @Override
+                        public void click(Integer quantity, Integer packageId, Integer id, int position,
+                                          LinearLayout secondLayoutBg,
+                                          LinearLayout layoutBg, EditText thirdPriceEditText, EditText editText1) {
+                            LoadingDialog.showLoadingDialog(getActivity(), "");
+//                callViewPackage(secondLayoutBg,layoutBg , s);
+//                            editText1.setEnabled(true);
+                            editText1.setSelection(editText1.getText().length());
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(editText1, InputMethodManager.SHOW_IMPLICIT);
+                            String s = editText1.getText().toString();
+
+                            callUpdatePriceApi(quantity, secondLayoutBg, layoutBg, s, id, packageId, editText1, thirdPriceEditText);
+
+
+                        }
+                    });
+                    packageDetailsRecycler.setAdapter(packageDetailsAdapter);
+
+                    int number = packageDetailsRecycler.getAdapter().getItemCount();
+                    if (number == 0) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        packageDetailsRecycler.setVisibility(View.GONE);
+                    } else {
+                        emptyView.setVisibility(View.GONE);
+                        packageDetailsRecycler.setVisibility(View.VISIBLE);
+                    }
+
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ViewPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void callAdditionalPhoto() {
+        /*
+        {
+	"comments": "Advanced Photo Requested",
+    "itemId": [664],
+    "state_id": 53,
+    "type": "advanced_photo"
+         */
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("comments", "Advanced Photo Requested");
+        jsonObject.add("itemId", jsonArray);
+        jsonObject.addProperty("state_id", 53);
+        jsonObject.addProperty("type", "advanced_photo");
+        Toast.makeText(getActivity(), jsonObject.toString(), Toast.LENGTH_LONG).show();
+
+        Call<ReturnPackageResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().additionalPhoto("Bearer " + sharedPrefManager.getBearerToken()
+                        , packageId, jsonObject.toString());
+        call.enqueue(new Callback<ReturnPackageResponse>() {
+            @Override
+            public void onResponse(Call<ReturnPackageResponse> call, Response<ReturnPackageResponse> response) {
+                if (response.code() == 200) {
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("showToast", true);
+                    LockerReadyToShip lockerReadyToShip = new LockerReadyToShip();
+                    lockerReadyToShip.setArguments(bundle);
+                    LoadingDialog.cancelLoading();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
+                            .addToBackStack(null).commit();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReturnPackageResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void callUpdatePriceApi(Integer quantity,
@@ -463,8 +551,11 @@ public class PackageDetails extends Fragment {
             floatingBtn.setText("Discard Item(s)");
         } else if (type.equals("split")) {
             floatingBtn.setText("Split Item(s)");
+        } else if (type.equals("multiPhoto")) {
+            floatingBtn.setText("Request Additional Photos");
         }
         floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 if (type.equals("return")) {
@@ -474,7 +565,10 @@ public class PackageDetails extends Fragment {
                 } else if (type.equals("discard")) {
                     callDiscardPackageApi();
                 } else if (type.equals("split")) {
-                    floatingBtn.setText("Split Item(s)");
+                    callSplitPackageApi();
+
+                } else if (type.equals("multiPhoto")) {
+                    callAdditionalPhoto();
                 }
                 while (jsonArray.size() > 0) {
                     jsonArray.remove(0);

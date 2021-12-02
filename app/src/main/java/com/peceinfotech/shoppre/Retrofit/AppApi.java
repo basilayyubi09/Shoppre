@@ -344,8 +344,16 @@ public interface AppApi {
 
     //https://staging-app1.shoppreglobal.com/api/photoRequests/899
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PUT("api/photoRequests/899")
+    @PUT("api/photoRequests/{packageId}")
     Call<ReturnPackageResponse> standardPhoto(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/photoRequests/911
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/photoRequests/{packageId}")
+    Call<ReturnPackageResponse> additionalPhoto(
             @Header("Authorization") String auth,
             @Path("packageId") Integer id,
             @Body String object);

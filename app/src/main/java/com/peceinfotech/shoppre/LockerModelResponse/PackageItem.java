@@ -25,6 +25,11 @@ public class PackageItem implements Serializable {
     @SerializedName("object")
     @Expose
     private String object;
+    @SerializedName("object_advanced")
+    @Expose
+    private String objectAdvanced;
+
+
     @SerializedName("object_invoice")
     @Expose
     private Object objectInvoice;
@@ -77,6 +82,14 @@ public class PackageItem implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getObjectAdvanced() {
+        return objectAdvanced;
+    }
+
+    public void setObjectAdvanced(String objectAdvanced) {
+        this.objectAdvanced = objectAdvanced;
     }
 
     public String getName() {
