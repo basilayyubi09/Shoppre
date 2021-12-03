@@ -81,6 +81,7 @@ public class LockerReadyToShip extends Fragment {
                 toast.setView(layout);
                 toast.show();
 
+                bundle.clear();
 
             }
         }

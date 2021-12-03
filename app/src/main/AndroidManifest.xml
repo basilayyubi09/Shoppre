@@ -39,16 +39,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="https"
-                    android:host="merashoppre.com"
-                    android:path="/signup"/>
-            </intent-filter>
         </activity>
         <activity
             android:screenOrientation="portrait"
@@ -69,7 +60,18 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".UI.SignupLogin.SignUp_Valid"
-            android:exported="true" /> <!-- Facebook -->
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="merashoppre.com"
+                    android:path="/signup"/>
+            </intent-filter>
+        </activity> <!-- Facebook -->
 
 
         <activity

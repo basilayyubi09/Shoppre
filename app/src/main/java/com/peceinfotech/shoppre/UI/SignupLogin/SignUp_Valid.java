@@ -57,6 +57,7 @@ public class SignUp_Valid extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_valid);
 
 
+
         //Shared Preference
         sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
         if (sharedPrefManager.checkLogin()) {
@@ -79,6 +80,18 @@ public class SignUp_Valid extends AppCompatActivity {
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
         main = findViewById(R.id.main);
 
+        //
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            if (scheme.equals("https")) {
+                String referralCodeFromIntent = uri.getQueryParameter("referral_code");
+
+                referalCodeField.getEditText().setText(referralCodeFromIntent);
+            }
+        }
         setupUI(main);
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
@@ -199,7 +212,7 @@ public class SignUp_Valid extends AppCompatActivity {
         paramObject.addProperty("from_domain", "shoppreglobal.com");
         paramObject.addProperty("last_name", lastName);
         paramObject.addProperty("password", password);
-        paramObject.addProperty("referrer", "https://www.google.com/");
+        paramObject.addProperty("referrer", referalCode);
 
         // prepare call in Retrofit 2.0
 
@@ -491,12 +504,6 @@ public class SignUp_Valid extends AppCompatActivity {
         startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
         finish();
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Intent intent = getIntent();
-        Uri uri = intent.getData();
-//        String foo = uri.getQueryParameter("foo");
-    }
+
 }
 

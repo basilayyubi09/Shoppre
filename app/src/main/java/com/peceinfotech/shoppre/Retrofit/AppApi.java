@@ -358,4 +358,10 @@ public interface AppApi {
             @Path("packageId") Integer id,
             @Body String object);
 
+    //https://staging-app1.shoppreglobal.com/api/packages?type=shiprequest
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/packages?type=shiprequest")
+    Call<PackageListingResponse> shipRequest(
+            @Header("Authorization") String auth
+    );
 }

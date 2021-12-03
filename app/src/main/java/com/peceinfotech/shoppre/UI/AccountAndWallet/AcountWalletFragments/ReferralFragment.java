@@ -200,7 +200,7 @@ public class ReferralFragment extends Fragment {
     private void callReferralApi() {
         Call<ReferralHistoryResponse> call = ReferralRetrofitClient
                 .getInstance3()
-                .getRefferalApi().getReferralHistory("Bearer " + bearerToken);
+                .getRefferalApi().getReferralHistory("Bearer " + bearerToken , sharedPrefManager.getFirstName());
         call.enqueue(new Callback<ReferralHistoryResponse>() {
             @Override
             public void onResponse(Call<ReferralHistoryResponse> call, Response<ReferralHistoryResponse> response) {
