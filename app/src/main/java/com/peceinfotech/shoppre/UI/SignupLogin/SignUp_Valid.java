@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -489,6 +490,13 @@ public class SignUp_Valid extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
         finish();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        Uri uri = intent.getData();
+//        String foo = uri.getQueryParameter("foo");
     }
 }
 

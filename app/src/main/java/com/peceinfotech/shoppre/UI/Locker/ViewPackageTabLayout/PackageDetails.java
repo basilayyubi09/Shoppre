@@ -50,7 +50,8 @@ public class PackageDetails extends Fragment {
     PackageDetailsAdapter packageDetailsAdapter;
     List<Integer> ids;
     MaterialButton floatingBtn;
-    JsonArray jsonArray = new JsonArray();
+    JsonArray jsonArray;
+
     String type;
     Integer packageId;
     LinearLayout emptyView;
@@ -68,7 +69,7 @@ public class PackageDetails extends Fragment {
 
         ids = new ArrayList<>();
 
-
+        jsonArray = new JsonArray();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
 //            list = (List<PackageItem>) bundle.getSerializable("list");
@@ -381,6 +382,9 @@ public class PackageDetails extends Fragment {
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
+                    while (ids.size() > 0) {
+                        ids.remove(0);
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
                     bundle.putString("type", "Exchange");
@@ -433,6 +437,9 @@ public class PackageDetails extends Fragment {
 
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
+                    }
+                    while (ids.size() > 0) {
+                        ids.remove(0);
                     }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
@@ -488,6 +495,9 @@ public class PackageDetails extends Fragment {
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
+                    while (ids.size() > 0) {
+                        ids.remove(0);
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("showToast", true);
                     bundle.putString("type", "Split Package");
@@ -528,6 +538,9 @@ public class PackageDetails extends Fragment {
 
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
+                    }
+                    while (ids.size()>0){
+                        ids.remove(0);
                     }
 
                     Bundle bundle = new Bundle();

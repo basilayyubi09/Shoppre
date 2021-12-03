@@ -1,13 +1,11 @@
 package com.peceinfotech.shoppre.UI.Locker;
 
 import android.annotation.SuppressLint;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +20,6 @@ import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
-import com.peceinfotech.shoppre.LockerModelResponse.ReadyToShipResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -59,7 +56,6 @@ public class LockerReadyToShip extends Fragment {
         View view = inflater.inflate(R.layout.fragment_locker_ready_to_ship, container, false);
 
 
-
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
@@ -69,43 +65,25 @@ public class LockerReadyToShip extends Fragment {
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
-            if (bundle.getBoolean("showToast")){
+        if (bundle != null) {
+            if (bundle.getBoolean("showToast")) {
+//                Toast.makeText(getActivity(), String.valueOf(bundle.getBoolean("showToast")), Toast.LENGTH_SHORT).show();
                 String type = bundle.getString("type");
 
                 LayoutInflater inflater1 = getLayoutInflater();
                 View layout = inflater1.inflate(R.layout.yellow_toast,
                         (ViewGroup) view.findViewById(R.id.toast_layout_root));
                 TextView toastText = (TextView) layout.findViewById(R.id.toastText);
-                toastText.setText("We’re reviewing your "+type+ " Request");
+                toastText.setText("We’re reviewing your " + type + " Request");
                 Toast toast = new Toast(getContext());
                 toast.setGravity(Gravity.TOP, 0, 200);
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
-//                if (bundle.getString("type").equals("exchange")){
-//                    toastText.setText(R.string.exchange);
-//                }
-//                else if (bundle.getString("type").equals("photo")){
-//                    toastText.setText(R.string.photo_toast);
-//                }
-//                else if (bundle.getString("type").equals("split")){
-//                    toastText.setText(R.string.split_toast);
-//                }
-//                else if (bundle.getString("type").equals("discard")){
-//                    toastText.setText(R.string.discard_toast);
-//                }
-//                else if (bundle.getString("type").equals("return")){
-//                    toastText.setText(R.string.return_toast);
-//                }
-
-
-
 
 
             }
         }
-
 
 
         emptyLockerDiscardText.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +113,6 @@ public class LockerReadyToShip extends Fragment {
         }
 
 
-
-
         returnAndDiscardText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,10 +140,10 @@ public class LockerReadyToShip extends Fragment {
                     lockerReadyToShipRecycler.setAdapter(readyToShipAdapter);
 
                     int count = readyToShipAdapter.getItemCount();
-                    if (count == 0){
+                    if (count == 0) {
                         emptyLockerCard.setVisibility(View.VISIBLE);
                         lockerReadyToShipCard.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         emptyLockerCard.setVisibility(View.GONE);
                         lockerReadyToShipCard.setVisibility(View.VISIBLE);
                     }
