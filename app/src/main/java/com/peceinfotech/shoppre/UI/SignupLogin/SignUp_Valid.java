@@ -263,7 +263,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
         paramObject.addProperty("allow", "true");
         paramObject.addProperty("client_id", "app1");
-        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+        paramObject.addProperty("redirect_uri", "https://uat-app1.shoppreglobal.com/access/oauth");
         paramObject.addProperty("response_type", "code");
 
 
