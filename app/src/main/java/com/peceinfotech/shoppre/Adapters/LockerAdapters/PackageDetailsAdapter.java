@@ -140,23 +140,24 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 //
 //                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReturnLanding(), null)
 //                                        .addToBackStack(null).commit();
-
                                 showDialog("return", packageDetailsResponse.getId());
-
 
                                 break;
                             case R.id.exchange:
+
                                 showDialog("exchange", packageDetailsResponse.getId());
+
                                 break;
                             case R.id.discard:
+
                                 showDialog("discard", packageDetailsResponse.getId());
+
                                 break;
                             case R.id.split_package:
 
                                 showDialog("split", packageDetailsResponse.getId());
+
                                 break;
-
-
                             case R.id.ship_to_india:
 
                                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipWithinIndiaFragment(), null)

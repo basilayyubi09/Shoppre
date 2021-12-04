@@ -22,6 +22,7 @@
                 android:layout_marginLeft="23dp">
 
                 <RadioButton
+                    android:id="@+id/createShipmentAddressRadioBtn"
                     android:layout_width="26dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center_vertical"/>
