@@ -41,7 +41,9 @@
                        android:layout_marginHorizontal="34dp"
                        android:backgroundTint="#4DF4A337"
                        app:cardElevation="0dp"
-                       app:cardCornerRadius="5dp">
+                       app:cardCornerRadius="5dp"
+                       android:id="@+id/totalValue"
+                       android:visibility="gone">
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
@@ -63,7 +65,9 @@
                        android:layout_marginHorizontal="15dp"
                        android:backgroundTint="#4DF4A337"
                        app:cardElevation="0dp"
-                       app:cardCornerRadius="5dp">
+                       app:cardCornerRadius="5dp"
+                       android:id="@+id/containDamage"
+                       android:visibility="gone">
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
@@ -140,6 +144,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/totalAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#17B28F"
@@ -167,9 +172,9 @@
                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
                    <LinearLayout
-                       android:layout_width="match_parent"
+                       android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:gravity="center_horizontal">
+                       android:layout_gravity="center_horizontal">
 
                        <androidx.cardview.widget.CardView
                            android:layout_width="wrap_content"
@@ -185,7 +190,7 @@
                                android:textSize="12sp"
                                android:textFontWeight="600"
                                android:paddingVertical="8dp"
-                               android:paddingHorizontal="50dp"
+                               android:paddingHorizontal="42dp"
                                android:background="@drawable/logout_shadow"/>
 
 
@@ -220,7 +225,7 @@
                            android:insetTop="0dp"
                            android:insetBottom="0dp"
                            android:letterSpacing="0.03"
-                           android:paddingHorizontal="38dp"
+                           android:paddingHorizontal="30dp"
                            android:text="Proceed"
                            android:textAllCaps="false"
                            android:textColor="@color/white"

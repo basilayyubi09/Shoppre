@@ -47,6 +47,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
         holder.packageId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
         holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
+
         if (list.get(position).getIsRestrictedItem() != null && list.get(position).getIsWrongItem() != null) {
             holder.damageRestricted.setVisibility(View.VISIBLE);
             holder.restrictedItemText.setVisibility(View.GONE);
@@ -78,7 +79,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         } else if (list.get(position).getStateName().equals("Ready To Send")) {
             holder.lockerViewMore.setVisibility(View.VISIBLE);
             holder.process.setVisibility(View.GONE);
-            holder.action.setText(list.get(position).getStateName());
+            holder.action.setText("Ready To Ship");
             holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
             holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
         } else {

@@ -5,9 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import com.peceinfotech.shoppre.OrderModuleResponses.PackageState;
 import com.peceinfotech.shoppre.OrderModuleResponses.Store;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PackageModel {
+public class PackageModel implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -19,7 +20,7 @@ public class PackageModel {
     private Object weight;
     @SerializedName("price_amount")
     @Expose
-    private Object priceAmount;
+    private Integer priceAmount;
     @SerializedName("order_code")
     @Expose
     private Object orderCode;
@@ -93,11 +94,11 @@ public class PackageModel {
         this.weight = weight;
     }
 
-    public Object getPriceAmount() {
+    public Integer getPriceAmount() {
         return priceAmount;
     }
 
-    public void setPriceAmount(Object priceAmount) {
+    public void setPriceAmount(Integer priceAmount) {
         this.priceAmount = priceAmount;
     }
 
