@@ -149,7 +149,8 @@ public class ReferralFragment extends Fragment {
             public void onClick(View v) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/*");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, referralCodeText.getText().toString());
+                shareIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Hey, I’m inviting you to use Shoppre.com, the fastest and affordable way to shop and ship from India. Get INR 350 by clicking on the link below or using the referral code during sign-up! Code -" +referralCodeText.getText().toString()+ ". https://merashoppre.com/signup?referral_code="+referralCodeText.getText().toString());
                 getActivity().startActivity(shareIntent);
             }
         });
@@ -199,7 +200,7 @@ public class ReferralFragment extends Fragment {
     private void callReferralApi() {
         Call<ReferralHistoryResponse> call = ReferralRetrofitClient
                 .getInstance3()
-                .getRefferalApi().getReferralHistory("Bearer " + bearerToken);
+                .getRefferalApi().getReferralHistory("Bearer " + bearerToken , sharedPrefManager.getFirstName());
         call.enqueue(new Callback<ReferralHistoryResponse>() {
             @Override
             public void onResponse(Call<ReferralHistoryResponse> call, Response<ReferralHistoryResponse> response) {

@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.SignupLogin;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,6 +57,7 @@ public class SignUp_Valid extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_valid);
 
 
+
         //Shared Preference
         sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
         if (sharedPrefManager.checkLogin()) {
@@ -78,6 +80,18 @@ public class SignUp_Valid extends AppCompatActivity {
         signUpValdAlrdyAcnt = findViewById(R.id.signup_vld_alrdy_acnt);
         main = findViewById(R.id.main);
 
+        //
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            if (scheme.equals("https")) {
+                String referralCodeFromIntent = uri.getQueryParameter("referral_code");
+
+                referalCodeField.getEditText().setText(referralCodeFromIntent);
+            }
+        }
         setupUI(main);
         //get Email Id from previous activity
         Bundle extras = getIntent().getExtras();
@@ -198,7 +212,7 @@ public class SignUp_Valid extends AppCompatActivity {
         paramObject.addProperty("from_domain", "shoppreglobal.com");
         paramObject.addProperty("last_name", lastName);
         paramObject.addProperty("password", password);
-        paramObject.addProperty("referrer", "https://www.google.com/");
+        paramObject.addProperty("referrer", referalCode);
 
         // prepare call in Retrofit 2.0
 
@@ -249,7 +263,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
         paramObject.addProperty("allow", "true");
         paramObject.addProperty("client_id", "app1");
-        paramObject.addProperty("redirect_uri", "https://staging-app1.shoppreglobal.com/access/oauth");
+        paramObject.addProperty("redirect_uri", "https://uat-app1.shoppreglobal.com/access/oauth");
         paramObject.addProperty("response_type", "code");
 
 
@@ -490,5 +504,6 @@ public class SignUp_Valid extends AppCompatActivity {
         startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
         finish();
     }
+
 }
 

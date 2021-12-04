@@ -6,13 +6,14 @@
     android:elevation="4dp"
     app:cardCornerRadius="10dp">
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:orientation="vertical"
         android:gravity="center"
         android:id="@+id/second"
-        android:visibility="gone">
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,10 +59,9 @@
                 android:id="@+id/addMoreProductBtn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+
                 android:text="Add more items"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
@@ -72,11 +72,10 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/proceedWith1ItemBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/addMoreProductBtn"
                 android:backgroundTint="#17B28F"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
+
                 android:text="Proceed with 1 item"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -86,6 +85,7 @@
     </LinearLayout>
 
     <LinearLayout
+
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -109,9 +109,9 @@
                 android:id="@+id/mainPhoto"
                 android:layout_width="284dp"
                 android:layout_height="371dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginHorizontal="30dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="3dp"
                 android:src="@drawable/view_photo_blurred" />
 
             <com.google.android.material.button.MaterialButton
@@ -174,31 +174,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="44dp"
+            android:gravity="center_horizontal"
             android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/secondPhoto"
                 android:layout_width="64dp"
                 android:layout_height="65dp"
-                android:layout_weight="1"
+                android:layout_marginRight="40dp"
+
                 android:src="@drawable/additional_image"/>
 
             <ImageView
                 android:id="@+id/thirdPhoto"
                 android:layout_width="64dp"
                 android:layout_height="65dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="31dp"
+
+
                 android:src="@drawable/additional_image"/>
 
-            <ImageView
-                android:id="@+id/fourthPhoto"
-                android:layout_width="64dp"
-                android:layout_height="65dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="31dp"
-                android:src="@drawable/additional_image"/>
+
 
         </LinearLayout>
 

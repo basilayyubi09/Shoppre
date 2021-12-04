@@ -353,7 +353,7 @@ public class EmptyCart extends Fragment {
                     LoadingDialog.cancelLoading();
                     if (response.body().getStore() == null) {
                         dontPlace.setVisibility(View.VISIBLE);
-                        goNext = false;
+                        goNext = true;
 
                     } else if (response.body().getStore().getIsEPharmacy() != null) {
                         Toast.makeText(getActivity(), " pharmacy", Toast.LENGTH_SHORT).show();
@@ -412,6 +412,8 @@ public class EmptyCart extends Fragment {
                                 callDeleteApi();
                             }
                         });
+                        dontPlace.setVisibility(View.GONE);
+                        ePharmacy.setVisibility(View.GONE);
                         cartRecycler.setAdapter(cartGroupAdapter);
                         cartGroupAdapter.notifyDataSetChanged();
                         productCartCard.setVisibility(View.VISIBLE);
@@ -558,6 +560,8 @@ public class EmptyCart extends Fragment {
                                 callDeleteApi();
                             }
                         });
+                        dontPlace.setVisibility(View.GONE);
+                        ePharmacy.setVisibility(View.GONE);
                         cartRecycler.setAdapter(cartGroupAdapter);
                         cartGroupAdapter.notifyDataSetChanged();
 

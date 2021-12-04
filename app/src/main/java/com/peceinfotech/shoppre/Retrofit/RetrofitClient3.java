@@ -10,7 +10,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitClient3 {
 
 
-    private static final String BASE_URL = "https://staging-app1.shoppreglobal.com/";
+    private static final String BASE_URL = "https://uat-app1.shoppreglobal.com/";
     private static RetrofitClient3 myClient3;
     private Retrofit retrofit3;
 

@@ -3,7 +3,9 @@ package com.peceinfotech.shoppre.LockerModelResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PhotoRequest {
+import java.io.Serializable;
+
+public class PhotoRequest implements Serializable {
 
     @SerializedName("id")
     @Expose

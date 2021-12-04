@@ -98,6 +98,11 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="we_re_processing_">We’re processing your shipment request.\nYou will recieve the payment link shortly.</string>
     <string name="please_make_the_payment">Please make the payment within 7 days of initiation after which there’ll be a charge of ₹ 100/day. The charges will be added to the wallet.</string>
     <string name="orders_more_than_15">Orders more than 15 items per website will incur an additional service fees of INR 50 per item</string>
+    <string name="exchange_toast">We’re reviewing your Exchange Request</string>
+    <string name="return_toast">We’re reviewing your Return Request</string>
+    <string name="split_toast">We’re reviewing your Split Package Request</string>
+    <string name="discard_toast">We’re reviewing your Discard Request</string>
+    <string name="photo_toast">We’re reviewing your Additional Photo Request</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

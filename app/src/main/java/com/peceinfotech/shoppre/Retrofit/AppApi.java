@@ -11,6 +11,7 @@ import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.ReadyToSendResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ReturnPackageResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
@@ -344,10 +345,24 @@ public interface AppApi {
 
     //https://staging-app1.shoppreglobal.com/api/photoRequests/899
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PUT("api/photoRequests/899")
+    @PUT("api/photoRequests/{packageId}")
     Call<ReturnPackageResponse> standardPhoto(
             @Header("Authorization") String auth,
             @Path("packageId") Integer id,
             @Body String object);
 
+    //https://staging-app1.shoppreglobal.com/api/photoRequests/911
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/photoRequests/{packageId}")
+    Call<ReturnPackageResponse> additionalPhoto(
+            @Header("Authorization") String auth,
+            @Path("packageId") Integer id,
+            @Body String object);
+
+    //https://staging-app1.shoppreglobal.com/api/packages?type=shiprequest
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/packages?type=shiprequest")
+    Call<ReadyToSendResponse> readyToSend(
+            @Header("Authorization") String auth
+    );
 }
