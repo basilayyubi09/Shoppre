@@ -226,6 +226,7 @@ public class AddAddress extends Fragment {
             }else if (type.equals("deliveryAddress")){
                 is_billing = false;
                 title.setText("Add Shipping Address");
+                checkBox.setVisibility(View.GONE);
             }
             else {
                 is_billing = false;

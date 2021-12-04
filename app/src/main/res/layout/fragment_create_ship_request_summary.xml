@@ -1042,43 +1042,70 @@
 
                     </RelativeLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginBottom="40dp">
 
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+
+                        <androidx.cardview.widget.CardView
                             android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            app:cornerRadius="5dp"
-                            android:backgroundTint="@color/white"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:letterSpacing="0.03"
-                            android:paddingHorizontal="50dp"
-                            android:text="Back"
-                            android:textAllCaps="false"
-                            android:textColor="#2D8DFF"
-                            android:textFontWeight="700"
-                            app:strokeColor="#2D8DFF" />
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="5dp"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:layout_gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Back"
+                                android:textColor="#2D8DFF"
+                                android:textSize="12sp"
+                                android:textFontWeight="600"
+                                android:paddingVertical="8dp"
+                                android:paddingHorizontal="50dp"
+                                android:background="@drawable/logout_shadow"/>
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <!--                       <com.google.android.material.button.MaterialButton-->
+                        <!--                           android:layout_width="wrap_content"-->
+                        <!--                           android:layout_height="32dp"-->
+                        <!--                           android:insetBottom="0dp"-->
+                        <!--                           android:insetTop="0dp"-->
+                        <!--                           app:elevation="4dp"-->
+                        <!--                           android:textSize="12sp"-->
+                        <!--                           android:layout_marginVertical="20dp"-->
+                        <!--                           android:backgroundTint="@null"-->
+                        <!--                           android:text="Back"-->
+                        <!--                           android:textAllCaps="false"-->
+                        <!--                           android:textColor="#2D8DFF"-->
+                        <!--                           android:textFontWeight="600"-->
+                        <!--                           android:letterSpacing="0.03"-->
+                        <!--                           android:paddingHorizontal="50dp"-->
+                        <!--                           android:background="@drawable/logout_shadow"-->
+                        <!--                           app:backgroundTint="@null" />-->
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/createShipBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
+                            android:layout_marginVertical="20dp"
                             android:layout_marginLeft="20dp"
+                            android:paddingVertical="8dp"
+                            android:textSize="12sp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            app:cornerRadius="5dp"
                             android:letterSpacing="0.03"
+                            android:paddingHorizontal="9dp"
                             android:text="Create Ship Request"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textFontWeight="700"
-                            app:backgroundTint="#17B28F" />
+                            android:textFontWeight="600"
+                            app:backgroundTint="#17B28F"
+                             />
                     </LinearLayout>
                 </LinearLayout>
 
