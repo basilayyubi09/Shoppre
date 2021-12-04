@@ -41,7 +41,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         holder.createShipmentAddressName.setText(address.getName());
         holder.createShipmentPhoneNo.setText(address.getPhone());
-        holder.createShipmentAddress.setText(address.getLine1()+" - "+"\n"+address.getState()+" - "+address.getCity()+" - "+"\n"+address.getCountry());
+        holder.createShipmentAddress.setText(address.getLine1()+" - "+"\n"+address.getState()+" - "+address.getCity()+" - "+"\n"+address.getCountry().getName());
     }
 
     @Override

@@ -40,7 +40,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
     LinearLayout addMoreDeliveryAddressText;
     MaterialButton createShipmentAddAddrsBtn, deliveryAddrsProceedBtn;
     Bundle bundle;
-    SharedPrefManager sharedPrefManager = new SharedPrefManager(getContext());
+    SharedPrefManager sharedPrefManager;
     String bearerToken;
 
     @Override
@@ -56,28 +56,15 @@ public class CreateShipmentDeliveryAddress extends Fragment {
         createShipmentAddAddrsBtn = view.findViewById(R.id.createShipmentAddAddrsBtn);
         deliveryAddrsProceedBtn = view.findViewById(R.id.deliveryAddrsProceedBtn);
 
+        sharedPrefManager = new SharedPrefManager(getActivity());
+
+
+ //////////Address Api
+        allAddressesApi();
+
         bundle = new Bundle();
         bundle.putString("type", "deliveryAddress");
 
-
-        allAddressesApi();
-
-//        list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
-//        list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
-//        list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
-//        list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
-//        list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
-
-         deliveryAddressAdapter = new DeliveryAddressAdapter(list, getContext());
-        createShipmentDeliveryAddressRecycler.setAdapter(deliveryAddressAdapter);
-
-        if (list.isEmpty()){
-            emptyAddressCard.setVisibility(View.VISIBLE);
-            createShipmentDeliveryAddressCard.setVisibility(View.GONE);
-        }else {
-            emptyAddressCard.setVisibility(View.GONE);
-            createShipmentDeliveryAddressCard.setVisibility(View.VISIBLE);
-        }
 
         addMoreDeliveryAddressText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,17 +108,40 @@ public class CreateShipmentDeliveryAddress extends Fragment {
             @Override
             public void onResponse(Call<DeliveryListModel> call, Response<DeliveryListModel> response) {
                 if (response.code()==200){
-                    LoadingDialog.cancelLoading();
+
+                    emptyAddressCard.setVisibility(View.GONE);
+                    createShipmentDeliveryAddressCard.setVisibility(View.VISIBLE);
+
                     list = response.body().getAddresses();
+
+                    deliveryAddressAdapter = new DeliveryAddressAdapter(list, getContext());
+                    createShipmentDeliveryAddressRecycler.setAdapter(deliveryAddressAdapter);
+
+                    int count = deliveryAddressAdapter.getItemCount();
+                    if (count==0){
+                        emptyAddressCard.setVisibility(View.VISIBLE);
+                        createShipmentDeliveryAddressCard.setVisibility(View.GONE);
+                    }else {
+                        emptyAddressCard.setVisibility(View.GONE);
+                        createShipmentDeliveryAddressCard.setVisibility(View.VISIBLE);
+                    }
+
+                    LoadingDialog.cancelLoading();
                 }else if (response.code()==401){
                     LoadingDialog.cancelLoading();
+
+                    emptyAddressCard.setVisibility(View.GONE);
+                    createShipmentDeliveryAddressCard.setVisibility(View.GONE);
+
                     String error = response.errorBody().toString();
                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
             public void onFailure(Call<DeliveryListModel> call, Throwable t) {
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
