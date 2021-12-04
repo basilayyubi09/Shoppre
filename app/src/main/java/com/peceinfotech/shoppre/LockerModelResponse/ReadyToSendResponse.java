@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CreateShipResponse {
+public class ReadyToSendResponse {
 
     @SerializedName("packages")
     @Expose

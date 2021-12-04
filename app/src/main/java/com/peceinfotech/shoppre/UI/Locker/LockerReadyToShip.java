@@ -20,6 +20,7 @@ import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
+import com.peceinfotech.shoppre.LockerModelResponse.ReadyToSendResponse;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -98,8 +99,8 @@ public class LockerReadyToShip extends Fragment {
         createShipRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
-                        .addToBackStack(null).commit();
+
+                callReadyToSendApi();
             }
         });
 
@@ -126,6 +127,36 @@ public class LockerReadyToShip extends Fragment {
 
 
         return view;
+    }
+
+    private void callReadyToSendApi() {
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        Call<ReadyToSendResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().readyToSend("Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<ReadyToSendResponse>() {
+            @Override
+            public void onResponse(Call<ReadyToSendResponse> call, Response<ReadyToSendResponse> response) {
+                if (response.code()==201){
+                    LoadingDialog.cancelLoading();
+                    response.body().getPackages();
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
+                            .addToBackStack(null).commit();
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReadyToSendResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void callListingApi() {
