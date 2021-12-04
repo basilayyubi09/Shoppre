@@ -30,6 +30,7 @@ import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,8 +139,11 @@ public class LockerReadyToShip extends Fragment {
             public void onResponse(Call<ReadyToSendResponse> call, Response<ReadyToSendResponse> response) {
                 if (response.code()==201){
                     LoadingDialog.cancelLoading();
-                    response.body().getPackages();
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CreateShipRequestFragment(), null)
+                    Bundle bundle = new Bundle();
+                    CreateShipRequestFragment createShipRequestFragment = new CreateShipRequestFragment();
+                    bundle.putSerializable("list" , (Serializable) response.body().getPackages());
+                    createShipRequestFragment.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout,createShipRequestFragment, null)
                             .addToBackStack(null).commit();
                 }
                 else if (response.code()==401){

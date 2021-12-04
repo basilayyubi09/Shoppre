@@ -3,7 +3,9 @@ package com.peceinfotech.shoppre.LockerModelResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PackageState__1 {
+import java.io.Serializable;
+
+public class PackageState__1 implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;

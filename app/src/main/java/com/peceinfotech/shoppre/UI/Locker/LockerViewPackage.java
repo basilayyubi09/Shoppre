@@ -42,7 +42,8 @@ public class LockerViewPackage extends Fragment {
     TabLayout viewPackageTablayout;
     ViewPager viewPackageViewPager;
     SharedPrefManager sharedPrefManager;
-    TextView comment, websiteName, packageId, weight, date, amount, trackingNumber;
+    TextView comment, websiteName, packageId, weight, date,  trackingNumber;
+    public TextView amount;
     int id;
     Bundle bundle1 = new Bundle();
     PackageDetails packageDetails = new PackageDetails();
