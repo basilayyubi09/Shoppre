@@ -38,7 +38,7 @@
             android:layout_width="41dp"
             android:layout_height="12dp"
             android:layout_marginLeft="6dp"
-            android:layout_marginTop="-5dp"
+            android:layout_marginTop="-8dp"
             android:background="@drawable/view_package_background"
             android:paddingHorizontal="9dp"
             android:text="VIEW"

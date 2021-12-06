@@ -96,7 +96,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         createShipmentTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(),(String)parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

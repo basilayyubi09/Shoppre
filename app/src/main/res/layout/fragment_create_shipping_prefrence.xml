@@ -44,7 +44,7 @@
 
 
                         <CheckBox
-                            android:id="@+id/check"
+                            android:id="@+id/discardShoeCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -149,7 +149,7 @@
 
 
                         <CheckBox
-
+                            android:id="@+id/addExtraCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -255,7 +255,7 @@
 
 
                         <CheckBox
-
+                            android:id="@+id/shipInOrignalCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -352,7 +352,7 @@
 
 
                         <CheckBox
-
+                            android:id="@+id/giftWrapCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -457,7 +457,7 @@
 
 
                         <CheckBox
-
+                            android:id="@+id/giftNoteCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -498,13 +498,13 @@
 
 
                             <EditText
+                                android:id="@+id/giftNoteEditText"
                                 android:visibility="gone"
                                 android:layout_marginRight="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="26dp"
                                 android:textSize="10sp"
                                 android:textColor="@color/black"
-                                android:hint="hashius"
                                 android:paddingLeft="10dp"
                                 android:layout_marginTop="12dp"
                                 android:background="@drawable/edittext_bg"/>
@@ -571,7 +571,7 @@
 
 
                         <CheckBox
-
+                            android:id="@+id/expressProcessingCheckBox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
@@ -643,21 +643,22 @@
                         android:layout_marginTop="99dp"
                         android:layout_marginBottom="44dp"
                         android:layout_gravity="center_horizontal">
+
                         <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="119dp"
                             android:layout_height="32dp"
-                            android:insetBottom="0dp"
-                            android:insetTop="0dp"
-                            android:textSize="12sp"
                             android:backgroundTint="@color/white"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:letterSpacing="0.03"
+                            android:paddingHorizontal="40dp"
                             android:text="Back"
                             android:textAllCaps="false"
                             android:textColor="#2D8DFF"
                             android:textFontWeight="700"
-                            android:letterSpacing="0.03"
-                            android:paddingHorizontal="40dp"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            app:strokeColor="#2D8DFF"/>
+                            android:textSize="12sp"
+                            app:strokeColor="#2D8DFF" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/shippingPrefProceedBtn"
