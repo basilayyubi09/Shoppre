@@ -12,6 +12,7 @@ import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ReadyToSendResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.RedirectShipmentResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ReturnPackageResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.VerifyLinkResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ViewPackageResponse;
@@ -364,5 +365,13 @@ public interface AppApi {
     @GET("api/packages?type=shiprequest")
     Call<ReadyToSendResponse> readyToSend(
             @Header("Authorization") String auth
+    );
+
+    //https://uat-app1.shoppreglobal.com/api/shipments/redirectShipment?packageIds=929
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipments/redirectShipment?")
+    Call<RedirectShipmentResponse> redirect(
+            @Header("Authorization") String auth,
+            @Query("packageIds") String type
     );
 }

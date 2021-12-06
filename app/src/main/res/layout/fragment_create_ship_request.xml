@@ -230,10 +230,11 @@
                            android:textAllCaps="false"
                            android:textColor="@color/white"
                            android:textFontWeight="600"
-                           app:backgroundTint="#2D8DFF"
+                           app:backgroundTint="@color/grey"
                            app:icon="@drawable/return_arrow"
                            app:iconGravity="end"
-                           app:iconTint="@color/white" />
+                           app:iconTint="@color/white"
+                           android:enabled="false"/>
                    </LinearLayout>
                </LinearLayout>
 

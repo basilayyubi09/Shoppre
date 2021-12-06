@@ -1,5 +1,7 @@
 package com.peceinfotech.shoppre.UI.CreateShipRequest;
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +15,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.DummyCreateAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
+import com.peceinfotech.shoppre.LockerModelResponse.RedirectShipmentResponse;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.SelfShopper;
+import com.peceinfotech.shoppre.Utils.AlertDialogBox;
+import com.peceinfotech.shoppre.Utils.LoadingDialog;
+import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateShipRequestFragment extends Fragment {
 
@@ -26,6 +43,9 @@ public class CreateShipRequestFragment extends Fragment {
     RecyclerView recyclerView;
     DummyCreateAdapter adapter;
     List<PackageModel> list;
+    List<PackageModel> tempList;
+
+    SharedPrefManager sharedPrefManager ;
     TextView selectedNumber, totalNumber, totalAmount;
     List<Integer> list1;
     MaterialButton choosePackageProceedBtn;
@@ -39,9 +59,10 @@ public class CreateShipRequestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_create_ship_request, container, false);
-
+        sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
         list1 = new ArrayList<>();
+        tempList = new ArrayList<>();
         checkBox = view.findViewById(R.id.check);
         recyclerView = view.findViewById(R.id.recycle);
         selectedNumber = view.findViewById(R.id.selectedNumber);
@@ -66,8 +87,9 @@ public class CreateShipRequestFragment extends Fragment {
 
         selectedNumber.setText(String.valueOf(list1.size()));
         adapter = new DummyCreateAdapter(list, getActivity(), new DummyCreateAdapter.MyInterface() {
+            @SuppressLint("ResourceAsColor")
             @Override
-            public void getCheckBox(Integer id, CheckBox check1, Integer priceAmount1, Object invoice) {
+            public void getCheckBox(Integer id, CheckBox check1, Integer priceAmount1, Object invoice, PackageModel model) {
                 if (check1.isChecked()) {
 
                     if (list1.contains(id)) {
@@ -75,9 +97,19 @@ public class CreateShipRequestFragment extends Fragment {
                     }
                     else {
                         list1.add(id);
+                        tempList.add(model);
                         selectedNumber.setText(String.valueOf(list1.size()));
                         total = total + priceAmount1;
                         totalAmount.setText("₹ " + String.valueOf(total));
+                        if (list1.size()<1){
+                            choosePackageProceedBtn.setEnabled(false);
+                            choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
+                        }
+                        else {
+                            choosePackageProceedBtn.setEnabled(true);
+
+                            choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.selected_btn_color)));
+                        }
                         if (total>50000){
                             totalValue.setVisibility(View.VISIBLE);
                         }
@@ -99,6 +131,8 @@ public class CreateShipRequestFragment extends Fragment {
                                     isContainInvoice = true;
                                 }
                                 total = total + list.get(i).getPriceAmount();
+                                choosePackageProceedBtn.setEnabled(true);
+                                choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.selected_btn_color)));
                             }
                             totalAmount.setText("₹ " + String.valueOf(total));
                             if (total > 50000) {
@@ -115,11 +149,24 @@ public class CreateShipRequestFragment extends Fragment {
                     }
 
 
-                } else {
+                }
+
+
+                else {
+
                     if (list1.contains(id)) {
                         list1.remove(id);
+                        tempList.remove(model);
                         selectedNumber.setText(String.valueOf(list1.size()));
                         checkBox.setChecked(false);
+                        if (list1.size()<1){
+                            choosePackageProceedBtn.setEnabled(false);
+                            choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
+                        }
+                        else {
+                            choosePackageProceedBtn.setEnabled(true);
+                            choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.selected_btn_color)));
+                        }
 
                         if (total > 0) {
                             total = total - priceAmount1;
@@ -132,12 +179,18 @@ public class CreateShipRequestFragment extends Fragment {
                         else {
                             totalValue.setVisibility(View.GONE);
                         }
+
+
                         if (invoice == null) {
                             isContainInvoice = true;
+                        }
+                        else {
+                            isContainInvoice = false;
                         }
 
                         if (isContainInvoice) {
                             containDamage.setVisibility(View.VISIBLE);
+                            
                         } else {
                             containDamage.setVisibility(View.GONE);
                         }
@@ -146,6 +199,8 @@ public class CreateShipRequestFragment extends Fragment {
                             totalAmount.setText("₹ " + String.valueOf(total));
                             containDamage.setVisibility(View.GONE);
                             totalValue.setVisibility(View.GONE);
+                            choosePackageProceedBtn.setEnabled(false);
+                            choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
 
                         }
 
@@ -183,12 +238,118 @@ public class CreateShipRequestFragment extends Fragment {
         choosePackageProceedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), list1.toString(), Toast.LENGTH_SHORT).show();
-//                AlertDialogBox alertDialogBox = new AlertDialogBox();
-//                alertDialogBox.showAlertDialog(getContext());
+
+                int inReviewCount = 0 , actionRequiredCount = 0;
+                boolean isBoth = false , isWrong = false , isRestricted = false;
+                for (int i = 0; i<tempList.size() ; i++){
+                    if (tempList.get(i).getStateName().equals("In Review")){
+                        inReviewCount++;
+                    }
+                    else if (tempList.get(i).getStateName().equals("Action Required")){
+                        actionRequiredCount++;
+                    }
+                    if (tempList.get(i).getIsWrongItem()!=null && tempList.get(i).getIsRestrictedItem()!=null){
+
+                        isBoth = true;
+
+                    }
+                    else if (tempList.get(i).getIsWrongItem()!=null){
+                        isWrong = true;
+                    }
+                    else if (tempList.get(i).getIsRestrictedItem()!=null){
+                        isRestricted = true;
+                    }
+                }
+
+                if (!isBoth || !isRestricted || !isWrong ||inReviewCount==0 || actionRequiredCount==0){
+                    StringBuilder allIds = new StringBuilder();
+                    for (int i=0 ; i<tempList.size() ; i++){
+                        if (i+1==tempList.size()){
+                            allIds.append(tempList.get(i).getId());
+                        }
+                        else {
+                            allIds.append(tempList.get(i).getId()+",");
+                        }
+                    }
+
+                    callRedirectShipment(allIds);
+                }
+                else {
+                    AlertDialogBox alertDialogBox = new AlertDialogBox();
+                    alertDialogBox.showAlertDialog(getContext() , tempList , inReviewCount , actionRequiredCount
+                            , isBoth , isRestricted , isWrong  );
+                }
+
             }
         });
 
         return view;
+    }
+
+    private void callRedirectShipment(StringBuilder allIds) {
+
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+
+        Call<RedirectShipmentResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi()
+                .redirect("Bearer "+sharedPrefManager.getBearerToken(),allIds.toString());
+
+        call.enqueue(new Callback<RedirectShipmentResponse>() {
+            @Override
+            public void onResponse(Call<RedirectShipmentResponse> call, Response<RedirectShipmentResponse> response) {
+                if (response.code()==200){
+                    LoadingDialog.cancelLoading();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ids" , allIds.toString());
+                    CreateShipmentDeliveryAddress address = new CreateShipmentDeliveryAddress();
+                    address.setArguments(bundle);
+
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, address, null)
+                            .addToBackStack(null).commit();
+
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi(allIds);
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RedirectShipmentResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void callRefreshTokenApi(StringBuilder allIds) {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    callRedirectShipment(allIds);
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.DeliveryAddressAdapter;
@@ -31,6 +32,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
     LinearLayout addMoreDeliveryAddressText;
     MaterialButton createShipmentAddAddrsBtn, deliveryAddrsProceedBtn;
     Bundle bundle;
+    String allIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +50,11 @@ public class CreateShipmentDeliveryAddress extends Fragment {
         bundle = new Bundle();
         bundle.putString("type", "deliveryAddress");
 
-
+        Bundle bundle1 = this.getArguments();
+        if (bundle1!=null){
+            allIds = bundle1.getString("ids");
+            Toast.makeText(getActivity(), allIds, Toast.LENGTH_SHORT).show();
+        }
 
         list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));
         list.add(new DeliveryAddressModelResponse("Nikkita", "12, near Burj khalifa, Dubai, Unied Arab Emirates", "Dubai", "United Arab Emirates", "0987654321"));

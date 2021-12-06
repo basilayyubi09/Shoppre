@@ -69,43 +69,50 @@
             android:text="Please note"
             android:textSize="10sp"
             android:textFontWeight="400"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:layout_marginBottom="11dp"/>
 
         <TextView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
+            android:id="@+id/reviewText"
             android:text="- You’ve 1 package pending in ‘In Review’"
             android:textSize="10sp"
             android:textFontWeight="400"
-            android:visibility="gone"
+
             android:textColor="@color/black"/>
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/actionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="- You’ve 2 packages pending in ‘Action Required’"
             android:textSize="10sp"
             android:textFontWeight="400"
-            android:visibility="gone"
+
             android:textColor="@color/black"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:text="- Your package contains damaged items "
+            android:id="@+id/damagedText"
+            android:text="@string/your_package_contains_damaged_items"
             android:textSize="10sp"
             android:textFontWeight="400"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="- Your package contains restricted items, which\ncan be shipped only within India. Deselect the\npackage to ship internationally. "
+            android:text="@string/your_package_contains"
             android:textSize="10sp"
             android:textFontWeight="400"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:id="@+id/restrictedText"
+            android:visibility="gone"/>
 
         <CheckBox
             android:layout_width="wrap_content"
