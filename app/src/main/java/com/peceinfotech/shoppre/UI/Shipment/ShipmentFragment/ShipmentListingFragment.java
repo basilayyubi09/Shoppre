@@ -20,6 +20,8 @@ import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.ShipmentModelResponse.Shipment;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
 import com.peceinfotech.shoppre.UI.Locker.ReadyToShipReturnedAndDiscard;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
@@ -38,7 +40,7 @@ public class ShipmentListingFragment extends Fragment {
 ///////// implemented LockerReadyToShip's ReadyToShipAdapter will change to accordingly
     // change single adapter ready to ship single layout to shipment listing single
     SharedPrefManager sharedPrefManager;
-    List<PackageModel> list = new ArrayList<>();
+    List<Shipment> list = new ArrayList<>();
     ShipmentListingAdapter shipmentListingAdapter;
     RecyclerView recyclerView;
     LinearLayout returnAndDiscardText;
@@ -62,7 +64,7 @@ public class ShipmentListingFragment extends Fragment {
         } else {
 
             LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.Loading));
-            callListingApi();
+            callShipmentIndexApi();
         }
 
 
@@ -82,33 +84,60 @@ public class ShipmentListingFragment extends Fragment {
         return view;
     }
 
-    private void callListingApi() {
-        Call<PackageListingResponse> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi().lockerListing("Bearer " + sharedPrefManager.getBearerToken());
-        call.enqueue(new Callback<PackageListingResponse>() {
+    private void callShipmentIndexApi() {
+        Call<ShipmentIndexModelResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().shipmentIndex("Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<ShipmentIndexModelResponse>() {
             @Override
-            public void onResponse(Call<PackageListingResponse> call, Response<PackageListingResponse> response) {
-                if (response.code() == 201) {
-                    list = response.body().getPackages();
+            public void onResponse(Call<ShipmentIndexModelResponse> call, Response<ShipmentIndexModelResponse> response) {
+                if (response.code()==201){
+                    list = response.body().getShipments();
                     shipmentListingAdapter = new ShipmentListingAdapter(list, getContext());
                     recyclerView.setAdapter(shipmentListingAdapter);
                     LoadingDialog.cancelLoading();
-                } else if (response.code() == 401) {
+                }else if (response.code()==400){
                     callRefreshTokenApi();
-                } else {
-                    LoadingDialog.cancelLoading();
+                }else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PackageListingResponse> call, Throwable t) {
+            public void onFailure(Call<ShipmentIndexModelResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+//    private void callListingApi() {
+//        Call<PackageListingResponse> call = RetrofitClient3
+//                .getInstance3()
+//                .getAppApi().lockerListing("Bearer " + sharedPrefManager.getBearerToken());
+//        call.enqueue(new Callback<PackageListingResponse>() {
+//            @Override
+//            public void onResponse(Call<PackageListingResponse> call, Response<PackageListingResponse> response) {
+//                if (response.code() == 201) {
+//                    list = response.body().getPackages();
+//                    shipmentListingAdapter = new ShipmentListingAdapter(list, getContext());
+//                    recyclerView.setAdapter(shipmentListingAdapter);
+//                    LoadingDialog.cancelLoading();
+//                } else if (response.code() == 401) {
+//                    callRefreshTokenApi();
+//                } else {
+//                    LoadingDialog.cancelLoading();
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PackageListingResponse> call, Throwable t) {
+//                LoadingDialog.cancelLoading();
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
@@ -122,7 +151,7 @@ public class ShipmentListingFragment extends Fragment {
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                 } else {
-                    callListingApi();
+                    callShipmentIndexApi();
                 }
             }
 

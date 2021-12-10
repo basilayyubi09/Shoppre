@@ -29,6 +29,8 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
 
 import java.util.List;
 
@@ -364,5 +366,20 @@ public interface AppApi {
     @GET("api/packages?type=shiprequest")
     Call<ReadyToSendResponse> readyToSend(
             @Header("Authorization") String auth
+    );
+
+    //https://uat-app1.shoppreglobal.com/api/shipments?bucket=ALL
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipments?bucket=ALL")
+    Call<ShipmentIndexModelResponse> shipmentIndex(
+            @Header("Authorization") String auth
+    );
+
+    //https://uat-app1.shoppreglobal.com/api/shipments/201
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipments/{shipmentId}")
+    Call<ShipmentDetailsModelResponse> shipmentDetails(
+            @Header("Authorization") String auth,
+            @Path("shipmentId") Integer id
     );
 }

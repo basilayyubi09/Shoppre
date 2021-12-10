@@ -96,7 +96,7 @@ public class OrderActivity extends AppCompatActivity {
                         break;
 
                     case R.id.shipmentMenu:
-                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentLanding(), null)
+                        fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipmentListingFragment(), null)
                                 .addToBackStack(null).commit();
                         break;
 
