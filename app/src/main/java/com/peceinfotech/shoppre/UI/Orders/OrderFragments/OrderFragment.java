@@ -1,7 +1,6 @@
 package com.peceinfotech.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,15 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
-
 import com.peceinfotech.shoppre.AccountResponse.MeResponse;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
-
 import com.peceinfotech.shoppre.Adapters.OrdersAdapter;
 import com.peceinfotech.shoppre.OrderModuleResponses.Order;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.OrderState__1;
-
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -44,16 +39,13 @@ import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LandingDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
-
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,8 +54,7 @@ import retrofit2.Response;
 public class OrderFragment extends Fragment {
 
 
-    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn
-            ,forgotContinueBtn;
+    MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn, forgotContinueBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
     CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
@@ -72,12 +63,12 @@ public class OrderFragment extends Fragment {
 
 
     List<Order> list;
-    LinearLayout orderListing , secondContainer;
+    LinearLayout orderListing, secondContainer;
     OrdersAdapter ordersAdapter;
     LinearLayout cancel;
     OrderState__1 orderState;
     int flag = 0;
-    Integer shoppreId , id;
+    Integer shoppreId, id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,7 +89,7 @@ public class OrderFragment extends Fragment {
         orderListing = view.findViewById(R.id.orderListing);
         submit = view.findViewById(R.id.submit);
         secondContainer = view.findViewById(R.id.secondContainer);
-        forgotContinueBtn  = view.findViewById(R.id.forgotContinueBtn);
+        forgotContinueBtn = view.findViewById(R.id.forgotContinueBtn);
         sevenDay = view.findViewById(R.id.sevenDay);
         orderRecycler = view.findViewById(R.id.orderRecyclerView);
         shippingCalculator = view.findViewById(R.id.shippingCalculator);
@@ -144,7 +135,6 @@ public class OrderFragment extends Fragment {
         });
 
 
-
         virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +173,7 @@ public class OrderFragment extends Fragment {
 //                if (sharedPrefManager.getOrderCode().equals("")){
                 if (flag == 1) {
                     LandingDialog landingDialog = new LandingDialog();
-                    landingDialog.showDialog(getActivity(), id , shoppreId , orderState);
+                    landingDialog.showDialog(getActivity(), id, shoppreId, orderState);
                 } else {
 
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
@@ -216,7 +206,6 @@ public class OrderFragment extends Fragment {
             public void onClick(View view) {
 
 
-
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
                         .addToBackStack(null).commit();
             }
@@ -228,8 +217,8 @@ public class OrderFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 EmptyCart emptyCart = new EmptyCart();
 
-                bundle.putInt("id" , shoppreId);
-                bundle.putString("type" , "exist");
+                bundle.putInt("id", shoppreId);
+                bundle.putString("type", "exist");
                 emptyCart.setArguments(bundle);
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, emptyCart, null)
                         .addToBackStack(null).commit();
@@ -275,13 +264,11 @@ public class OrderFragment extends Fragment {
     }
 
 
-
-
     private void callGetOrderListing() {
         Call<OrderListingResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().getOrderListing("Bearer " + sharedPrefManager.getBearerToken());
 
-        Log.i("TAG", "callGetOrderListing:bearer "+ sharedPrefManager.getBearerToken());
+        Log.i("TAG", "callGetOrderListing:bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<OrderListingResponse>() {
             @Override
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
@@ -315,10 +302,10 @@ public class OrderFragment extends Fragment {
                         sevenDay.setVisibility(View.VISIBLE);
                     }
 
-                    if (response.body().getPendingOrders().size()>0) {
+                    if (response.body().getPendingOrders().size() > 0) {
                         id = response.body().getPendingOrders().get(0).getId();
                         shoppreId = response.body().getPendingOrders().get(0).getShopperOrderId();
-                         orderState = response.body().getPendingOrders().get(0).getOrderState();
+                        orderState = response.body().getPendingOrders().get(0).getOrderState();
                     }
 
                     if (shoppreId != null) {
@@ -330,7 +317,6 @@ public class OrderFragment extends Fragment {
                         forgetSomething.setVisibility(View.GONE);
                         flag = 0;
                     }
-
 
 
 //                    callShopperOrdersApi();
@@ -435,7 +421,6 @@ public class OrderFragment extends Fragment {
     }
 
 
-
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -456,11 +441,12 @@ public class OrderFragment extends Fragment {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0

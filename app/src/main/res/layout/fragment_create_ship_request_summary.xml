@@ -48,6 +48,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/deliveryAddressName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
@@ -58,6 +59,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
@@ -68,6 +70,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
@@ -110,6 +113,8 @@
 
 
                     <LinearLayout
+
+                        android:id="@+id/useLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
@@ -146,15 +151,15 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="29dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="29dp"
                             android:text="Add Billing Address"
                             android:textColor="@color/black"
                             android:textFontWeight="700"
-                            android:textSize="14sp"
-                            android:id="@+id/title"/>
+                            android:textSize="14sp" />
 
 
                         <LinearLayout
@@ -177,8 +182,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/edit_text_bg"
-                                android:layout_marginTop="3dp">
+                                android:layout_marginTop="3dp"
+                                android:background="@drawable/edit_text_bg">
 
                                 <!--                        <com.google.android.material.textfield.TextInputLayout-->
                                 <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
@@ -207,16 +212,16 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="30dp"
                                     android:background="@null"
-                                    android:paddingLeft="0dp"
-                                    android:overlapAnchor="false"/>
+                                    android:overlapAnchor="false"
+                                    android:paddingLeft="0dp" />
 
                                 <ImageView
                                     android:id="@+id/titleTriangle"
                                     android:layout_width="12dp"
                                     android:layout_height="12dp"
-                                    android:src="@drawable/triangle"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginRight="8dp"
-                                    android:layout_gravity="center_vertical"/>
+                                    android:src="@drawable/triangle" />
 
                                 <View
                                     android:layout_width="1dp"
@@ -225,14 +230,14 @@
 
 
                                 <EditText
+                                    android:id="@+id/name"
                                     android:layout_width="match_parent"
                                     android:layout_height="28dp"
-                                    android:id="@+id/name"
                                     android:background="@null"
                                     android:hint="John Doe"
+                                    android:inputType="textPersonName"
                                     android:paddingLeft="7dp"
                                     android:singleLine="true"
-                                    android:inputType="textPersonName"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/hint_color"
                                     android:textSize="12sp"
@@ -245,8 +250,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Phone Number"
                                 android:layout_marginTop="12dp"
+                                android:text="Phone Number"
                                 android:textColor="@color/black"
                                 android:textFontWeight="700"
                                 android:textSize="14sp" />
@@ -259,43 +264,43 @@
 
                                 <com.hbb20.CountryCodePicker
                                     android:id="@+id/countryCodePicker"
-                                    app:ccp_textGravity="CENTER"
                                     android:layout_width="64dp"
                                     android:layout_height="30dp"
-                                    app:ccp_showFlag="false"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center"
+                                    app:ccpDialog_textColor="@color/black"
                                     app:ccp_hintExampleNumber="true"
                                     app:ccp_hintExampleNumberType="FIXED_LINE"
+                                    app:ccp_showFlag="false"
                                     app:ccp_showNameCode="false"
-                                    app:ccp_textSize="12sp"
-                                    app:ccpDialog_textColor="@color/black"
-                                    android:gravity="center"
+                                    app:ccp_textGravity="CENTER"
 
-                                    android:layout_gravity="center_vertical"
-                                    />
+                                    app:ccp_textSize="12sp" />
 
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="30dp"
-                                    android:background="@color/hint_color"/>
+                                    android:background="@color/hint_color" />
 
                                 <com.google.android.material.textfield.TextInputLayout
-                                    android:padding="0dp"
                                     android:id="@+id/updateProfileNumber"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="30dp"
-                                    app:boxStrokeWidthFocused="0dp"
-                                    app:boxStrokeWidth="0dp"
-                                    app:hintEnabled="false"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    app:hintAnimationEnabled="false">
+                                    android:padding="0dp"
+                                    app:boxStrokeWidth="0dp"
+                                    app:boxStrokeWidthFocused="0dp"
+                                    app:hintAnimationEnabled="false"
+                                    app:hintEnabled="false">
+
                                     <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
+                                        android:inputType="number"
                                         android:padding="0dp"
-                                        android:textSize="12sp"
-                                        android:inputType="number"/>
+                                        android:textSize="12sp" />
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -303,16 +308,15 @@
 
 
                             <TextView
-                                android:layout_marginTop="2dp"
+                                android:id="@+id/titleError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
                                 android:layout_marginLeft="2dp"
+                                android:layout_marginTop="2dp"
+                                android:text="* This is a required field"
                                 android:textColor="@color/design_default_color_error"
-                                android:id="@+id/titleError"
-                                android:visibility="gone"
-                                />
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/nameError"
@@ -323,7 +327,7 @@
                                 android:text="* This is a required field"
                                 android:textColor="@color/design_default_color_error"
                                 android:textSize="10sp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -335,30 +339,29 @@
                                 android:textSize="14sp" />
 
 
-
                             <EditText
-                                android:layout_marginTop="3dp"
+                                android:id="@+id/addressLine1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingVertical="5dp"
-                                android:id="@+id/addressLine1"
+                                android:layout_marginTop="3dp"
                                 android:background="@drawable/edittext_bg"
                                 android:hint="1313 Disneyland Dr,"
+                                android:paddingVertical="5dp"
                                 android:paddingLeft="13dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_color"
-                                android:textSize="12sp"
-                                />
+                                android:textSize="12sp" />
+
                             <TextView
+                                android:id="@+id/addressError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
-                                android:id="@+id/addressError"
                                 android:layout_gravity="right"
-                                android:visibility="gone"
-                                android:textColor="@color/design_default_color_error"/>
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -371,13 +374,13 @@
 
 
                             <EditText
-                                android:layout_marginTop="3dp"
+                                android:id="@+id/addressLine2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingVertical="5dp"
-                                android:id="@+id/addressLine2"
+                                android:layout_marginTop="3dp"
                                 android:background="@drawable/edittext_bg"
                                 android:hint="5th Avenue"
+                                android:paddingVertical="5dp"
                                 android:paddingLeft="13dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hint_color"
@@ -395,10 +398,10 @@
 
 
                             <EditText
-                                android:layout_marginTop="3dp"
+                                android:id="@+id/city"
                                 android:layout_width="match_parent"
                                 android:layout_height="28dp"
-                                android:id="@+id/city"
+                                android:layout_marginTop="3dp"
                                 android:background="@drawable/edittext_bg"
                                 android:hint="Anaheim"
                                 android:paddingLeft="13dp"
@@ -407,17 +410,17 @@
                                 android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
+
                             <TextView
+                                android:id="@+id/cityError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
-                                android:textColor="@color/design_default_color_error"
-                                android:id="@+id/cityError"
                                 android:layout_gravity="right"
-                                android:visibility="gone"
-                                />
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
 
                             <TextView
@@ -431,9 +434,9 @@
 
 
                             <EditText
+                                android:id="@+id/state"
                                 android:layout_width="match_parent"
                                 android:layout_height="28dp"
-                                android:id="@+id/state"
                                 android:background="@drawable/edittext_bg"
                                 android:hint="California"
                                 android:paddingLeft="13dp"
@@ -442,16 +445,17 @@
                                 android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
+
                             <TextView
+                                android:id="@+id/stateError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
                                 android:layout_gravity="right"
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
                                 android:textColor="@color/design_default_color_error"
-                                android:id="@+id/stateError"
-                                android:visibility="gone"/>
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -463,15 +467,12 @@
                                 android:textSize="14sp" />
 
 
-
-
-
                             <LinearLayout
                                 android:id="@+id/spinnerCountryLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:background="@drawable/edit_text_bg">
+                                android:background="@drawable/edit_text_bg"
+                                android:orientation="horizontal">
 
 
                                 <TextView
@@ -493,7 +494,7 @@
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
-                                    android:background="@color/hint_color"/>
+                                    android:background="@color/hint_color" />
 
 
                                 <ImageView
@@ -505,13 +506,7 @@
                                     android:src="@drawable/triangle" />
 
 
-
                             </LinearLayout>
-
-
-
-
-
 
 
                             <!--                    <LinearLayout-->
@@ -545,16 +540,16 @@
 
                             <!--                    </LinearLayout>-->
                             <TextView
+                                android:id="@+id/countryError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
-                                android:textColor="@color/design_default_color_error"
-                                android:id="@+id/countryError"
                                 android:layout_gravity="right"
-                                android:visibility="gone"
-                                />
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -566,10 +561,10 @@
 
 
                             <EditText
-                                android:layout_marginTop="3dp"
+                                android:id="@+id/pinCode"
                                 android:layout_width="match_parent"
                                 android:layout_height="28dp"
-                                android:id="@+id/pinCode"
+                                android:layout_marginTop="3dp"
                                 android:background="@drawable/edittext_bg"
                                 android:hint="92802"
                                 android:inputType="number"
@@ -579,48 +574,47 @@
                                 android:textColorHint="@color/hint_color"
                                 android:textSize="12sp"
                                 app:boxStrokeColor="@color/hint_color" />
+
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
-                                android:layout_gravity="right"
-                                android:textColor="@color/design_default_color_error"
                                 android:id="@+id/pinCodeError"
-                                android:visibility="gone"/>
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
 
                             <TextView
-                                android:layout_marginTop="2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
-                                android:textColor="@color/design_default_color_error"
                                 android:id="@+id/errorNo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:visibility="gone"
-                                />
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="2dp"
+                                android:text="* This is a required field"
+                                android:textColor="@color/design_default_color_error"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
 
                             <TextView
+                                android:id="@+id/phoneError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="* This is a required field"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="2dp"
                                 android:layout_gravity="right"
+                                android:layout_marginLeft="2dp"
+                                android:text="* This is a required field"
                                 android:textColor="@color/design_default_color_error"
-                                android:id="@+id/phoneError"
-                                android:visibility="gone"
-                                />
+                                android:textSize="10sp"
+                                android:visibility="gone" />
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/addAddressBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="32dp"
-                                android:id="@+id/addAddressBtn"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="21dp"
                                 android:layout_marginBottom="18dp"
@@ -628,8 +622,8 @@
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"
                                 android:text="Add Address"
-                                android:textColor="@color/white"
                                 android:textAllCaps="false"
+                                android:textColor="@color/white"
                                 android:textFontWeight="700"
                                 android:textSize="12sp"
                                 app:cornerRadius="5dp" />
@@ -639,61 +633,65 @@
                     </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/billingAddressLayout">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/billingAddressLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="22dp"
-                        android:layout_marginTop="15dp"
-                        android:text="Billing Address"
-                        android:textColor="@color/black"
-                        android:textFontWeight="600"
-                        android:textSize="12sp" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="22dp"
-                        android:layout_marginTop="13dp"
-                        android:text="Nikkitha Shanker"
-                        android:textColor="@color/black"
-                        android:textFontWeight="500"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginTop="15dp"
+                            android:text="Billing Address"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="22dp"
-                        android:layout_marginRight="30dp"
-                        android:text="@string/airport_rd"
-                        android:textColor="@color/black"
-                        android:textFontWeight="400"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/billingAddressName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="22dp"
+                            android:layout_marginTop="13dp"
+                            android:text="Nikkitha Shanker"
+                            android:textColor="@color/black"
+                            android:textFontWeight="500"
+                            android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="22dp"
-                        android:text="+9714702 4444"
-                        android:textColor="@color/black"
-                        android:textFontWeight="300"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/billingAddressText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginRight="30dp"
+                            android:text="@string/airport_rd"
+                            android:textColor="@color/black"
+                            android:textFontWeight="400"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/billingAddressNumberText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="22dp"
+                            android:text="+9714702 4444"
+                            android:textColor="@color/black"
+                            android:textFontWeight="300"
+                            android:textSize="12sp" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="22dp"
-                        android:layout_marginTop="14dp"
-                        android:text="@string/edit"
-                        android:textColor="#3A5FD8"
-                        android:textFontWeight="600" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/billingEdit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginTop="14dp"
+                            android:text="@string/edit"
+                            android:textColor="#3A5FD8"
+                            android:textFontWeight="600" />
+                    </LinearLayout>
 
 
                     <View
@@ -713,6 +711,7 @@
                         android:textSize="12sp" />
 
                     <RelativeLayout
+                        android:id="@+id/shippingCharges"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
@@ -732,7 +731,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="₹ 20"
+                            android:text="To Be Calculated"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
@@ -740,10 +739,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/photoCharges"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -756,6 +757,7 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/photoPriceText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -767,10 +769,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/consolidationCharges"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -783,6 +787,7 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:id="@+id/consPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -794,10 +799,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/discardShoeBoxes"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -805,33 +812,6 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:text="Discard Shoe Boxes"
-                            android:textColor="@color/black"
-                            android:textFontWeight="400"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="₹ 200"
-                            android:textColor="@color/black"
-                            android:textFontWeight="400"
-                            android:textSize="12sp" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:text="Add Extra Packaging Material"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
@@ -848,17 +828,19 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/addExtra"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="Ship in original boxes"
+                            android:text="Add Extra Packaging Material"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
@@ -875,10 +857,41 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/shipIn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="Ship in original boxes"
+                            android:textColor="@color/black"
+                            android:textFontWeight="400"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="free"
+                            android:textColor="@color/black"
+                            android:textFontWeight="400"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/giftWrap"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="22dp"
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -894,7 +907,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="Free"
+                            android:text="₹ 100"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
@@ -902,10 +915,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/giftNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -921,7 +936,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="₹ Gift Note"
+                            android:text="₹ 50"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
@@ -929,10 +944,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/setMax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -956,10 +973,12 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/express"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="12dp">
+                        android:layout_marginVertical="12dp"
+                        android:visibility="gone">
 
 
                         <TextView
@@ -983,6 +1002,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/overWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="22dp"
@@ -993,12 +1013,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="Overweight Clearance Charges"
+
+                            android:text="Overweight Clearance \nCharges"
                             android:textColor="@color/black"
                             android:textFontWeight="400"
                             android:textSize="12sp" />
 
                         <TextView
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -1032,6 +1054,7 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/estimatePrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -1049,23 +1072,24 @@
                         android:gravity="center_horizontal">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/back"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:cardCornerRadius="5dp"
-                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_gravity="center_vertical"
                             android:clickable="true"
-                            android:layout_gravity="center_vertical">
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardCornerRadius="5dp">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:background="@drawable/logout_shadow"
+                                android:paddingHorizontal="50dp"
+                                android:paddingVertical="8dp"
                                 android:text="Back"
                                 android:textColor="#2D8DFF"
-                                android:textSize="12sp"
                                 android:textFontWeight="600"
-                                android:paddingVertical="8dp"
-                                android:paddingHorizontal="50dp"
-                                android:background="@drawable/logout_shadow"/>
+                                android:textSize="12sp" />
 
 
                         </androidx.cardview.widget.CardView>
@@ -1094,18 +1118,17 @@
                             android:layout_height="32dp"
                             android:layout_marginVertical="20dp"
                             android:layout_marginLeft="20dp"
-                            android:paddingVertical="8dp"
-                            android:textSize="12sp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:letterSpacing="0.03"
                             android:paddingHorizontal="9dp"
+                            android:paddingVertical="8dp"
                             android:text="Create Ship Request"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="600"
-                            app:backgroundTint="#17B28F"
-                             />
+                            android:textSize="12sp"
+                            app:backgroundTint="#17B28F" />
                     </LinearLayout>
                 </LinearLayout>
 

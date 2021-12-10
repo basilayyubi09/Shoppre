@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Customer implements Serializable {
     @SerializedName("name")
@@ -36,6 +37,42 @@ public class Customer implements Serializable {
     @SerializedName("Locker")
     @Expose
     private Locker locker;
+
+
+    @SerializedName("membership_validity")
+    @Expose
+    private String membershipValidity;
+    @SerializedName("Addresses")
+    @Expose
+    private List<Address> addresses = null;
+
+    @SerializedName("is_member")
+    @Expose
+    private Integer isMember;
+
+    public Integer getIsMember() {
+        return isMember;
+    }
+
+    public void setIsMember(Integer isMember) {
+        this.isMember = isMember;
+    }
+
+    public String getMembershipValidity() {
+        return membershipValidity;
+    }
+
+    public void setMembershipValidity(String membershipValidity) {
+        this.membershipValidity = membershipValidity;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public String getName() {
         return name;

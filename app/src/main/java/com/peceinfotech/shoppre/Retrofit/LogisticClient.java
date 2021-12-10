@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class LogisticClient {
-    private static final String BASE_URL = "https://staging-logistics.shoppre.com/";
+    private static final String BASE_URL = "https://uat-logistics.shoppre.com/";
     private static LogisticClient myClient3;
     private Retrofit retrofit3;
 

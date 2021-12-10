@@ -148,6 +148,7 @@ public class LockerViewPackage extends Fragment {
         String month_name = dtf2.format(ld);
 
         date.setText(month_name);
+
         trackingNumber.setText(list.getInvoiceCode());
         websiteName.setText(list.getStore().getName());
         packageId.setText("#" + String.valueOf(list.getId()));

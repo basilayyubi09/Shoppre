@@ -2,6 +2,7 @@ package com.peceinfotech.shoppre.Adapters.CreateShipAdapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.UI.Locker.LockerViewPackage;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 
 import java.util.List;
 
@@ -44,13 +47,14 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
         if (holder.check.isChecked()){
             holder.check.setChecked(true);
         }
+
         else{
             holder.check.setChecked(false);
         }
         holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                myInterface.getCheckBox(model.getId() , holder.check , model.getPriceAmount() , model.getInvoice());
+                myInterface.getCheckBox(model.getId() , holder.check , model.getPriceAmount() , model.getInvoice() , model);
             }
 
         });
@@ -93,6 +97,22 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
             holder.action.setText(list.get(position).getStateName());
             holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
         }
+        holder.viewPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+
+
+                bundle.putInt("id", list.get(position).getId());
+
+                LockerViewPackage lockerViewPackage = new LockerViewPackage();
+                lockerViewPackage.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerViewPackage, null)
+                        .addToBackStack(null).commit();
+
+
+            }
+        });
     }
 
 
@@ -124,6 +144,6 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
         }
     }
     public interface MyInterface{
-       void getCheckBox(Integer id, CheckBox check, Integer priceAmount, Object invoice);
+       void getCheckBox(Integer id, CheckBox check, Integer priceAmount, Object invoice, PackageModel model);
     }
 }
