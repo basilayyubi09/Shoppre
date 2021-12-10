@@ -28,5 +28,8 @@
 
     <color name="text_blue">#2C469A</color>
     <color name="toast_yellow">#FFBC50</color>
+    <color name="pending_invoice_purple_color">#FF0101</color>
+    <color name="payment_confirm_green_color">#00A781</color>
+    <color name="dispatched_blue_color">#8950FC</color>
 
 </resources>

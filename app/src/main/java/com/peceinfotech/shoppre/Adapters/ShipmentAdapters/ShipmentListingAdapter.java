@@ -6,26 +6,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
-import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.ShipmentModelResponse.Shipment;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
 import com.peceinfotech.shoppre.UI.Locker.LockerViewPackage;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListingAdapter.viewHolder> {
-    List<PackageModel> list;
+    List<Shipment> list;
     Context context;
 
-    public ShipmentListingAdapter(List<PackageModel> list, Context context) {
+    public ShipmentListingAdapter(List<Shipment> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -42,53 +43,106 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
     @Override
     public void onBindViewHolder(@NonNull ShipmentListingAdapter.viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        Shipment shipment = list.get(position);
 
 
-        holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
-        holder.shipmentId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
-        holder.webSiteName.setText(list.get(position).getStore().getName());
+        holder.name.setText(shipment.getCustomerName());
+        holder.quantity.setText("("+String.valueOf(shipment.getPackages().size())+")");
 
-        if (list.get(position).getStateName().equals("In Review")) {
-            holder.viewShipment.setVisibility(View.VISIBLE);
-
-            holder.action.setText(list.get(position).getStateName());
+        if (shipment.getStateName().equals("Awaiting Payment")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.action_required_background));
+        }else if (shipment.getStateName().equals("In Review")){
+            holder.action.setText(shipment.getStateName());
             holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
             holder.action.setBackground(context.getDrawable(R.drawable.price_changed_background));
-        } else if (list.get(position).getStateName().equals("Action Required")) {
-            holder.viewShipment.setVisibility(View.VISIBLE);
-
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
-        } else if (list.get(position).getStateName().equals("Ready To Send")) {
-            holder.viewShipment.setVisibility(View.VISIBLE);
-
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
-        }else {
-            holder.viewShipment.setVisibility(View.VISIBLE);
-
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+        } else if (shipment.getStateName().equals("Pending Invoice Upload")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
+        }else if (shipment.getStateName().equals("Payment Failed")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
+        }else if (shipment.getStateName().equals("Payment Confirmed")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.payment_confirm_green_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.payment_confirm_background));
+        }else if (shipment.getStateName().equals("Dispatched")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
+        }else if (shipment.getStateName().equals("Delivered")){
+            holder.action.setText(shipment.getStateName());
+            holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
+            holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
         }
-
+        holder.shipmentId.setText("Shipment ID #"+shipment.getId());
         holder.viewShipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
 
 
-                bundle.putInt("id", list.get(position).getId());
-
-                LockerViewPackage lockerViewPackage = new LockerViewPackage();
-                lockerViewPackage.setArguments(bundle);
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerViewPackage, null)
+                bundle.putInt("id", shipment.getId());
+                bundle.putString("stateName", shipment.getStateName());
+                bundle.putSerializable("packages", (Serializable) shipment.getPackages());
+                ShipmentLanding shipmentLanding = new ShipmentLanding();
+                shipmentLanding.setArguments(bundle);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, shipmentLanding, null)
                         .addToBackStack(null).commit();
-
 
             }
         });
+
+
+
+//        holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
+//        holder.shipmentId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
+//        holder.webSiteName.setText(list.get(position).getStore().getName());
+//
+//        if (list.get(position).getStateName().equals("In Review")) {
+//            holder.viewShipment.setVisibility(View.VISIBLE);
+//
+//            holder.action.setText(list.get(position).getStateName());
+//            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+//            holder.action.setBackground(context.getDrawable(R.drawable.price_changed_background));
+//        } else if (list.get(position).getStateName().equals("Action Required")) {
+//            holder.viewShipment.setVisibility(View.VISIBLE);
+//
+//            holder.action.setText(list.get(position).getStateName());
+//            holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+//            holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
+//        } else if (list.get(position).getStateName().equals("Ready To Send")) {
+//            holder.viewShipment.setVisibility(View.VISIBLE);
+//
+//            holder.action.setText(list.get(position).getStateName());
+//            holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
+//            holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
+//        }else {
+//            holder.viewShipment.setVisibility(View.VISIBLE);
+//
+//            holder.action.setText(list.get(position).getStateName());
+//            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+//        }
+
+//        holder.viewShipment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//
+//
+//                bundle.putInt("id", list.get(position).getId());
+//
+//                LockerViewPackage lockerViewPackage = new LockerViewPackage();
+//                lockerViewPackage.setArguments(bundle);
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerViewPackage, null)
+//                        .addToBackStack(null).commit();
+//
+//
+//            }
+//        });
 
     }
 
@@ -100,7 +154,7 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
     public class viewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView webSiteName, shipmentId, quantity, action;
+        TextView name, shipmentId, quantity, action;
         LinearLayout viewShipment;
 
 
@@ -108,7 +162,7 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
             super(itemView);
 
 
-            webSiteName = itemView.findViewById(R.id.webSiteName);
+            name = itemView.findViewById(R.id.name);
             shipmentId = itemView.findViewById(R.id.shipmentId);
             quantity = itemView.findViewById(R.id.quantity);
             action = itemView.findViewById(R.id.action);

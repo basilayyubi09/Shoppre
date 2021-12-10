@@ -37,6 +37,8 @@
             android:textFontWeight="500"/>
 
         <TextView
+            android:id="@+id/noInvoiceFoundText"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No Invoice Found"
@@ -77,16 +79,15 @@
             android:textFontWeight="500"/>
 
         <LinearLayout
-            android:id="@+id/viewMore"
+            android:id="@+id/viewPackage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="View Order"
+            android:text="View Package"
             android:textColor="#3A5FD8"
             android:textSize="10sp"
             android:textFontWeight="500"/>
