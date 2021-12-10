@@ -64,14 +64,13 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     TextInputLayout updateProfileNumber;
     DeliveryListModel.Address billingAdd;
     List<DeliveryListModel.Address> addressList;
-    TextView addressText, name, estimatePrice, number, billingName,spinnerCountry,
+    TextView addressText, name, estimatePrice, number, billingName, spinnerCountry,
             billingEdit, billingAddress, billingNumber, billingTitle, photoPriceText, consPrice;
     String[] title = {"Title", "Mr", "Ms", "Mrs"};
     boolean isBilling = false;
     ShipmentMeta meta;
     MaterialButton addAddressBtn;
-    String salutation, nameString, phoneNumberString, addressLine1String
-            , addressLine2String, cityString, country, pinCodeString, cc, stateString;
+    String salutation, nameString, phoneNumberString, addressLine1String, addressLine2String, cityString, country, pinCodeString, cc, stateString;
     CountryCodePicker countryCodePicker;
     Integer estimateTotal = 0, billingId, deliveryId;
     EditText addressLine1, addressLine2, city, state, pinCode, billingEditName;
@@ -158,6 +157,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 number.setText("");
             }
 
+
         }
 
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -205,28 +205,12 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         };
 
 
-
-
-        billingEditName.setText(billingAdd.getName());
-        updateProfileNumber.getEditText().setText(billingAdd.getPhone());
-        addressLine1.setText(billingAdd.getLine1());
-        if (!billingAdd.getLine2().equals("")) {
-            addressLine2.setText(billingAdd.getLine2());
-        } else {
-            addressLine2.setText("");
-        }
-        city.setText(billingAdd.getCity());
-        state.setText(billingAdd.getState());
-        pinCode.setText(billingAdd.getPincode());
-
-
-
-
         addAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
                 callApi();
+
             }
         });
         createShipmentTitleArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
@@ -255,7 +239,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (checkBoxCreateShipment.isChecked()) {
-                    setTextAfterUpdate();
+                    setValuesOnEditField();
                     addressForm.setVisibility(View.VISIBLE);
                     billingAddressLayout.setVisibility(View.GONE);
                 } else {
@@ -325,21 +309,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         addAddressBtn.setText("Update Address");
         billingTitle.setText("Update Billing Address");
 
-        billingEditName.setText(billingAdd.getName());
-        updateProfileNumber.getEditText().setText(billingAdd.getPhone());
-        addressLine1.setText(billingAdd.getLine1());
-        if (!billingAdd.getLine2().equals("")) {
-            addressLine2.setText(billingAdd.getLine2());
-        } else {
-            addressLine2.setText("");
-        }
-        city.setText(billingAdd.getCity());
-        state.setText(billingAdd.getState());
-        spinnerCountry.setText(billingAdd.getCountry().getName());
-        pinCode.setText(billingAdd.getPincode());
-        getTextFromField();
-    }
+        billingEditName.setText(nameString);
+        updateProfileNumber.getEditText().setText(phoneNumberString);
+        addressLine1.setText(addressLine1String);
+        city.setText(cityString);
+        state.setText(stateString);
+        spinnerCountry.setText(country);
+        pinCode.setText(pinCodeString);
 
+    }
 
 
     private void setUpBillingAddress() {
@@ -368,25 +346,33 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void callAddBillingItem(DeliveryListModel.Address deliveryAddress) {
-        billingName.setText(deliveryAddress.getName());
-        billingNumber.setText(deliveryAddress.getPhone());
+
+
+        nameString = deliveryAddress.getName();
+        addressLine1String = deliveryAddress.getLine1();
+        addressLine2String = deliveryAddress.getLine2();
+        cityString = deliveryAddress.getCity();
+        stateString = deliveryAddress.getState();
+        salutation = deliveryAddress.getSalutation();
+        country = deliveryAddress.getCountry().getName();
+        phoneNumberString = deliveryAddress.getPhone();
+        pinCodeString = deliveryAddress.getPincode();
+
         billingId = deliveryAddress.getId();
-        if (!deliveryAddress.getLine2().equals("")) {
-            billingAddress.setText(deliveryAddress.getLine1() + "\n"
-                    + deliveryAddress.getLine2() + "\n"
-                    + deliveryAddress.getCity() + " - "
-                    + deliveryAddress.getState() + "\n"
-                    + deliveryAddress.getCountry().getName());
-        } else {
-            billingAddress.setText(deliveryAddress.getLine1() + "\n"
-                    + deliveryAddress.getCity() + " - "
-                    + deliveryAddress.getState() + "\n"
-                    + deliveryAddress.getCountry().getName());
-        }
+
+
+        billingName.setText(nameString);
+        billingNumber.setText(phoneNumberString);
+        billingAddress.setText(addressLine1String + "\n"
+                + cityString + " - "
+                + stateString + "\n"
+                + pinCodeString + "\n"
+                + country);
+
     }
 
     @SuppressLint("SetTextI18n")
-    private void setTextAfterUpdate(){
+    private void setTextAfterUpdate() {
         billingName.setText(nameString);
         billingNumber.setText(phoneNumberString);
         getTextFromField();
@@ -395,14 +381,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     + addressLine2String + "\n"
                     + cityString + " - "
                     + stateString + "\n"
-                    +country);
+                    + country);
         } else {
             billingAddress.setText(addressLine1String + "\n"
                     + cityString + " - "
                     + stateString + "\n"
-                    +country);
+                    + country);
         }
     }
+
     private void getTextFromField() {
         nameString = billingEditName.getText().toString().trim();
         addressLine1String = addressLine1.getText().toString().trim();
@@ -419,7 +406,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     }
 
     private void callApi() {
-
+        getTextFromField();
         String firstName, lastName = "";
 
 
@@ -461,14 +448,13 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
                 if (response.code() == 200) {
-                    getTextFromField();
+
                     billingAddressLayout.setVisibility(View.VISIBLE);
                     addressForm.setVisibility(View.GONE);
 //                    callAddBillingItem(newAddress);
                     billingName.setText(nameString);
                     billingNumber.setText(phoneNumberString);
                     billingAddress.setText(addressLine1String + "\n"
-                            + addressLine2String + "\n"
                             + cityString + " - "
                             + stateString + "\n"
                             + country);
@@ -478,8 +464,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Updated Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                }
-                else if (response.code() == 401) {
+                } else if (response.code() == 401) {
 //
                     callRefreshTokenApi();
 
