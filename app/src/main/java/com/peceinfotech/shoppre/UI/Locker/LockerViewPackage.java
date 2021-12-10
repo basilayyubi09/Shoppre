@@ -42,7 +42,7 @@ public class LockerViewPackage extends Fragment {
     TabLayout viewPackageTablayout;
     ViewPager viewPackageViewPager;
     SharedPrefManager sharedPrefManager;
-    TextView comment, websiteName, packageId, weight, date,  trackingNumber;
+    TextView comment, websiteName, packageId, weight, date, trackingNumber;
     public TextView amount;
     int id;
     Bundle bundle1 = new Bundle();
@@ -101,7 +101,7 @@ public class LockerViewPackage extends Fragment {
                 if (response.code() == 200) {
 
                     list = response.body().getPackageItems();
-                    bundle1.putInt("id" , response.body().getId());
+                    bundle1.putInt("id", response.body().getId());
                     bundle1.putSerializable("list", (Serializable) list);
                     packageDetails.setArguments(bundle1);
                     Bundle bundle = new Bundle();
@@ -148,11 +148,12 @@ public class LockerViewPackage extends Fragment {
         String month_name = dtf2.format(ld);
 
         date.setText(month_name);
+
         trackingNumber.setText(list.getInvoiceCode());
         websiteName.setText(list.getStore().getName());
         packageId.setText("#" + String.valueOf(list.getId()));
         weight.setText(String.valueOf(list.getWeight()));
-        amount.setText("₹ "+String.valueOf(list.getPriceAmount()));
+        amount.setText("₹ " + String.valueOf(list.getPriceAmount()));
 
         if (list.getStateNameAndColor().getStateName().equals("In Review")) {
 

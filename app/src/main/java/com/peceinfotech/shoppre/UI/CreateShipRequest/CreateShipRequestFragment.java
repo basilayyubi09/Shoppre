@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.DummyCreateAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.LockerModelResponse.RedirectShipmentResponse;
+import com.peceinfotech.shoppre.LockerModelResponse.ShipmentMeta;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
@@ -29,6 +31,7 @@ import com.peceinfotech.shoppre.Utils.AlertDialogBox;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +47,7 @@ public class CreateShipRequestFragment extends Fragment {
     DummyCreateAdapter adapter;
     List<PackageModel> list;
     List<PackageModel> tempList;
-
+    CardView back;
     SharedPrefManager sharedPrefManager ;
     TextView selectedNumber, totalNumber, totalAmount;
     List<Integer> list1;
@@ -64,6 +67,7 @@ public class CreateShipRequestFragment extends Fragment {
         list1 = new ArrayList<>();
         tempList = new ArrayList<>();
         checkBox = view.findViewById(R.id.check);
+        back = view.findViewById(R.id.back);
         recyclerView = view.findViewById(R.id.recycle);
         selectedNumber = view.findViewById(R.id.selectedNumber);
         totalNumber = view.findViewById(R.id.totalNumber);
@@ -234,7 +238,12 @@ public class CreateShipRequestFragment extends Fragment {
             }
         });
 
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         choosePackageProceedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,11 +308,17 @@ public class CreateShipRequestFragment extends Fragment {
             public void onResponse(Call<RedirectShipmentResponse> call, Response<RedirectShipmentResponse> response) {
                 if (response.code()==200){
                     LoadingDialog.cancelLoading();
+                    ShipmentMeta shipmentMeta = response.body().getShipmentMeta();
                     Bundle bundle = new Bundle();
                     bundle.putString("ids" , allIds.toString());
+                    bundle.putString("liquid" , response.body().getIsLiquid());
+                    bundle.putSerializable("meta" , (Serializable) shipmentMeta);
                     CreateShipmentDeliveryAddress address = new CreateShipmentDeliveryAddress();
                     address.setArguments(bundle);
 
+                    total = 0;
+                    checkBox.setChecked(false);
+                    totalAmount.setText("₹ " + String.valueOf(total));
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, address, null)
                             .addToBackStack(null).commit();
 

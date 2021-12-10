@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -42,7 +41,6 @@ import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
-import com.peceinfotech.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -55,7 +53,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddAddress extends Fragment {
-
 
 
     Spinner chooseTitleAddAddress;
@@ -135,16 +132,15 @@ public class AddAddress extends Fragment {
         spinnerCountryLayout = view.findViewById(R.id.spinnerCountryLayout);
 
 
-
         final List<String> titleList = new ArrayList<>(Arrays.asList(titleArray));
 
 
-        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList){
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList) {
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -153,10 +149,10 @@ public class AddAddress extends Fragment {
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
                 TextView titleTv = (TextView) view1;
-                if (position == 0){
+                if (position == 0) {
                     titleTv.setVisibility(View.GONE);
                     titleTv.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     titleTv.setTextColor(Color.BLACK);
                 }
                 return view1;
@@ -168,7 +164,7 @@ public class AddAddress extends Fragment {
         chooseTitleAddAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0){
+                if (position > 0) {
 
                 }
             }
@@ -178,8 +174,6 @@ public class AddAddress extends Fragment {
 
             }
         });
-
-
 
 
         spinnerCountryLayout.setOnClickListener(new View.OnClickListener() {
@@ -213,8 +207,7 @@ public class AddAddress extends Fragment {
                 title.setText("Billing Address");
 
                 is_billing = true;
-            }
-            else if(type.equals("updateBilling")){
+            } else if (type.equals("updateBilling")) {
                 is_billing = true;
                 address = (DeliveryListModel.Address) getArguments().getSerializable("address");
                 id = ((DeliveryListModel.Address) getArguments().getSerializable("address")).getId();
@@ -223,12 +216,11 @@ public class AddAddress extends Fragment {
                 title.setText("Update Billing Address");
                 addAddressBtn.setText("Update Address");
                 addAddressBtn.setLetterSpacing((float) 0.03);
-            }else if (type.equals("deliveryAddress")){
+            } else if (type.equals("deliveryAddress")) {
                 is_billing = false;
                 title.setText("Add Shipping Address");
                 checkBox.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 is_billing = false;
                 title.setText("Add Address");
             }
@@ -254,13 +246,11 @@ public class AddAddress extends Fragment {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
 
                 callUpdateApi(id);
-            }
-            else if(type.equals("updateBilling")) {
+            } else if (type.equals("updateBilling")) {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
                 is_billing = true;
                 callUpdateApi(id);
-            }else
-             {
+            } else {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
                 callApi(view13);
             }
@@ -290,7 +280,7 @@ public class AddAddress extends Fragment {
 
     }
 
-    private void callUpdateApi( int i) {
+    private void callUpdateApi(int i) {
         JsonObject object = new JsonObject();
         String firstName, lastName = "";
 
@@ -473,12 +463,11 @@ public class AddAddress extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Added Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();
                     getActivity().getSupportFragmentManager().popBackStack();
-                } else if(response.code() == 401){
+                } else if (response.code() == 401) {
 
                     callRefreshTokenApi();
 
-                }
-                else if (response.code() == 406) {
+                } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -500,6 +489,7 @@ public class AddAddress extends Fragment {
         });
 
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
@@ -507,12 +497,13 @@ public class AddAddress extends Fragment {
         call.enqueue(new Callback<RefreshTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                }
-                else {
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong! Please try again!!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -544,17 +535,15 @@ public class AddAddress extends Fragment {
         countryCodeTextView.setTextColor(R.color.hint_color);
 
 
-
-
         final List<String> titleList = new ArrayList<>(Arrays.asList(titleArray));
 
 
-        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList){
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.add_address_title, titleList) {
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -563,10 +552,10 @@ public class AddAddress extends Fragment {
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
                 TextView titleTv = (TextView) view1;
-                if (position == 0){
+                if (position == 0) {
                     titleTv.setVisibility(View.GONE);
                     titleTv.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     titleTv.setTextColor(Color.BLACK);
                 }
                 return view1;
@@ -578,7 +567,7 @@ public class AddAddress extends Fragment {
         chooseTitleAddAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0){
+                if (position > 0) {
 
                 }
             }
@@ -598,13 +587,12 @@ public class AddAddress extends Fragment {
         stateString = state.getText().toString().trim();
         pinCodeString = pinCode.getText().toString().trim();
         phoneNumberString = phoneNumber.getText().toString().trim();
-        salutation =  chooseTitleAddAddress.getSelectedItem().toString();
+        salutation = chooseTitleAddAddress.getSelectedItem().toString();
         country = spinnerCountry.getText().toString();
         countryCode = countryCodeTextView.getText().toString();
         if (checkBox.isChecked()) {
             is_default = true;
         } else is_default = false;
-
 
 
     }
@@ -736,6 +724,7 @@ public class AddAddress extends Fragment {
         }
 
     }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -756,11 +745,12 @@ public class AddAddress extends Fragment {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0

@@ -3,7 +3,9 @@ package com.peceinfotech.shoppre.LockerModelResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ShipmentMeta {
+import java.io.Serializable;
+
+public class ShipmentMeta implements Serializable {
 
     @SerializedName("storage_amount")
     @Expose

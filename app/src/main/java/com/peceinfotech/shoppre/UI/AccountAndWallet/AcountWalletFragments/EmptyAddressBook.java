@@ -47,9 +47,9 @@ import retrofit2.Response;
 public class EmptyAddressBook extends Fragment {
 
     MaterialButton billingAddAddressBtn, deliveryAddAddressBtn, setDefaultAddressBtn,
-                   emptyAddressNameCopyBtn, emptyAddressLine1CopyBtn, emptyAddressLine2CopyBtn,
-                   emptyAddressLandmarkCopyBtn, emptyAddressCityCopyBtn, emptyAddressStateCopyBtn,
-                   emptyAddressPincodeCopyBtn, emptyAddressPhoneNOCopyBtn;
+            emptyAddressNameCopyBtn, emptyAddressLine1CopyBtn, emptyAddressLine2CopyBtn,
+            emptyAddressLandmarkCopyBtn, emptyAddressCityCopyBtn, emptyAddressStateCopyBtn,
+            emptyAddressPincodeCopyBtn, emptyAddressPhoneNOCopyBtn;
     RecyclerView deliveryRecyclerView;
     MaterialAutoCompleteTextView allAddressSpinner;
     String[] allAddress = {"All Address", "International Address", "Indian Address"};
@@ -118,7 +118,6 @@ public class EmptyAddressBook extends Fragment {
         emptyAddressPhoneNoText = view.findViewById(R.id.emptyAddressPhoneNoText);
 
 
-
         bearerToken = sharedPrefManager.getBearerToken();
 
 
@@ -185,7 +184,6 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
-
         emptyAddressCityCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +197,6 @@ public class EmptyAddressBook extends Fragment {
 
             }
         });
-
 
 
         emptyAddressStateCopyBtn.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +214,6 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
-
         emptyAddressPincodeCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +229,6 @@ public class EmptyAddressBook extends Fragment {
         });
 
 
-
         emptyAddressPhoneNOCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,8 +242,6 @@ public class EmptyAddressBook extends Fragment {
 
             }
         });
-
-
 
 
         getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
@@ -324,8 +317,6 @@ public class EmptyAddressBook extends Fragment {
 //                bundle.putString("type", "updateBilling");
 
 
-
-
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("address", (Serializable) deliveryAddress);
                 bundle.putString("type", "updateBilling");
@@ -350,14 +341,12 @@ public class EmptyAddressBook extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (addressId==null){
+                if (addressId == null) {
                     Toast.makeText(getActivity(), "Please Select an address ", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     LoadingDialog.showLoadingDialog(getActivity(), "");
                     setDefaultAddress();
                 }
-
 
 
             }
@@ -448,6 +437,7 @@ public class EmptyAddressBook extends Fragment {
         });
 
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
@@ -455,13 +445,12 @@ public class EmptyAddressBook extends Fragment {
         call.enqueue(new Callback<RefreshTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     fetchAddress();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -501,7 +490,6 @@ public class EmptyAddressBook extends Fragment {
                         list = response.body().getAddresses();
 
 
-
                         for (int i = 0; i < list.size(); i++) {
                             deliveryAddress = list.get(i);
                             boolean isBilling = response.body().getAddresses().get(i).getBillingAddress();
@@ -520,13 +508,6 @@ public class EmptyAddressBook extends Fragment {
                                 billingAddress.setText(line1A + " " + "\n" + stateA + " " + "\n" + countryA);
                                 list.remove(i);
                             }
-//                            else
-//                            {
-//                                billingAddressBox.setVisibility(View.GONE);
-//                                billingAddressText.setVisibility(View.VISIBLE);
-//                                billingAddAddressBtn.setVisibility(View.VISIBLE);
-//                            }
-
 
                         }
                         getDeliveryAddrsAdapter = new GetDeliveryAddrsAdapter(list, getContext(), new GetDeliveryAddrsAdapter.setDefaultAddress() {
