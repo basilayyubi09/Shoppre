@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp">
+
+                <RadioButton
+                    android:id="@+id/showAddressRadioBtn"
+                    android:layout_width="28dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Deliver To"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textFontWeight="400"/>
+
+                    <TextView
+                        android:id="@+id/showAddressName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nikkitha Shanker"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textFontWeight="500"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contact Number"
+                        android:textSize="10sp"
+                        android:textFontWeight="400"
+                        android:layout_marginTop="32dp"
+                        android:textColor="@color/black"/>
+
+
+                    <TextView
+                        android:id="@+id/showAddressPhoneNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+9714702 4444"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:textFontWeight="500"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="23dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Address"
+                    android:textColor="@color/black"
+                    android:textFontWeight="400"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/showAddressLine1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="182, 1st Floor, 2nd Cross Rd,\n7th Main, Koramangala\nBengaluru, Karnataka,\nIndia. 560034."
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:textSize="10sp" />
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C4C4C4"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="26dp"/>
+
+
+</LinearLayout>

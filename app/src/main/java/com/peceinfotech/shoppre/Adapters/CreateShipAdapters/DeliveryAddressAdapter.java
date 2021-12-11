@@ -59,7 +59,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
             else {
                 mCheckedPosition = position;
                 notifyDataSetChanged();
-                interfaceObject.radioOperation(address , holder.createShipmentAddressRadioBtn , position);
+                interfaceObject.radioOperation(address , holder.createShipmentAddressRadioBtn, position);
             }
         });
 

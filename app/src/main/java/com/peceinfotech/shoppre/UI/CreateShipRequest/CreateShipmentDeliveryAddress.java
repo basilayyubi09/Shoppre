@@ -36,7 +36,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
 
     RecyclerView createShipmentDeliveryAddressRecycler;
     DeliveryAddressAdapter deliveryAddressAdapter;
-    List<DeliveryListModel.Address> list = new ArrayList<>();
+    List<DeliveryListModel.Address> list;
     CardView emptyAddressCard, createShipmentDeliveryAddressCard;
     LinearLayout addMoreDeliveryAddressText;
     MaterialButton createShipmentAddAddrsBtn, deliveryAddrsProceedBtn;
@@ -63,6 +63,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
         addMoreDeliveryAddressText = view.findViewById(R.id.addMoreDeliveryAddressText);
         createShipmentAddAddrsBtn = view.findViewById(R.id.createShipmentAddAddrsBtn);
         deliveryAddrsProceedBtn = view.findViewById(R.id.deliveryAddrsProceedBtn);
+        list = new ArrayList<>();
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 

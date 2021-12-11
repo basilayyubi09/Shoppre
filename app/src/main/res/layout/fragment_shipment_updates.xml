@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
 
         <LinearLayout
@@ -17,7 +15,7 @@
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+
 
 
 </FrameLayout>
