@@ -145,6 +145,7 @@
                         android:background="@color/hint_color" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/addressForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -185,28 +186,6 @@
                                 android:layout_marginTop="3dp"
                                 android:background="@drawable/edit_text_bg">
 
-                                <!--                        <com.google.android.material.textfield.TextInputLayout-->
-                                <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                                <!--                            android:layout_width="wrap_content"-->
-                                <!--                            android:layout_height="28dp"-->
-                                <!--                            app:boxStrokeWidth="0dp"-->
-                                <!--                            app:boxStrokeWidthFocused="0dp"-->
-                                <!--                            app:endIconTint="@color/hint_color"-->
-                                <!--                            app:hintAnimationEnabled="false"-->
-                                <!--                            app:hintEnabled="false"-->
-                                <!--                            android:id="@+id/salutationTextInput">-->
-
-                                <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-                                <!--                                android:id="@+id/spinnerTitle"-->
-                                <!--                                android:layout_width="wrap_content"-->
-                                <!--                                android:layout_height="28dp"-->
-                                <!--                                android:hint="Title"-->
-                                <!--                                android:inputType="none"-->
-                                <!--                                android:padding="0dp"-->
-                                <!--                                android:textSize="12sp" />-->
-
-                                <!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
                                 <androidx.appcompat.widget.AppCompatSpinner
                                     android:id="@+id/createShipmentTitleSpinner"
                                     android:layout_width="wrap_content"
@@ -245,7 +224,32 @@
 
 
                             </LinearLayout>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_marginTop="2dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="* This is a required field"
+                                    android:textSize="10sp"
+                                    android:layout_marginLeft="2dp"
+                                    android:textColor="@color/design_default_color_error"
+                                    android:id="@+id/titleError"
+                                    android:visibility="gone"/>
 
+                                <TextView
+                                    android:visibility="gone"
+                                    android:id="@+id/nameError"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginTop="2dp"
+                                    android:text="* This is a required field"
+                                    android:textColor="@color/design_default_color_error"
+                                    android:textSize="10sp" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -307,19 +311,10 @@
                             </LinearLayout>
 
 
-                            <TextView
-                                android:id="@+id/titleError"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:layout_marginTop="2dp"
-                                android:text="* This is a required field"
-                                android:textColor="@color/design_default_color_error"
-                                android:textSize="10sp"
-                                android:visibility="gone" />
+
 
                             <TextView
-                                android:id="@+id/nameError"
+                                android:id="@+id/phoneError"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
@@ -327,7 +322,7 @@
                                 android:text="* This is a required field"
                                 android:textColor="@color/design_default_color_error"
                                 android:textSize="10sp"
-                                android:visibility="gone" />
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -508,37 +503,6 @@
 
                             </LinearLayout>
 
-
-                            <!--                    <LinearLayout-->
-                            <!--                        android:layout_width="match_parent"-->
-                            <!--                        android:layout_height="wrap_content"-->
-                            <!--                        android:background="@drawable/edit_text_bg"-->
-                            <!--                        android:layout_marginTop="3dp">-->
-
-                            <!--                        <com.google.android.material.textfield.TextInputLayout-->
-                            <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                            <!--                            android:layout_width="match_parent"-->
-                            <!--                            android:layout_height="28dp"-->
-                            <!--                            app:boxStrokeWidth="0dp"-->
-                            <!--                            app:boxStrokeWidthFocused="0dp"-->
-                            <!--                            app:endIconTint="@color/hint_color"-->
-                            <!--                            app:hintAnimationEnabled="false"-->
-                            <!--                            app:hintEnabled="false">-->
-
-                            <!--                            <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
-                            <!--                                -->
-                            <!--                                android:layout_width="match_parent"-->
-                            <!--                                android:layout_height="28dp"-->
-                            <!--                                android:hint="Choose Your Country"-->
-                            <!--                                android:inputType="none"-->
-                            <!--                                android:padding="0dp"-->
-                            <!--                                android:textSize="12sp"-->
-                            <!--                                />-->
-
-                            <!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-
-                            <!--                    </LinearLayout>-->
                             <TextView
                                 android:id="@+id/countryError"
                                 android:layout_width="wrap_content"
@@ -587,30 +551,6 @@
                                 android:visibility="gone" />
 
 
-                            <TextView
-                                android:id="@+id/errorNo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="right"
-                                android:layout_marginLeft="2dp"
-                                android:layout_marginTop="2dp"
-                                android:text="* This is a required field"
-                                android:textColor="@color/design_default_color_error"
-                                android:textSize="10sp"
-                                android:visibility="gone" />
-
-
-                            <TextView
-                                android:id="@+id/phoneError"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="right"
-                                android:layout_marginLeft="2dp"
-                                android:text="* This is a required field"
-                                android:textColor="@color/design_default_color_error"
-                                android:textSize="10sp"
-                                android:visibility="gone" />
-
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/addAddressBtn"
                                 android:layout_width="wrap_content"
@@ -634,6 +574,7 @@
 
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/billingAddressLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -691,15 +632,16 @@
                             android:text="@string/edit"
                             android:textColor="#3A5FD8"
                             android:textFontWeight="600" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="22dp"
+                            android:layout_marginVertical="14dp"
+                            android:background="@color/hint_color" />
                     </LinearLayout>
 
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="22dp"
-                        android:layout_marginVertical="14dp"
-                        android:background="@color/hint_color" />
+
 
                     <TextView
                         android:layout_width="wrap_content"

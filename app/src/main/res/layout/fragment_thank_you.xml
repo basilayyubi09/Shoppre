@@ -43,41 +43,40 @@
                         android:text="@string/your_order_was"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:visibility="gone"
+android:visibility="gone"
                         android:id="@+id/shipment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/your_shipment_request"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
+                    <TextView
 
-                    <LinearLayout
+                        android:id="@+id/shipment24"
+                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="This might take upto 24 hours"
+                        android:textColor="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="10sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Order ID: #"
-                            android:textColor="@color/black"
-                            android:textFontWeight="500"
-                            android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/orderId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order ID: #PS4395"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PS4395"
-                            android:textColor="@color/black"
-                            android:textFontWeight="500"
-                            android:textSize="12sp" />
-                    </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/viewOrder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp">
@@ -86,6 +85,31 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="View Your Order"
+                            android:textColor="#3A5FD8"
+                            android:textFontWeight="600"
+                            android:textSize="10sp" />
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/ic_arrow" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/viewShipment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="View Your Shipment"
                             android:textColor="#3A5FD8"
                             android:textFontWeight="600"
                             android:textSize="10sp" />

@@ -10,6 +10,7 @@ import com.peceinfotech.shoppre.AccountResponse.WalletAmountResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
+import com.peceinfotech.shoppre.CreateShipmentModelResponse.CreateShipmentResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ReadyToSendResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.RedirectShipmentResponse;
@@ -391,4 +392,12 @@ public interface AppApi {
             @Header("Authorization") String auth,
             @Query("packageIds") String type
     );
+
+    //https://uat-app1.shoppreglobal.com/api/shipments?package_ids=908
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/shipments?")
+    Call<CreateShipmentResponse> createShipment(
+            @Header("Authorization") String bearer,
+            @Query("package_ids") String type,
+            @Body String shipment);
 }

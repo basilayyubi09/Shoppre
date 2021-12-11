@@ -63,31 +63,33 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         } else {
 
         }
-
-        if (list.get(position).getStateName().equals("In Review")) {
-            holder.lockerViewMore.setVisibility(View.GONE);
-            holder.process.setVisibility(View.VISIBLE);
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.price_changed_background));
-        } else if (list.get(position).getStateName().equals("Action Required")) {
-            holder.lockerViewMore.setVisibility(View.VISIBLE);
-            holder.process.setVisibility(View.GONE);
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
-        } else if (list.get(position).getStateName().equals("Ready To Send")) {
-            holder.lockerViewMore.setVisibility(View.VISIBLE);
-            holder.process.setVisibility(View.GONE);
-            holder.action.setText("Ready To Ship");
-            holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
-        } else {
-            holder.lockerViewMore.setVisibility(View.VISIBLE);
-            holder.process.setVisibility(View.GONE);
-            holder.action.setText(list.get(position).getStateName());
-            holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+        if (list.get(position).getStateName()!=null){
+            if (list.get(position).getStateName().equals("In Review")) {
+                holder.lockerViewMore.setVisibility(View.GONE);
+                holder.process.setVisibility(View.VISIBLE);
+                holder.action.setText(list.get(position).getStateName());
+                holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.price_changed_background));
+            } else if (list.get(position).getStateName().equals("Action Required")) {
+                holder.lockerViewMore.setVisibility(View.VISIBLE);
+                holder.process.setVisibility(View.GONE);
+                holder.action.setText(list.get(position).getStateName());
+                holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
+            } else if (list.get(position).getStateName().equals("Ready To Send")) {
+                holder.lockerViewMore.setVisibility(View.VISIBLE);
+                holder.process.setVisibility(View.GONE);
+                holder.action.setText("Ready To Ship");
+                holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
+            } else {
+                holder.lockerViewMore.setVisibility(View.VISIBLE);
+                holder.process.setVisibility(View.GONE);
+                holder.action.setText(list.get(position).getStateName());
+                holder.action.setTextColor(context.getColor(R.color.in_review_blue_color));
+            }
         }
+
 
 
         holder.lockerViewMore.setOnClickListener(new View.OnClickListener() {

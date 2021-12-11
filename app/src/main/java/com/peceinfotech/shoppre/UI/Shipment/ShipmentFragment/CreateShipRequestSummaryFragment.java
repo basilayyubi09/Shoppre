@@ -37,10 +37,13 @@ import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
+import com.peceinfotech.shoppre.CreateShipmentModelResponse.CreateShipmentResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.ShipmentMeta;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.ThankYouFragment;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -55,13 +58,14 @@ import retrofit2.Response;
 
 public class CreateShipRequestSummaryFragment extends Fragment {
 
-    CheckBox checkBox, checkBoxCreateShipment;
+    CheckBox checkBoxCreateShipment;
     LinearLayout billingAddressLayout, addressForm, spinnerCountryLayout;
     MaterialButton createShipBtn;
     Spinner createShipmentTitleSpinner;
     ImageView titleTriangle;
     List<String> choicesList;
     String liquid;
+    boolean photoAmount = false, consolidation = false, gift = false, addExtraValue = false, shipInOriginal = false, giftWrapValue = false, expressProcessing = false, discardShoe = false;
     RelativeLayout shippingCharges, consolidationCharges, discardShoeBoxes,
             addExtra, shipIn, giftWrap, giftNote, setMax, express, overWeight, photoCharges;
     DeliveryListModel.Address address;
@@ -74,6 +78,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             billingEdit, billingAddress, billingNumber, billingTitle, photoPriceText, consPrice;
     String[] title = {"Title", "Mr", "Ms", "Mrs"};
     boolean isBilling = false;
+    Integer countryId;
+    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError, titleError;
     ShipmentMeta meta;
     MaterialButton addAddressBtn;
     String salutation, nameString, phoneNumberString, addressLine1String, addressLine2String, cityString, country, pinCodeString, cc, stateString;
@@ -84,6 +90,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     ArrayAdapter<Item> arrayAdapter;
     List<Item> list, duplicateList;
+    boolean isVisible = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -93,7 +100,17 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_ship_request_summary, container, false);
 
         addressList = new ArrayList<>();
-        checkBox = view.findViewById(R.id.checkBoxCreateShipment);
+
+        nameError = view.findViewById(R.id.nameError);
+        phoneError = view.findViewById(R.id.phoneError);
+        titleError = view.findViewById(R.id.titleError);
+        countryError = view.findViewById(R.id.countryError);
+        addressError = view.findViewById(R.id.addressError);
+        cityError = view.findViewById(R.id.cityError);
+        stateError = view.findViewById(R.id.stateError);
+        pinCodeError = view.findViewById(R.id.pinCodeError);
+
+
         billingAddressLayout = view.findViewById(R.id.billingAddressLayout);
         addressForm = view.findViewById(R.id.addressForm);
         spinnerCountry = view.findViewById(R.id.spinnerCountry);
@@ -147,6 +164,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             liquid = bundle.getString("liquid");
             meta = (ShipmentMeta) bundle.getSerializable("meta");
             address = (DeliveryListModel.Address) bundle.getSerializable("address");
+
+
             deliveryId = address.getId();
             name.setText(address.getName());
             if (!address.getLine2().equals("")) {
@@ -154,12 +173,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                         + address.getLine2() + "\n"
                         + address.getCity() + " - "
                         + address.getState() + "\n"
+                        + address.getPincode() + "\n"
                         + address.getCountry().getName());
             } else {
                 addressText.setText(address.getLine1() + "\n"
                         + address.getCity() + " - "
                         + address.getState() + "\n"
+                        + address.getPincode() + "\n"
                         + address.getCountry().getName());
+
             }
 
             if (!address.getPhone().equals("")) {
@@ -188,9 +210,6 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
 
 
-
-
-
         sharedPrefManager = new SharedPrefManager(getActivity());
         setUpBillingAddress();
 
@@ -204,7 +223,44 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //
-                Toast.makeText(getActivity(), String.valueOf(estimateTotal), Toast.LENGTH_SHORT).show();
+                if (!isVisible) {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("address_id", deliveryId);
+                    jsonObject.addProperty("billingAddress", false);
+                    jsonObject.addProperty("billing_address_id", deliveryId);
+                    jsonObject.addProperty("express_processing", expressProcessing);
+                    jsonObject.addProperty("extra_packing", addExtraValue);
+                    jsonObject.addProperty("gift_note", gift);
+                    jsonObject.addProperty("gift_note_text", "");
+                    jsonObject.addProperty("gift_wrap", giftWrapValue);
+                    jsonObject.addProperty("is_liquid", liquid);
+                    jsonObject.addProperty("original", shipInOriginal);
+
+
+                    callCreateShipmentApi(jsonObject);
+
+                } else {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("address_id", deliveryId);
+                    jsonObject.addProperty("billingAddress", false);
+                    jsonObject.addProperty("billing_address_id", billingId);
+                    jsonObject.addProperty("express_processing", expressProcessing);
+                    jsonObject.addProperty("extra_packing", addExtraValue);
+                    jsonObject.addProperty("gift_note", gift);
+                    jsonObject.addProperty("gift_note_text", "");
+                    jsonObject.addProperty("gift_wrap", giftWrapValue);
+
+
+                    jsonObject.addProperty("is_liquid", liquid);
+
+                    jsonObject.addProperty("max_weight", 0);
+                    jsonObject.addProperty("original", shipInOriginal);
+
+
+                    callCreateShipmentApi(jsonObject);
+
+                }
+
             }
         });
 
@@ -239,9 +295,16 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         addAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingDialog.showLoadingDialog(getActivity(), "");
-                callApi();
+                getTextFromField();
 
+                if (!validateSalutation() || !validateName() || !validatePhone() || !validateAddress()
+                        || !validateCity() || !validateState() || !validateCountry() || !validatePinCode()) {
+                    return;
+                } else {
+
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callApi();
+                }
             }
         });
         createShipmentTitleArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
@@ -270,12 +333,21 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (checkBoxCreateShipment.isChecked()) {
-                    setValuesOnEditField();
-                    addressForm.setVisibility(View.VISIBLE);
-                    billingAddressLayout.setVisibility(View.GONE);
+                    if (isBilling) {
+                        addressForm.setVisibility(View.GONE);
+                        billingAddressLayout.setVisibility(View.VISIBLE);
+                        isVisible = true;
+                    } else {
+                        addressForm.setVisibility(View.VISIBLE);
+                        billingAddressLayout.setVisibility(View.GONE);
+                        isVisible = false;
+
+                    }
+
                 } else {
+                    isVisible = false;
                     addressForm.setVisibility(View.GONE);
-                    billingAddressLayout.setVisibility(View.VISIBLE);
+                    billingAddressLayout.setVisibility(View.GONE);
                 }
             }
         });
@@ -284,6 +356,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 billingAddressLayout.setVisibility(View.GONE);
+                checkBoxCreateShipment.setChecked(true);
                 addressForm.setVisibility(View.VISIBLE);
                 setValuesOnEditField();
 
@@ -293,45 +366,172 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         return view;
     }
 
+    private void callCreateShipmentApi(JsonObject jsonObject) {
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        Call<CreateShipmentResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi().createShipment("Bearer " + sharedPrefManager.getBearerToken(), allIds, jsonObject.toString());
+        call.enqueue(new Callback<CreateShipmentResponse>() {
+            @Override
+            public void onResponse(Call<CreateShipmentResponse> call, Response<CreateShipmentResponse> response) {
+                if (response.code() == 200) {
+                    LoadingDialog.cancelLoading();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type" , "summary");
+                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+                    thankYouFragment.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
+                            ,thankYouFragment , null).addToBackStack(null).commit();
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi("create " , jsonObject);
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateShipmentResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void handleEstimate() {
 
         if (meta.getPhotoAmount() > 0) {
+            photoAmount = true;
             photoCharges.setVisibility(View.VISIBLE);
             estimateTotal = meta.getPhotoAmount() + estimateTotal;
             photoPriceText.setText("₹ " + String.valueOf(meta.getPhotoAmount()));
         }
         if (meta.getConsolidationChargeAmount() > 0) {
+            consolidation = true;
             consolidationCharges.setVisibility(View.VISIBLE);
             estimateTotal = meta.getConsolidationChargeAmount() + estimateTotal;
             consPrice.setText("₹ " + String.valueOf(meta.getConsolidationChargeAmount()));
 
         }
         if (choicesList.contains("gift")) {
+            gift = true;
             giftNote.setVisibility(View.VISIBLE);
             estimateTotal = 50 + estimateTotal;
         }
 
         if (choicesList.contains("add")) {
+            addExtraValue = true;
             addExtra.setVisibility(View.VISIBLE);
             estimateTotal = 500 + estimateTotal;
         }
 
         if (choicesList.contains("ship")) {
+            shipInOriginal = true;
             shipIn.setVisibility(View.VISIBLE);
         }
         if (choicesList.contains("wrap")) {
+            giftWrapValue = true;
             giftWrap.setVisibility(View.VISIBLE);
             estimateTotal = 100 + estimateTotal;
         }
         if (choicesList.contains("express")) {
+            expressProcessing = true;
             express.setVisibility(View.VISIBLE);
             estimateTotal = 200 + estimateTotal;
         }
         if (choicesList.contains("discard")) {
+            discardShoe = true;
             discardShoeBoxes.setVisibility(View.VISIBLE);
             estimateTotal = 100 + estimateTotal;
         }
         estimatePrice.setText("₹ " + String.valueOf(estimateTotal));
+    }
+
+
+    private boolean validateSalutation() {
+        if (salutation.equals("Title")) {
+            titleError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            titleError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+
+    private boolean validateName() {
+        if (nameString.equals("")) {
+            nameError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            nameError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+    private boolean validatePhone() {
+        if (phoneNumberString.equals("")) {
+            phoneError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            phoneError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+
+    private boolean validateAddress() {
+        if (addressLine1String.equals("")) {
+            addressError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            addressError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+    private boolean validateCity() {
+        if (cityString.equals("")) {
+            cityError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            cityError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+
+    private boolean validateState() {
+        if (stateString.equals("")) {
+            stateError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            stateError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+    private boolean validateCountry() {
+        if (country.equals("")) {
+            countryError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            countryError.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+
+    private boolean validatePinCode() {
+        if (pinCodeString.equals("")) {
+            pinCodeError.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            pinCodeError.setVisibility(View.GONE);
+            return true;
+        }
     }
 
     private void setValuesOnEditField() {
@@ -357,18 +557,20 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             DeliveryListModel.Address deliveryAddress = addressList.get(i);
 
             if (deliveryAddress.getBillingAddress()) {
-                isBilling = true;
-                billingId = deliveryAddress.getId();
-                billingAdd = deliveryAddress;
-                callAddBillingItem(deliveryAddress);
-                addressForm.setVisibility(View.GONE);
-                useLayout.setVisibility(View.VISIBLE);
-                billingAddressLayout.setVisibility(View.VISIBLE);
-            } else {
-                useLayout.setVisibility(View.GONE);
-                isBilling = false;
-                addressForm.setVisibility(View.VISIBLE);
-                billingAddressLayout.setVisibility(View.GONE);
+                if (deliveryAddress.getBillingAddress() != null) {
+                    isBilling = true;
+                    billingId = deliveryAddress.getId();
+                    billingAdd = deliveryAddress;
+                    callAddBillingItem(deliveryAddress);
+                    addressForm.setVisibility(View.GONE);
+                    useLayout.setVisibility(View.VISIBLE);
+                    billingAddressLayout.setVisibility(View.GONE);
+                } else {
+                    useLayout.setVisibility(View.GONE);
+                    isBilling = false;
+                    addressForm.setVisibility(View.VISIBLE);
+                    billingAddressLayout.setVisibility(View.GONE);
+                }
             }
 
 
@@ -458,7 +660,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         paramObject.addProperty("line2", addressLine2String);
         paramObject.addProperty("city", cityString);
         paramObject.addProperty("state", stateString);
-        paramObject.addProperty("country_id", "99");
+        paramObject.addProperty("country_id", countryId);
         paramObject.addProperty("pincode", pinCodeString);
         paramObject.addProperty("phone", "+" + cc + phoneNumberString);
         paramObject.addProperty("is_default", false);
@@ -497,7 +699,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
                 } else if (response.code() == 401) {
 //
-                    callRefreshTokenApi();
+                    JsonObject jsonObject = new JsonObject();
+                    callRefreshTokenApi("" , jsonObject);
 
                 } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
@@ -521,7 +724,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String type, JsonObject jsonObject) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -532,7 +735,13 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callApi();
+                    if (type.equals("create")){
+                        callCreateShipmentApi(jsonObject);
+                    }
+                    else {
+                        callApi();
+                    }
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -549,7 +758,6 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
 
     }
-
 
 
     private void showDialogue() {
@@ -574,6 +782,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 Object item = adapterView.getItemAtPosition(i);
                 if (item instanceof Item) {
                     Item item1 = (Item) item;
+                    countryId = ((Item) item).getId();
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
 
                 }

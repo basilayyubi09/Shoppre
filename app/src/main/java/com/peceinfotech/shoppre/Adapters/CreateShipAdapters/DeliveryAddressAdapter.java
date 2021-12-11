@@ -39,6 +39,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
         return new viewHolder(view , interfaceObject);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
@@ -46,7 +47,10 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         holder.createShipmentAddressName.setText(address.getName());
         holder.createShipmentPhoneNo.setText(address.getPhone());
-        holder.createShipmentAddress.setText(address.getLine1()+" - "+"\n"+address.getState()+" - "+address.getCity()+" - "+"\n"+address.getCountry().getName());
+        holder.createShipmentAddress.setText(address.getLine1()+
+                "\n"+address.getCity()+" - "+address.getState()+
+                "\n"+address.getPincode()+
+                "\n"+address.getCountry().getName());
         holder.createShipmentAddressRadioBtn.setChecked(position == mCheckedPosition);
         holder.createShipmentAddressRadioBtn.setOnClickListener(v -> {
             if (position == mCheckedPosition) {

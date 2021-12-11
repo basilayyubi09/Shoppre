@@ -15,6 +15,8 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.EmptyAddressBook;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ReferralFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
+import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 
@@ -22,9 +24,10 @@ public class ThankYouFragment extends Fragment {
 
     SharedPrefManager sharedPrefManager;
     LinearLayout address;
-    TextView shipment , order;
+    TextView shipment , order , shipment24 , orderId;
     MaterialButton invite;
     MaterialCardView note , addressCard;
+    LinearLayout viewOrder , viewShipment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,11 @@ public class ThankYouFragment extends Fragment {
         invite = view.findViewById(R.id.invite);
         shipment = view.findViewById(R.id.shipment);
         note = view.findViewById(R.id.note);
+        orderId = view.findViewById(R.id.orderId);
+        shipment24 = view.findViewById(R.id.shipment24);
+        viewOrder = view.findViewById(R.id.viewOrder);
+        viewShipment = view.findViewById(R.id.viewShipment);
+
         order = view.findViewById(R.id.order);
         addressCard = view.findViewById(R.id.addressCard);
 
@@ -44,9 +52,21 @@ public class ThankYouFragment extends Fragment {
                 addressCard.setVisibility(View.GONE);
                 note.setVisibility(View.VISIBLE);
                 order.setVisibility(View.GONE);
+                viewOrder.setVisibility(View.GONE);
+                viewShipment.setVisibility(View.VISIBLE);
+                orderId.setVisibility(View.GONE);
                 shipment.setVisibility(View.VISIBLE);
+                shipment24.setVisibility(View.VISIBLE);
             }
         }
+        viewShipment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
+                        , new ShipmentListingFragment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
