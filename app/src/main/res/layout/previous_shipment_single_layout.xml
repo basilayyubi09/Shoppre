@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="18dp">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/previousShipmentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Myntra"
+                android:textColor="@color/black"
+                android:textFontWeight="500"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/previousShipmentId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shipment ID #8473"
+            android:textColor="@color/black"
+            android:textFontWeight="500"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Contains Restricted Items"
+            android:textColor="#FF0101"
+            android:textFontWeight="500"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Contains Damaged &amp; Restricted Items"
+            android:textColor="#FF0101"
+            android:textFontWeight="500"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/previousShipmentStatus"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/order_placed_background"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Action Required"
+            android:textColor="@color/action_required_yellow_color"
+            android:textFontWeight="500"
+            android:textSize="9sp" />
+
+
+        <LinearLayout
+            android:id="@+id/previousShipmentViewShipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Shipment"
+                android:textColor="#3A5FD8"
+                android:textFontWeight="500"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/ic_arrow" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

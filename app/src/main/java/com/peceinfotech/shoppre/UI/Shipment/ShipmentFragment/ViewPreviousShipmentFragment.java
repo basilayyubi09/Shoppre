@@ -13,12 +13,15 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.LockerAdapters.ReadyToShipAdapter;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.PreviousShipmentAdapter;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ViewPreviousShipmentAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageListingResponse;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.Shipment;
 import com.peceinfotech.shoppre.Utils.CheckNetwork;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -33,16 +36,17 @@ import retrofit2.Response;
 
 public class ViewPreviousShipmentFragment extends Fragment {
 
-    RecyclerView returnedAndDiscardRecycler;
+    RecyclerView previousShipmentRecycler;
     SharedPrefManager sharedPrefManager;
-    List<PackageModel> list = new ArrayList<>();
-    ReadyToShipAdapter returnedAndDiscardAdapter;
+    List<Shipment> list;
+    PreviousShipmentAdapter previousShipmentAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_view_previous_shipment, container, false);
-        returnedAndDiscardRecycler = view.findViewById(R.id.returnedAndDiscardRecycler);
+        previousShipmentRecycler = view.findViewById(R.id.previousShipmentRecycler);
+         list = new ArrayList<>();
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
@@ -52,36 +56,39 @@ public class ViewPreviousShipmentFragment extends Fragment {
         } else {
 
             LoadingDialog.showLoadingDialog(getActivity(), getString(R.string.Loading));
-            callListingApi();
+            previousShipmentApi();
         }
         return view;
     }
-    private void callListingApi() {
-        Call<PackageListingResponse> call = RetrofitClient3
-                .getInstance3()
-                .getAppApi().cancelPackage("Bearer " + sharedPrefManager.getBearerToken());
-        call.enqueue(new Callback<PackageListingResponse>() {
+    private void previousShipmentApi() {
+        Call<PreviousShipmentModelResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().previousShipment("Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<PreviousShipmentModelResponse>() {
             @Override
-            public void onResponse(Call<PackageListingResponse> call, Response<PackageListingResponse> response) {
-                if (response.code() == 201) {
-                    list = response.body().getPackages();
-                    returnedAndDiscardAdapter = new ReadyToShipAdapter(list, getContext());
-                    returnedAndDiscardRecycler.setAdapter(returnedAndDiscardAdapter);
+            public void onResponse(Call<PreviousShipmentModelResponse> call, Response<PreviousShipmentModelResponse> response) {
+                if (response.code()==201){
+                    list = response.body().getShipments();
+                    previousShipmentAdapter = new PreviousShipmentAdapter(list, getContext());
+                    previousShipmentRecycler.setAdapter(previousShipmentAdapter);
+
                     LoadingDialog.cancelLoading();
-                } else if (response.code() == 401) {
+                }else if (response.code()==401){
                     callRefreshTokenApi();
-                } else {
+                }else {
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PackageListingResponse> call, Throwable t) {
+            public void onFailure(Call<PreviousShipmentModelResponse> call, Throwable t) {
+
                 LoadingDialog.cancelLoading();
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private void callRefreshTokenApi() {
@@ -96,7 +103,7 @@ public class ViewPreviousShipmentFragment extends Fragment {
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                 } else {
-                    callListingApi();
+                    previousShipmentApi();
                 }
             }
 

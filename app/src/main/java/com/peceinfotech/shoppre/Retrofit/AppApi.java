@@ -31,6 +31,7 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
 
@@ -400,4 +401,11 @@ public interface AppApi {
             @Header("Authorization") String bearer,
             @Query("package_ids") String type,
             @Body String shipment);
+
+    //https://uat-app1.shoppreglobal.com/api/shipments?bucket=DELIVERED
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipments?bucket=DELIVERED")
+    Call<PreviousShipmentModelResponse> previousShipment(
+            @Header("Authorization") String auth
+    );
 }
