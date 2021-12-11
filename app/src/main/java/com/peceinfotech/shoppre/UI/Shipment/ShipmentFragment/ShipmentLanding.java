@@ -240,7 +240,7 @@ public class ShipmentLanding extends Fragment {
 
             @Override
             public void onFailure(Call<ShipmentDetailsModelResponse> call, Throwable t) {
-
+                LoadingDialog.cancelLoading();
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
