@@ -13,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -30,10 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
+import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
@@ -76,6 +80,7 @@ public class ShipmentLanding extends Fragment {
     SharedPrefManager sharedPrefManager;
     ShipmentDetailsModelResponse modelResponse;
     CardView inReview, verifyPaymentTag, paymentConfirmTag, deliveredTag, dispatchedTagCard;
+    NestedScrollView nestedScrollView;
 
     boolean isInvoice = true;
     boolean isPayment = true;
@@ -134,6 +139,9 @@ public class ShipmentLanding extends Fragment {
         paymentConfirmHelpText = view.findViewById(R.id.paymentConfirmHelpText);
         dispatchedTagCard = view.findViewById(R.id.dispatchedTagCard);
         deliveredTag = view.findViewById(R.id.deliveredTagCard);
+//        nestedScrollView = view.findViewById(R.id.nestedScrollView);
+//
+//        nestedScrollView.setFillViewport(true);
 
 
 
@@ -149,6 +157,7 @@ public class ShipmentLanding extends Fragment {
         viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
         shipmentTabLayout.setupWithViewPager(viewPager);
+
 
 
         uploadWireTransferText.setOnClickListener(new View.OnClickListener() {
@@ -224,12 +233,42 @@ public class ShipmentLanding extends Fragment {
                     LoadingDialog.cancelLoading();
                     modelResponse = response.body();
                     setShipmentDetailsValue();
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
                 }
             }
 
             @Override
             public void onFailure(Call<ShipmentDetailsModelResponse> call, Throwable t) {
 
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
     }
@@ -279,26 +318,14 @@ public class ShipmentLanding extends Fragment {
         }
 
 
-//        for (int i=0; i<modelResponse.getPackages().size();i++){
-//            if (modelResponse.getPackages().get(i).getInvoice()==null){
-//                isInvoice=false;
-//            }else {
-//                isInvoice=true;
-//            }
-//        }
-//
-//        if (!isInvoice){
-//            uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-//        }
 
-        if (modelResponse.getPayment().getPaymentGatewayId()==null){
-            makePaymentBtn.setVisibility(View.VISIBLE);
-            makePaymentHelpText.setVisibility(View.VISIBLE);
-        }else {
-            makePaymentHelpText.setVisibility(View.GONE);
-            makePaymentBtn.setVisibility(View.GONE);
-        }
+//        if (modelResponse.getPayment().getPaymentGatewayId()==null){
+//            makePaymentBtn.setVisibility(View.VISIBLE);
+//            makePaymentHelpText.setVisibility(View.VISIBLE);
+//        }else {
+//            makePaymentHelpText.setVisibility(View.GONE);
+//            makePaymentBtn.setVisibility(View.GONE);
+//        }
 
 
 

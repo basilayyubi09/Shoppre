@@ -17,10 +17,10 @@ public class Shipment {
     private Object transactionId;
     @SerializedName("weight")
     @Expose
-    private Integer weight;
+    private Float weight;
     @SerializedName("final_weight")
     @Expose
-    private Integer finalWeight;
+    private Float finalWeight;
     @SerializedName("customer_id")
     @Expose
     private Integer customerId;
@@ -114,20 +114,20 @@ public class Shipment {
     }
 
 
-    public Integer getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
 
-    public Integer getFinalWeight() {
+    public Float getFinalWeight() {
         return finalWeight;
     }
 
-    public void setFinalWeight(Integer finalWeight) {
+    public void setFinalWeight(Float finalWeight) {
         this.finalWeight = finalWeight;
     }
 

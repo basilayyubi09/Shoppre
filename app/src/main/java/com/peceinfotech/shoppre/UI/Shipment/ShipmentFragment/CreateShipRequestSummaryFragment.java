@@ -2,13 +2,16 @@ package com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -17,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +41,7 @@ import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
+import com.peceinfotech.shoppre.Adapters.CreateShipAdapters.ShowAddressPopUpAdapter;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.LockerModelResponse.ShipmentMeta;
 import com.peceinfotech.shoppre.R;
@@ -71,7 +77,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     DeliveryListModel.Address billingAdd;
     List<DeliveryListModel.Address> addressList;
     TextView addressText, name, estimatePrice, number, billingName,spinnerCountry,
-            billingEdit, billingAddress, billingNumber, billingTitle, photoPriceText, consPrice;
+            billingEdit, billingAddress, billingNumber, billingTitle, photoPriceText, consPrice, change, editAddress, addAddress;
     String[] title = {"Title", "Mr", "Ms", "Mrs"};
     boolean isBilling = false;
     ShipmentMeta meta;
@@ -85,6 +91,10 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     ArrayAdapter<Item> arrayAdapter;
     List<Item> list, duplicateList;
+    List<DeliveryListModel.Address> list1;
+    ShowAddressPopUpAdapter showAddressPopUpAdapter;
+    DeliveryListModel.Address interfacedAddress;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -137,6 +147,10 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         billingTitle = view.findViewById(R.id.title);
         photoCharges = view.findViewById(R.id.photoCharges);
         spinnerCountryLayout = view.findViewById(R.id.spinnerCountryLayoutSummaryFragment);
+        change = view.findViewById(R.id.change);
+        editAddress = view.findViewById(R.id.editAddress);
+        addAddress = view.findViewById(R.id.addAddress);
+        list1 = new ArrayList<>();
         setCountryList("");
 
 
@@ -170,6 +184,23 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             }
 
         }
+
+
+        editAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddAddressDialog();
+            }
+        });
+
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddressDialog();
+            }
+        });
+
+
 
 
         ////Country Dropdown
@@ -307,6 +338,113 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
         handleEstimate();
         return view;
+    }
+
+    private void AddAddressDialog() {
+
+        Dialog dialog1 = new Dialog(getContext());
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog1.setCancelable(false);
+        dialog1.setContentView(R.layout.add_address_popup);
+
+        ImageView closeBtn;
+
+        closeBtn = dialog1.findViewById(R.id.closeBtn);
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.dismiss();
+            }
+        });
+
+        dialog1.show();
+
+    }
+
+    private void showAddressDialog() {
+
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.show_address_popup);
+        dialog.setCancelable(false);
+
+        RecyclerView showAddressPopupRecycler;
+        ImageView close;
+        showAddressPopupRecycler = dialog.findViewById(R.id.showAddressPopupRecycler);
+        close = dialog.findViewById(R.id.showAddressClose);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        showAllAddressApi(showAddressPopupRecycler, dialog);
+
+        dialog.show();
+
+    }
+
+    private void showAllAddressApi(RecyclerView showAddressPopupRecycler, Dialog dialog) {
+        Call<DeliveryListModel> call = RetrofitClient3.getInstance3().getAppApi().getAddresses("Bearer "+sharedPrefManager.getBearerToken());
+        call.enqueue(new Callback<DeliveryListModel>() {
+            @Override
+            public void onResponse(Call<DeliveryListModel> call, Response<DeliveryListModel> response) {
+                if (response.code()==200){
+                    list1 = response.body().getAddresses();
+                    showAddressPopUpAdapter = new ShowAddressPopUpAdapter(list1, getActivity(), new ShowAddressPopUpAdapter.Interface() {
+                        @Override
+                        public void popUpRadioButtonOperation(DeliveryListModel.Address address, RadioButton showAddressRadioButton) {
+
+
+                            interfacedAddress = address;
+
+                            name.setText(interfacedAddress.getName());
+                            if (!interfacedAddress.getLine1().equals("")){
+                                addressText.setText(interfacedAddress.getLine1() + "\n"
+                                        + interfacedAddress.getLine2() + "\n"
+                                        + interfacedAddress.getCity() + " - "
+                                        + interfacedAddress.getState() + "\n"
+                                        + interfacedAddress.getCountry().getName());
+                            }else {
+                                addressText.setText(interfacedAddress.getLine1() + "\n"
+                                        + interfacedAddress.getCity() + " - "
+                                        + interfacedAddress.getState() + "\n"
+                                        + interfacedAddress.getCountry().getName());
+                            }
+
+                            if (!interfacedAddress.getPhone().equals("")) {
+                                number.setText(String.valueOf(interfacedAddress.getPhone()));
+                            } else {
+                                number.setText("");
+                            }
+
+                            LoadingDialog.cancelLoading();
+                            dialog.dismiss();
+                        }
+                    });
+                    showAddressPopupRecycler.setAdapter(showAddressPopUpAdapter);
+
+
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                }else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryListModel> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void handleEstimate() {
