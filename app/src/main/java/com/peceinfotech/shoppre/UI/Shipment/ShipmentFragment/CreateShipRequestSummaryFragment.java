@@ -3,6 +3,7 @@ package com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
+import com.peceinfotech.shoppre.AccountResponse.AddAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.CountryResponse;
 import com.peceinfotech.shoppre.AccountResponse.Item;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
@@ -85,7 +87,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     String[] title = {"Title", "Mr", "Ms", "Mrs"};
     boolean isBilling = false;
     Integer countryId;
-    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError, titleError;
+    DeliveryListModel.Address deliveryAddress;
+    TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError, titleError, change, editAddress, addAddress;
     ShipmentMeta meta;
     MaterialButton addAddressBtn;
     String salutation, nameString, phoneNumberString, addressLine1String, addressLine2String, cityString, country, pinCodeString, cc, stateString;
@@ -179,7 +182,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             meta = (ShipmentMeta) bundle.getSerializable("meta");
             address = (DeliveryListModel.Address) bundle.getSerializable("address");
 
-
+            deliveryAddress = address;
+            countryId = deliveryAddress.getCountryId();
             deliveryId = address.getId();
             name.setText(address.getName());
             if (!address.getLine2().equals("")) {
@@ -204,6 +208,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 number.setText("");
             }
 
+//            salutation = address.getSalutation();
+//            nameString = address.getName();
+//            addressLine1String = address.getLine1();
+//            addressLine2String = address.getLine2();
+//            cityString = address.getCity();
+//            stateString = address.getState();
+//            country = address.getCountry().getName();
+//            pinCodeString = address.getPincode();
+//            phoneNumberString = address.getPhone();
 
         }
 
@@ -211,7 +224,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         editAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddAddressDialog();
+
+                AddAddressDialog("edit");
+            }
+        });
+
+        addAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddAddressDialog("add");
             }
         });
 
@@ -223,14 +244,13 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
 
 
-
-
         ////Country Dropdown
 
         spinnerCountryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialogue();
+                TextView countryCodeTextView1 = null;
+                showDialogue(false, spinnerCountry, countryCodeTextView1);
             }
         });
         spinnerCountry.setOnClickListener(new View.OnClickListener() {
@@ -242,6 +262,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
 
         sharedPrefManager = new SharedPrefManager(getActivity());
+
+
         setUpBillingAddress();
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +318,6 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
 
         final List<String> titleList = new ArrayList<>(Arrays.asList(title));
-
         final ArrayAdapter<String> createShipmentTitleArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList) {
             @Override
             public boolean isEnabled(int position) {
@@ -321,26 +342,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 return view1;
             }
         };
-
-
-        addAddressBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTextFromField();
-
-                if (!validateSalutation() || !validateName() || !validatePhone() || !validateAddress()
-                        || !validateCity() || !validateState() || !validateCountry() || !validatePinCode()) {
-                    return;
-                } else {
-
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callApi();
-                }
-            }
-        });
         createShipmentTitleArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
         createShipmentTitleSpinner.setAdapter(createShipmentTitleArrayAdapter);
-
         createShipmentTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -352,11 +355,28 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
             }
         });
-
         titleTriangle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createShipmentTitleSpinner.performClick();
+            }
+        });
+
+
+        addAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getTextFromField();
+
+                if (!validateSalutation(salutation, titleError) || !validateName(nameString, nameError) || !validatePhone(phoneNumberString, phoneError)
+                        || !validateAddress(addressLine1String, addressError) || !validateCity(cityString, cityError) || !validateState(stateString, stateError)
+                        || !validateCountry(country, countryError) || !validatePinCode(pinCodeString, pinCodeError)) {
+                    return;
+                } else {
+
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callApi();
+                }
             }
         });
 
@@ -389,7 +409,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 billingAddressLayout.setVisibility(View.GONE);
                 checkBoxCreateShipment.setChecked(true);
                 addressForm.setVisibility(View.VISIBLE);
-                setValuesOnEditField();
+                setValuesOnEditField(billingAdd);
 
             }
         });
@@ -397,13 +417,134 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         return view;
     }
 
-    private void AddAddressDialog() {
+    private void AddAddressDialog(String edit) {
 
         Dialog dialog1 = new Dialog(getContext());
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog1.setCancelable(false);
+        dialog1.setCancelable(true);
         dialog1.setContentView(R.layout.add_address_popup);
+        EditText pName, pAddressLine1, pAddressLine2, pCity, pState, pPhoneNumber, pPinCode;
+        Spinner address = dialog1.findViewById(R.id.addressSpinner);
+        ImageView addressTriangle = dialog1.findViewById(R.id.addressTriangle);
+        TextView dSpinnerCountry = dialog1.findViewById(R.id.dSpinnerCountry);
+        TextView countryCodeTextView = dialog1.findViewById(R.id.countryCodeTextView);
+        TextView addressTitle = dialog1.findViewById(R.id.title);
+        TextView titleErrorP, nameErrorP, addressErrorP, cityErrorP, stateErrorP, countryErrorP, pinCodeErrorP, errorNoP;
+        MaterialButton addBtn = dialog1.findViewById(R.id.addAddressBtn);
+        pName = dialog1.findViewById(R.id.name);
+        pAddressLine1 = dialog1.findViewById(R.id.addressLine1);
+        pAddressLine2 = dialog1.findViewById(R.id.addressLine2);
+        pCity = dialog1.findViewById(R.id.city);
+        pState = dialog1.findViewById(R.id.state);
+        pPinCode = dialog1.findViewById(R.id.pinCode);
+        pPhoneNumber = dialog1.findViewById(R.id.phoneNumber);
+        titleErrorP = dialog1.findViewById(R.id.titleError);
+        nameErrorP = dialog1.findViewById(R.id.nameError);
+        addressErrorP = dialog1.findViewById(R.id.addressError);
+        cityErrorP = dialog1.findViewById(R.id.cityError);
+        stateErrorP = dialog1.findViewById(R.id.stateError);
+        countryErrorP = dialog1.findViewById(R.id.countryError);
+        errorNoP = dialog1.findViewById(R.id.errorNo);
+        LinearLayout titleSpinner = dialog1.findViewById(R.id.titleSpinner);
+        pinCodeErrorP = dialog1.findViewById(R.id.pinCodeError);
+        addBtn = dialog1.findViewById(R.id.addAddressBtn);
+        LinearLayout dSpinnerCountryLayout = dialog1.findViewById(R.id.dSpinnerCountryLayout);
+
+        if (!edit.equals("add")) {
+            setValuesOnEditField2(deliveryAddress, pName, pAddressLine1, pAddressLine2
+                    , pCity, pState, dSpinnerCountry, pPinCode, pPhoneNumber);
+        }
+        titleSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                address.performClick();
+            }
+        });
+        if (edit.equals("add")) {
+            addressTitle.setText("Add Address");
+            addBtn.setText("Add Address");
+        } else {
+            addressTitle.setText("Update Address");
+            addBtn.setText("Update Address");
+        }
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getTextFromPopField(address, pName, pAddressLine1, pAddressLine2, pCity
+                        , pState, dSpinnerCountry, pPinCode, countryCodeTextView, pPhoneNumber);
+                if (!validateSalutation(salutation, titleErrorP) || !validateName(nameString, nameErrorP) || !validatePhone(phoneNumberString, errorNoP)
+                        || !validateAddress(addressLine1String, addressErrorP) || !validateCity(cityString, cityErrorP) || !validateState(stateString, stateErrorP)
+                        || !validateCountry(country, countryErrorP) || !validatePinCode(pinCodeString, pinCodeErrorP)) {
+                    return;
+                } else {
+                    if (edit.equals("add")) {
+                       callAddAddressApi(dialog1);
+                    } else {
+                        callUpdateApi(dialog1);
+                    }
+                }
+
+            }
+        });
+        dSpinnerCountryLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogue(true, dSpinnerCountry, countryCodeTextView);
+            }
+        });
+        dSpinnerCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dSpinnerCountryLayout.performClick();
+            }
+        });
+
+        final List<String> titleList1 = new ArrayList<>(Arrays.asList(title));
+        final ArrayAdapter<String> addressArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList1) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getDropDownView(position, convertView, parent);
+                TextView titletv = (TextView) view1;
+
+                if (position == 0) {
+                    titletv.setTextColor(Color.GRAY);
+                    titletv.setVisibility(View.GONE);
+                } else {
+                    titletv.setTextColor(Color.BLACK);
+                }
+                return view1;
+            }
+        };
+        addressArrayAdapter.setDropDownViewResource(R.layout.title_spinner);
+        address.setAdapter(addressArrayAdapter);
+        address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        titleTriangle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addressTriangle.performClick();
+            }
+        });
 
         ImageView closeBtn;
 
@@ -420,13 +561,193 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
     }
 
+
+    private void callAddAddressApi(Dialog dialog1) {
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+
+        String firstName, lastName = "";
+
+
+        if (nameString.split("\\w+").length > 1) {
+
+            lastName = nameString.substring(nameString.lastIndexOf(" ") + 1);
+            firstName = nameString.substring(0, nameString.lastIndexOf(' '));
+        } else {
+            firstName = nameString;
+        }
+
+        JsonObject paramObject = new JsonObject();
+        paramObject.addProperty("name", nameString);
+        paramObject.addProperty("salutation", salutation);
+        paramObject.addProperty("first_name", firstName);
+        paramObject.addProperty("last_name", lastName);
+        paramObject.addProperty("line1", addressLine1String);
+        paramObject.addProperty("line2", addressLine2String);
+        paramObject.addProperty("city", cityString);
+        paramObject.addProperty("state", stateString);
+        paramObject.addProperty("country_id", countryId);
+        paramObject.addProperty("pincode", pinCodeString);
+        paramObject.addProperty("phone",  cc + phoneNumberString);
+        paramObject.addProperty("is_default", false);
+        paramObject.addProperty("customer_id", sharedPrefManager.getId());
+        paramObject.addProperty("is_billing_address", false);
+        String bearerToken = sharedPrefManager.getBearerToken();
+        Call<AddAddressResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().addAddress("Bearer " + bearerToken, paramObject.toString());
+        call.enqueue(new Callback<AddAddressResponse>() {
+            @Override
+            public void onResponse(Call<AddAddressResponse> call, Response<AddAddressResponse> response) {
+
+                if (response.code() == 201) {
+                    LoadingDialog.cancelLoading();
+                    countryId = Integer.valueOf(response.body().getCountryId());
+                    deliveryId = response.body().getId();
+                    name.setText(response.body().getName());
+
+                    if (!response.body().getLine2().equals("")) {
+                        addressText.setText(response.body().getLine1() + "\n"
+                                + response.body().getLine2() + "\n"
+                                + response.body().getCity() + " - "
+                                + response.body().getState() + "\n"
+                                + response.body().getPincode() );
+                    } else {
+                        addressText.setText(response.body().getLine1() + "\n"
+                                + response.body().getCity() + " - "
+                                + response.body().getState() + "\n"
+                                + response.body().getPincode() );
+
+                    }
+
+                    if (!response.body().getPhone().equals("")) {
+                        number.setText(String.valueOf(response.body().getPhone()));
+                    } else {
+                        number.setText("");
+                    }
+                    Toast.makeText(getActivity(), "Address Added Successfully ", Toast.LENGTH_SHORT).show();
+                    dialog1.dismiss();
+                } else if (response.code() == 401) {
+
+                    JsonObject jsonObject = new JsonObject();
+                    callRefreshTokenApi("update", jsonObject);
+
+                } else if (response.code() == 406) {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddAddressResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+    }
+
+
+    private void callUpdateApi(Dialog dialog1) {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        JsonObject object = new JsonObject();
+        String firstName, lastName = "";
+
+
+        if (nameString.split("\\w+").length > 1) {
+
+            lastName = nameString.substring(nameString.lastIndexOf(" ") + 1);
+            firstName = nameString.substring(0, nameString.lastIndexOf(' '));
+        } else {
+            firstName = nameString;
+        }
+        object.addProperty("name", nameString);
+        object.addProperty("salutation", salutation);
+        object.addProperty("first_name", firstName);
+        object.addProperty("last_name", lastName);
+        object.addProperty("line1", addressLine1String);
+        object.addProperty("line2", addressLine2String);
+        object.addProperty("city", cityString);
+        object.addProperty("state", stateString);
+        object.addProperty("country_id", countryId);
+        object.addProperty("pincode", pinCodeString);
+        if (cc == null) {
+            object.addProperty("phone", phoneNumberString);
+
+        } else {
+            object.addProperty("phone", cc + phoneNumberString);
+
+        }
+//        Toast.makeText(getActivity(), String.valueOf(cc), Toast.LENGTH_SHORT).show();
+        object.addProperty("is_default", false);
+        object.addProperty("customer_id", sharedPrefManager.getId());
+        object.addProperty("is_billing_address", false);
+
+        Call<UpdateAddressResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .UpdateAddress("Bearer " + sharedPrefManager.getBearerToken()
+                        , deliveryId
+                        , object.toString());
+        call.enqueue(new Callback<UpdateAddressResponse>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
+                if (response.code() == 200) {
+
+                    name.setText(nameString);
+                    number.setText(phoneNumberString);
+                    if (!addressLine2String.equals("")) {
+                        addressText.setText(addressLine1String + "\n"
+                                + addressLine2String + "\n"
+                                + cityString + " - "
+                                + stateString + "\n"
+                                + pinCodeString + "\n"
+                                + country);
+                    } else {
+                        addressText.setText(addressLine1String + "\n"
+                                + cityString + " - "
+                                + stateString + "\n"
+                                + pinCodeString + "\n"
+                                + country);
+                    }
+                    LoadingDialog.cancelLoading();
+                    dialog1.dismiss();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (response.code() == 401) {
+                    JsonObject jsonObject = new JsonObject();
+                    callRefreshTokenApi("update", jsonObject);
+                } else {
+                    LoadingDialog.cancelLoading();
+
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UpdateAddressResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
+
     private void showAddressDialog() {
 
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.show_address_popup);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         RecyclerView showAddressPopupRecycler;
         ImageView close;
@@ -443,32 +764,41 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         LoadingDialog.showLoadingDialog(getActivity(), "");
         showAllAddressApi(showAddressPopupRecycler, dialog);
 
-        dialog.show();
 
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dialog.dismiss();
+                LoadingDialog.cancelLoading();
+            }
+        });
     }
 
     private void showAllAddressApi(RecyclerView showAddressPopupRecycler, Dialog dialog) {
-        Call<DeliveryListModel> call = RetrofitClient3.getInstance3().getAppApi().getAddresses("Bearer "+sharedPrefManager.getBearerToken());
+        Call<DeliveryListModel> call = RetrofitClient3.getInstance3().getAppApi().getAddresses("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<DeliveryListModel>() {
             @Override
             public void onResponse(Call<DeliveryListModel> call, Response<DeliveryListModel> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
+                    dialog.show();
                     list1 = response.body().getAddresses();
                     showAddressPopUpAdapter = new ShowAddressPopUpAdapter(list1, getActivity(), new ShowAddressPopUpAdapter.Interface() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void popUpRadioButtonOperation(DeliveryListModel.Address address, RadioButton showAddressRadioButton) {
 
 
                             interfacedAddress = address;
-
+                            deliveryId = address.getId();
+                            countryId = interfacedAddress.getCountryId();
                             name.setText(interfacedAddress.getName());
-                            if (!interfacedAddress.getLine1().equals("")){
+                            if (!interfacedAddress.getLine1().equals("")) {
                                 addressText.setText(interfacedAddress.getLine1() + "\n"
                                         + interfacedAddress.getLine2() + "\n"
                                         + interfacedAddress.getCity() + " - "
                                         + interfacedAddress.getState() + "\n"
                                         + interfacedAddress.getCountry().getName());
-                            }else {
+                            } else {
                                 addressText.setText(interfacedAddress.getLine1() + "\n"
                                         + interfacedAddress.getCity() + " - "
                                         + interfacedAddress.getState() + "\n"
@@ -488,10 +818,12 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     showAddressPopupRecycler.setAdapter(showAddressPopUpAdapter);
 
 
-                }else if (response.code()==401){
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
-                }else {
+                } else if (response.code() == 401) {
+                    JsonObject jsonObject = new JsonObject();
+                    callRefreshTokenApi("", jsonObject);
+
+                } else {
+
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -505,7 +837,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     }
 
     private void callCreateShipmentApi(JsonObject jsonObject) {
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<CreateShipmentResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi().createShipment("Bearer " + sharedPrefManager.getBearerToken(), allIds, jsonObject.toString());
@@ -515,16 +847,14 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
-                    bundle.putString("type" , "summary");
+                    bundle.putString("type", "summary");
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
-                            ,thankYouFragment , null).addToBackStack(null).commit();
-                }
-                else if (response.code()==401){
-                    callRefreshTokenApi("create " , jsonObject);
-                }
-                else {
+                            , thankYouFragment, null).addToBackStack(null).commit();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("create ", jsonObject);
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -588,103 +918,127 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     }
 
 
-    private boolean validateSalutation() {
-        if (salutation.equals("Title")) {
-            titleError.setVisibility(View.VISIBLE);
+    private boolean validateSalutation(String salutation1, TextView titleError1) {
+        if (salutation1.equals("Title")) {
+            titleError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            titleError.setVisibility(View.GONE);
+            titleError1.setVisibility(View.GONE);
             return true;
         }
     }
 
 
-    private boolean validateName() {
-        if (nameString.equals("")) {
-            nameError.setVisibility(View.VISIBLE);
+    private boolean validateName(String nameString1, TextView nameError1) {
+        if (nameString1.equals("")) {
+            nameError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            nameError.setVisibility(View.GONE);
+            nameError1.setVisibility(View.GONE);
             return true;
         }
     }
 
-    private boolean validatePhone() {
-        if (phoneNumberString.equals("")) {
-            phoneError.setVisibility(View.VISIBLE);
+    private boolean validatePhone(String phoneNumberString1, TextView phoneError1) {
+        if (phoneNumberString1.equals("")) {
+            phoneError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            phoneError.setVisibility(View.GONE);
-            return true;
-        }
-    }
-
-
-    private boolean validateAddress() {
-        if (addressLine1String.equals("")) {
-            addressError.setVisibility(View.VISIBLE);
-            return false;
-        } else {
-            addressError.setVisibility(View.GONE);
-            return true;
-        }
-    }
-
-    private boolean validateCity() {
-        if (cityString.equals("")) {
-            cityError.setVisibility(View.VISIBLE);
-            return false;
-        } else {
-            cityError.setVisibility(View.GONE);
+            phoneError1.setVisibility(View.GONE);
             return true;
         }
     }
 
 
-    private boolean validateState() {
-        if (stateString.equals("")) {
-            stateError.setVisibility(View.VISIBLE);
+    private boolean validateAddress(String addressLine11, TextView addressError1) {
+        if (addressLine11.equals("")) {
+            addressError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            stateError.setVisibility(View.GONE);
+            addressError1.setVisibility(View.GONE);
             return true;
         }
     }
 
-    private boolean validateCountry() {
-        if (country.equals("")) {
-            countryError.setVisibility(View.VISIBLE);
+    private boolean validateCity(String cityString1, TextView cityError1) {
+        if (cityString1.equals("")) {
+            cityError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            countryError.setVisibility(View.GONE);
+            cityError1.setVisibility(View.GONE);
             return true;
         }
     }
 
 
-    private boolean validatePinCode() {
-        if (pinCodeString.equals("")) {
-            pinCodeError.setVisibility(View.VISIBLE);
+    private boolean validateState(String stateString1, TextView stateError1) {
+        if (stateString1.equals("")) {
+            stateError1.setVisibility(View.VISIBLE);
             return false;
         } else {
-            pinCodeError.setVisibility(View.GONE);
+            stateError1.setVisibility(View.GONE);
             return true;
         }
     }
 
-    private void setValuesOnEditField() {
+    private boolean validateCountry(String country1, TextView countryError1) {
+        if (country1.equals("")) {
+            countryError1.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            countryError1.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+
+    private boolean validatePinCode(String pinCodeString1, TextView pinCodeError1) {
+        if (pinCodeString1.equals("")) {
+            pinCodeError1.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            pinCodeError1.setVisibility(View.GONE);
+            return true;
+        }
+    }
+
+    private void setValuesOnEditField2(DeliveryListModel.Address deliveryAddress1, EditText pName
+            , EditText pAddressLine1, EditText pAddressLine2, EditText pCity, EditText pState
+            , TextView dSpinnerCountry, EditText pPinCode, EditText pPhoneNumber) {
+
+
+        addAddressBtn.setText("Update Address");
+        billingTitle.setText("Update Billing Address");
+
+        pName.setText(deliveryAddress1.getName());
+        pPhoneNumber.setText(deliveryAddress1.getPhone());
+        pAddressLine1.setText(deliveryAddress1.getLine1());
+        pCity.setText(deliveryAddress1.getCity());
+        pState.setText(deliveryAddress1.getState());
+        dSpinnerCountry.setText(deliveryAddress1.getCountry().getName());
+        pPinCode.setText(deliveryAddress1.getPincode());
+        if (!deliveryAddress1.getLine2().equals("")) {
+            pAddressLine2.setText(deliveryAddress1.getLine2());
+        }
+
+    }
+
+    private void setValuesOnEditField(DeliveryListModel.Address deliveryAddress) {
 
         checkBoxCreateShipment.setChecked(true);
         addAddressBtn.setText("Update Address");
         billingTitle.setText("Update Billing Address");
-
-        billingEditName.setText(nameString);
-        updateProfileNumber.getEditText().setText(phoneNumberString);
-        addressLine1.setText(addressLine1String);
-        city.setText(cityString);
-        state.setText(stateString);
-        spinnerCountry.setText(country);
-        pinCode.setText(pinCodeString);
+//        addressLine1, addressLine2, city, state, pinCode, billingEditName
+        billingEditName.setText(deliveryAddress.getName());
+        updateProfileNumber.getEditText().setText(deliveryAddress.getPhone());
+        addressLine1.setText(deliveryAddress.getLine1());
+        city.setText(deliveryAddress.getCity());
+        state.setText(deliveryAddress.getState());
+        spinnerCountry.setText(deliveryAddress.getCountry().getName());
+        pinCode.setText(deliveryAddress.getPhone());
+        if (!deliveryAddress.getLine2().equals("")) {
+            addressLine2.setText(deliveryAddress.getLine2());
+        }
 
     }
 
@@ -692,14 +1046,13 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     private void setUpBillingAddress() {
 
         for (int i = 0; i < addressList.size(); i++) {
-            DeliveryListModel.Address deliveryAddress = addressList.get(i);
+            billingAdd = addressList.get(i);
 
-            if (deliveryAddress.getBillingAddress()) {
-                if (deliveryAddress.getBillingAddress() != null) {
+            if (billingAdd.getBillingAddress()) {
+                if (billingAdd.getBillingAddress() != null) {
                     isBilling = true;
-                    billingId = deliveryAddress.getId();
-                    billingAdd = deliveryAddress;
-                    callAddBillingItem(deliveryAddress);
+                    billingId = billingAddress.getId();
+                    callAddBillingItem(billingAdd);
                     addressForm.setVisibility(View.GONE);
                     useLayout.setVisibility(View.VISIBLE);
                     billingAddressLayout.setVisibility(View.GONE);
@@ -716,20 +1069,20 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     }
 
     @SuppressLint("SetTextI18n")
-    private void callAddBillingItem(DeliveryListModel.Address deliveryAddress) {
+    private void callAddBillingItem(DeliveryListModel.Address deliveryAddress1) {
 
 
-        nameString = deliveryAddress.getName();
-        addressLine1String = deliveryAddress.getLine1();
-        addressLine2String = deliveryAddress.getLine2();
-        cityString = deliveryAddress.getCity();
-        stateString = deliveryAddress.getState();
-        salutation = deliveryAddress.getSalutation();
-        country = deliveryAddress.getCountry().getName();
-        phoneNumberString = deliveryAddress.getPhone();
-        pinCodeString = deliveryAddress.getPincode();
+        nameString = deliveryAddress1.getName();
+        addressLine1String = deliveryAddress1.getLine1();
+        addressLine2String = deliveryAddress1.getLine2();
+        cityString = deliveryAddress1.getCity();
+        stateString = deliveryAddress1.getState();
+        salutation = deliveryAddress1.getSalutation();
+        country = deliveryAddress1.getCountry().getName();
+        phoneNumberString = deliveryAddress1.getPhone();
+        pinCodeString = deliveryAddress1.getPincode();
 
-        billingId = deliveryAddress.getId();
+        billingId = deliveryAddress1.getId();
 
 
         billingName.setText(nameString);
@@ -740,25 +1093,25 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 + pinCodeString + "\n"
                 + country);
 
+
     }
 
-    @SuppressLint("SetTextI18n")
-    private void setTextAfterUpdate() {
-        billingName.setText(nameString);
-        billingNumber.setText(phoneNumberString);
-        getTextFromField();
-        if (addressLine2String.equals("")) {
-            billingAddress.setText(addressLine1String + "\n"
-                    + addressLine2String + "\n"
-                    + cityString + " - "
-                    + stateString + "\n"
-                    + country);
-        } else {
-            billingAddress.setText(addressLine1String + "\n"
-                    + cityString + " - "
-                    + stateString + "\n"
-                    + country);
-        }
+
+    private void getTextFromPopField(Spinner address, EditText pName,
+                                     EditText pAddressLine1, EditText pAddressLine2, EditText pCity, EditText pState
+            , TextView dSpinnerCountry, EditText pPinCode, TextView countryCodeTextView, EditText pPhoneNumber) {
+        nameString = pName.getText().toString().trim();
+        addressLine1String = pAddressLine1.getText().toString().trim();
+        addressLine2String = pAddressLine2.getText().toString().trim();
+        cityString = pCity.getText().toString().trim();
+        stateString = pState.getText().toString().trim();
+        pinCodeString = pPinCode.getText().toString().trim();
+        phoneNumberString = pPhoneNumber.getText().toString().trim();
+        salutation = address.getSelectedItem().toString();
+        country = dSpinnerCountry.getText().toString();
+        cc = countryCodeTextView.getText().toString();
+
+
     }
 
     private void getTextFromField() {
@@ -822,6 +1175,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
                     billingAddressLayout.setVisibility(View.VISIBLE);
                     addressForm.setVisibility(View.GONE);
+                    checkBoxCreateShipment.setChecked(true);
+                    isBilling = true;
 //                    callAddBillingItem(newAddress);
                     billingName.setText(nameString);
                     billingNumber.setText(phoneNumberString);
@@ -838,7 +1193,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 } else if (response.code() == 401) {
 //
                     JsonObject jsonObject = new JsonObject();
-                    callRefreshTokenApi("" , jsonObject);
+                    callRefreshTokenApi("", jsonObject);
 
                 } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
@@ -873,10 +1228,12 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    if (type.equals("create")){
+                    if (type.equals("create")) {
                         callCreateShipmentApi(jsonObject);
-                    }
-                    else {
+                    } else if (type.equals("update")) {
+                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong! Please Try Again.", Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    } else {
                         callApi();
                     }
 
@@ -898,7 +1255,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     }
 
 
-    private void showDialogue() {
+    private void showDialogue(boolean b, TextView spinnerCountry1, TextView countryCodeTextView) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View row = getLayoutInflater().inflate(R.layout.country_dialog, null);
 
@@ -922,10 +1279,16 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     Item item1 = (Item) item;
                     countryId = ((Item) item).getId();
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
+                    int countryCode = ((Item) item).getPhoneCode();
+                    if (b) {
+                        countryCodeTextView.setText("+" + String.valueOf(countryCode));
+                        countryCodeTextView.setTextColor(R.color.black);
+                    }
 
                 }
-                spinnerCountry.setText(adapterView.getItemAtPosition(i).toString());
-                spinnerCountry.setTextColor(R.color.black);
+
+                spinnerCountry1.setText(adapterView.getItemAtPosition(i).toString());
+                spinnerCountry1.setTextColor(R.color.black);
                 inputLayout.getEditText().setText("");
                 dialog.dismiss();
             }
