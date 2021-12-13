@@ -856,7 +856,8 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                >
 
 
                 <com.google.android.material.appbar.AppBarLayout

@@ -9,6 +9,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -16,19 +25,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
-import android.provider.MediaStore;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,13 +38,10 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
-import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
-import com.peceinfotech.shoppre.Utils.CancelShipmentDialog;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
-import com.peceinfotech.shoppre.Utils.UploadInvoiceDialog;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -159,6 +152,7 @@ public class ShipmentLanding extends Fragment {
         viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details");
         viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
+
         shipmentTabLayout.setupWithViewPager(viewPager);
 
 
@@ -253,16 +247,16 @@ public class ShipmentLanding extends Fragment {
 
     private void shipmentDetailsApi() {
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().shipmentDetails("Bearer "+ sharedPrefManager.getBearerToken(), id);
+                .getAppApi().shipmentDetails("Bearer " + sharedPrefManager.getBearerToken(), id);
         call.enqueue(new Callback<ShipmentDetailsModelResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     modelResponse = response.body();
                     setShipmentDetailsValue();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 }
             }
@@ -321,32 +315,30 @@ public class ShipmentLanding extends Fragment {
         contactNumber.setText(modelResponse.getShipment().getPhone());
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()));
 
-
-        if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0){
+        if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
             dimension.setText("To be Calculated");
-        }else {
-            dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength())+"cm"+" x "+String.valueOf(modelResponse.getShipment().getBoxHeight())+"cm"+" x "+String.valueOf(modelResponse.getShipment().getBoxWidth()));
+        } else {
+            dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
         }
 
-        if (modelResponse.getShipment().getVolumetricWeight()==0){
+        if (modelResponse.getShipment().getVolumetricWeight() == 0) {
             volumetricWeight.setText("To be Calculated");
-        }else {
+        } else {
             volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()));
         }
 
-        if (modelResponse.getShipment().getFinalWeight()==0){
+        if (modelResponse.getShipment().getFinalWeight() == 0) {
             finalWeight.setText("To be Calculated");
-        }else {
+        } else {
             finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
         }
 
 
-        if (modelResponse.getShipment().getSubTotalAmount()==0){
+        if (modelResponse.getShipment().getSubTotalAmount() == 0) {
             totalCost.setText("To be Calculated");
-        }else {
+        } else {
             totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
         }
-
 
 
 //        if (modelResponse.getPayment().getPaymentGatewayId()==null){
@@ -358,29 +350,28 @@ public class ShipmentLanding extends Fragment {
 //        }
 
 
-
-        if (stateName.equals("Awaiting Payment")){
+        if (stateName.equals("Awaiting Payment")) {
             verifyPaymentTag.setVisibility(View.VISIBLE);
             verifyPaymentHelpText.setVisibility(View.VISIBLE);
             uploadWireTransferText.setVisibility(View.VISIBLE);
             changePaymentMethodText.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("In Review")){
+        } else if (stateName.equals("In Review")) {
             inReview.setVisibility(View.VISIBLE);
             inReviewHelpText.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("Pending Invoice Upload")){
+        } else if (stateName.equals("Pending Invoice Upload")) {
             uploadInvoiceHelpText.setVisibility(View.VISIBLE);
             uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("Payment Failed")){
+        } else if (stateName.equals("Payment Failed")) {
             paymentFailedTag.setVisibility(View.VISIBLE);
             retryPaymentBtn.setVisibility(View.VISIBLE);
             retryPaymentHelpText.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("Payment Confirmed")){
+        } else if (stateName.equals("Payment Confirmed")) {
             paymentConfirmTag.setVisibility(View.VISIBLE);
             paymentConfirmHelpText.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("Dispatched")){
+        } else if (stateName.equals("Dispatched")) {
             dispatchedTagCard.setVisibility(View.VISIBLE);
             uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-        }else if (stateName.equals("Delivered")){
+        } else if (stateName.equals("Delivered")) {
             deliveredTag.setVisibility(View.VISIBLE);
             uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
         }
@@ -438,18 +429,17 @@ public class ShipmentLanding extends Fragment {
         });
 
 
-
         dialog.show();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                Cursor cursor = getContext().getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -459,5 +449,6 @@ public class ShipmentLanding extends Fragment {
                 filePathGlobal.setText(picturePath);
             }
         }
-}
+    }
+
 }

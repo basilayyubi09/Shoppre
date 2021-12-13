@@ -146,6 +146,7 @@ public class OrderSummaryFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
                     bundle.putInt("id",shoppreId);
+
                     bundle.putSerializable("list" , (Serializable) list);
                     FinalOrderSummaryFragment  finalOrder = new FinalOrderSummaryFragment();
                     finalOrder.setArguments(bundle);

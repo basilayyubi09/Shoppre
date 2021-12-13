@@ -14,6 +14,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.EmptyAddressBook;
 import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ReferralFragment;
+import com.peceinfotech.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
@@ -28,6 +29,8 @@ public class ThankYouFragment extends Fragment {
     MaterialButton invite;
     MaterialCardView note , addressCard;
     LinearLayout viewOrder , viewShipment;
+    MaterialButton wtspBtn;
+    Integer id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +41,7 @@ public class ThankYouFragment extends Fragment {
         invite = view.findViewById(R.id.invite);
         shipment = view.findViewById(R.id.shipment);
         note = view.findViewById(R.id.note);
+        wtspBtn = view.findViewById(R.id.wtspBtn);
         orderId = view.findViewById(R.id.orderId);
         shipment24 = view.findViewById(R.id.shipment24);
         viewOrder = view.findViewById(R.id.viewOrder);
@@ -48,6 +52,7 @@ public class ThankYouFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle!=null){
+
             if (bundle.getString("type").equals("summary")){
                 addressCard.setVisibility(View.GONE);
                 note.setVisibility(View.VISIBLE);
@@ -58,6 +63,21 @@ public class ThankYouFragment extends Fragment {
                 shipment.setVisibility(View.VISIBLE);
                 shipment24.setVisibility(View.VISIBLE);
             }
+            else if (bundle.getString("type").equals("order")){
+             id = bundle.getInt("id");
+            }
+
+        }
+        if (id!=null){
+            orderId.setText("#"+String.valueOf(id));
+            viewOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
+                            , new OrderFragment(), null)
+                            .addToBackStack(null).commit();
+                }
+            });
         }
         viewShipment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +103,13 @@ public class ThankYouFragment extends Fragment {
             }
         });
 
-
+        wtspBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ViewProfile(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
         return view;
     }
 }
