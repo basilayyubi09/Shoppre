@@ -230,7 +230,7 @@ public class ShipmentLanding extends Fragment {
                     OrderActivity.fragmentManager.popBackStack();
                     LoadingDialog.cancelLoading();
                 }else if(response.code()==400){
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "You can not cancel shipment after 1 hour from shipment creation", Toast.LENGTH_LONG).show();
                     LoadingDialog.cancelLoading();
                 }
                 else if (response.code()==401){
@@ -320,6 +320,7 @@ public class ShipmentLanding extends Fragment {
         requestDate.setText(month_name);
         contactNumber.setText(modelResponse.getShipment().getPhone());
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()));
+
 
         if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0){
             dimension.setText("To be Calculated");
