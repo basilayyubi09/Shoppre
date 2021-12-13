@@ -178,53 +178,7 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
-//        trackShipmentBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                CancelShipmentDialog cancelShipmentDialog = new CancelShipmentDialog();
-//                cancelShipmentDialog.showCancelShipmentDialog(getContext());
-//            }
-//        });
-//
-//
-//        downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UploadInvoiceDialog uploadInvoiceDialog = new UploadInvoiceDialog();
-//                uploadInvoiceDialog.uploadInvoiceShowDialog(getContext());
-//            }
-//        });
-//
-//        makePaymentBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showWireDialog();
-//            }
-//        });
-//
-//
-//
-//        uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//
-//
-////                Toast ToastMessage = Toast.makeText(getContext(),"We’re reviewing your Return Request",Toast.LENGTH_SHORT);
-////                ToastMessage.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-////                View toastView = ToastMessage.getView(); toastView.setBackground(getResources().getDrawable(R.drawable.toast_background));
-////                ToastMessage.show();
-//            }
-//        });
-//
-//        cancelShipmentBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new PaymentSummary(), null)
-//                        .addToBackStack(null).commit();
-//            }
-//        });
+
         LoadingDialog.showLoadingDialog(getActivity(),"");
         shipmentDetailsApi();
 
