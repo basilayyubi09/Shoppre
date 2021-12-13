@@ -49,7 +49,7 @@ public class ShipmentDetails extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle!=null){
             id = bundle.getInt("id");
-            Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
 //        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 1.5F));

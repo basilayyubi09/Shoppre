@@ -8,6 +8,7 @@ import com.peceinfotech.shoppre.AccountResponse.UpdateAddressResponse;
 import com.peceinfotech.shoppre.AccountResponse.UpdateProfileResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletAmountResponse;
 import com.peceinfotech.shoppre.AccountResponse.WalletTransactionResponse;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
 import com.peceinfotech.shoppre.AuthenticationModel.CommonModel;
 import com.peceinfotech.shoppre.AuthenticationModel.DeliveryListModel;
 import com.peceinfotech.shoppre.CreateShipmentModelResponse.CreateShipmentResponse;
@@ -31,7 +32,9 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.PostShipmentCommentModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentCommentModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
 
@@ -407,5 +410,29 @@ public interface AppApi {
     @GET("api/shipments?bucket=DELIVERED")
     Call<PreviousShipmentModelResponse> previousShipment(
             @Header("Authorization") String auth
+    );
+
+    //https://staging-engage.shoppre.com/api/shipments/207/comments
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipments/{shipmentId}/comments")
+    Call<List<ShipmentCommentModelResponse>> shipmentGetComment(
+            @Header("Authorization") String auth,
+            @Path("shipmentId") Integer id
+    );
+
+    //https://staging-engage.shoppre.com/api/shipments/902/comments?type=customer
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/shipments/{shipmentId}/comments?type=customer")
+    Call<PostShipmentCommentModelResponse> postShipmentComment(
+            @Header("Authorization") String bearer,
+            @Path("shipmentId") Integer id,
+            @Body String comment);
+
+    //https://uat-app1.shoppreglobal.com/api/shipments/228/cancel
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/shipments/{shipmentId}/cancel")
+    Call<CancelShipmentModelResponse> cancelShipment(
+            @Header("Authorization") String auth,
+            @Path("shipmentId") Integer id
     );
 }

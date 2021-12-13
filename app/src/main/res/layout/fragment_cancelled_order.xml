@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
 
                             android:layout_marginTop="5dp"
-
+                            android:gravity="center"
                             android:text="Virtual\nAddress"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
@@ -91,10 +91,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:layout_marginTop="5dp"
-
-                            android:text="Virtual\nAddress"
+                            android:gravity="center"
+                            android:text="Shipping\nCalculator"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
                             android:textSize="10sp" />
@@ -132,10 +131,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:layout_marginTop="5dp"
-
-                            android:text="Virtual\nAddress"
+                            android:gravity="center"
+                            android:text="Help&amp;\nFAQ"
                             android:textColor="#86888C"
                             android:textFontWeight="600"
                             android:textSize="10sp" />

@@ -33,7 +33,9 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
@@ -151,6 +153,7 @@ public class ShipmentLanding extends Fragment {
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id", id);
         shipmentDetails.setArguments(bundle1);
+        shipmentUpdates.setArguments(bundle1);
 
 
         viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details");
@@ -164,6 +167,14 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onClick(View v) {
                 showWireDialog();
+            }
+        });
+
+
+        cancelShipmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCancelShipmentDialog();
             }
         });
 
@@ -221,6 +232,70 @@ public class ShipmentLanding extends Fragment {
 
         return view;
     }
+
+    private void showCancelShipmentDialog() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.cancel_your_shipment_dialog_box);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ImageView cancelShipmentCross;
+        MaterialButton cancelShipmentBtn;
+
+        cancelShipmentCross = dialog.findViewById(R.id.cancelShipmentCross);
+        cancelShipmentBtn = dialog.findViewById(R.id.cancelShipmentDialogBtn);
+
+        cancelShipmentCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        cancelShipmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                cancelShipmentApi();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void cancelShipmentApi() {
+
+        Call<CancelShipmentModelResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().cancelShipment("Bearer "+sharedPrefManager.getBearerToken(), id);
+
+        call.enqueue(new Callback<CancelShipmentModelResponse>() {
+            @Override
+            public void onResponse(Call<CancelShipmentModelResponse> call, Response<CancelShipmentModelResponse> response) {
+                if (response.code()==200){
+                    OrderActivity.fragmentManager.popBackStack();
+                    LoadingDialog.cancelLoading();
+                }else if(response.code()==400){
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_LONG).show();
+                    LoadingDialog.cancelLoading();
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }else {
+                    Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    LoadingDialog.cancelLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelShipmentModelResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+
+    }
+
 
     private void shipmentDetailsApi() {
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
