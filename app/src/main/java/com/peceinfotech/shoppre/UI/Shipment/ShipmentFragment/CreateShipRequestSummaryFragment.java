@@ -103,7 +103,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     List<DeliveryListModel.Address> list1;
     ShowAddressPopUpAdapter showAddressPopUpAdapter;
     DeliveryListModel.Address interfacedAddress;
-
+    String giftText;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -178,6 +178,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             choicesList = (List<String>) bundle.getSerializable("array");
             addressList = (List<DeliveryListModel.Address>) bundle.getSerializable("addressList");
             allIds = bundle.getString("allIds");
+            giftText = bundle.getString("giftNote");
             liquid = bundle.getString("liquid");
             meta = (ShipmentMeta) bundle.getSerializable("meta");
             address = (DeliveryListModel.Address) bundle.getSerializable("address");
@@ -208,15 +209,17 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 number.setText("");
             }
 
-//            salutation = address.getSalutation();
-//            nameString = address.getName();
-//            addressLine1String = address.getLine1();
-//            addressLine2String = address.getLine2();
-//            cityString = address.getCity();
-//            stateString = address.getState();
-//            country = address.getCountry().getName();
-//            pinCodeString = address.getPincode();
-//            phoneNumberString = address.getPhone();
+            setBillingText(deliveryAddress);
+
+            salutation = address.getSalutation();
+            nameString = address.getName();
+            addressLine1String = address.getLine1();
+            addressLine2String = address.getLine2();
+            cityString = address.getCity();
+            stateString = address.getState();
+            country = address.getCountry().getName();
+            pinCodeString = address.getPincode();
+            phoneNumberString = address.getPhone();
 
         }
 
@@ -300,13 +303,9 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     jsonObject.addProperty("express_processing", expressProcessing);
                     jsonObject.addProperty("extra_packing", addExtraValue);
                     jsonObject.addProperty("gift_note", gift);
-                    jsonObject.addProperty("gift_note_text", "");
+                    jsonObject.addProperty("gift_note_text", giftText);
                     jsonObject.addProperty("gift_wrap", giftWrapValue);
-
-
                     jsonObject.addProperty("is_liquid", liquid);
-
-                    jsonObject.addProperty("max_weight", 0);
                     jsonObject.addProperty("original", shipInOriginal);
 
 
@@ -386,19 +385,24 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 if (checkBoxCreateShipment.isChecked()) {
                     if (isBilling) {
                         addressForm.setVisibility(View.GONE);
+                        callAddBillingItem(billingAdd);
                         billingAddressLayout.setVisibility(View.VISIBLE);
                         isVisible = true;
+                        billingEdit.setVisibility(View.VISIBLE);
                     } else {
                         addressForm.setVisibility(View.VISIBLE);
                         billingAddressLayout.setVisibility(View.GONE);
                         isVisible = false;
 
+
                     }
 
                 } else {
                     isVisible = false;
+                    setBillingText(deliveryAddress);
+                    billingEdit.setVisibility(View.GONE);
                     addressForm.setVisibility(View.GONE);
-                    billingAddressLayout.setVisibility(View.GONE);
+                    billingAddressLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -415,6 +419,38 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
         handleEstimate();
         return view;
+    }
+
+    private void setBillingText(DeliveryListModel.Address deliveryAddress2) {
+
+        billingName.setText(deliveryAddress2.getName());
+//            billingNumber.setText(phoneNumberString);
+//            billingAddress.setText(addressLine1String + "\n"
+//                    + cityString + " - "
+//                    + stateString + "\n"
+//                    + pinCodeString + "\n"
+//                    + country);
+        if (!deliveryAddress2.getLine2().equals("")) {
+            billingAddress.setText(deliveryAddress2.getLine1() + "\n"
+                    + deliveryAddress2.getLine2() + "\n"
+                    + deliveryAddress2.getCity() + " - "
+                    + deliveryAddress2.getState() + "\n"
+                    + deliveryAddress2.getPincode() + "\n"
+                    + deliveryAddress2.getCountry().getName());
+        } else {
+            billingAddress.setText(deliveryAddress2.getLine1() + "\n"
+                    + deliveryAddress2.getCity() + " - "
+                    + deliveryAddress2.getState() + "\n"
+                    + deliveryAddress2.getPincode() + "\n"
+                    + deliveryAddress2.getCountry().getName());
+
+        }
+
+        if (!deliveryAddress2.getPhone().equals("")) {
+            billingNumber.setText(String.valueOf(deliveryAddress2.getPhone()));
+        } else {
+            billingNumber.setText("");
+        }
     }
 
     private void AddAddressDialog(String edit) {
@@ -474,13 +510,14 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             public void onClick(View v) {
                 getTextFromPopField(address, pName, pAddressLine1, pAddressLine2, pCity
                         , pState, dSpinnerCountry, pPinCode, countryCodeTextView, pPhoneNumber);
+
                 if (!validateSalutation(salutation, titleErrorP) || !validateName(nameString, nameErrorP) || !validatePhone(phoneNumberString, errorNoP)
                         || !validateAddress(addressLine1String, addressErrorP) || !validateCity(cityString, cityErrorP) || !validateState(stateString, stateErrorP)
                         || !validateCountry(country, countryErrorP) || !validatePinCode(pinCodeString, pinCodeErrorP)) {
                     return;
                 } else {
                     if (edit.equals("add")) {
-                       callAddAddressApi(dialog1);
+                        callAddAddressApi(dialog1);
                     } else {
                         callUpdateApi(dialog1);
                     }
@@ -563,7 +600,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
 
     private void callAddAddressApi(Dialog dialog1) {
-        LoadingDialog.showLoadingDialog(getActivity(),"");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
 
         String firstName, lastName = "";
 
@@ -587,7 +624,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         paramObject.addProperty("state", stateString);
         paramObject.addProperty("country_id", countryId);
         paramObject.addProperty("pincode", pinCodeString);
-        paramObject.addProperty("phone",  cc + phoneNumberString);
+        paramObject.addProperty("phone", cc + phoneNumberString);
         paramObject.addProperty("is_default", false);
         paramObject.addProperty("customer_id", sharedPrefManager.getId());
         paramObject.addProperty("is_billing_address", false);
@@ -600,6 +637,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
                 if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
+
                     countryId = Integer.valueOf(response.body().getCountryId());
                     deliveryId = response.body().getId();
                     name.setText(response.body().getName());
@@ -609,13 +647,24 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                                 + response.body().getLine2() + "\n"
                                 + response.body().getCity() + " - "
                                 + response.body().getState() + "\n"
-                                + response.body().getPincode() );
+                                + response.body().getPincode());
                     } else {
                         addressText.setText(response.body().getLine1() + "\n"
                                 + response.body().getCity() + " - "
                                 + response.body().getState() + "\n"
-                                + response.body().getPincode() );
+                                + response.body().getPincode());
 
+
+                        nameString = response.body().getName();
+                        deliveryId = response.body().getId();
+                        addressLine1String = response.body().getLine1();
+                        addressLine2String = response.body().getLine2();
+                        salutation = response.body().getSalutation();
+                        cityString = response.body().getCity();
+                        stateString = response.body().getState();
+                        country = "";
+                        pinCodeString = response.body().getPincode();
+                        phoneNumberString = response.body().getPhone();
                     }
 
                     if (!response.body().getPhone().equals("")) {
@@ -623,6 +672,34 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     } else {
                         number.setText("");
                     }
+
+
+                    ////
+                    if (!isBilling) {
+                        billingName.setText(response.body().getName());
+
+                        if (!response.body().getLine2().equals("")) {
+                            billingAddress.setText(response.body().getLine1() + "\n"
+                                    + response.body().getLine2() + "\n"
+                                    + response.body().getCity() + " - "
+                                    + response.body().getState() + "\n"
+                                    + response.body().getPincode());
+                        } else {
+                            billingAddress.setText(response.body().getLine1() + "\n"
+                                    + response.body().getCity() + " - "
+                                    + response.body().getState() + "\n"
+                                    + response.body().getPincode());
+
+                        }
+
+                        if (!response.body().getPhone().equals("")) {
+                            billingNumber.setText(String.valueOf(response.body().getPhone()));
+                        } else {
+                            billingNumber.setText("");
+                        }
+                    }
+
+
                     Toast.makeText(getActivity(), "Address Added Successfully ", Toast.LENGTH_SHORT).show();
                     dialog1.dismiss();
                 } else if (response.code() == 401) {
@@ -674,13 +751,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         object.addProperty("state", stateString);
         object.addProperty("country_id", countryId);
         object.addProperty("pincode", pinCodeString);
-        if (cc == null) {
-            object.addProperty("phone", phoneNumberString);
-
-        } else {
-            object.addProperty("phone", cc + phoneNumberString);
-
-        }
+        object.addProperty("phone", "+" + cc + phoneNumberString);
 //        Toast.makeText(getActivity(), String.valueOf(cc), Toast.LENGTH_SHORT).show();
         object.addProperty("is_default", false);
         object.addProperty("customer_id", sharedPrefManager.getId());
@@ -714,6 +785,26 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                                 + pinCodeString + "\n"
                                 + country);
                     }
+
+                    if (!isBilling) {
+                        billingName.setText(nameString);
+                        billingNumber.setText(phoneNumberString);
+                        if (!addressLine2String.equals("")) {
+                            billingAddress.setText(addressLine1String + "\n"
+                                    + addressLine2String + "\n"
+                                    + cityString + " - "
+                                    + stateString + "\n"
+                                    + pinCodeString + "\n"
+                                    + country);
+                        } else {
+                            billingAddress.setText(addressLine1String + "\n"
+                                    + cityString + " - "
+                                    + stateString + "\n"
+                                    + pinCodeString + "\n"
+                                    + country);
+                        }
+                    }
+
                     LoadingDialog.cancelLoading();
                     dialog1.dismiss();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
@@ -788,25 +879,32 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                         public void popUpRadioButtonOperation(DeliveryListModel.Address address, RadioButton showAddressRadioButton) {
 
 
-                            interfacedAddress = address;
+                            deliveryAddress = address;
                             deliveryId = address.getId();
-                            countryId = interfacedAddress.getCountryId();
-                            name.setText(interfacedAddress.getName());
-                            if (!interfacedAddress.getLine1().equals("")) {
-                                addressText.setText(interfacedAddress.getLine1() + "\n"
-                                        + interfacedAddress.getLine2() + "\n"
-                                        + interfacedAddress.getCity() + " - "
-                                        + interfacedAddress.getState() + "\n"
-                                        + interfacedAddress.getCountry().getName());
-                            } else {
-                                addressText.setText(interfacedAddress.getLine1() + "\n"
-                                        + interfacedAddress.getCity() + " - "
-                                        + interfacedAddress.getState() + "\n"
-                                        + interfacedAddress.getCountry().getName());
+
+                            if (!isBilling) {
+                                callAddBillingItem(deliveryAddress);
                             }
 
-                            if (!interfacedAddress.getPhone().equals("")) {
-                                number.setText(String.valueOf(interfacedAddress.getPhone()));
+                            countryId = deliveryAddress.getCountryId();
+                            name.setText(deliveryAddress.getName());
+                            if (!deliveryAddress.getLine1().equals("")) {
+                                addressText.setText(deliveryAddress.getLine1() + "\n"
+                                        + deliveryAddress.getLine2() + "\n"
+                                        + deliveryAddress.getCity() + " - "
+                                        + deliveryAddress.getState() + "\n"
+                                        + deliveryAddress.getPincode() + "\n"
+                                        + deliveryAddress.getCountry().getName());
+                            } else {
+                                addressText.setText(deliveryAddress.getLine1() + "\n"
+                                        + deliveryAddress.getCity() + " - "
+                                        + deliveryAddress.getState() + "\n"
+                                        + deliveryAddress.getPincode() + "\n"
+                                        + deliveryAddress.getCountry().getName());
+                            }
+
+                            if (!deliveryAddress.getPhone().equals("")) {
+                                number.setText(String.valueOf(deliveryAddress.getPhone()));
                             } else {
                                 number.setText("");
                             }
@@ -1010,16 +1108,16 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         addAddressBtn.setText("Update Address");
         billingTitle.setText("Update Billing Address");
 
-        pName.setText(deliveryAddress1.getName());
-        pPhoneNumber.setText(deliveryAddress1.getPhone());
-        pAddressLine1.setText(deliveryAddress1.getLine1());
-        pCity.setText(deliveryAddress1.getCity());
-        pState.setText(deliveryAddress1.getState());
-        dSpinnerCountry.setText(deliveryAddress1.getCountry().getName());
-        pPinCode.setText(deliveryAddress1.getPincode());
-        if (!deliveryAddress1.getLine2().equals("")) {
-            pAddressLine2.setText(deliveryAddress1.getLine2());
-        }
+        pName.setText(nameString);
+        pPhoneNumber.setText(phoneNumberString);
+        pAddressLine1.setText(addressLine1String);
+        pCity.setText(cityString);
+        pState.setText(stateString);
+        dSpinnerCountry.setText(country);
+        pPinCode.setText(pinCodeString);
+
+        pAddressLine2.setText(addressLine2String);
+
 
     }
 
@@ -1035,7 +1133,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         city.setText(deliveryAddress.getCity());
         state.setText(deliveryAddress.getState());
         spinnerCountry.setText(deliveryAddress.getCountry().getName());
-        pinCode.setText(deliveryAddress.getPhone());
+        pinCode.setText(deliveryAddress.getPincode());
         if (!deliveryAddress.getLine2().equals("")) {
             addressLine2.setText(deliveryAddress.getLine2());
         }
@@ -1051,17 +1149,18 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             if (billingAdd.getBillingAddress()) {
                 if (billingAdd.getBillingAddress() != null) {
                     isBilling = true;
-                    billingId = billingAddress.getId();
-                    callAddBillingItem(billingAdd);
-                    addressForm.setVisibility(View.GONE);
-                    useLayout.setVisibility(View.VISIBLE);
-                    billingAddressLayout.setVisibility(View.GONE);
-                } else {
-                    useLayout.setVisibility(View.GONE);
-                    isBilling = false;
-                    addressForm.setVisibility(View.VISIBLE);
-                    billingAddressLayout.setVisibility(View.GONE);
+//                    billingId = billingAddress.getId();
+//                    callAddBillingItem(billingAdd);
+//                    addressForm.setVisibility(View.GONE);
+//                    useLayout.setVisibility(View.VISIBLE);
+//                    billingAddressLayout.setVisibility(View.VISIBLE);
                 }
+
+            } else {
+//                useLayout.setVisibility(View.GONE);
+                isBilling = false;
+//                addressForm.setVisibility(View.VISIBLE);
+//                billingAddressLayout.setVisibility(View.GONE);
             }
 
 
@@ -1173,6 +1272,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             public void onResponse(Call<UpdateAddressResponse> call, Response<UpdateAddressResponse> response) {
                 if (response.code() == 200) {
 
+
                     billingAddressLayout.setVisibility(View.VISIBLE);
                     addressForm.setVisibility(View.GONE);
                     checkBoxCreateShipment.setChecked(true);
@@ -1183,9 +1283,10 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     billingAddress.setText(addressLine1String + "\n"
                             + cityString + " - "
                             + stateString + "\n"
+                            + pinCodeString + "\n"
                             + country);
 
-                    checkBoxCreateShipment.setChecked(false);
+                    checkBoxCreateShipment.setChecked(true);
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Updated Successfully", Snackbar.LENGTH_LONG);
                     snackbar.show();

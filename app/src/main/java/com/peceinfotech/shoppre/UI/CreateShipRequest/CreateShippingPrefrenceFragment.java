@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -67,21 +68,18 @@ public class CreateShippingPrefrenceFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                    Toast.makeText(getActivity(), list.toString()+"\n"+giftText, Toast.LENGTH_SHORT).show();
+                if (list.contains("gift")){
+                    giftText = giftNoteEditText.getText().toString();
+                }
+                else {
+                    giftText = "";
+                }
 
-
-//                if (list.isEmpty()) {
-//                    shippingPrefProceedBtn.setEnabled(false);
-//                    shippingPrefProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
-//                } else {
-//                    Toast.makeText(getActivity(), list.get(0), Toast.LENGTH_SHORT).show();
-//                    shippingPrefProceedBtn.setEnabled(true);
-//                    shippingPrefProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.button_blue)));
-//                }
                 CreateShipRequestSummaryFragment summaryFragment = new CreateShipRequestSummaryFragment();
                 Bundle bundle1 = new Bundle();
                 bundle1.putSerializable("address", address);
                 bundle1.putString("allIds", allIds);
+                bundle1.putString("giftNote", giftText);
                 bundle1.putString("liquid", liquid);
                 bundle1.putSerializable("array", (Serializable) list);
                 bundle1.putSerializable("addressList", (Serializable) addressList);
@@ -110,7 +108,8 @@ public class CreateShippingPrefrenceFragment extends Fragment {
 
                     if (!list.contains("gift")) {
                         giftNoteEditText.setVisibility(View.VISIBLE);
-                        giftText = giftNoteEditText.getText().toString();
+
+
                         addItemInList("gift");
 
                     }
@@ -118,7 +117,7 @@ public class CreateShippingPrefrenceFragment extends Fragment {
 
                     if (list.contains("gift")) {
                         giftNoteEditText.setVisibility(View.GONE);
-                        giftText = "";
+
                         removeItemFromList("gift");
 
 

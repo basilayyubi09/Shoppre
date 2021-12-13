@@ -857,7 +857,8 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                >
 
 
                 <com.google.android.material.appbar.AppBarLayout
@@ -884,7 +885,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewPagerShipment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="500dp" />
 
 
             </com.google.android.material.card.MaterialCardView>

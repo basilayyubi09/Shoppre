@@ -1,14 +1,13 @@
 package com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentDetailsAdapter;
@@ -17,7 +16,6 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
-import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsResponse;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
@@ -32,7 +30,7 @@ import retrofit2.Response;
 public class ShipmentDetails extends Fragment {
 
     RecyclerView shipmentDetailsRecycler;
-    List<PackageModel> list= new ArrayList<>();
+    List<PackageModel> list = new ArrayList<>();
     ShipmentDetailsAdapter shipmentDetailsAdapter;
     SharedPrefManager sharedPrefManager;
     int id;
@@ -47,16 +45,10 @@ public class ShipmentDetails extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             id = bundle.getInt("id");
             Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
-
-//        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 1.5F));
-//        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 1.6F));
-//        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 1.7F));
-//        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 2.5F));
-//        list.add(new ShipmentDetailsResponse(R.drawable.ic_self_shopper, "Myntra", "Package ID "+"#8473", "25 Dec 2021", 3.2F));
 
         shipmentDetailsTabApiCall();
 
@@ -69,18 +61,18 @@ public class ShipmentDetails extends Fragment {
 
     private void shipmentDetailsTabApiCall() {
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().shipmentDetails("Bearer "+ sharedPrefManager.getBearerToken(), id);
+                .getAppApi().shipmentDetails("Bearer " + sharedPrefManager.getBearerToken(), id);
         call.enqueue(new Callback<ShipmentDetailsModelResponse>() {
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
-                if (response.code()==200){
-                        list = response.body().getPackages();
+                if (response.code() == 200) {
+                    list = response.body().getPackages();
 
                     shipmentDetailsAdapter = new ShipmentDetailsAdapter(list, getActivity());
                     shipmentDetailsRecycler.setAdapter(shipmentDetailsAdapter);
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
 

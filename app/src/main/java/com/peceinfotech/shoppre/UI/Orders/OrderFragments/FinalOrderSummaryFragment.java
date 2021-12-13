@@ -76,7 +76,13 @@ public class FinalOrderSummaryFragment extends Fragment {
             public void onClick(View v) {
 
                 if (check.isChecked()){
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment())
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putInt("id" , shoppreId);
+                    bundle1.putString("type","order");
+                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+                    thankYouFragment.setArguments(bundle1);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
                 }
                 else {

@@ -46,24 +46,25 @@
                         android:textSize="12sp" />
 
                     <TextView
-android:visibility="gone"
                         android:id="@+id/shipment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/your_shipment_request"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
                     <TextView
 
                         android:id="@+id/shipment24"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="This might take upto 24 hours"
                         android:textColor="@color/black"
                         android:textFontWeight="400"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/orderId"
@@ -99,11 +100,11 @@ android:visibility="gone"
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/viewShipment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp">
+                        android:layout_marginTop="3dp"
+                        android:visibility="gone">
 
                         <TextView
 
@@ -138,9 +139,9 @@ android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
+                android:visibility="gone"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="4dp"
-                android:visibility="gone">
+                app:cardElevation="4dp">
 
                 <LinearLayout
 
@@ -151,23 +152,23 @@ android:visibility="gone"
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="14dp"
                         android:text="NOTE"
-                        android:textFontWeight="600"
                         android:textColor="@color/black"
-                        android:textSize="10sp"/>
+                        android:textFontWeight="600"
+                        android:textSize="10sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
                         android:gravity="center"
+                        android:padding="15dp"
                         android:text="@string/we_ll_share_the"
-                        android:textSize="10sp"
                         android:textColor="@color/black"
                         android:textFontWeight="400"
-                        android:layout_marginHorizontal="14dp"
-                        android:padding="15dp"/>
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -240,17 +241,19 @@ our warehouse"
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="102dp"
+                android:layout_height="120dp"
                 android:layout_margin="12dp"
                 android:background="@mipmap/wtsp"
+                android:gravity="center_vertical"
                 android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/wtsp"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
+
                     android:layout_marginRight="20dp"
                     android:gravity="right"
                     android:text="Get your package alerts now \non Whatsapp!"
@@ -259,6 +262,7 @@ our warehouse"
                     android:textSize="10sp" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/wtspBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:layout_below="@+id/wtsp"
