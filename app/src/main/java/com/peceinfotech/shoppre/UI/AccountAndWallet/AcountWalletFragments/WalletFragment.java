@@ -277,6 +277,7 @@ public class WalletFragment extends Fragment {
         allSpinner.setAdapter(arrayAdapter);
 
 
+
     }
 
     private void callRefreshTokenApi() {
@@ -305,5 +306,12 @@ public class WalletFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        offSet = 0;
+        limit = 5;
     }
 }

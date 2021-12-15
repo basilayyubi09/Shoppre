@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="22dp">
+
+    <TextView
+        android:layout_marginTop="22dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Box 1"
+        android:textSize="12sp"
+        android:id="@+id/boxHeading"
+        android:textColor="@color/black"
+        android:textFontWeight="600"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1">
+
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/dimension" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dimensions"
+                    android:textFontWeight="400"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/dimension"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To Be Calculated"
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_weight="1">
+
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/like" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Final Weight"
+                    android:textFontWeight="400"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/finalWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 KG "
+                    android:textColor="@color/black"
+                    android:textFontWeight="600"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/hint_color"/>
+</LinearLayout>

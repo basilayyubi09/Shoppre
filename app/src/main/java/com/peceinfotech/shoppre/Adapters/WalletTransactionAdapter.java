@@ -61,11 +61,11 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
 //            holder.messageText.setText(list.get(position).getMessageText());
         if (list.get(position).getAmount().toString().startsWith("-")){
             holder.price.setTextColor(Color.parseColor("#EF5261"));
-            holder.price.setText("-"+list.get(position).getAmount().toString());
+            holder.price.setText("₹ "+list.get(position).getAmount().toString());
         }
         else{
             holder.price.setTextColor(Color.parseColor("#17B28F"));
-            holder.price.setText("+"+list.get(position).getAmount().toString());
+            holder.price.setText("+"+"₹ "+list.get(position).getAmount().toString());
         }
 
 

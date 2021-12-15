@@ -28,6 +28,7 @@ import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.LogisticClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
+import com.peceinfotech.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.peceinfotech.shoppre.UI.Orders.OrderFragments.SelfShopper;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.PricingTableDialog;
@@ -41,14 +42,14 @@ import retrofit2.Response;
 
 public class ShippingCalculatorResultFragment extends Fragment {
     ShippingRateResponse shippingRateResponse;
-    TextView location, weight, unit, courierCharges, chooseCountry , viewPricingTable;
+    TextView location, weight, unit, courierCharges, chooseCountry, viewPricingTable;
     MaterialButton placeOrderBtn;
     Spinner cmDropdown;
     List<Item> list, duplicateList;
     Integer countryId, categoryId;
     ArrayAdapter<Item> arrayAdapter;
     List<SlabResponse> slabResponse;
-    LinearLayout edit, chooseCountryLayout , viewCountry;
+    LinearLayout edit, chooseCountryLayout, viewCountry;
     String weightFromBundle, kg, liquid, height, width, length;
 
 
@@ -92,7 +93,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
             unit.setText(kg);
             weight.setText(weightFromBundle);
             double rate = shippingRateResponse.getCustomerRate();
-            rate =Double.parseDouble(new DecimalFormat("##.##").format(rate));
+            rate = Double.parseDouble(new DecimalFormat("##.##").format(rate));
 
             courierCharges.setText("₹ " + String.valueOf(rate));
         }
@@ -101,12 +102,12 @@ public class ShippingCalculatorResultFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle1 = new Bundle();
-                bundle1.putString("weight" , weightFromBundle);
-                bundle1.putString("length" , length);
-                bundle1.putString("width" , width);
-                bundle1.putString("height" , height);
-                bundle1.putString("liquid" , liquid);
-                ShippingCalculator  shippingCalculator = new ShippingCalculator();
+                bundle1.putString("weight", weightFromBundle);
+                bundle1.putString("length", length);
+                bundle1.putString("width", width);
+                bundle1.putString("height", height);
+                bundle1.putString("liquid", liquid);
+                ShippingCalculator shippingCalculator = new ShippingCalculator();
                 shippingCalculator.setArguments(bundle1);
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, shippingCalculator, null)
                         .addToBackStack(null).commit();
@@ -116,13 +117,13 @@ public class ShippingCalculatorResultFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PricingTableDialog pricingTableDialog = new PricingTableDialog();
-                pricingTableDialog.showDialog(getActivity() , slabResponse);
+                pricingTableDialog.showDialog(getActivity(), slabResponse);
             }
         });
         placeOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
                         .addToBackStack(null).commit();
             }
         });
@@ -150,22 +151,21 @@ public class ShippingCalculatorResultFragment extends Fragment {
     }
 
     private void callSlabApi() {
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<List<SlabResponse>> call = LogisticClient
                 .getInstance3()
                 .getAppApi().getSLab(String.valueOf(countryId)
-                        , "nondoc",liquid,String.valueOf(categoryId));
+                        , "nondoc", liquid, String.valueOf(categoryId));
         call.enqueue(new Callback<List<SlabResponse>>() {
             @Override
             public void onResponse(Call<List<SlabResponse>> call, Response<List<SlabResponse>> response) {
-                if (response.code()==200){
-                     slabResponse = response.body();
+                if (response.code() == 200) {
+                    slabResponse = response.body();
 
 
                     LoadingDialog.cancelLoading();
 
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }

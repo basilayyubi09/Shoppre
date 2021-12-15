@@ -89,6 +89,18 @@ public class Shipment {
     @Expose
     private ShipmentMetum shipmentMetum;
 
+    @SerializedName("ShipmentBoxes")
+    @Expose
+    private List<ShipmentBox> shipmentBoxes = null;
+
+    public List<ShipmentBox> getShipmentBoxes() {
+        return shipmentBoxes;
+    }
+
+    public void setShipmentBoxes(List<ShipmentBox> shipmentBoxes) {
+        this.shipmentBoxes = shipmentBoxes;
+    }
+
     public ShipmentMetum getShipmentMetum() {
         return shipmentMetum;
     }
