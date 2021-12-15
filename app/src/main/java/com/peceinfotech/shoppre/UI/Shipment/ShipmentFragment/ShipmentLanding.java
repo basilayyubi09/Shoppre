@@ -1,14 +1,10 @@
 package com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DownloadManager;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -50,7 +46,6 @@ import com.downloader.Progress;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -64,8 +59,8 @@ import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
-import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.peceinfotech.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
@@ -74,8 +69,6 @@ import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.io.File;
-import java.net.CookieManager;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -129,7 +122,6 @@ public class ShipmentLanding extends Fragment {
     boolean isPayment = true;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,7 +131,7 @@ public class ShipmentLanding extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             id = bundle.getInt("id");
             size = bundle.getInt("size");
             stateId = bundle.getInt("stateId");
@@ -202,14 +194,14 @@ public class ShipmentLanding extends Fragment {
         shipmentUpdates.setArguments(bundle1);
 
 
-        viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details" + " ("+String.valueOf(size)+")");
+        viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details" + " (" + String.valueOf(size) + ")");
         viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
 
         shipmentTabLayout.setupWithViewPager(viewPager);
 
 
-        LoadingDialog.showLoadingDialog(getActivity(),"");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         shipmentDetailsApi();
 
         uploadWireTransferText.setOnClickListener(new View.OnClickListener() {
@@ -228,7 +220,7 @@ public class ShipmentLanding extends Fragment {
         });
 
 
- /////////Downloading Invoice
+        /////////Downloading Invoice
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,10 +230,11 @@ public class ShipmentLanding extends Fragment {
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                 Manifest.permission.READ_EXTERNAL_STORAGE
                         ).withListener(new MultiplePermissionsListener() {
-                    @Override public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()){
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
                             downloadFile();
-                        }else {
+                        } else {
                             Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -262,10 +255,9 @@ public class ShipmentLanding extends Fragment {
     }
 
 
-
     private void downloadFile() {
 
-        ProgressDialog progressDialog= new ProgressDialog(getActivity());
+        ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Downloading....");
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -295,8 +287,8 @@ public class ShipmentLanding extends Fragment {
                 .setOnProgressListener(new OnProgressListener() {
                     @Override
                     public void onProgress(Progress progress) {
-                        long per = progress.currentBytes*100 / progress.totalBytes;
-                        progressDialog.setMessage("Downloading : "+per+" %");
+                        long per = progress.currentBytes * 100 / progress.totalBytes;
+                        progressDialog.setMessage("Downloading : " + per + " %");
                     }
                 })
                 .start(new OnDownloadListener() {
@@ -335,15 +327,15 @@ public class ShipmentLanding extends Fragment {
     private void downloadInvoiceApi() {
 
         Call<DownloadInvoiceModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().downloadInvoice("Bearer "+sharedPrefManager.getBearerToken(), id);
+                .getAppApi().downloadInvoice("Bearer " + sharedPrefManager.getBearerToken(), id);
         call.enqueue(new Callback<DownloadInvoiceModelResponse>() {
             @Override
             public void onResponse(Call<DownloadInvoiceModelResponse> call, Response<DownloadInvoiceModelResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     url = response.body().getInvoiceObject();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -390,21 +382,20 @@ public class ShipmentLanding extends Fragment {
     private void cancelShipmentApi() {
 
         Call<CancelShipmentModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().cancelShipment("Bearer "+sharedPrefManager.getBearerToken(), id);
+                .getAppApi().cancelShipment("Bearer " + sharedPrefManager.getBearerToken(), id);
 
         call.enqueue(new Callback<CancelShipmentModelResponse>() {
             @Override
             public void onResponse(Call<CancelShipmentModelResponse> call, Response<CancelShipmentModelResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     OrderActivity.fragmentManager.popBackStack();
                     LoadingDialog.cancelLoading();
-                }else if(response.code()==400){
+                } else if (response.code() == 400) {
                     Toast.makeText(getActivity(), "You can not cancel shipment after 1 hour from shipment creation", Toast.LENGTH_LONG).show();
                     LoadingDialog.cancelLoading();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }else {
+                } else {
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
