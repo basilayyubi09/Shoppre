@@ -1,7 +1,14 @@
 package com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.NotificationManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -9,11 +16,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,14 +32,28 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.downloader.Error;
+import com.downloader.OnCancelListener;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnPauseListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.Progress;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonObject;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
@@ -37,6 +61,7 @@ import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.UI.Orders.OrderActivity;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
@@ -44,10 +69,14 @@ import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.S
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
+import java.io.File;
+import java.net.CookieManager;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Future;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,6 +107,13 @@ public class ShipmentLanding extends Fragment {
     ShipmentDetailsModelResponse modelResponse;
     CardView inReview, verifyPaymentTag, paymentConfirmTag, deliveredTag, dispatchedTagCard;
     NestedScrollView nestedScrollView;
+    String url;
+    String getUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+
+
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
+    Future<File> downloading;
 
     boolean isInvoice = true;
     boolean isPayment = true;
@@ -109,8 +145,6 @@ public class ShipmentLanding extends Fragment {
         cancelShipmentBtn = view.findViewById(R.id.cancelShipmentBtn);
         downloadInvoiceBtn = view.findViewById(R.id.downloadInvoiceBtn);
         trackShipmentBtn = view.findViewById(R.id.trackShipmentBtn);
-
-
         deliverToName = view.findViewById(R.id.deliverToName);
         shipmentId = view.findViewById(R.id.viewShipmentShipmentId);
         deliveryAddress = view.findViewById(R.id.deliveryAddress);
@@ -138,12 +172,8 @@ public class ShipmentLanding extends Fragment {
         dispatchedTagCard = view.findViewById(R.id.dispatchedTagCard);
         deliveredTag = view.findViewById(R.id.deliveredTagCard);
         downloadInvoiceLayout = view.findViewById(R.id.downloadInvoiceLayout);
-//        nestedScrollView = view.findViewById(R.id.nestedScrollView);
-//
-//        nestedScrollView.setFillViewport(true);
 
-
-
+        PRDownloader.initialize(getActivity());
 
         viewPagerAdapter = new ShipmentLandingViewPager(getChildFragmentManager());
 
@@ -160,6 +190,8 @@ public class ShipmentLanding extends Fragment {
         shipmentTabLayout.setupWithViewPager(viewPager);
 
 
+        LoadingDialog.showLoadingDialog(getActivity(),"");
+        shipmentDetailsApi();
 
         uploadWireTransferText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,12 +209,132 @@ public class ShipmentLanding extends Fragment {
         });
 
 
-        LoadingDialog.showLoadingDialog(getActivity(),"");
-        shipmentDetailsApi();
+ /////////Downloading Invoice
+        downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                downloadInvoiceApi();
+                Dexter.withContext(getContext())
+                        .withPermissions(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                        ).withListener(new MultiplePermissionsListener() {
+                    @Override public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()){
+                            downloadFile();
+                        }else {
+                            Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                    }
+
+
+                }).check();
+
+            }
+        });
 
 
         return view;
+    }
+
+
+
+    private void downloadFile() {
+
+        ProgressDialog progressDialog= new ProgressDialog(getActivity());
+        progressDialog.setMessage("Downloading....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        PRDownloader.download(getUrl, file.getPath(), URLUtil.guessFileName(getUrl, null, null))
+                .build()
+                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
+                    @Override
+                    public void onStartOrResume() {
+
+                    }
+                })
+                .setOnPauseListener(new OnPauseListener() {
+                    @Override
+                    public void onPause() {
+
+                    }
+                })
+                .setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+                })
+                .setOnProgressListener(new OnProgressListener() {
+                    @Override
+                    public void onProgress(Progress progress) {
+                        long per = progress.currentBytes*100 / progress.totalBytes;
+                        progressDialog.setMessage("Downloading : "+per+" %");
+                    }
+                })
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Download Complete", Toast.LENGTH_SHORT).show();
+
+//                        File file1 = new File(String.valueOf(file));
+//                        MimeTypeMap map = MimeTypeMap.getSingleton();
+//                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+//                        String type = map.getMimeTypeFromExtension(ext);
+//
+//                        if (type == null)
+//                            type = "*/*";
+//
+//                        Intent intent = new Intent(Intent.ACTION_VIEW);
+//                        Uri data = Uri.fromFile(file);
+//
+//                        intent.setDataAndType(data, type);
+//
+//                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Download Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                });
+
+    }
+
+    private void downloadInvoiceApi() {
+
+        Call<DownloadInvoiceModelResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().downloadInvoice("Bearer "+sharedPrefManager.getBearerToken(), id);
+        call.enqueue(new Callback<DownloadInvoiceModelResponse>() {
+            @Override
+            public void onResponse(Call<DownloadInvoiceModelResponse> call, Response<DownloadInvoiceModelResponse> response) {
+                if (response.code()==200){
+                    url = response.body().getInvoiceObject();
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                }else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DownloadInvoiceModelResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void showCancelShipmentDialog() {
@@ -345,25 +497,17 @@ public class ShipmentLanding extends Fragment {
         }
 
 
-//        if (modelResponse.getPayment().getPaymentGatewayId()==null){
-//            makePaymentBtn.setVisibility(View.VISIBLE);
-//            makePaymentHelpText.setVisibility(View.VISIBLE);
-//        }else {
-//            makePaymentHelpText.setVisibility(View.GONE);
-//            makePaymentBtn.setVisibility(View.GONE);
-//        }
-
 /////Conditions for tags and buttons
 
 
-        for (int i=0; i<list.size(); i++){
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==false && stateId==16 || stateId==100){
+        for (int i = 0; i < list.size(); i++) {
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false && stateId == 16 || stateId == 100) {
                 uploadInvoiceHelpText.setVisibility(View.VISIBLE);
                 uploadInvoiceBtn.setVisibility(View.VISIBLE);
                 inReviewHelpText.setVisibility(View.GONE);
                 inReview.setVisibility(View.GONE);
 
-            }else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==true && stateId==16 || stateId ==17 || stateId==101){
+            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
                 uploadInvoiceHelpText.setVisibility(View.GONE);
                 uploadInvoiceButtonLayout.setVisibility(View.GONE);
                 inReviewHelpText.setVisibility(View.VISIBLE);
@@ -371,85 +515,30 @@ public class ShipmentLanding extends Fragment {
 
             }
         }
-        if (modelResponse.getTotalHours()==0){
+        if (modelResponse.getTotalHours() == 0) {
             cancelShipmentBtn.setVisibility(View.VISIBLE);
-        }else if (modelResponse.getTotalHours()>0){
+        } else if (modelResponse.getTotalHours() > 0) {
             cancelShipmentBtn.setVisibility(View.GONE);
         }
 
-
-        if (stateId==18){
+        if (stateId == 18) {
             makePaymentBtn.setVisibility(View.VISIBLE);
             makePaymentHelpText.setVisibility(View.VISIBLE);
-        }else if (stateId==20){
+        } else if (stateId == 20) {
             uploadWireTransferText.setVisibility(View.VISIBLE);
             verifyPaymentHelpText.setVisibility(View.VISIBLE);
             verifyPaymentTag.setVisibility(View.VISIBLE);
             changePaymentMethodText.setVisibility(View.VISIBLE);
-        }else if (stateId==22){
+        } else if (stateId == 22) {
             paymentConfirmTag.setVisibility(View.VISIBLE);
             paymentConfirmHelpText.setVisibility(View.VISIBLE);
-        }else if (stateId==24){
+        } else if (stateId == 24) {
             dispatchedTagCard.setVisibility(View.VISIBLE);
             downloadInvoiceLayout.setVisibility(View.VISIBLE);
-        }else if (stateId==40){
+        } else if (stateId == 40) {
             deliveredTag.setVisibility(View.VISIBLE);
             downloadInvoiceLayout.setVisibility(View.VISIBLE);
         }
-
-
-//        if (stateId==18){
-//            makePaymentBtn.setVisibility(View.VISIBLE);
-//            makePaymentBtn.setVisibility(View.VISIBLE);
-//        }else if (stateId==20){
-//            verifyPaymentTag.setVisibility(View.VISIBLE);
-//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
-//            uploadWireTransferText.setVisibility(View.VISIBLE);
-//            changePaymentMethodText.setVisibility(View.VISIBLE);
-//        }else if (stateId==22){
-//            paymentConfirmTag.setVisibility(View.VISIBLE);
-//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
-//        }else if (stateId==24){
-//            dispatchedTagCard.setVisibility(View.VISIBLE);
-//            downloadInvoiceBtn
-//        }
-
-
-
-
-
-//        if (stateName.equals("Awaiting Payment")) {
-//            verifyPaymentTag.setVisibility(View.VISIBLE);
-//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
-//            uploadWireTransferText.setVisibility(View.VISIBLE);
-//            changePaymentMethodText.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("In Review")) {
-//            inReview.setVisibility(View.VISIBLE);
-//            inReviewHelpText.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("Pending Invoice Upload")) {
-//            uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("Payment Failed")) {
-//            paymentFailedTag.setVisibility(View.VISIBLE);
-//            retryPaymentBtn.setVisibility(View.VISIBLE);
-//            retryPaymentHelpText.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("Payment Confirmed")) {
-//            paymentConfirmTag.setVisibility(View.VISIBLE);
-//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("Dispatched")) {
-//            dispatchedTagCard.setVisibility(View.VISIBLE);
-//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-//        } else if (stateName.equals("Delivered")) {
-//            deliveredTag.setVisibility(View.VISIBLE);
-//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-//        }
-
-
-
-
-
-
-
     }
 
 
@@ -518,5 +607,9 @@ public class ShipmentLanding extends Fragment {
             }
         }
     }
+
+
+    ///https://www.clickdimensions.com/links/TestPDFfile.pdf
+
 
 }

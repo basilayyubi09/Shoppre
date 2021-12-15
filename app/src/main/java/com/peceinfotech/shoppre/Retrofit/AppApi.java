@@ -32,6 +32,7 @@ import com.peceinfotech.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.SlabResponse;
 import com.peceinfotech.shoppre.OrderModuleResponses.UpdateOrderResponse;
+import com.peceinfotech.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.PostShipmentCommentModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentCommentModelResponse;
@@ -432,6 +433,14 @@ public interface AppApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @PUT("api/shipments/{shipmentId}/cancel")
     Call<CancelShipmentModelResponse> cancelShipment(
+            @Header("Authorization") String auth,
+            @Path("shipmentId") Integer id
+    );
+
+    //https://uat-app1.shoppreglobal.com/api/shipmentInvoice/225
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/shipmentInvoice/{shipmentId}")
+    Call<DownloadInvoiceModelResponse> downloadInvoice(
             @Header("Authorization") String auth,
             @Path("shipmentId") Integer id
     );
