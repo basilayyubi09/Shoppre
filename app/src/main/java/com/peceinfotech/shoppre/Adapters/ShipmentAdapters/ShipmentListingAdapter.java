@@ -87,6 +87,7 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
 
                 bundle.putInt("id", shipment.getId());
                 bundle.putInt("size", shipment.getPackages().size());
+                bundle.putInt("stateId", shipment.getStateId());
                 bundle.putString("stateName", shipment.getStateName());
                 bundle.putSerializable("packages", (Serializable) shipment.getPackages());
                 ShipmentLanding shipmentLanding = new ShipmentLanding();

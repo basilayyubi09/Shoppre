@@ -90,6 +90,12 @@ dependencies {
 
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
 
+    //user Permission
+    implementation 'com.karumi:dexter:6.2.3'
+
+
+    //Download
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
 
 }
 

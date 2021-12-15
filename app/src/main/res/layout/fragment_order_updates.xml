@@ -7,12 +7,11 @@
     tools:context=".UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="100dp"
         android:orientation="vertical">
 
 
@@ -21,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="39dp"
-            android:layout_marginTop="50dp"
-            />
+            android:layout_marginTop="50dp" />
 
     </LinearLayout>
 
@@ -57,7 +55,7 @@
             android:layout_width="43dp"
             android:layout_height="45dp"
             android:layout_marginLeft="6dp"
-            android:src="@drawable/send_button"/>
+            android:src="@drawable/send_button" />
 
 
     </LinearLayout>

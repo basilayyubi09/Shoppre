@@ -153,7 +153,7 @@
                                     android:id="@+id/deliveryAddress"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Airport Rd - \nGarhoud - Dubai - United Arab Emirates"
+                                    android:text=""
                                     android:textColor="@color/black"
                                     android:textFontWeight="600"
                                     android:textSize="10sp" />
@@ -289,7 +289,6 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="21dp"
@@ -578,21 +577,21 @@
                             android:textSize="8sp"
                             android:visibility="gone" />
 
-                        <LinearLayout
-                            android:id="@+id/uploadInvoiceButtonLayout"
+                    <LinearLayout
+                        android:id="@+id/uploadInvoiceButtonLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="24dp">
+                        <androidx.cardview.widget.CardView
+                            android:visibility="gone"
+                            android:id="@+id/cancelShipmentBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="24dp"
-                            android:visibility="gone">
-
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/cancelShipmentBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:clickable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                app:cardCornerRadius="5dp">
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_marginRight="20dp"
+                            android:clickable="true"
+                            app:cardCornerRadius="5dp">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -606,27 +605,26 @@
                                     android:textSize="12sp" />
 
 
-                            </androidx.cardview.widget.CardView>
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/uploadInvoiceBtn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginBottom="10dp"
-                                android:insetTop="0dp"
-                                android:insetBottom="0dp"
-                                android:letterSpacing="0.03"
-                                android:paddingHorizontal="19dp"
-                                android:paddingVertical="8dp"
-                                android:text="Upload Invoice"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
-                                android:textFontWeight="600"
-                                android:textSize="12sp"
-                                app:backgroundTint="#17B28F"
-                                app:cornerRadius="5dp" />
-                        </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                        <com.google.android.material.button.MaterialButton
+                            android:visibility="gone"
+                            android:id="@+id/uploadInvoiceBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:paddingHorizontal="19dp"
+                            android:paddingVertical="8dp"
+                            android:layout_marginBottom="10dp"
+                            app:cornerRadius="5dp"
+                            app:backgroundTint="#17B28F"
+                            android:text="Upload Invoice"
+                            android:textAllCaps="false"
+                            android:letterSpacing="0.03"
+                            android:textColor="@color/white"
+                            android:textFontWeight="600"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/inReviewTag"
@@ -985,7 +983,7 @@
                         app:tabIndicatorColor="#3A5FD8"
                         app:tabIndicatorHeight="1dp"
                         app:tabSelectedTextColor="#3A5FD8"
-                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                        app:tabTextAppearance="@style/MineCustomTabText"
                         app:tabTextColor="@color/black">
 
 
