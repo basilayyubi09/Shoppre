@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.peceinfotech.shoppre" >
+    package="com.shoppreglobal.shoppre" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,20 +19,20 @@
 
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.AccountAndWallet.AccountWalletActivity"
+            android:name="com.shoppreglobal.shoppre.UI.AccountAndWallet.AccountWalletActivity"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
-            android:name=".UI.Orders.OrderActivity"
+            android:name="com.shoppreglobal.shoppre.UI.Orders.OrderActivity"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.OnBoarding.OnBoardingActivity"
+            android:name="com.shoppreglobal.shoppre.UI.OnBoarding.OnBoardingActivity"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.SignUpActivity"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.SignUpActivity"
             android:exported="true" >
 
             <intent-filter>
@@ -44,23 +44,23 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.LoginActivity"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.LoginActivity"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.ResetPassword"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.ResetPassword"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.ForgotPasswordMessage"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.ForgotPasswordMessage"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.ForgetPassword"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.ForgetPassword"
             android:exported="true" />
         <activity
             android:screenOrientation="portrait"
-            android:name=".UI.SignupLogin.SignUp_Valid"
+            android:name="com.shoppreglobal.shoppre.UI.SignupLogin.SignUp_Valid"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

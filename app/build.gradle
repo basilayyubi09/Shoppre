@@ -6,7 +6,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.peceinfotech.shoppre"
+        applicationId "com.shoppreglobal.shoppre"
         minSdk 23
         targetSdk 30
         versionCode 1
