@@ -4,17 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.BoxDetailsParentAdapter;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentDetailsAdapter;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.Utils.LoadingDialog;
 import com.peceinfotech.shoppre.Utils.SharedPrefManager;
@@ -29,10 +34,16 @@ import retrofit2.Response;
 
 public class ShipmentDetails extends Fragment {
 
-    RecyclerView shipmentDetailsRecycler;
+    RecyclerView shipmentDetailsRecycler , boxRecycle;
     List<PackageModel> list = new ArrayList<>();
     ShipmentDetailsAdapter shipmentDetailsAdapter;
     SharedPrefManager sharedPrefManager;
+    LinearLayout secondRecycle;
+    Spinner boxSpinner;
+    BoxDetailsParentAdapter boxDetailsParentAdapter;
+    List<ShipmentBox> boxList;
+    ArrayAdapter arrayAdapter;
+    String[] dynamicString;
     int id;
 
     @Override
@@ -42,6 +53,9 @@ public class ShipmentDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shipment_details, container, false);
 
         shipmentDetailsRecycler = view.findViewById(R.id.shipmentDetailsRecycler);
+        secondRecycle = view.findViewById(R.id.secondRecycle);
+        boxSpinner = view.findViewById(R.id.boxSpinner);
+        boxRecycle = view.findViewById(R.id.boxRecycle);
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         Bundle bundle = this.getArguments();
@@ -66,10 +80,28 @@ public class ShipmentDetails extends Fragment {
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
                 if (response.code() == 200) {
-                    list = response.body().getPackages();
+                    if (response.body().getShipment().getShipmentBoxes().isEmpty()){
+                        list = response.body().getPackages();
+                        shipmentDetailsAdapter = new ShipmentDetailsAdapter(list, getActivity());
+                        shipmentDetailsRecycler.setAdapter(shipmentDetailsAdapter);
+                        shipmentDetailsRecycler.setVisibility(View.VISIBLE);
+                        secondRecycle.setVisibility(View.GONE);
+                    }
+                    else {
 
-                    shipmentDetailsAdapter = new ShipmentDetailsAdapter(list, getActivity());
-                    shipmentDetailsRecycler.setAdapter(shipmentDetailsAdapter);
+                        shipmentDetailsRecycler.setVisibility(View.GONE);
+                        secondRecycle.setVisibility(View.VISIBLE);
+                        boxList = response.body().getShipment().getShipmentBoxes();
+                        dynamicString = new String[boxList.size()];
+                        boxDetailsParentAdapter = new BoxDetailsParentAdapter(getActivity() , boxList);
+                        boxRecycle.setAdapter(boxDetailsParentAdapter);
+                        for (int i=0;i<boxList.size();i++){
+                            dynamicString[i] = "Box "+String.valueOf(i+1);
+                        }
+                        arrayAdapter = new ArrayAdapter(getContext(), R.layout.wallet_fragment_spinner_text, dynamicString);
+                        boxSpinner.setAdapter(arrayAdapter);
+                    }
+
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {

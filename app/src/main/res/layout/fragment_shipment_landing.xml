@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
 
     tools:context=".UI.Shipment.ShipmentFragment.ShipmentLanding">
@@ -12,8 +12,8 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -300,553 +300,665 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="24dp"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="30dp">
+                        android:orientation="vertical"
+                        android:paddingBottom="24dp">
 
                         <LinearLayout
+                            android:id="@+id/firstLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dp"
-
-                            android:layout_weight="1">
-
-
-                            <ImageView
-                                android:layout_width="21dp"
-                                android:layout_height="21dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@mipmap/dimension" />
+                            android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical">
+                                android:layout_marginVertical="30dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Dimensions"
-                                    android:textFontWeight="400"
-                                    android:textSize="10sp" />
+                                    android:layout_marginLeft="22dp"
 
-                                <TextView
-                                    android:id="@+id/dimension"
-                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1">
+
+
+                                    <ImageView
+                                        android:layout_width="21dp"
+                                        android:layout_height="21dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/dimension" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Dimensions"
+                                            android:textFontWeight="400"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/dimension"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="To Be Calculated"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="10sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="To Be Calculated"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="600"
-                                    android:textSize="10sp" />
+                                    android:layout_marginLeft="22dp"
+                                    android:layout_weight="1">
 
+
+                                    <ImageView
+                                        android:layout_width="21dp"
+                                        android:layout_height="21dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/measure" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Volumetric Weight"
+                                            android:textFontWeight="400"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/volumetricWeight"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="To Be Calculated"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="10sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="30dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="22dp"
+
+                                    android:layout_weight="1">
+
+
+                                    <ImageView
+                                        android:layout_width="21dp"
+                                        android:layout_height="21dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/like" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Final Weight"
+                                            android:textFontWeight="400"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/finalWeight"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="To Be Calculated"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="10sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="22dp"
+                                    android:layout_weight="1">
+
+
+                                    <ImageView
+                                        android:layout_width="21dp"
+                                        android:layout_height="21dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@mipmap/cost" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Total Cost"
+                                            android:textFontWeight="400"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/totalCost"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="To Be Calculated"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="10sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/secondLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dp"
-                            android:layout_weight="1">
+                            android:orientation="vertical">
 
-
-                            <ImageView
-                                android:layout_width="21dp"
-                                android:layout_height="21dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@mipmap/measure" />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/boxRecycle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical">
+                                android:layout_marginVertical="20dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Volumetric Weight"
-                                    android:textFontWeight="400"
-                                    android:textSize="10sp" />
+                                    android:layout_marginLeft="22dp"
+                                    android:layout_weight="1">
 
-                                <TextView
-                                    android:id="@+id/volumetricWeight"
-                                    android:layout_width="wrap_content"
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Total Weight"
+                                            android:textFontWeight="400"
+                                            android:textSize="12sp" />
+
+                                        <TextView
+                                            android:id="@+id/totalWeight"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_horizontal"
+                                            android:text="8 Kg"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="12sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:gravity="center"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="To Be Calculated"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="600"
-                                    android:textSize="10sp" />
+                                    android:layout_marginLeft="22dp"
+                                    android:layout_weight="1">
 
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="8dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Total Charge"
+                                            android:textFontWeight="400"
+                                            android:textSize="12sp" />
+
+                                        <TextView
+                                            android:id="@+id/totalCharge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_horizontal"
+                                            android:text="₹ 3095.00"
+                                            android:textColor="@color/black"
+                                            android:textFontWeight="600"
+                                            android:textSize="12sp" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="30dp">
+                        <TextView
+                            android:id="@+id/uploadInvoiceHelpText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="40dp"
+                            android:gravity="center"
+                            android:text="@string/the_shipment_cannot"
+                            android:textColor="#818181"
+                            android:textFontWeight="400"
+                            android:textSize="8sp"
+                            android:visibility="gone" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dp"
-
-                            android:layout_weight="1">
-
-
-                            <ImageView
-                                android:layout_width="21dp"
-                                android:layout_height="21dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@mipmap/like" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Final Weight"
-                                    android:textFontWeight="400"
-                                    android:textSize="10sp" />
-
-                                <TextView
-                                    android:id="@+id/finalWeight"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="To Be Calculated"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="600"
-                                    android:textSize="10sp" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="22dp"
-                            android:layout_weight="1">
-
-
-                            <ImageView
-                                android:layout_width="21dp"
-                                android:layout_height="21dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@mipmap/cost" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Total Cost"
-                                    android:textFontWeight="400"
-                                    android:textSize="10sp" />
-
-                                <TextView
-                                    android:id="@+id/totalCost"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="To Be Calculated"
-                                    android:textColor="@color/black"
-                                    android:textFontWeight="600"
-                                    android:textSize="10sp" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/uploadInvoiceHelpText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="40dp"
-                        android:gravity="center"
-                        android:text="@string/the_shipment_cannot"
-                        android:textColor="#818181"
-                        android:textFontWeight="400"
-                        android:textSize="8sp" />
-
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/uploadInvoiceButtonLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="24dp">
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/cancelShipmentBtn"
+                            android:id="@+id/uploadInvoiceButtonLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            app:cardCornerRadius="5dp">
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="24dp"
+                            android:visibility="gone">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cancelShipmentBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                app:cardCornerRadius="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/logout_shadow"
+                                    android:paddingHorizontal="12dp"
+                                    android:paddingVertical="8dp"
+                                    android:text="Cancel Shipment"
+                                    android:textColor="#2D8DFF"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/uploadInvoiceBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:letterSpacing="0.03"
+                                android:paddingHorizontal="19dp"
+                                android:paddingVertical="8dp"
+                                android:text="Upload Invoice"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textFontWeight="600"
+                                android:textSize="12sp"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/inReviewTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:text="Cancel Shipment"
-                                android:textColor="#2D8DFF"
-                                android:textSize="12sp"
-                                android:textFontWeight="600"
-                                android:paddingVertical="8dp"
-                                android:paddingHorizontal="12dp"
-                                android:background="@drawable/logout_shadow"/>
+                                android:background="#8000D1FF"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="23dp"
+                                android:text="In Review"
+                                android:textColor="#00A3C7"
+                                android:textSize="8sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/inReviewHelpText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:text="@string/we_re_processing_"
+                            android:textColor="#818181"
+                            android:textSize="8sp"
+                            android:visibility="gone" />
 
 
-                        </androidx.cardview.widget.CardView>
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/uploadInvoiceBtn"
+                            android:id="@+id/makePaymentBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            android:paddingHorizontal="19dp"
-                            android:paddingVertical="8dp"
-                            android:layout_marginBottom="10dp"
-                            app:cornerRadius="5dp"
-                            android:layout_marginLeft="20dp"
-                            app:backgroundTint="#17B28F"
-                            android:text="Upload Invoice"
-                            android:textAllCaps="false"
                             android:letterSpacing="0.03"
+                            android:text="Make Payment"
+                            android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="600"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/inReviewTag"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp">
-                        <TextView
-                            android:background="#8000D1FF"
-                            android:gravity="center_vertical"
-                            android:paddingHorizontal="23dp"
-                            android:textSize="8sp"
-                            android:textColor="#00A3C7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="In Review"/>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <TextView
-                        android:id="@+id/inReviewHelpText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center"
-                        android:textColor="#818181"
-                        android:text="@string/we_re_processing_"
-                        android:textSize="8sp" />
-
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/makePaymentBtn"
-                        android:visibility="gone"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:insetTop="0dp"
-                        android:layout_marginTop="20dp"
-                        android:insetBottom="0dp"
-                        app:cornerRadius="5dp"
-                        app:backgroundTint="#17B28F"
-                        android:text="Make Payment"
-                        android:textAllCaps="false"
-                        android:letterSpacing="0.03"
-                        android:textColor="@color/white"
-                        android:textFontWeight="600"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:id="@+id/makePaymentHelpText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/please_make_the_payment"
-                        android:textColor="#818181"
-                        android:textSize="8sp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginHorizontal="70dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"/>
-
-
-                    <TextView
-                        android:id="@+id/paymentFailedTag"
-                        android:visibility="gone"
-                        android:background="@drawable/pending_invoice_background"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="23dp"
-                        android:textSize="8sp"
-                        android:textColor="#FF0101"
-                        android:paddingVertical="3dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Payment Failed"/>
-
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/retryPaymentBtn"
-                        android:visibility="gone"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:insetTop="0dp"
-                        android:layout_marginTop="20dp"
-                        android:insetBottom="0dp"
-                        app:cornerRadius="5dp"
-                        app:backgroundTint="#17B28F"
-                        android:text="Retry Payment"
-                        android:textAllCaps="false"
-                        android:letterSpacing="0.03"
-                        android:textColor="@color/white"
-                        android:textFontWeight="600"
-                        android:textSize="12sp"/>
-                    <TextView
-                        android:id="@+id/retryPaymentHelpText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Please make the payment within 7 days of initiation\nafter which there’ll be a charge of ₹ 100/day.\nThe charges will be added to the wallet."
-                        android:textColor="#818181"
-                        android:textSize="8sp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginHorizontal="70dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"/>
-
-
-                    <LinearLayout
-                        android:id="@+id/uploadWireTransferText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="22dp">
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            app:backgroundTint="#17B28F"
+                            app:cornerRadius="5dp" />
 
                         <TextView
+                            android:id="@+id/makePaymentHelpText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload Wire Transfer Acknowledgement"
-                            android:textSize="12dp"
-                            android:textFontWeight="500"
-                            android:textColor="#3A5FD8" />
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:src="@drawable/ic_arrow"
-                            android:layout_marginLeft="3dp"/>
-
-
-                    </LinearLayout>
-
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/verifyPaymentTag"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp">
-                        <TextView
-                            android:background="#F6E6B9"
-                            android:gravity="center_vertical"
-                            android:paddingHorizontal="11dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="70dp"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:text="@string/please_make_the_payment"
+                            android:textColor="#818181"
                             android:textSize="8sp"
-                            android:textColor="#F8B800"
+                            android:visibility="gone" />
+
+
+                        <TextView
+                            android:id="@+id/paymentFailedTag"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Verifying Payment"/>
-                    </com.google.android.material.card.MaterialCardView>
-
-
-                    <TextView
-                        android:id="@+id/verifyPaymentHelpText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="We’re confirming your payment status with our bank.\nWe will initiate your shipment after confirmation."
-                        android:textColor="#818181"
-                        android:textSize="8sp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginHorizontal="70dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"/>
-
-
-                    <TextView
-                        android:id="@+id/changePaymentMethodText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Change Payment Method/ Retry Payment"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
-                        android:textSize="12dp"
-                        android:textFontWeight="500"
-                        android:textColor="#3A5FD8" />
-
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/paymentConfirmTag"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp">
-                        <TextView
-                            android:background="#801DD2A9"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/pending_invoice_background"
                             android:gravity="center_vertical"
-                            android:paddingHorizontal="8dp"
+                            android:paddingHorizontal="23dp"
+                            android:paddingVertical="3dp"
+                            android:text="Payment Failed"
+                            android:textColor="#FF0101"
                             android:textSize="8sp"
-                            android:textColor="#00A781"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Payment Confirmed"/>
-                    </com.google.android.material.card.MaterialCardView>
+                            android:visibility="gone" />
 
 
-                    <TextView
-                        android:id="@+id/paymentConfirmHelpText"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="We’ve recieved your payment.\nYour shipment is being initiated."
-                        android:textColor="#818181"
-                        android:textSize="8sp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginHorizontal="70dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"/>
-
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/dispatchedTagCard"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp">
-                        <TextView
-
-                            android:background="#EEE5FF"
-                            android:gravity="center_vertical"
-                            android:paddingHorizontal="26dp"
-                            android:textSize="8sp"
-                            android:textColor="#8950FC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Dispatched"/>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/deliveredTagCard"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-                        app:cardCornerRadius="5dp"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp">
-                        <TextView
-                            android:background="#EEE5FF"
-                            android:gravity="center_vertical"
-                            android:paddingHorizontal="26dp"
-                            android:textSize="8sp"
-                            android:textColor="#8950FC"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Delivered"/>
-                    </com.google.android.material.card.MaterialCardView>
-
-
-                    <LinearLayout
-                        android:id="@+id/downloadInvoiceLayout"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="19dp">
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/downloadInvoiceBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="27dp"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:clickable="true"
-                            app:cardCornerRadius="5dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="Download Invoice"
-                                android:textColor="#2D8DFF"
-                                android:textSize="12sp"
-                                android:gravity="center"
-                                android:textFontWeight="700"
-                                android:paddingHorizontal="19dp"
-                                android:background="@drawable/logout_shadow"/>
-
-
-                        </androidx.cardview.widget.CardView>
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/trackShipmentBtn"
+                            android:id="@+id/retryPaymentBtn"
                             android:layout_width="wrap_content"
-                            android:layout_height="27dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
-                            android:layout_marginBottom="10dp"
-                            android:paddingHorizontal="26dp"
-                            app:cornerRadius="5dp"
-                            android:layout_marginLeft="20dp"
-                            app:backgroundTint="#17B28F"
-                            android:text="Track Shipment"
-                            android:textAllCaps="false"
                             android:letterSpacing="0.03"
+                            android:text="Retry Payment"
+                            android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="600"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            app:backgroundTint="#17B28F"
+                            app:cornerRadius="5dp" />
+
+                        <TextView
+                            android:id="@+id/retryPaymentHelpText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="70dp"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:text="Please make the payment within 7 days of initiation\nafter which there’ll be a charge of ₹ 100/day.\nThe charges will be added to the wallet."
+                            android:textColor="#818181"
+                            android:textSize="8sp"
+                            android:visibility="gone" />
+
+
+                        <LinearLayout
+                            android:id="@+id/uploadWireTransferText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="22dp"
+                            android:gravity="center"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Upload Wire Transfer Acknowledgement"
+                                android:textColor="#3A5FD8"
+                                android:textFontWeight="500"
+                                android:textSize="12dp" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginLeft="3dp"
+                                android:src="@drawable/ic_arrow" />
+
+
+                        </LinearLayout>
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/verifyPaymentTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#F6E6B9"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="11dp"
+                                android:text="Verifying Payment"
+                                android:textColor="#F8B800"
+                                android:textSize="8sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <TextView
+                            android:id="@+id/verifyPaymentHelpText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="70dp"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="We’re confirming your payment status with our bank.\nWe will initiate your shipment after confirmation."
+                            android:textColor="#818181"
+                            android:textSize="8sp"
+                            android:visibility="gone" />
+
+
+                        <TextView
+                            android:id="@+id/changePaymentMethodText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="18dp"
+                            android:text="Change Payment Method/ Retry Payment"
+                            android:textColor="#3A5FD8"
+                            android:textFontWeight="500"
+                            android:textSize="12dp"
+                            android:visibility="gone" />
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/paymentConfirmTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#801DD2A9"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="8dp"
+                                android:text="Payment Confirmed"
+                                android:textColor="#00A781"
+                                android:textSize="8sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <TextView
+                            android:id="@+id/paymentConfirmHelpText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginHorizontal="70dp"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:text="We’ve recieved your payment.\nYour shipment is being initiated."
+                            android:textColor="#818181"
+                            android:textSize="8sp"
+                            android:visibility="gone" />
+
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/dispatchedTagCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#EEE5FF"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="26dp"
+                                android:text="Dispatched"
+                                android:textColor="#8950FC"
+                                android:textSize="8sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/deliveredTagCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"
+                            app:cardCornerRadius="5dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="#EEE5FF"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="26dp"
+                                android:text="Delivered"
+                                android:textColor="#8950FC"
+                                android:textSize="8sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                        <LinearLayout
+                            android:id="@+id/downloadInvoiceLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="24dp"
+                            android:layout_marginTop="19dp"
+                            android:gravity="center_horizontal"
+                            android:visibility="gone">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/downloadInvoiceBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="27dp"
+                                android:clickable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                app:cardCornerRadius="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/logout_shadow"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="19dp"
+                                    android:text="Download Invoice"
+                                    android:textColor="#2D8DFF"
+                                    android:textFontWeight="700"
+                                    android:textSize="12sp" />
+
+
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/trackShipmentBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="27dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:letterSpacing="0.03"
+                                android:paddingHorizontal="26dp"
+                                android:text="Track Shipment"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textFontWeight="600"
+                                android:textSize="12sp"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
 
                 </LinearLayout>
+
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -857,8 +969,7 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="28dp"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="4dp"
-                >
+                app:cardElevation="4dp">
 
 
                 <com.google.android.material.appbar.AppBarLayout

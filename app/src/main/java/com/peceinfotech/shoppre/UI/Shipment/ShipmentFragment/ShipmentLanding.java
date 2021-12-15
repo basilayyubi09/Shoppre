@@ -22,19 +22,22 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.peceinfotech.shoppre.AccountResponse.RefreshTokenResponse;
+import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.BoxAdapter;
 import com.peceinfotech.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
 import com.peceinfotech.shoppre.LockerModelResponse.PackageModel;
 import com.peceinfotech.shoppre.R;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient;
 import com.peceinfotech.shoppre.Retrofit.RetrofitClient3;
+import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.peceinfotech.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.peceinfotech.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
@@ -43,6 +46,7 @@ import com.peceinfotech.shoppre.Utils.SharedPrefManager;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,10 +65,13 @@ public class ShipmentLanding extends Fragment {
     CardView cancelShipmentBtn, downloadInvoiceBtn;
     TextView filePathGlobal;
     String picturePath;
-
+    List<ShipmentBox> boxList;
+    BoxAdapter boxAdapter;
+    RecyclerView boxRecycle;
+    LinearLayoutManager linearLayoutManager;
     TextView deliverToName, shipmentId, deliveryAddress, requestDate, contactNumber, packageTotalWeight, dimension, volumetricWeight, finalWeight, totalCost;
     TextView uploadInvoiceHelpText, inReviewHelpText, makePaymentHelpText, paymentFailedTag, retryPaymentHelpText;
-
+    int size;
     TextView verifyPaymentHelpText, changePaymentMethodText, paymentConfirmHelpText;
     LinearLayout uploadInvoiceButtonLayout, uploadWireTransferText;
     int id;
@@ -73,7 +80,8 @@ public class ShipmentLanding extends Fragment {
     SharedPrefManager sharedPrefManager;
     ShipmentDetailsModelResponse modelResponse;
     CardView inReview, verifyPaymentTag, paymentConfirmTag, deliveredTag, dispatchedTagCard;
-    NestedScrollView nestedScrollView;
+    LinearLayout firstLayout, secondLayout;
+    TextView totalWeight, totalCharge;
 
     boolean isInvoice = true;
     boolean isPayment = true;
@@ -90,12 +98,19 @@ public class ShipmentLanding extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             id = bundle.getInt("id");
+            size = bundle.getInt("size");
             stateName = bundle.getString("stateName");
             list = (List<PackageModel>) bundle.getSerializable("packages");
         }
 
-
+        boxList = new ArrayList<>();
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         viewPager = view.findViewById(R.id.viewPagerShipment);
+        totalWeight = view.findViewById(R.id.totalWeight);
+        totalCharge = view.findViewById(R.id.totalCharge);
+        boxRecycle = view.findViewById(R.id.boxRecycle);
+        firstLayout = view.findViewById(R.id.firstLayout);
+        secondLayout = view.findViewById(R.id.secondLayout);
         shipmentTabLayout = view.findViewById(R.id.shipmentTabLayout);
         makePaymentBtn = view.findViewById(R.id.makePaymentBtn);
         uploadInvoiceBtn = view.findViewById(R.id.uploadInvoiceBtn);
@@ -136,13 +151,14 @@ public class ShipmentLanding extends Fragment {
 
 
         viewPagerAdapter = new ShipmentLandingViewPager(getChildFragmentManager());
-
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        shipmentDetailsApi();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id", id);
         shipmentDetails.setArguments(bundle1);
 
 
-        viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details");
+        viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details" + " ("+String.valueOf(size)+")");
         viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -203,8 +219,6 @@ public class ShipmentLanding extends Fragment {
 //                        .addToBackStack(null).commit();
 //            }
 //        });
-        LoadingDialog.showLoadingDialog(getActivity(), "");
-        shipmentDetailsApi();
 
 
         return view;
@@ -220,7 +234,20 @@ public class ShipmentLanding extends Fragment {
                 if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     modelResponse = response.body();
+
                     setShipmentDetailsValue();
+                    if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
+                        firstLayout.setVisibility(View.VISIBLE);
+                        secondLayout.setVisibility(View.GONE);
+                    } else {
+                        firstLayout.setVisibility(View.GONE);
+                        secondLayout.setVisibility(View.VISIBLE);
+                        totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
+                        totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
+                        boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
+                        boxRecycle.setLayoutManager(linearLayoutManager);
+                        boxRecycle.setAdapter(boxAdapter);
+                    }
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 }
