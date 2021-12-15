@@ -286,20 +286,20 @@ public class ShipmentLanding extends Fragment {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Download Complete", Toast.LENGTH_SHORT).show();
 
-//                        File file1 = new File(String.valueOf(file));
-//                        MimeTypeMap map = MimeTypeMap.getSingleton();
-//                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-//                        String type = map.getMimeTypeFromExtension(ext);
-//
-//                        if (type == null)
-//                            type = "*/*";
-//
-//                        Intent intent = new Intent(Intent.ACTION_VIEW);
-//                        Uri data = Uri.fromFile(file);
-//
-//                        intent.setDataAndType(data, type);
-//
-//                        startActivity(intent);
+                        File file1 = new File(String.valueOf(file));
+                        MimeTypeMap map = MimeTypeMap.getSingleton();
+                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+                        String type = map.getMimeTypeFromExtension(ext);
+
+                        if (type == null)
+                            type = "*/*";
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Uri data = Uri.fromFile(file);
+
+                        intent.setDataAndType(data, type);
+
+                        startActivity(intent);
                     }
 
                     @Override
