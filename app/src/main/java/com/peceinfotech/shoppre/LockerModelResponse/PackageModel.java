@@ -44,7 +44,7 @@ public class PackageModel implements Serializable {
     private Object invoice;
     @SerializedName("is_full_invoice_received")
     @Expose
-    private Object isFullInvoiceReceived;
+    private boolean isFullInvoiceReceived;
     @SerializedName("is_wrong_item")
     @Expose
     private Object isWrongItem;
@@ -157,11 +157,11 @@ public class PackageModel implements Serializable {
         return invoice;
     }
 
-    public Object getIsFullInvoiceReceived() {
+    public boolean getIsFullInvoiceReceived() {
         return isFullInvoiceReceived;
     }
 
-    public void setIsFullInvoiceReceived(Object isFullInvoiceReceived) {
+    public void setIsFullInvoiceReceived(boolean isFullInvoiceReceived) {
         this.isFullInvoiceReceived = isFullInvoiceReceived;
     }
 

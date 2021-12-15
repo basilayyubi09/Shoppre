@@ -69,8 +69,9 @@ public class ShipmentLanding extends Fragment {
     TextView uploadInvoiceHelpText, inReviewHelpText, makePaymentHelpText, paymentFailedTag, retryPaymentHelpText;
 
     TextView verifyPaymentHelpText, changePaymentMethodText, paymentConfirmHelpText;
-    LinearLayout uploadInvoiceButtonLayout, uploadWireTransferText;
+    LinearLayout uploadInvoiceButtonLayout, uploadWireTransferText, downloadInvoiceLayout;
     int id;
+    int stateId;
     String stateName;
     List<PackageModel> list;
     SharedPrefManager sharedPrefManager;
@@ -94,6 +95,7 @@ public class ShipmentLanding extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle!=null){
             id = bundle.getInt("id");
+            stateId = bundle.getInt("stateId");
             stateName = bundle.getString("stateName");
             list = (List<PackageModel>) bundle.getSerializable("packages");
         }
@@ -135,6 +137,7 @@ public class ShipmentLanding extends Fragment {
         paymentConfirmHelpText = view.findViewById(R.id.paymentConfirmHelpText);
         dispatchedTagCard = view.findViewById(R.id.dispatchedTagCard);
         deliveredTag = view.findViewById(R.id.deliveredTagCard);
+        downloadInvoiceLayout = view.findViewById(R.id.downloadInvoiceLayout);
 //        nestedScrollView = view.findViewById(R.id.nestedScrollView);
 //
 //        nestedScrollView.setFillViewport(true);
@@ -350,32 +353,96 @@ public class ShipmentLanding extends Fragment {
 //            makePaymentBtn.setVisibility(View.GONE);
 //        }
 
+/////Conditions for tags and buttons
 
-        if (stateName.equals("Awaiting Payment")) {
-            verifyPaymentTag.setVisibility(View.VISIBLE);
-            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+
+        for (int i=0; i<list.size(); i++){
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==false && stateId==16 || stateId==100){
+                uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                inReviewHelpText.setVisibility(View.GONE);
+                inReview.setVisibility(View.GONE);
+
+            }else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==true && stateId==16 || stateId ==17 || stateId==101){
+                uploadInvoiceHelpText.setVisibility(View.GONE);
+                uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                inReviewHelpText.setVisibility(View.VISIBLE);
+                inReview.setVisibility(View.VISIBLE);
+
+            }
+        }
+        if (modelResponse.getTotalHours()==0){
+            cancelShipmentBtn.setVisibility(View.VISIBLE);
+        }else if (modelResponse.getTotalHours()>0){
+            cancelShipmentBtn.setVisibility(View.GONE);
+        }
+
+
+        if (stateId==18){
+            makePaymentBtn.setVisibility(View.VISIBLE);
+            makePaymentHelpText.setVisibility(View.VISIBLE);
+        }else if (stateId==20){
             uploadWireTransferText.setVisibility(View.VISIBLE);
+            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+            verifyPaymentTag.setVisibility(View.VISIBLE);
             changePaymentMethodText.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("In Review")) {
-            inReview.setVisibility(View.VISIBLE);
-            inReviewHelpText.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("Pending Invoice Upload")) {
-            uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("Payment Failed")) {
-            paymentFailedTag.setVisibility(View.VISIBLE);
-            retryPaymentBtn.setVisibility(View.VISIBLE);
-            retryPaymentHelpText.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("Payment Confirmed")) {
+        }else if (stateId==22){
             paymentConfirmTag.setVisibility(View.VISIBLE);
             paymentConfirmHelpText.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("Dispatched")) {
+        }else if (stateId==24){
             dispatchedTagCard.setVisibility(View.VISIBLE);
-            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-        } else if (stateName.equals("Delivered")) {
+            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+        }else if (stateId==40){
             deliveredTag.setVisibility(View.VISIBLE);
-            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+            downloadInvoiceLayout.setVisibility(View.VISIBLE);
         }
+
+
+//        if (stateId==18){
+//            makePaymentBtn.setVisibility(View.VISIBLE);
+//            makePaymentBtn.setVisibility(View.VISIBLE);
+//        }else if (stateId==20){
+//            verifyPaymentTag.setVisibility(View.VISIBLE);
+//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+//            uploadWireTransferText.setVisibility(View.VISIBLE);
+//            changePaymentMethodText.setVisibility(View.VISIBLE);
+//        }else if (stateId==22){
+//            paymentConfirmTag.setVisibility(View.VISIBLE);
+//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
+//        }else if (stateId==24){
+//            dispatchedTagCard.setVisibility(View.VISIBLE);
+//            downloadInvoiceBtn
+//        }
+
+
+
+
+
+//        if (stateName.equals("Awaiting Payment")) {
+//            verifyPaymentTag.setVisibility(View.VISIBLE);
+//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+//            uploadWireTransferText.setVisibility(View.VISIBLE);
+//            changePaymentMethodText.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("In Review")) {
+//            inReview.setVisibility(View.VISIBLE);
+//            inReviewHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("Pending Invoice Upload")) {
+//            uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("Payment Failed")) {
+//            paymentFailedTag.setVisibility(View.VISIBLE);
+//            retryPaymentBtn.setVisibility(View.VISIBLE);
+//            retryPaymentHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("Payment Confirmed")) {
+//            paymentConfirmTag.setVisibility(View.VISIBLE);
+//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("Dispatched")) {
+//            dispatchedTagCard.setVisibility(View.VISIBLE);
+//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+//        } else if (stateName.equals("Delivered")) {
+//            deliveredTag.setVisibility(View.VISIBLE);
+//            uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+//        }
 
 
 
