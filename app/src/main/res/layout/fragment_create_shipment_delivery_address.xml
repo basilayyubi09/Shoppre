@@ -112,6 +112,7 @@
                 android:textColor="@color/white"
                 android:textFontWeight="700"
                 app:icon="@drawable/return_arrow"
+                app:iconSize="14dp"
                 android:backgroundTint="@color/grey"
                 app:iconGravity="end"
                 app:iconTint="@color/white"

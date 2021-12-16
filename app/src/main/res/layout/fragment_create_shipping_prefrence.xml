@@ -677,6 +677,7 @@
                             android:textColor="@color/white"
                             android:textFontWeight="700"
                             android:textSize="12sp"
+                            app:iconSize="14dp"
                             app:backgroundTint="@color/grey"
                             app:icon="@drawable/return_arrow"
                             app:iconGravity="end"

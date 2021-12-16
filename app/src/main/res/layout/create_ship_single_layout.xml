@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_vertical"
     android:padding="25dp">
 
 
@@ -15,8 +16,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+
         android:layout_weight="1"
+        android:layout_marginRight="10dp"
         android:orientation="vertical">
 
 
@@ -125,6 +127,7 @@
             android:background="@drawable/order_placed_background"
             android:gravity="center"
             android:paddingVertical="3dp"
+            android:layout_marginHorizontal="5dp"
             android:text="Action Required"
             android:textColor="@color/action_required_yellow_color"
             android:textFontWeight="500"
@@ -143,13 +146,15 @@
                 android:layout_height="wrap_content"
                 android:text="View Package"
                 android:textColor="#3A5FD8"
+                android:paddingLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:textFontWeight="500"
                 android:textSize="10sp" />
 
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginLeft="2dp"
+                android:paddingRight="3dp"
                 android:src="@drawable/ic_arrow" />
 
         </LinearLayout>
