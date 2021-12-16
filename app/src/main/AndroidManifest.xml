@@ -25,7 +25,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:name="com.shoppreglobal.shoppre.UI.Orders.OrderActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:screenOrientation="portrait"
             android:name="com.shoppreglobal.shoppre.UI.OnBoarding.OnBoardingActivity"

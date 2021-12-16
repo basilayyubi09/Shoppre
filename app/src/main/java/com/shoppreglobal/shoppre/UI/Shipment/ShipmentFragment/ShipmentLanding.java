@@ -218,6 +218,12 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
+        uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         /////////Downloading Invoice
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
@@ -601,7 +607,8 @@ public class ShipmentLanding extends Fragment {
         browsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                photoPickerIntent.addCategory(Intent.CATEGORY_OPENABLE);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, 1);
             }

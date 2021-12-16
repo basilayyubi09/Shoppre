@@ -373,8 +373,14 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     return;
                 } else {
 
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callApi();
+                    if (isBilling) {
+                        LoadingDialog.showLoadingDialog(getActivity(), "");
+                        callBillingUpdateApi();
+                    } else {
+                        LoadingDialog.showLoadingDialog(getActivity(), "");
+                        callApi();
+                    }
+
                 }
             }
         });
@@ -424,12 +430,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     private void setBillingText(DeliveryListModel.Address deliveryAddress2) {
 
         billingName.setText(deliveryAddress2.getName());
-//            billingNumber.setText(phoneNumberString);
-//            billingAddress.setText(addressLine1String + "\n"
-//                    + cityString + " - "
-//                    + stateString + "\n"
-//                    + pinCodeString + "\n"
-//                    + country);
+
         if (!deliveryAddress2.getLine2().equals("")) {
             billingAddress.setText(deliveryAddress2.getLine1() + "\n"
                     + deliveryAddress2.getLine2() + "\n"
@@ -1144,26 +1145,16 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     private void setUpBillingAddress() {
 
         for (int i = 0; i < addressList.size(); i++) {
-            billingAdd = addressList.get(i);
 
-            if (billingAdd.getBillingAddress()) {
-                if (billingAdd.getBillingAddress() != null) {
-                    isBilling = true;
-//                    billingId = billingAddress.getId();
-//                    callAddBillingItem(billingAdd);
-//                    addressForm.setVisibility(View.GONE);
-//                    useLayout.setVisibility(View.VISIBLE);
-//                    billingAddressLayout.setVisibility(View.VISIBLE);
-                }
 
-            } else {
-//                useLayout.setVisibility(View.GONE);
-                isBilling = false;
-//                addressForm.setVisibility(View.VISIBLE);
-//                billingAddressLayout.setVisibility(View.GONE);
+            if (addressList.get(i).getBillingAddress()) {
+                billingAdd = addressList.get(i);
+                isBilling = true;
+                break;
             }
-
-
+            else {
+                isBilling = false;
+            }
         }
     }
 
@@ -1228,7 +1219,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
     }
 
-    private void callApi() {
+    private void callBillingUpdateApi() {
         getTextFromField();
         String firstName, lastName = "";
 
@@ -1258,7 +1249,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         paramObject.addProperty("is_billing_address", true);
         paramObject.addProperty("name", nameString);
         String bearerToken = sharedPrefManager.getBearerToken();
-        Toast.makeText(getActivity(), paramObject.toString(), Toast.LENGTH_SHORT).show();
+
         Call<UpdateAddressResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
@@ -1309,6 +1300,94 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UpdateAddressResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
+
+    private void callApi() {
+        getTextFromField();
+        String firstName, lastName = "";
+
+
+        if (nameString.split("\\w+").length > 1) {
+
+            lastName = nameString.substring(nameString.lastIndexOf(" ") + 1);
+            firstName = nameString.substring(0, nameString.lastIndexOf(' '));
+        } else {
+            firstName = nameString;
+        }
+
+        JsonObject paramObject = new JsonObject();
+
+        paramObject.addProperty("salutation", salutation);
+        paramObject.addProperty("first_name", firstName);
+        paramObject.addProperty("last_name", lastName);
+        paramObject.addProperty("line1", addressLine1String);
+        paramObject.addProperty("line2", addressLine2String);
+        paramObject.addProperty("city", cityString);
+        paramObject.addProperty("state", stateString);
+        paramObject.addProperty("country_id", countryId);
+        paramObject.addProperty("pincode", pinCodeString);
+        paramObject.addProperty("phone", "+" + cc + phoneNumberString);
+        paramObject.addProperty("is_default", false);
+        paramObject.addProperty("customer_id", sharedPrefManager.getId());
+        paramObject.addProperty("is_billing_address", true);
+        paramObject.addProperty("name", nameString);
+
+
+        Call<AddAddressResponse> call = RetrofitClient3
+                .getInstance3()
+                .getAppApi()
+                .addAddress("Bearer " + sharedPrefManager.getBearerToken()
+                        , paramObject.toString());
+        String finalLastName = lastName;
+        call.enqueue(new Callback<AddAddressResponse>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<AddAddressResponse> call, Response<AddAddressResponse> response) {
+                if (response.code() == 200) {
+
+                    billingId = response.body().getId();
+                    billingAddressLayout.setVisibility(View.VISIBLE);
+                    addressForm.setVisibility(View.GONE);
+                    checkBoxCreateShipment.setChecked(true);
+                    isBilling = true;
+//                    callAddBillingItem(newAddress);
+                    billingName.setText(nameString);
+                    billingNumber.setText(phoneNumberString);
+                    billingAddress.setText(addressLine1String + "\n"
+                            + cityString + " - "
+                            + stateString + "\n"
+                            + pinCodeString + "\n"
+                            + country);
+
+                    checkBoxCreateShipment.setChecked(true);
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Address Updated Successfully", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else if (response.code() == 401) {
+//
+                    JsonObject jsonObject = new JsonObject();
+                    callRefreshTokenApi("", jsonObject);
+
+                } else if (response.code() == 406) {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddAddressResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
 
                 Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);

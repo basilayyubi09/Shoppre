@@ -68,7 +68,8 @@ public interface AppApi {
     //https://staging-app1.shoppreglobal.com/api/addresses
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/addresses")
-    Call<AddAddressResponse> addAddress(@Header("Authorization") String auth, @Body String jsonObject);
+    Call<AddAddressResponse> addAddress(@Header("Authorization") String auth
+            , @Body String jsonObject);
 
 
     //Country Array
