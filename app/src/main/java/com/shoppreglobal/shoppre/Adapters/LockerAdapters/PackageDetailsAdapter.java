@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +62,8 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
     public boolean isEdit = false;
     Integer packageId;
     String obj;
+    String[] menu = {"RETURN", "EXCHANGE", "DISCARD", "SPLIT PACKAGE", "SHIP IN INDIA"};
+    ArrayAdapter arrayAdapter;
 
     public PackageDetailsAdapter(List<PackageItem> list, Context context, Integer packageId, GetData getData) {
         this.list = list;
@@ -284,6 +289,13 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         });
 
 
+        ////////////////////////////////////////////////////////
+
+        arrayAdapter = new ArrayAdapter(context, R.layout.pop_menu, menu);
+        holder.threeDotSanple.setAdapter(arrayAdapter);
+
+
+
     }
 
     private void callStandardPhotoApi(Integer packageId
@@ -380,6 +392,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
         EditText priceEditText, secondPriceEditText, thirdPriceEditText;
         View viewVertical, secondViewVertical, thirdViewVertical;
         LinearLayout layoutBg, secondLayoutBg, thirdLayoutBg, viewImage;
+        Spinner threeDotSanple;
 
         public viewHolder(@NonNull View itemView, GetData getData) {
             super(itemView);
@@ -406,6 +419,8 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
             three_dots = itemView.findViewById(R.id.three_dots);
             packageDetailCheckbox = itemView.findViewById(R.id.packageDetailCheckbox);
+
+            threeDotSanple = itemView.findViewById(R.id.threeDotsSample);
 
 
         }

@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_marginTop="39dp">
 
         <LinearLayout
@@ -24,7 +24,7 @@
                 <RadioButton
                     android:id="@+id/showAddressRadioBtn"
                     android:layout_width="28dp"
-                    android:layout_height="20dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center_vertical" />
 
                 <LinearLayout
@@ -106,10 +106,11 @@
                 <TextView
                     android:id="@+id/showAddressLine1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="182, 1st Floor, 2nd Cross Rd,\n7th Main, Koramangala\nBengaluru, Karnataka,\nIndia. 560034."
                     android:textColor="@color/black"
                     android:textFontWeight="500"
+
                     android:textSize="10sp" />
 
 

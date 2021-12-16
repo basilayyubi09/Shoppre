@@ -233,6 +233,7 @@
                            android:textFontWeight="600"
                            app:backgroundTint="@color/grey"
                            app:icon="@drawable/return_arrow"
+                           app:iconSize="14dp"
                            app:iconGravity="end"
                            app:iconTint="@color/white"
                            android:enabled="false"/>

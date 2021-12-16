@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -67,13 +70,19 @@ import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,13 +121,8 @@ public class ShipmentLanding extends Fragment {
     String url;
     String getUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
-
-    private NotificationManager mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
-    Future<File> downloading;
-
-    boolean isInvoice = true;
-    boolean isPayment = true;
+    Intent myFileIntent;
+    String strFile;
 
 
     @Override
@@ -255,9 +259,20 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
+        uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                myFileIntent.setType("*/*");
+                startActivityForResult(myFileIntent, 10);
+            }
+        });
 
         return view;
     }
+
+
 
 
     private void downloadFile() {
@@ -428,6 +443,7 @@ public class ShipmentLanding extends Fragment {
                     modelResponse = response.body();
 
                     setShipmentDetailsValue();
+
                     if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
                         firstLayout.setVisibility(View.VISIBLE);
                         secondLayout.setVisibility(View.GONE);
@@ -442,6 +458,7 @@ public class ShipmentLanding extends Fragment {
                     }
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
                 }
             }
 
@@ -493,11 +510,11 @@ public class ShipmentLanding extends Fragment {
         String month_name = dtf2.format(ld);
 
         deliverToName.setText(modelResponse.getShipment().getCustomerName());
-        shipmentId.setText(String.valueOf(modelResponse.getShipment().getId()));
+        shipmentId.setText(String.valueOf("#" + modelResponse.getShipment().getId()));
         deliveryAddress.setText(modelResponse.getShipment().getAddress());
         requestDate.setText(month_name);
         contactNumber.setText(modelResponse.getShipment().getPhone());
-        packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()));
+        packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
         if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
             dimension.setText("To be Calculated");
@@ -508,13 +525,13 @@ public class ShipmentLanding extends Fragment {
         if (modelResponse.getShipment().getVolumetricWeight() == 0) {
             volumetricWeight.setText("To be Calculated");
         } else {
-            volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()));
+            volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()) + " KG");
         }
 
         if (modelResponse.getShipment().getFinalWeight() == 0) {
             finalWeight.setText("To be Calculated");
         } else {
-            finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
+            finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
         }
 
 
@@ -566,6 +583,10 @@ public class ShipmentLanding extends Fragment {
         } else if (stateId == 40) {
             deliveredTag.setVisibility(View.VISIBLE);
             downloadInvoiceLayout.setVisibility(View.VISIBLE);
+        } else if (stateId == 21) {
+            paymentFailedTag.setVisibility(View.VISIBLE);
+            retryPaymentBtn.setVisibility(View.VISIBLE);
+            retryPaymentHelpText.setVisibility(View.VISIBLE);
         }
     }
 
@@ -618,6 +639,7 @@ public class ShipmentLanding extends Fragment {
         dialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -634,11 +656,99 @@ public class ShipmentLanding extends Fragment {
 
                 filePathGlobal.setText(picturePath);
             }
+        }else if (requestCode==10){
+            if (resultCode==Activity.RESULT_OK){
+                Uri uri = data.getData();
+                byte[] fileByte = getBytesFromURI(getActivity(), uri);
+//                String base64Encoded = Base64.getEncoder().encodeToString(fileByte, Base64.getDecoder().decode(fileByte));
+
+
+            }
         }
     }
 
 
-    ///https://www.clickdimensions.com/links/TestPDFfile.pdf
 
-
+    static byte[] getBytesFromURI(Context context, Uri uri){
+        InputStream inputStream = null;
+        try{
+            inputStream = context.getContentResolver().openInputStream(uri);
+            ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
+            int bufferSize = 1024;
+            byte[] buff = new byte[bufferSize];
+            int leng = 0;
+            while ((leng=inputStream.read(buff))!=-1){
+                byteBuff.write(buff, 0, leng);
+            }
+            return byteBuff.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+
+
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == Activity.RESULT_OK) {
+//            try {
+//                //Image Uri will not be null for RESULT_OK
+//                Uri uri = data.getData();
+//
+//                // Use Uri object instead of File to avoid storage permissions
+////            imgProfile.setImageURI(uri.)
+//                File file = new File(FilePath.getPath(getApplicationContext(), uri));
+//                Bitmap bitmapImage = BitmapFactory.decodeFile(file.getPath());
+//                int nh = (int) ( bitmapImage.getHeight() * (512.0 / bitmapImage.getWidth()) );
+//                Bitmap scaled = Bitmap.createScaledBitmap(bitmapImage, 512, nh, true);
+////                your_imageview.setImageBitmap(scaled);
+//                Glide.with(getApplicationContext()).load(scaled).into(ivProfile);
+//
+//
+//                strProfile = getBase64FromFile(scaled);
+//                Log.i("TAG", "onActivityResult: "+strProfile);
+//
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+////
+//        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+//            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//
+//    public String getBase64FromFile(Bitmap bmp) {
+////        Bitmap bmp = null;
+//        ByteArrayOutputStream baos = null;
+//        byte[] baat = null;
+//        String encodeString = null;
+//        try {
+////            bmp = BitmapFactory.decodeFile(path);
+//            baos = new ByteArrayOutputStream();
+//            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+//            baat = baos.toByteArray();
+//            encodeString = Base64.encodeToString(baat, Base64.DEFAULT);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return encodeString;
+//    }

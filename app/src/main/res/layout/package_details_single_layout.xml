@@ -317,6 +317,16 @@
         android:layout_marginLeft="19dp"
         android:src="@drawable/three_dots" />
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:visibility="gone"
+        android:id="@+id/threeDotsSample"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="19dp"
+        android:gravity="left"
+        android:overlapAnchor="false"
+        android:background="@drawable/three_dots" />
+
 
 
     <CheckBox

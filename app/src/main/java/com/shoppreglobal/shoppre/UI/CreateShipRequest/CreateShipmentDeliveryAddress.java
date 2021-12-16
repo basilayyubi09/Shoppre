@@ -37,6 +37,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
     RecyclerView createShipmentDeliveryAddressRecycler;
     DeliveryAddressAdapter deliveryAddressAdapter;
     List<DeliveryListModel.Address> list;
+    List<DeliveryListModel.Address> list1;
     CardView emptyAddressCard, createShipmentDeliveryAddressCard;
     LinearLayout addMoreDeliveryAddressText;
     MaterialButton createShipmentAddAddrsBtn, deliveryAddrsProceedBtn;
@@ -117,7 +118,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
                 if (radioClicked) {
                     Bundle bundle2 = new Bundle();
                     bundle2.putSerializable("address", selectedAddress);
-                    bundle2.putSerializable("addressList", (Serializable) list);
+                    bundle2.putSerializable("addressList", (Serializable) list1);
                     bundle2.putString("allIds", allIds);
                     bundle2.putString("liquid", liquid);
                     bundle2.putSerializable("meta", meta);
@@ -145,8 +146,16 @@ public class CreateShipmentDeliveryAddress extends Fragment {
 
                     emptyAddressCard.setVisibility(View.GONE);
                     createShipmentDeliveryAddressCard.setVisibility(View.VISIBLE);
-
                     list = response.body().getAddresses();
+                    list1 = response.body().getAddresses();
+                    for (int i = 0; i<list.size(); i++){
+                        if (list.get(i).getBillingAddress()){
+                            list.remove(i);
+                        }
+
+                    }
+
+
 
                     deliveryAddressAdapter = new DeliveryAddressAdapter(list, getContext(), new DeliveryAddressAdapter.Interface() {
                         @Override

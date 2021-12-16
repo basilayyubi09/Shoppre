@@ -839,7 +839,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.show_address_popup);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
 
         RecyclerView showAddressPopupRecycler;
         ImageView close;
@@ -874,6 +874,11 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 if (response.code() == 200) {
                     dialog.show();
                     list1 = response.body().getAddresses();
+                    for (int i=0; i<list1.size();i++){
+                        if (list1.get(i).getBillingAddress()){
+                            list1.remove(i);
+                        }
+                    }
                     showAddressPopUpAdapter = new ShowAddressPopUpAdapter(list1, getActivity(), new ShowAddressPopUpAdapter.Interface() {
                         @SuppressLint("SetTextI18n")
                         @Override

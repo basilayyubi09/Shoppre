@@ -274,8 +274,6 @@ public class WalletFragment extends Fragment {
         arrayAdapter = new ArrayAdapter(getContext(), R.layout.wallet_fragment_spinner_text, title);
         allSpinner.setAdapter(arrayAdapter);
 
-
-
     }
 
     private void callRefreshTokenApi() {
