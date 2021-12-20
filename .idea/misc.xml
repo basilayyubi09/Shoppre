@@ -28,6 +28,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_no_selector.xml" value="0.23981481481481481" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/button_yes_selector.xml" value="0.23981481481481481" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/cart_badge.xml" value="0.24074074074074073" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/dialog_shadow.xml" value="0.24814814814814815" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg_2.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/edit_text_bg_3.xml" value="0.2703125" />
@@ -154,7 +155,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/single_order_layout.xml" value="0.20092592592592592" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/title_spinner.xml" value="0.4" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_dialog_box.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_item_single_layout.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_item_single_layout.xml" value="0.8" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_single_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_order_single_layout.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_photo_dialog.xml" value="0.2" />

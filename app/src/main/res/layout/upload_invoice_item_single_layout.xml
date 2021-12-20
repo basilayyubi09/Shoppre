@@ -30,6 +30,7 @@
         android:text="Redmi Note 9 Pro Max"
         android:textSize="8sp"
         android:textFontWeight="400"
+        android:paddingBottom="2dp"
         android:textColor="@color/black"
         android:layout_marginLeft="2dp"/>
 

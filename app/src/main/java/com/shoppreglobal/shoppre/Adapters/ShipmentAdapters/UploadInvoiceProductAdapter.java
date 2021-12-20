@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.UploadInvoiceProductResponse;
 
@@ -16,10 +17,10 @@ import java.util.List;
 
 public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvoiceProductAdapter.viewHolder> {
 
-    List<UploadInvoiceProductResponse> list;
+    List<PackageModel> list;
     Context context;
 
-    public UploadInvoiceProductAdapter(List<UploadInvoiceProductResponse> list, Context context) {
+    public UploadInvoiceProductAdapter(List<PackageModel> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -34,7 +35,9 @@ public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvo
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        holder.productItems.setText(list.get(position).getUploadInvoiceProduct());
+        if (list.get(position).getIsFullInvoiceReceived()==false){
+            holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
+        }
 
     }
 

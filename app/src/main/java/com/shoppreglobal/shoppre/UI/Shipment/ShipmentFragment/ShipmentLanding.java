@@ -17,10 +17,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,11 +59,13 @@ import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.BoxAdapter;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
+import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.UploadInvoiceAdapter;
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
@@ -78,7 +82,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
@@ -118,12 +121,16 @@ public class ShipmentLanding extends Fragment {
     LinearLayout firstLayout, secondLayout;
     TextView totalWeight, totalCharge;
     NestedScrollView nestedScrollView;
+    Bitmap bitmap;
+    Uri selectedImage, selectedInvoice;
     String url;
     String getUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
+    UploadInvoiceAdapter uploadInvoiceAdapter;
+    List<PackageModel> list2;
+
     Intent myFileIntent;
     String strFile;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,6 +150,7 @@ public class ShipmentLanding extends Fragment {
         }
 
         boxList = new ArrayList<>();
+        list2 = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
         viewPager = view.findViewById(R.id.viewPagerShipment);
         totalWeight = view.findViewById(R.id.totalWeight);
@@ -222,13 +230,6 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
-        uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         /////////Downloading Invoice
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,16 +264,77 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onClick(View v) {
 
-                myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                myFileIntent.setType("*/*");
-                startActivityForResult(myFileIntent, 10);
+                uploadInvoiceDialog();
+//                myFileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                myFileIntent.setType("*/*");
+//                startActivityForResult(myFileIntent, 10);
             }
         });
 
         return view;
     }
 
+    private void uploadInvoiceDialog() {
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.upload_invoice_dialog_box);
 
+            RecyclerView uploadInvoiceRecycler;
+
+
+
+            uploadInvoiceRecycler = dialog.findViewById(R.id.uploadInvoiceRecycler);
+
+
+            uploadInvoicePackagesApi(uploadInvoiceRecycler, dialog);
+
+
+        }
+
+    private void uploadInvoicePackagesApi(RecyclerView uploadInvoiceRecycler, Dialog dialog) {
+
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
+                .getAppApi().shipmentDetails("Bearer "+sharedPrefManager.getBearerToken(), id);
+
+        call.enqueue(new Callback<ShipmentDetailsModelResponse>() {
+            @Override
+            public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
+                if (response.code()==200){
+                    list2 = response.body().getPackages();
+
+                    uploadInvoiceAdapter = new UploadInvoiceAdapter(list2, getActivity(), dialog, new UploadInvoiceAdapter.CallbackInterface() {
+                        @Override
+                        public void onSelection() {
+                            Intent intent = new Intent();
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            // Set your required file type
+                            intent.setType("*/*");
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intent, "DEMO"),1001);
+                        }
+                    });
+                    uploadInvoiceRecycler.setAdapter(uploadInvoiceAdapter);
+                    LoadingDialog.cancelLoading();
+
+                    dialog.show();
+
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShipmentDetailsModelResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+
+    }
 
 
     private void downloadFile() {
@@ -317,20 +379,20 @@ public class ShipmentLanding extends Fragment {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Download Complete", Toast.LENGTH_SHORT).show();
 
-//                        File file1 = new File(String.valueOf(file));
-//                        MimeTypeMap map = MimeTypeMap.getSingleton();
-//                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-//                        String type = map.getMimeTypeFromExtension(ext);
-//
-//                        if (type == null)
-//                            type = "*/*";
-//
-//                        Intent intent = new Intent(Intent.ACTION_VIEW);
-//                        Uri data = Uri.fromFile(file);
-//
-//                        intent.setDataAndType(data, type);
-//
-//                        startActivity(intent);
+                        File file1 = new File(String.valueOf(file));
+                        MimeTypeMap map = MimeTypeMap.getSingleton();
+                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+                        String type = map.getMimeTypeFromExtension(ext);
+
+                        if (type == null)
+                            type = "*/*";
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Uri data = Uri.fromFile(file);
+
+                        intent.setDataAndType(data, type);
+
+                        startActivity(intent);
                     }
 
                     @Override
@@ -639,13 +701,17 @@ public class ShipmentLanding extends Fragment {
         dialog.show();
     }
 
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    byte[] byteArray = byteArrayOutputStream.toByteArray();
+    String encodedString = String.valueOf(Base64.decode(byteArray, Base64.DEFAULT));
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri selectedImage = data.getData();
+                selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 Cursor cursor = getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 
@@ -656,39 +722,14 @@ public class ShipmentLanding extends Fragment {
 
                 filePathGlobal.setText(picturePath);
             }
-        }else if (requestCode==10){
-            if (resultCode==Activity.RESULT_OK){
-                Uri uri = data.getData();
-                byte[] fileByte = getBytesFromURI(getActivity(), uri);
-//                String base64Encoded = Base64.getEncoder().encodeToString(fileByte, Base64.getDecoder().decode(fileByte));
+        }else if (requestCode==1001){
+
+            Uri selectedInvoice = data.getData();
 
 
             }
         }
     }
-
-
-
-    static byte[] getBytesFromURI(Context context, Uri uri){
-        InputStream inputStream = null;
-        try{
-            inputStream = context.getContentResolver().openInputStream(uri);
-            ByteArrayOutputStream byteBuff = new ByteArrayOutputStream();
-            int bufferSize = 1024;
-            byte[] buff = new byte[bufferSize];
-            int leng = 0;
-            while ((leng=inputStream.read(buff))!=-1){
-                byteBuff.write(buff, 0, leng);
-            }
-            return byteBuff.toByteArray();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-}
 
 
 

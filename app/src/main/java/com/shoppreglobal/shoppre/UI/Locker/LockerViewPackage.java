@@ -155,19 +155,16 @@ public class LockerViewPackage extends Fragment {
         weight.setText(String.valueOf(list.getWeight()));
         amount.setText("₹ " + String.valueOf(list.getPriceAmount()));
 
-        if (list.getStateNameAndColor().getStateName().equals("In Review")) {
 
+        if (list.getStateNameAndColor().getStateName().equals("In Review")) {
             comment.setText(list.getStateNameAndColor().getStateName());
             comment.setTextColor(getActivity().getColor(R.color.in_review_blue_color));
             comment.setBackground(getActivity().getDrawable(R.drawable.price_changed_background));
         } else if (list.getStateNameAndColor().getStateName().equals("Action Required")) {
-
-
             comment.setText(list.getStateNameAndColor().getStateName());
             comment.setTextColor(getActivity().getColor(R.color.action_required_yellow_color));
             comment.setBackground(getActivity().getDrawable(R.drawable.order_placed_background));
         } else if (list.getStateNameAndColor().getStateName().equals("Ready To Send")) {
-
             comment.setText(list.getStateNameAndColor().getStateName());
             comment.setTextColor(getActivity().getColor(R.color.ready_to_ship_green_color));
             comment.setBackground(getActivity().getDrawable(R.drawable.ready_to_ship_background));
