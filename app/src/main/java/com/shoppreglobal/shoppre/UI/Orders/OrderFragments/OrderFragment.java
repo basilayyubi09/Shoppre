@@ -100,6 +100,17 @@ public class OrderFragment extends Fragment {
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
 
+        //Button crashButton = new Button(this);
+        //crashButton.setText("Test Crash");
+        //crashButton.setOnClickListener(new View.OnClickListener() {
+        //   public void onClick(View view) {
+        //       throw new RuntimeException("Test Crash"); // Force a crash
+        //   }
+        //});
+        //
+        //addContentView(crashButton, new ViewGroup.LayoutParams(
+        //       ViewGroup.LayoutParams.MATCH_PARENT,
+        //       ViewGroup.LayoutParams.WRAP_CONTENT));
         YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
@@ -152,7 +163,7 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
                         .addToBackStack(null).commit();
 
             }
