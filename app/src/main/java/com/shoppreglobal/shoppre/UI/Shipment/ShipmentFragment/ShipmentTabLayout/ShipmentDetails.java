@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class ShipmentDetails extends Fragment {
 
     RecyclerView shipmentDetailsRecycler , boxRecycle;
-    List<PackageModel> list = new ArrayList<>();
+    List<PackageModel> list;
     ShipmentDetailsAdapter shipmentDetailsAdapter;
     SharedPrefManager sharedPrefManager;
     LinearLayout secondRecycle;
@@ -53,10 +53,8 @@ public class ShipmentDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shipment_details, container, false);
 
         shipmentDetailsRecycler = view.findViewById(R.id.shipmentDetailsRecycler);
-        secondRecycle = view.findViewById(R.id.secondRecycle);
-        boxSpinner = view.findViewById(R.id.boxSpinner);
-        boxRecycle = view.findViewById(R.id.boxRecycle);
         sharedPrefManager = new SharedPrefManager(getActivity());
+         list = new ArrayList<>();
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -80,27 +78,11 @@ public class ShipmentDetails extends Fragment {
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
                 if (response.code() == 200) {
-                    if (response.body().getShipment().getShipmentBoxes().isEmpty()){
+
                         list = response.body().getPackages();
                         shipmentDetailsAdapter = new ShipmentDetailsAdapter(list, getActivity());
                         shipmentDetailsRecycler.setAdapter(shipmentDetailsAdapter);
-                        shipmentDetailsRecycler.setVisibility(View.VISIBLE);
-                        secondRecycle.setVisibility(View.GONE);
-                    }
-                    else {
 
-                        shipmentDetailsRecycler.setVisibility(View.GONE);
-                        secondRecycle.setVisibility(View.VISIBLE);
-                        boxList = response.body().getShipment().getShipmentBoxes();
-                        dynamicString = new String[boxList.size()];
-                        boxDetailsParentAdapter = new BoxDetailsParentAdapter(getActivity() , boxList);
-                        boxRecycle.setAdapter(boxDetailsParentAdapter);
-                        for (int i=0;i<boxList.size();i++){
-                            dynamicString[i] = "Box "+String.valueOf(i+1);
-                        }
-                        arrayAdapter = new ArrayAdapter(getContext(), R.layout.wallet_fragment_spinner_text, dynamicString);
-                        boxSpinner.setAdapter(arrayAdapter);
-                    }
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ import com.downloader.Progress;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -62,9 +64,11 @@ import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPa
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.UploadInvoiceAdapter;
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.Retrofit.DynamicRetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
@@ -124,7 +128,12 @@ public class ShipmentLanding extends Fragment {
     Bitmap bitmap;
     Uri selectedImage, selectedInvoice;
     String url;
+    String encodedFile;
+    String encodedString;
     String getUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    String responseObject;
+    String splitUrl;
+    String responseUrl;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -271,38 +280,49 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
+        makePaymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("shipmentId", id);
+                PaymentSummary paymentSummary = new PaymentSummary();
+                paymentSummary.setArguments(bundle2);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, paymentSummary, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+
         return view;
     }
 
     private void uploadInvoiceDialog() {
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.setCancelable(true);
-            dialog.setContentView(R.layout.upload_invoice_dialog_box);
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.upload_invoice_dialog_box);
 
-            RecyclerView uploadInvoiceRecycler;
-
-
-
-            uploadInvoiceRecycler = dialog.findViewById(R.id.uploadInvoiceRecycler);
+        RecyclerView uploadInvoiceRecycler;
 
 
-            uploadInvoicePackagesApi(uploadInvoiceRecycler, dialog);
+        uploadInvoiceRecycler = dialog.findViewById(R.id.uploadInvoiceRecycler);
 
 
-        }
+        uploadInvoicePackagesApi(uploadInvoiceRecycler, dialog);
+
+
+    }
 
     private void uploadInvoicePackagesApi(RecyclerView uploadInvoiceRecycler, Dialog dialog) {
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().shipmentDetails("Bearer "+sharedPrefManager.getBearerToken(), id);
+                .getAppApi().shipmentDetails("Bearer " + sharedPrefManager.getBearerToken(), id);
 
         call.enqueue(new Callback<ShipmentDetailsModelResponse>() {
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     list2 = response.body().getPackages();
 
                     uploadInvoiceAdapter = new UploadInvoiceAdapter(list2, getActivity(), dialog, new UploadInvoiceAdapter.CallbackInterface() {
@@ -313,15 +333,19 @@ public class ShipmentLanding extends Fragment {
                             // Set your required file type
                             intent.setType("*/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intent, "DEMO"),1001);
+                            startActivityForResult(Intent.createChooser(intent, "DEMO"), 1001);
+
+
                         }
+
                     });
+
                     uploadInvoiceRecycler.setAdapter(uploadInvoiceAdapter);
                     LoadingDialog.cancelLoading();
 
                     dialog.show();
 
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
                 }
@@ -504,20 +528,23 @@ public class ShipmentLanding extends Fragment {
                     LoadingDialog.cancelLoading();
                     modelResponse = response.body();
 
-                    setShipmentDetailsValue();
+
 
                     if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
                         firstLayout.setVisibility(View.VISIBLE);
                         secondLayout.setVisibility(View.GONE);
+
+                        setShipmentDetailsValue();
+
                     } else {
                         firstLayout.setVisibility(View.GONE);
                         secondLayout.setVisibility(View.VISIBLE);
-                        totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
-                        totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
-                        boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
-                        boxRecycle.setLayoutManager(linearLayoutManager);
-                        boxRecycle.setAdapter(boxAdapter);
+
+                        setBoxShipmentDetailsValue();
+
+
                     }
+
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
@@ -530,6 +557,92 @@ public class ShipmentLanding extends Fragment {
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setBoxShipmentDetailsValue() {
+
+        String s = modelResponse.getShipment().getCreatedAt();
+        String[] split = s.split("T");
+        String date1 = split[0];
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+        LocalDate ld = LocalDate.parse(date1, dtf);
+        String month_name = dtf2.format(ld);
+
+        deliverToName.setText(modelResponse.getShipment().getCustomerName());
+        shipmentId.setText(String.valueOf("#" + modelResponse.getShipment().getId()));
+        deliveryAddress.setText(modelResponse.getShipment().getAddress());
+        requestDate.setText(month_name);
+        contactNumber.setText(modelResponse.getShipment().getPhone());
+        packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
+
+        if (modelResponse.getShipment().getShipmentBoxes().size()>0){
+            totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
+            totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
+            boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
+            boxRecycle.setLayoutManager(linearLayoutManager);
+            boxRecycle.setAdapter(boxAdapter);
+        }
+
+
+
+
+        if (modelResponse.getShipment().getSubTotalAmount() == 0) {
+            totalCost.setText("To be Calculated");
+        } else {
+            totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
+        }
+
+
+/////Conditions for tags and buttons
+
+
+        for (int i = 0; i < list.size(); i++) {
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false && stateId == 16 || stateId == 100) {
+                uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                inReviewHelpText.setVisibility(View.GONE);
+                inReview.setVisibility(View.GONE);
+
+            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
+                uploadInvoiceHelpText.setVisibility(View.GONE);
+                uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                inReviewHelpText.setVisibility(View.VISIBLE);
+                inReview.setVisibility(View.VISIBLE);
+
+            }
+        }
+        if (modelResponse.getTotalHours() == 0) {
+            cancelShipmentBtn.setVisibility(View.VISIBLE);
+        } else if (modelResponse.getTotalHours() > 0) {
+            cancelShipmentBtn.setVisibility(View.GONE);
+        }
+
+        if (stateId == 18) {
+            makePaymentBtn.setVisibility(View.VISIBLE);
+            makePaymentHelpText.setVisibility(View.VISIBLE);
+        } else if (stateId == 20) {
+            uploadWireTransferText.setVisibility(View.VISIBLE);
+            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+            verifyPaymentTag.setVisibility(View.VISIBLE);
+            changePaymentMethodText.setVisibility(View.VISIBLE);
+        } else if (stateId == 22) {
+            paymentConfirmTag.setVisibility(View.VISIBLE);
+            paymentConfirmHelpText.setVisibility(View.VISIBLE);
+        } else if (stateId == 24) {
+            dispatchedTagCard.setVisibility(View.VISIBLE);
+            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+        } else if (stateId == 40) {
+            deliveredTag.setVisibility(View.VISIBLE);
+            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+        } else if (stateId == 21) {
+            paymentFailedTag.setVisibility(View.VISIBLE);
+            retryPaymentBtn.setVisibility(View.VISIBLE);
+            retryPaymentHelpText.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void callRefreshTokenApi() {
@@ -578,23 +691,27 @@ public class ShipmentLanding extends Fragment {
         contactNumber.setText(modelResponse.getShipment().getPhone());
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
-        if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
-            dimension.setText("To be Calculated");
-        } else {
-            dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
+        if (modelResponse.getShipment().getShipmentBoxes().size()>0){
+            if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
+                dimension.setText("To be Calculated");
+            } else {
+                dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
+            }
+
+            if (modelResponse.getShipment().getVolumetricWeight() == 0) {
+                volumetricWeight.setText("To be Calculated");
+            } else {
+                volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()) + " KG");
+            }
+
+            if (modelResponse.getShipment().getFinalWeight() == 0) {
+                finalWeight.setText("To be Calculated");
+            } else {
+                finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
+            }
         }
 
-        if (modelResponse.getShipment().getVolumetricWeight() == 0) {
-            volumetricWeight.setText("To be Calculated");
-        } else {
-            volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()) + " KG");
-        }
 
-        if (modelResponse.getShipment().getFinalWeight() == 0) {
-            finalWeight.setText("To be Calculated");
-        } else {
-            finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
-        }
 
 
         if (modelResponse.getShipment().getSubTotalAmount() == 0) {
@@ -701,9 +818,6 @@ public class ShipmentLanding extends Fragment {
         dialog.show();
     }
 
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    byte[] byteArray = byteArrayOutputStream.toByteArray();
-    String encodedString = String.valueOf(Base64.decode(byteArray, Base64.DEFAULT));
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -722,74 +836,102 @@ public class ShipmentLanding extends Fragment {
 
                 filePathGlobal.setText(picturePath);
             }
-        }else if (requestCode==1001){
+        } else if (requestCode == 1001) {
+            if (resultCode == Activity.RESULT_OK) {
 
-            Uri selectedInvoice = data.getData();
+                Uri selectedInvoice = data.getData();
+                String selectedFilePath = data.getData().getPath();
+                String string = selectedFilePath;
+                String[] parts = string.split("/");
+                String file= parts[parts.length-1];
+                Log.d("Path", file);
 
+                try {
+                    InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedInvoice);
+                    byte[] byteArray = new byte[inputStream.available()];
+                    inputStream.read(byteArray);
+                    encodedFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
+                    Log.d("Encoded String", encodedFile);
+
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callMinioUploadApi(file);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
+    private void callMinioUploadApi(String file) {
+
+        Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer "+sharedPrefManager.getBearerToken(),
+               file);
+        call.enqueue(new Callback<MinioUploadModelResponse>() {
+            @Override
+            public void onResponse(Call<MinioUploadModelResponse> call, Response<MinioUploadModelResponse> response) {
+                if (response.code()==200){
+                        responseObject = response.body().getObject();
+
+                    responseUrl = response.body().getUrl();
+                    String[] parts = responseUrl.split("/");
+                    splitUrl = parts[parts.length-1];
+
+                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
+
+                    Log.d("splitUrl", splitUrl);
+
+                        callMinioUpload2Api();
 
 
+                    LoadingDialog.cancelLoading();
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                }else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    LoadingDialog.cancelLoading();
+                }
+            }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (resultCode == Activity.RESULT_OK) {
-//            try {
-//                //Image Uri will not be null for RESULT_OK
-//                Uri uri = data.getData();
-//
-//                // Use Uri object instead of File to avoid storage permissions
-////            imgProfile.setImageURI(uri.)
-//                File file = new File(FilePath.getPath(getApplicationContext(), uri));
-//                Bitmap bitmapImage = BitmapFactory.decodeFile(file.getPath());
-//                int nh = (int) ( bitmapImage.getHeight() * (512.0 / bitmapImage.getWidth()) );
-//                Bitmap scaled = Bitmap.createScaledBitmap(bitmapImage, 512, nh, true);
-////                your_imageview.setImageBitmap(scaled);
-//                Glide.with(getApplicationContext()).load(scaled).into(ivProfile);
-//
-//
-//                strProfile = getBase64FromFile(scaled);
-//                Log.i("TAG", "onActivityResult: "+strProfile);
-//
-//
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-////
-//        } else if (resultCode == ImagePicker.RESULT_ERROR) {
-//            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//
+            @Override
+            public void onFailure(Call<MinioUploadModelResponse> call, Throwable t) {
 
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+    }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//
-//    public String getBase64FromFile(Bitmap bmp) {
-////        Bitmap bmp = null;
-//        ByteArrayOutputStream baos = null;
-//        byte[] baat = null;
-//        String encodeString = null;
-//        try {
-////            bmp = BitmapFactory.decodeFile(path);
-//            baos = new ByteArrayOutputStream();
-//            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-//            baat = baos.toByteArray();
-//            encodeString = Base64.encodeToString(baat, Base64.DEFAULT);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return encodeString;
-//    }
+    private void callMinioUpload2Api() {
+        JsonObject object = new JsonObject();
+        object.addProperty("file", responseObject);
+
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<Integer> call = DynamicRetrofitClient.getDynamicInstance()
+                .getAppApi().minioUpload2(splitUrl, object.toString());
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.code()==200){
+
+                    LoadingDialog.cancelLoading();
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                }else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    LoadingDialog.cancelLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+    }
+}

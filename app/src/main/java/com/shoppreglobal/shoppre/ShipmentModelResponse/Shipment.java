@@ -12,6 +12,10 @@ public class Shipment {
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("package_level_charges_amount")
+    @Expose
+    private Integer packageLevelChargesAmount;
+
     @SerializedName("transaction_id")
     @Expose
     private Object transactionId;
@@ -38,7 +42,7 @@ public class Shipment {
     private Integer finalAmount;
     @SerializedName("volumetric_weight")
     @Expose
-    private Integer volumetricWeight;
+    private Float volumetricWeight;
 
     @SerializedName("box_length")
     @Expose
@@ -52,7 +56,7 @@ public class Shipment {
 
     @SerializedName("sub_total_amount")
     @Expose
-    private Integer subTotalAmount;
+    private Float subTotalAmount;
 
     @SerializedName("address_id")
     @Expose
@@ -66,7 +70,7 @@ public class Shipment {
     @SerializedName("Packages")
     @Expose
     private List<PackageModel> packages = null;
-    @SerializedName("Address")
+    @SerializedName("address")
     @Expose
     private String address;
     @SerializedName("Country")
@@ -92,6 +96,26 @@ public class Shipment {
     @SerializedName("ShipmentBoxes")
     @Expose
     private List<ShipmentBox> shipmentBoxes = null;
+
+    @SerializedName("PackageUserCharges")
+    @Expose
+    private List<Object> packageUserCharges = null;
+
+    public List<Object> getPackageUserCharges() {
+        return packageUserCharges;
+    }
+
+    public void setPackageUserCharges(List<Object> packageUserCharges) {
+        this.packageUserCharges = packageUserCharges;
+    }
+
+    public Integer getPackageLevelChargesAmount() {
+        return packageLevelChargesAmount;
+    }
+
+    public void setPackageLevelChargesAmount(Integer packageLevelChargesAmount) {
+        this.packageLevelChargesAmount = packageLevelChargesAmount;
+    }
 
     public List<ShipmentBox> getShipmentBoxes() {
         return shipmentBoxes;
@@ -186,11 +210,11 @@ public class Shipment {
     }
 
 
-    public Integer getVolumetricWeight() {
+    public Float getVolumetricWeight() {
         return volumetricWeight;
     }
 
-    public void setVolumetricWeight(Integer volumetricWeight) {
+    public void setVolumetricWeight(Float volumetricWeight) {
         this.volumetricWeight = volumetricWeight;
     }
 
@@ -221,11 +245,11 @@ public class Shipment {
 
 
 
-    public Integer getSubTotalAmount() {
+    public Float getSubTotalAmount() {
         return subTotalAmount;
     }
 
-    public void setSubTotalAmount(Integer subTotalAmount) {
+    public void setSubTotalAmount(Float subTotalAmount) {
         this.subTotalAmount = subTotalAmount;
     }
 

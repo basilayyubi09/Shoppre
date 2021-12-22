@@ -50,6 +50,7 @@
 
 
                     <TextView
+                        android:id="@+id/addressName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
@@ -60,11 +61,22 @@
 
 
                     <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="22dp"
+                        android:text="24 Airport Rd - Garhoud - Dubai - United Arab Emirates"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/addressPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="22dp"
                         android:layout_marginBottom="24dp"
-                        android:text="24 Airport Rd - Garhoud - Dubai - United Arab Emirates\n+9714702 4444"
+                        android:text="+9714702 4444"
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
@@ -97,6 +109,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/shippingChargesDropdown"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
@@ -112,6 +125,7 @@
                                 android:textSize="14sp" />
 
                             <ImageView
+                                android:id="@+id/dropBtn"
                                 android:layout_width="17dp"
                                 android:layout_height="17dp"
                                 android:src="@drawable/black_play_btn" />
@@ -126,12 +140,339 @@
                             android:layout_marginTop="13dp"
                             android:background="#D2D2D2" />
 
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/hideableLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/totalItemLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Total Item Value"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvTotalItemValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹10,000.00"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/totalPackageCountLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Total Packages Count"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvTotalPackageCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/dashed_line"
+                            android:layerType="software"/>
+
+                        <LinearLayout
+                            android:id="@+id/actualWeightLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Actual Weight"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/actualWeight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="12.00 Kg"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/boxDimensionLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Box Dimensions"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvBoxDimension"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="59.00*36.00*12.00 cm"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/volumetricWeightLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Volumetric Weight"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvVolumetricWeight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="12.50 Kg"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/finalChargeWeightLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Final Chargeable Weight"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvFinalChargeWeight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="12.50 Kg"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/dashed_line"
+                            android:layerType="software"/>
+
+                        <LinearLayout
+                            android:id="@+id/subTotalLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Sub Total"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvSubTotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹17,732.00"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/shippingDiscountLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Shipping Discount"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvShippingDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹8,866.00"
+                                android:textColor="#676767"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="3dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/dashed_line"
+                            android:layerType="software"/>
+
+                        <LinearLayout
+                            android:id="@+id/basicShippingChargeTotalLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Basic Shipping Charge Total"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvBasicShippingChargeTotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹8,866.00"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/memberShipDiscountLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Membership Discount "
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvMemberShipDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- ₹400.00"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp"
+                            android:background="#D2D2D2" />
+
+                        </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
-                            android:layout_marginTop="18dp"
+                            android:layout_marginTop="12dp"
                             android:layout_marginBottom="18dp">
 
                             <TextView
@@ -144,6 +485,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvShippingChargeTotal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="₹8466.00"
@@ -164,6 +506,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/serviceChargesSummaryDropdown"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="12dp"
@@ -179,6 +522,7 @@
                                 android:textSize="14sp" />
 
                             <ImageView
+                                android:id="@+id/dropBtn2"
                                 android:layout_width="17dp"
                                 android:layout_height="17dp"
                                 android:src="@drawable/black_play_btn" />
@@ -192,6 +536,806 @@
                             android:layout_marginHorizontal="12dp"
                             android:layout_marginTop="13dp"
                             android:background="#D2D2D2" />
+
+                        <LinearLayout
+
+                            android:id="@+id/hideableLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="18dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Package Level Charges"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPackageLevelCharges"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹800.00"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/packageConsolidationLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Package Consolidation"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPackageConsolidation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/viewPhotoLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="View Photo"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvViewPhoto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="FREE"
+                                    android:textColor="#17B28F"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/splitPackageLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Split Package "
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSplitPackage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/packageReturnLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Package Return"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPackageReturn"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="FREE"
+                                    android:textColor="#17B28F"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/wrongAddressLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Wrong Address"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvWrongAddress"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/scanDocumnetLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Scan Document"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvScanDocument"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/receiveMailLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Receive Mail"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvReceiveMail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/pickUpAmountLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="11dp"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Pickup Amount"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPickUpAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Shipment Level Charges"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvShipmentLevelCharges"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹800.00"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/discardShoesBoxLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Discard Shoe Box"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDiscardShoesBox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/expressProcessingLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Express Processing Fee"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvExpressProcessing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/specialItemClearanceLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Special Items Clearance"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvSpecialItemClearance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/giftNoteLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Gift Note"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvGiftNote"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/giftWrapLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Gift Wrap"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvGiftWrap"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/overWeightLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Over Weight"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvOverWeight"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/commercialShipmentLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Commercial Shipment"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvCommercialShipment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/outSideDeliveryAreaLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Outside Delivery Area"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvOutSideDeliveryArea"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/pickUpChargesLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="11dp"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Pickup Charges"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPickUpCharges"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹300.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Delay Charges"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDelayCharges"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹800.00"
+                                    android:textColor="@color/black"
+                                    android:textFontWeight="600"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/additionalStorageLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Additional Storage Fees"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvAdditionalStorage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹100.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/paymentDelayLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="11dp"
+                                    android:background="#D2D2D2" />
+
+                                <View
+                                    android:layout_width="12dp"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="10dp"
+                                    android:background="#D2D2D2" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_weight="1"
+                                    android:text="Payment Delay Fees"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/tvPaymentDelay"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="₹300.00"
+                                    android:textColor="#676767"
+                                    android:textFontWeight="400"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+
+
 
 
                         <LinearLayout
@@ -211,6 +1355,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvServiceChargeTotal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="₹2,300.00"
@@ -220,26 +1365,27 @@
 
                         </LinearLayout>
 
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@drawable/linear_layout_border"
+                        android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="28dp"
                         android:layout_marginBottom="24dp"
-                        android:layout_marginHorizontal="16dp">
+                        android:background="@drawable/linear_layout_border"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Service Charges Summary"
-                            android:textSize="14sp"
-                            android:textFontWeight="700"
-                            android:textColor="@color/black"
+                            android:layout_marginLeft="12dp"
                             android:layout_marginTop="18dp"
-                            android:layout_marginLeft="12dp"/>
+                            android:text="Service Charges Summary"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="14sp" />
 
 
                         <View
@@ -252,215 +1398,118 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="13dp"
-                            android:layout_marginHorizontal="12dp">
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="13dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Shipping Charge"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:layout_weight="1"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvShippingCharge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="₹8,866.00"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginHorizontal="12dp">
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Service Charge"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:layout_weight="1"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvServiceCharge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="₹2,300.00"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginHorizontal="12dp">
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Discounts/Additional Charges"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:layout_weight="1"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tvDiscountOrAdditional"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="₹200.00"
                                 android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="12dp"
-                            >
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="#D2D2D2"
-                                android:layout_marginLeft="13dp"/>
-
-                            <View
-                                android:layout_width="12dp"
-                                android:layout_height="1dp"
-                                android:background="#D2D2D2"
-                                android:layout_marginTop="10dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Package Level Discount"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="4dp"
-                                android:textFontWeight="400"
-                                android:layout_weight="1"
-                                android:layout_marginTop="4dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="- ₹100.00"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
-                                android:textFontWeight="400"
-                                android:layout_marginTop="4dp"/>
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="12dp"
-                            >
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="11dp"
-                                android:background="#D2D2D2"
-                                android:layout_marginLeft="13dp"/>
-
-                            <View
-                                android:layout_width="12dp"
-                                android:layout_height="1dp"
-                                android:background="#D2D2D2"
-                                android:layout_marginTop="10dp"
-                                />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Shipment Level Charges"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
-                                android:layout_marginLeft="4dp"
-                                android:textFontWeight="400"
-                                android:layout_weight="1"
-                                android:layout_marginTop="4dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="₹300.00"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
-                                android:textFontWeight="400"
-                                android:layout_marginTop="4dp"/>
-
-                        </LinearLayout>
-
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
                             android:layout_marginHorizontal="12dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Membership Savings"
-                                android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:layout_weight="1"
-                                android:textFontWeight="500"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="₹200.00"
-                                android:textColor="@color/black"
-                                android:textSize="12sp"
-                                android:textFontWeight="500"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="12dp"
-                            >
-
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:background="#D2D2D2"
-                                android:layout_marginLeft="13dp"/>
+                                android:layout_marginLeft="13dp"
+                                android:background="#D2D2D2" />
 
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:background="#D2D2D2"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="10dp"
+                                android:background="#D2D2D2" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Shipping Charge Discount (5%)"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
                                 android:layout_marginLeft="4dp"
+                                android:layout_marginTop="4dp"
+                                android:layout_weight="1"
+                                android:text="Package Level Discount"
+                                android:textColor="#676767"
                                 android:textFontWeight="400"
-                                android:layout_marginTop="4dp"/>
+                                android:textSize="10sp" />
 
+                            <TextView
+                                android:id="@+id/tvPackageLevelDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="- ₹100.00"
+                                android:textColor="#676767"
+                                android:textFontWeight="400"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
 
@@ -468,93 +1517,188 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="12dp"
-                            >
+                            android:layout_marginHorizontal="12dp">
 
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="11dp"
-                                android:background="#D2D2D2"
-                                android:layout_marginLeft="13dp"/>
+                                android:layout_marginLeft="13dp"
+                                android:background="#D2D2D2" />
 
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:background="#D2D2D2"
                                 android:layout_marginTop="10dp"
-                                />
+                                android:background="#D2D2D2" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Service Charge Discount"
-                                android:textColor="#676767"
-                                android:textSize="10sp"
                                 android:layout_marginLeft="4dp"
+                                android:layout_marginTop="4dp"
+                                android:layout_weight="1"
+                                android:text="Shipment Level Charges"
+                                android:textColor="#676767"
                                 android:textFontWeight="400"
-                                android:layout_marginTop="4dp"/>
+                                android:textSize="10sp" />
 
+                            <TextView
+                                android:id="@+id/tvShipmentLevelCharges2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="₹300.00"
+                                android:textColor="#676767"
+                                android:textFontWeight="400"
+                                android:textSize="10sp" />
 
                         </LinearLayout>
-
 
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/shipment_summary_border"
+                            android:layout_marginHorizontal="12dp"
+                            android:layout_marginTop="8dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Membership Savings"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvMemberShipSavings"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹200.00"
+                                android:textColor="@color/black"
+                                android:textFontWeight="500"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp">
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="13dp"
+                                android:background="#D2D2D2" />
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#D2D2D2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginTop="4dp"
+                                android:text="Shipping Charge Discount (5%)"
+                                android:textColor="#676767"
+                                android:textFontWeight="400"
+                                android:textSize="10sp" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp">
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="11dp"
+                                android:layout_marginLeft="13dp"
+                                android:background="#D2D2D2" />
+
+                            <View
+                                android:layout_width="12dp"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#D2D2D2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginTop="4dp"
+                                android:text="Service Charge Discount"
+                                android:textColor="#676767"
+                                android:textFontWeight="400"
+                                android:textSize="10sp" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
+
+                            android:background="@drawable/shipment_summary_border"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Final Shipping Charge"
-                                android:textSize="14sp"
-                                android:textFontWeight="500"
                                 android:layout_marginTop="18dp"
+                                android:gravity="center_horizontal"
+                                android:text="Final Shipping Charge"
                                 android:textColor="@color/black"
-                                android:gravity="center_horizontal"/>
+                                android:textFontWeight="500"
+                                android:textSize="14sp" />
 
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="₹ 11,366.00"
-                                android:textSize="16sp"
-                                android:textFontWeight="600"
                                 android:layout_marginTop="12dp"
+                                android:gravity="center_horizontal"
+                                android:text="₹ 11,366.00"
                                 android:textColor="@color/black"
-                                android:gravity="center_horizontal"/>
+                                android:textFontWeight="600"
+                                android:textSize="16sp" />
 
                             <com.google.android.material.button.MaterialButton
-                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="32dp"
-                                android:insetTop="0dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="12dp"
+                                android:insetTop="0dp"
                                 android:insetBottom="0dp"
-                                app:cornerRadius="5dp"
-                                app:backgroundTint="#17B28F"
+                                android:letterSpacing="0.03"
                                 android:text="Make Payment"
                                 android:textAllCaps="false"
-                                android:letterSpacing="0.03"
                                 android:textColor="@color/white"
                                 android:textFontWeight="700"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Charges shown DO NOT include any duties &amp; taxes\ndue upon shipment arrival in your receiving country"
-                                android:textSize="12sp"
-                                android:textFontWeight="700"
-                                android:textColor="#8F8F8F"
-                                android:gravity="center_horizontal"
                                 android:layout_marginHorizontal="6dp"
                                 android:layout_marginTop="14dp"
-                                android:layout_marginBottom="26dp"/>
+                                android:layout_marginBottom="26dp"
+                                android:gravity="center_horizontal"
+                                android:text="Charges shown DO NOT include any duties &amp; taxes\ndue upon shipment arrival in your receiving country"
+                                android:textColor="#8F8F8F"
+                                android:textFontWeight="700"
+                                android:textSize="12sp" />
 
 
                         </LinearLayout>

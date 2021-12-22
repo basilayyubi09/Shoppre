@@ -81,14 +81,15 @@
 
         <TextView
             android:id="@+id/action"
-            android:layout_width="85dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:background="@drawable/order_placed_background"
             android:gravity="center"
             android:paddingVertical="3dp"
-            android:text="Action Required"
+            android:paddingHorizontal="11dp"
+            android:text="Awaiting Payment"
             android:textColor="@color/action_required_yellow_color"
             android:textFontWeight="500"
             android:textSize="9sp" />
@@ -99,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_gravity="right"
             android:gravity="center_horizontal">
 
             <TextView

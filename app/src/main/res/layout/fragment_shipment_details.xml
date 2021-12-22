@@ -12,58 +12,58 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_marginTop="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:orientation="vertical"
-            android:id="@+id/secondRecycle">
+<!--        <LinearLayout-->
+<!--            android:layout_marginTop="60dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="20dp"-->
+<!--            android:orientation="vertical"-->
+<!--            android:id="@+id/secondRecycle">-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-                <LinearLayout
+<!--                <LinearLayout-->
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/all_spnner_bg">
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:background="@drawable/all_spnner_bg">-->
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/boxSpinner"
-                        style="@style/MySpinner"
-                        android:layout_width="92dp"
-                        android:layout_height="26dp"
-                        android:layout_marginRight="-15dp"
-                        android:background="@null"
-                        android:dropDownWidth="92dp"
-                        android:overlapAnchor="false"
-                        android:textAlignment="center"
-                        android:textSize="12sp" />
+<!--                    <androidx.appcompat.widget.AppCompatSpinner-->
+<!--                        android:id="@+id/boxSpinner"-->
+<!--                        style="@style/MySpinner"-->
+<!--                        android:layout_width="92dp"-->
+<!--                        android:layout_height="26dp"-->
+<!--                        android:layout_marginRight="-15dp"-->
+<!--                        android:background="@null"-->
+<!--                        android:dropDownWidth="92dp"-->
+<!--                        android:overlapAnchor="false"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="12sp" />-->
 
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/triangle" />
+<!--                    <ImageView-->
+<!--                        android:layout_width="12dp"-->
+<!--                        android:layout_height="12dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginRight="5dp"-->
+<!--                        android:src="@drawable/triangle" />-->
 
 
-                </LinearLayout>
-            </RelativeLayout>
+<!--                </LinearLayout>-->
+<!--            </RelativeLayout>-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/boxRecycle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" >
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/boxRecycle"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginVertical="10dp"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" >-->
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
+<!--            </androidx.recyclerview.widget.RecyclerView>-->
+<!--        </LinearLayout>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/shipmentDetailsRecycler"

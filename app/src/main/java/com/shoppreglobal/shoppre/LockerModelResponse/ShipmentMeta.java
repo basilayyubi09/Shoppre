@@ -38,6 +38,183 @@ public class ShipmentMeta implements Serializable {
     @Expose
     private Integer scanDocumentAmount;
 
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("repacking_charge_amount")
+    @Expose
+    private Integer repackingChargeAmount;
+    @SerializedName("sticker_charge_amount")
+    @Expose
+    private Integer stickerChargeAmount;
+    @SerializedName("extra_packing_charge_amount")
+    @Expose
+    private Integer extraPackingChargeAmount;
+    @SerializedName("original_ship_box_charge__amount")
+    @Expose
+    private Object originalShipBoxChargeAmount;
+    @SerializedName("gift_wrap_charge_amount")
+    @Expose
+    private Integer giftWrapChargeAmount;
+    @SerializedName("gift_note_charge_amount")
+    @Expose
+    private Integer giftNoteChargeAmount;
+    @SerializedName("insurance_amount")
+    @Expose
+    private Object insuranceAmount;
+    @SerializedName("other_charge_amount")
+    @Expose
+    private Integer otherChargeAmount;
+    @SerializedName("payment_delay_charges")
+    @Expose
+    private Object paymentDelayCharges;
+    @SerializedName("liquid_charge_amount")
+    @Expose
+    private Integer liquidChargeAmount;
+    @SerializedName("overweight_charge_amount")
+    @Expose
+    private Object overweightChargeAmount;
+    @SerializedName("shipment_id")
+    @Expose
+    private Object shipmentId;
+    @SerializedName("express_processing_charge_amount")
+    @Expose
+    private Integer expressProcessingChargeAmount;
+    @SerializedName("remote_area_charge_amount")
+    @Expose
+    private Integer remoteAreaChargeAmount;
+    @SerializedName("commercial_charge_amount")
+    @Expose
+    private Integer commercialChargeAmount;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getRepackingChargeAmount() {
+        return repackingChargeAmount;
+    }
+
+    public void setRepackingChargeAmount(Integer repackingChargeAmount) {
+        this.repackingChargeAmount = repackingChargeAmount;
+    }
+
+    public Integer getStickerChargeAmount() {
+        return stickerChargeAmount;
+    }
+
+    public void setStickerChargeAmount(Integer stickerChargeAmount) {
+        this.stickerChargeAmount = stickerChargeAmount;
+    }
+
+    public Integer getExtraPackingChargeAmount() {
+        return extraPackingChargeAmount;
+    }
+
+    public void setExtraPackingChargeAmount(Integer extraPackingChargeAmount) {
+        this.extraPackingChargeAmount = extraPackingChargeAmount;
+    }
+
+    public Object getOriginalShipBoxChargeAmount() {
+        return originalShipBoxChargeAmount;
+    }
+
+    public void setOriginalShipBoxChargeAmount(Object originalShipBoxChargeAmount) {
+        this.originalShipBoxChargeAmount = originalShipBoxChargeAmount;
+    }
+
+    public Integer getGiftWrapChargeAmount() {
+        return giftWrapChargeAmount;
+    }
+
+    public void setGiftWrapChargeAmount(Integer giftWrapChargeAmount) {
+        this.giftWrapChargeAmount = giftWrapChargeAmount;
+    }
+
+    public Integer getGiftNoteChargeAmount() {
+        return giftNoteChargeAmount;
+    }
+
+    public void setGiftNoteChargeAmount(Integer giftNoteChargeAmount) {
+        this.giftNoteChargeAmount = giftNoteChargeAmount;
+    }
+
+    public Object getInsuranceAmount() {
+        return insuranceAmount;
+    }
+
+    public void setInsuranceAmount(Object insuranceAmount) {
+        this.insuranceAmount = insuranceAmount;
+    }
+
+    public Integer getOtherChargeAmount() {
+        return otherChargeAmount;
+    }
+
+    public void setOtherChargeAmount(Integer otherChargeAmount) {
+        this.otherChargeAmount = otherChargeAmount;
+    }
+
+    public Object getPaymentDelayCharges() {
+        return paymentDelayCharges;
+    }
+
+    public void setPaymentDelayCharges(Object paymentDelayCharges) {
+        this.paymentDelayCharges = paymentDelayCharges;
+    }
+
+    public Integer getLiquidChargeAmount() {
+        return liquidChargeAmount;
+    }
+
+    public void setLiquidChargeAmount(Integer liquidChargeAmount) {
+        this.liquidChargeAmount = liquidChargeAmount;
+    }
+
+    public Object getOverweightChargeAmount() {
+        return overweightChargeAmount;
+    }
+
+    public void setOverweightChargeAmount(Object overweightChargeAmount) {
+        this.overweightChargeAmount = overweightChargeAmount;
+    }
+
+    public Object getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(Object shipmentId) {
+        this.shipmentId = shipmentId;
+    }
+
+    public Integer getExpressProcessingChargeAmount() {
+        return expressProcessingChargeAmount;
+    }
+
+    public void setExpressProcessingChargeAmount(Integer expressProcessingChargeAmount) {
+        this.expressProcessingChargeAmount = expressProcessingChargeAmount;
+    }
+
+    public Integer getRemoteAreaChargeAmount() {
+        return remoteAreaChargeAmount;
+    }
+
+    public void setRemoteAreaChargeAmount(Integer remoteAreaChargeAmount) {
+        this.remoteAreaChargeAmount = remoteAreaChargeAmount;
+    }
+
+    public Integer getCommercialChargeAmount() {
+        return commercialChargeAmount;
+    }
+
+    public void setCommercialChargeAmount(Integer commercialChargeAmount) {
+        this.commercialChargeAmount = commercialChargeAmount;
+    }
+
     public Integer getStorageAmount() {
         return storageAmount;
     }

@@ -22,6 +22,28 @@ public class ShipmentDetailsModelResponse {
     @SerializedName("originalCharges")
     @Expose
     private OriginalCharges originalCharges;
+    @SerializedName("serviceChargesSummary")
+    @Expose
+    private ServiceChargesSummary serviceChargesSummary;
+    @SerializedName("shippingChargeSummary")
+    @Expose
+    private ShippingChargeSummary shippingChargeSummary;
+
+    public ServiceChargesSummary getServiceChargesSummary() {
+        return serviceChargesSummary;
+    }
+
+    public void setServiceChargesSummary(ServiceChargesSummary serviceChargesSummary) {
+        this.serviceChargesSummary = serviceChargesSummary;
+    }
+
+    public ShippingChargeSummary getShippingChargeSummary() {
+        return shippingChargeSummary;
+    }
+
+    public void setShippingChargeSummary(ShippingChargeSummary shippingChargeSummary) {
+        this.shippingChargeSummary = shippingChargeSummary;
+    }
 
     public Shipment getShipment() {
         return shipment;

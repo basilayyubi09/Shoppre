@@ -33,6 +33,7 @@ import com.shoppreglobal.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.SlabResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.UpdateOrderResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.PostShipmentCommentModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentCommentModelResponse;
@@ -444,5 +445,21 @@ public interface AppApi {
     Call<DownloadInvoiceModelResponse> downloadInvoice(
             @Header("Authorization") String auth,
             @Path("shipmentId") Integer id
+    );
+
+    //https://uat-app1.shoppreglobal.com/api/minio/presignedUrl?filename=punith.jpg
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/minio/presignedUrl?")
+    Call<MinioUploadModelResponse> minioUpload(
+            @Header("Authorization") String auth,
+            @Query("filename") String fileName
+    );
+
+    //https://stag-minio.shoppre.com/test/2021/11/eabc97be-a2f8-41d5-a926-87575e3bbaba.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VLJVI0W8O91GZ7UTP9M7%2F20211220%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211220T122000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=22e0fad760facfd68901063e4692c66d4c869290224f6343edd43a022c3cc555
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("{link}")
+    Call<Integer> minioUpload2(
+            @Path("link") String path,
+            @Body String object
     );
 }

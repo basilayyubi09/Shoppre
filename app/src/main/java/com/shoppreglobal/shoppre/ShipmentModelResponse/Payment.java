@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
 public class Payment {
     @SerializedName("amount")
     @Expose
-    private Integer amount;
+    private Float amount;
     @SerializedName("payment_gateway_id")
     @Expose
     private Object paymentGatewayId;
 
-    public Integer getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

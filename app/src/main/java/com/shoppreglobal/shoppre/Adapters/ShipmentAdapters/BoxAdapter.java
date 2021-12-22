@@ -36,9 +36,7 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.viewHolder> {
 
         if (list.get(position)!= null){
             holder.boxHeading.setText("Box "+ String.valueOf(position+1));
-            holder.dimension.setText(String.valueOf(list.get(position).getBoxLength())+" cm x "+
-                    String.valueOf(list.get(position).getBoxWidth())+" cm x "
-                    +String.valueOf(list.get(position).getBoxHeight())+" cm x ");
+            holder.dimension.setText(String.valueOf(list.get(position).getBoxLength())+" cm x "+ String.valueOf(list.get(position).getBoxWidth())+" cm x " +String.valueOf(list.get(position).getBoxHeight())+" cm ");
             holder.finalWeight.setText(String.valueOf(list.get(position).getFinalWeight())+" KG");
         }
 
