@@ -1,6 +1,8 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -108,19 +110,18 @@ public class OrderFragment extends Fragment {
         FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
         FirebaseApp.initializeApp(getActivity());
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
-// Optional. Uncomment if you are using analytics.
-// FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
-//        Button crashButton = new Button(getActivity());
-//        crashButton.setText("Test Crash");
-//        crashButton.setOnClickListener(new View.OnClickListener() {
-//           public void onClick(View view) {
-//               throw new RuntimeException("Test Crash"); // Force a crash
-//           }
-//        });
-//
-//        getActivity().addContentView(crashButton, new ViewGroup.LayoutParams(
-//               ViewGroup.LayoutParams.MATCH_PARENT,
-//               ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        Intent intent = getActivity().getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            if (scheme.equals("https")) {
+                String token = uri.getQueryParameter("token");
+                Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
+            }
+        }
+
         YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 

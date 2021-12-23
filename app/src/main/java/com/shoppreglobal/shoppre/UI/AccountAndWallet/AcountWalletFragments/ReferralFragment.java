@@ -150,7 +150,7 @@ public class ReferralFragment extends Fragment {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/*");
                 shareIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Hey, I’m inviting you to use Shoppre.com, the fastest and affordable way to shop and ship from India. Get INR 350 by clicking on the link below or using the referral code during sign-up! Code -" +referralCodeText.getText().toString()+ ". https://merashoppre.com/signup?referral_code="+referralCodeText.getText().toString());
+                        "Hey, I’m inviting you to use Shoppre.com, the fastest and affordable way to shop and ship from India. Get INR 350 by clicking on the link below or using the referral code during sign-up! Code -" +referralCodeText.getText().toString()+ ". https://login.shoppre.com/signup?referral_code="+referralCodeText.getText().toString());
                 getActivity().startActivity(shareIntent);
             }
         });
