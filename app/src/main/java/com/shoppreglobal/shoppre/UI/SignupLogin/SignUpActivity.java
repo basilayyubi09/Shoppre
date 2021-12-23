@@ -27,6 +27,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.AccessTokenResponse;
 import com.shoppreglobal.shoppre.AuthenticationModel.SignInGoogleResponse;

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1082618645310",
+    "project_id": "shoppreglobal",
+    "storage_bucket": "shoppreglobal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082618645310:android:e40642c3be60f39d727a6f",
+        "android_client_info": {
+          "package_name": "com.shoppreglobal.shoppre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082618645310-k8b52ehpp5027k9qnilq3tng3k8vnfvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpoeAiKmu-BqsT4nOy9R0IVwl1CieE2_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082618645310-k8b52ehpp5027k9qnilq3tng3k8vnfvc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1082618645310-1t9lu6ne9qfaqv1u1mrde3aro68rci80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.Shoppre"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

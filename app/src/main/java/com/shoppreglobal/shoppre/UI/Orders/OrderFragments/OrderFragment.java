@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -21,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
@@ -100,17 +104,23 @@ public class OrderFragment extends Fragment {
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
 
-        //Button crashButton = new Button(this);
-        //crashButton.setText("Test Crash");
-        //crashButton.setOnClickListener(new View.OnClickListener() {
-        //   public void onClick(View view) {
-        //       throw new RuntimeException("Test Crash"); // Force a crash
-        //   }
-        //});
-        //
-        //addContentView(crashButton, new ViewGroup.LayoutParams(
-        //       ViewGroup.LayoutParams.MATCH_PARENT,
-        //       ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+        FirebaseApp.initializeApp(getActivity());
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+// Optional. Uncomment if you are using analytics.
+// FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true)
+//        Button crashButton = new Button(getActivity());
+//        crashButton.setText("Test Crash");
+//        crashButton.setOnClickListener(new View.OnClickListener() {
+//           public void onClick(View view) {
+//               throw new RuntimeException("Test Crash"); // Force a crash
+//           }
+//        });
+//
+//        getActivity().addContentView(crashButton, new ViewGroup.LayoutParams(
+//               ViewGroup.LayoutParams.MATCH_PARENT,
+//               ViewGroup.LayoutParams.WRAP_CONTENT));
         YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
@@ -163,7 +173,7 @@ public class OrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
                         .addToBackStack(null).commit();
 
             }
@@ -352,6 +362,7 @@ public class OrderFragment extends Fragment {
 //
 
     private void callMeApi(String bearerToken) {
+
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getUser("Bearer " + bearerToken);
