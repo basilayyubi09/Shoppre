@@ -102,7 +102,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     boolean isVisible = false;
     List<DeliveryListModel.Address> list1;
     ShowAddressPopUpAdapter showAddressPopUpAdapter;
-    DeliveryListModel.Address interfacedAddress;
+
     String giftText;
 
     @SuppressLint("SetTextI18n")
@@ -287,7 +287,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     jsonObject.addProperty("express_processing", expressProcessing);
                     jsonObject.addProperty("extra_packing", addExtraValue);
                     jsonObject.addProperty("gift_note", gift);
-                    jsonObject.addProperty("gift_note_text", "");
+                    jsonObject.addProperty("gift_note_text", giftText);
                     jsonObject.addProperty("gift_wrap", giftWrapValue);
                     jsonObject.addProperty("is_liquid", liquid);
                     jsonObject.addProperty("original", shipInOriginal);
@@ -874,8 +874,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 if (response.code() == 200) {
                     dialog.show();
                     list1 = response.body().getAddresses();
-                    for (int i=0; i<list1.size();i++){
-                        if (list1.get(i).getBillingAddress()){
+                    for (int i = 0; i < list1.size(); i++) {
+                        if (list1.get(i).getBillingAddress()) {
                             list1.remove(i);
                         }
                     }
@@ -1153,14 +1153,15 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
 
             if (addressList.get(i).getBillingAddress()) {
-                billingAdd = addressList.get(i);
                 isBilling = true;
+                billingAdd = addressList.get(i);
                 break;
-            }
-            else {
+            } else {
                 isBilling = false;
             }
+
         }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -1273,6 +1274,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                     addressForm.setVisibility(View.GONE);
                     checkBoxCreateShipment.setChecked(true);
                     isBilling = true;
+
+
 //                    callAddBillingItem(newAddress);
                     billingName.setText(nameString);
                     billingNumber.setText(phoneNumberString);

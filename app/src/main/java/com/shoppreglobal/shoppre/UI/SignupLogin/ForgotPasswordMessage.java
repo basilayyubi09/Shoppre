@@ -24,7 +24,14 @@ public class ForgotPasswordMessage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ForgotPasswordMessage.this , LoginActivity.class));
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ForgotPasswordMessage.this , LoginActivity.class));
+        finish();
     }
 }

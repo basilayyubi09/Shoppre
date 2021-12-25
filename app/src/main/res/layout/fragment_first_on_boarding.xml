@@ -37,6 +37,7 @@
 
 
             <ImageView
+                android:layout_marginTop="-30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="436dp"
                 android:src="@drawable/onboarding1" />
@@ -61,7 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginVertical="20dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="60dp"
                 android:backgroundTint="@color/button_color"
                 android:insetBottom="0dp"
                 android:insetTop="0dp"

@@ -30,6 +30,7 @@
                 android:layout_height="24dp"
                 android:src="@drawable/back_arrow"/>
             <ImageView
+                android:layout_marginTop="-30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="436dp"
                 android:src="@drawable/onboarding4" />
@@ -52,6 +53,7 @@
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginEnd="25dp"
                 android:backgroundTint="@color/button_color"
                 android:letterSpacing="0.03"
@@ -60,7 +62,7 @@
                 android:textFontWeight="700"
                 android:textSize="24dp"
                 app:cornerRadius="5dp"
-                android:layout_marginVertical="20dp"/>
+                android:layout_marginBottom="25dp"/>
 
         </LinearLayout>
 

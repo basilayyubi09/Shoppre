@@ -180,7 +180,7 @@
         android:id="@+id/forgot_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="28dp"
         android:layout_marginRight="39dp"
         android:gravity="right"
         android:text="Forgot Password"
