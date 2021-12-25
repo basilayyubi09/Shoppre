@@ -45,7 +45,7 @@
 
                         <CheckBox
                             android:id="@+id/discardShoeCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -54,6 +54,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -150,7 +151,7 @@
 
                         <CheckBox
                             android:id="@+id/addExtraCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -159,6 +160,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -256,7 +258,7 @@
 
                         <CheckBox
                             android:id="@+id/shipInOrignalCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -265,6 +267,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -351,7 +354,7 @@
 
                         <CheckBox
                             android:id="@+id/giftWrapCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -360,6 +363,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -456,7 +460,7 @@
 
                         <CheckBox
                             android:id="@+id/giftNoteCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -465,6 +469,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -570,7 +575,7 @@
 
                         <CheckBox
                             android:id="@+id/expressProcessingCheckBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
@@ -579,6 +584,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 

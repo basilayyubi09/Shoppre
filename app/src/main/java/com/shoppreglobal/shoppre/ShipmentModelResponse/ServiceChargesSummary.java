@@ -6,7 +6,7 @@ import com.shoppreglobal.shoppre.LockerModelResponse.ShipmentMeta;
 
 public class ServiceChargesSummary {
 
-    @SerializedName("originalPlcCharges")
+    @SerializedName("plcCharges")
     @Expose
     private OriginalPlcCharges originalPlcCharges;
     @SerializedName("actualPlcCharges")

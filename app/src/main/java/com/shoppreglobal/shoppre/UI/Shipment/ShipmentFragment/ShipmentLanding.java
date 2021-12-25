@@ -243,7 +243,7 @@ public class ShipmentLanding extends Fragment {
         downloadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                downloadInvoiceApi();
+                downloadInvoiceApi();
                 Dexter.withContext(getContext())
                         .withPermissions(
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE,

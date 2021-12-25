@@ -73,6 +73,12 @@ public class Shipment {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("estimated_amount")
+    @Expose
+    private Float estimatedAmount;
+
+
+
     @SerializedName("Country")
     @Expose
     private DeliveryListModel.Country country;
@@ -100,6 +106,14 @@ public class Shipment {
     @SerializedName("PackageUserCharges")
     @Expose
     private List<Object> packageUserCharges = null;
+
+    public Float getEstimatedAmount() {
+        return estimatedAmount;
+    }
+
+    public void setEstimatedAmount(Float estimatedAmount) {
+        this.estimatedAmount = estimatedAmount;
+    }
 
     public List<Object> getPackageUserCharges() {
         return packageUserCharges;

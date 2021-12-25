@@ -56,6 +56,7 @@
             android:id="@+id/send"
             android:layout_width="43dp"
             android:layout_height="45dp"
+            android:scaleType="centerCrop"
             android:layout_marginLeft="6dp"
             android:src="@drawable/send_button"/>
 

@@ -10,6 +10,9 @@ public class ShippingChargeSummary {
     @SerializedName("total_item_value")
     @Expose
     private Integer totalItemValue;
+    @SerializedName("total_package_count")
+    @Expose
+    private Integer totalPackageCount;
     @SerializedName("box_weights")
     @Expose
     private List<BoxWeight> boxWeights = null;
@@ -25,6 +28,14 @@ public class ShippingChargeSummary {
     @SerializedName("basic_shipping_costs")
     @Expose
     private Double basicShippingCosts;
+
+    public Integer getTotalPackageCount() {
+        return totalPackageCount;
+    }
+
+    public void setTotalPackageCount(Integer totalPackageCount) {
+        this.totalPackageCount = totalPackageCount;
+    }
 
     public Integer getTotalItemValue() {
         return totalItemValue;

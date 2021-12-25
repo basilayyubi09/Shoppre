@@ -67,13 +67,13 @@ public class ShipmentMeta implements Serializable {
     private Integer otherChargeAmount;
     @SerializedName("payment_delay_charges")
     @Expose
-    private Object paymentDelayCharges;
+    private Float paymentDelayCharges;
     @SerializedName("liquid_charge_amount")
     @Expose
     private Integer liquidChargeAmount;
     @SerializedName("overweight_charge_amount")
     @Expose
-    private Object overweightChargeAmount;
+    private Float overweightChargeAmount;
     @SerializedName("shipment_id")
     @Expose
     private Object shipmentId;
@@ -159,11 +159,11 @@ public class ShipmentMeta implements Serializable {
         this.otherChargeAmount = otherChargeAmount;
     }
 
-    public Object getPaymentDelayCharges() {
+    public Float getPaymentDelayCharges() {
         return paymentDelayCharges;
     }
 
-    public void setPaymentDelayCharges(Object paymentDelayCharges) {
+    public void setPaymentDelayCharges(Float paymentDelayCharges) {
         this.paymentDelayCharges = paymentDelayCharges;
     }
 
@@ -175,11 +175,11 @@ public class ShipmentMeta implements Serializable {
         this.liquidChargeAmount = liquidChargeAmount;
     }
 
-    public Object getOverweightChargeAmount() {
+    public Float getOverweightChargeAmount() {
         return overweightChargeAmount;
     }
 
-    public void setOverweightChargeAmount(Object overweightChargeAmount) {
+    public void setOverweightChargeAmount(Float overweightChargeAmount) {
         this.overweightChargeAmount = overweightChargeAmount;
     }
 
