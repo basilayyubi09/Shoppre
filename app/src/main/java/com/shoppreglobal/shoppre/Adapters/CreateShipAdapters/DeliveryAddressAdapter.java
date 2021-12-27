@@ -35,7 +35,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         View view = LayoutInflater.from(context).inflate(R.layout.create_shipment_delivery_address
                 , parent, false);
-        return new viewHolder(view , interfaceObject);
+        return new viewHolder(view, interfaceObject);
     }
 
     @SuppressLint("SetTextI18n")
@@ -44,21 +44,21 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         DeliveryListModel.Address address = list.get(position);
 
+
         holder.createShipmentAddressName.setText(address.getName());
         holder.createShipmentPhoneNo.setText(address.getPhone());
-        holder.createShipmentAddress.setText(address.getLine1()+
-                "\n"+address.getCity()+" - "+address.getState()+
-                "\n"+address.getPincode()+
-                "\n"+address.getCountry().getName());
+        holder.createShipmentAddress.setText(address.getLine1() +
+                "\n" + address.getCity() + " - " + address.getState() +
+                "\n" + address.getPincode() +
+                "\n" + address.getCountry().getName());
         holder.createShipmentAddressRadioBtn.setChecked(position == mCheckedPosition);
         holder.createShipmentAddressRadioBtn.setOnClickListener(v -> {
             if (position == mCheckedPosition) {
 
-            }
-            else {
+            } else {
                 mCheckedPosition = position;
                 notifyDataSetChanged();
-                interfaceObject.radioOperation(address , holder.createShipmentAddressRadioBtn, position);
+                interfaceObject.radioOperation(address, holder.createShipmentAddressRadioBtn, position);
             }
         });
 
@@ -69,22 +69,28 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView createShipmentAddressName, createShipmentPhoneNo, createShipmentAddress;
+        TextView createShipmentAddressName, createShipmentPhoneNo, createShipmentAddress, deliverTo, contact, deliveryAdd;
         RadioButton createShipmentAddressRadioBtn;
         Interface interfaceObject;
+        View line;
 
         public viewHolder(@NonNull View itemView, Interface interfaceObject) {
             super(itemView);
             this.interfaceObject = interfaceObject;
             createShipmentAddressName = itemView.findViewById(R.id.createShipmentAddressName);
+            line = itemView.findViewById(R.id.line);
+            deliveryAdd = itemView.findViewById(R.id.deliveryAdd);
+            deliverTo = itemView.findViewById(R.id.deliverTo);
+            contact = itemView.findViewById(R.id.contact);
             createShipmentPhoneNo = itemView.findViewById(R.id.createShipmentPhoneNo);
             createShipmentAddress = itemView.findViewById(R.id.createShipmentAddrsLine1);
             createShipmentAddressRadioBtn = itemView.findViewById(R.id.radioBtn);
         }
     }
-    public interface Interface{
+
+    public interface Interface {
         public void radioOperation(DeliveryListModel.Address address, RadioButton createShipmentAddressRadioBtn, int position);
     }
 }

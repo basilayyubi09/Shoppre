@@ -367,30 +367,35 @@ our warehouse"
                 android:layout_marginTop="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/facebook"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="5dp"
                     android:src="@drawable/ic_facebook_svg" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/instagram"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="5dp"
                     android:src="@mipmap/instagram" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/youtube"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="5dp"
                     android:src="@mipmap/twitter" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/linkedin"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="5dp"
                     android:src="@drawable/linkedin" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/twitter"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginHorizontal="5dp"

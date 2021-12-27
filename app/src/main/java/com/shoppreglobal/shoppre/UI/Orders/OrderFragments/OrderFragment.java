@@ -1,6 +1,8 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -21,6 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
@@ -99,6 +105,22 @@ public class OrderFragment extends Fragment {
         shippingCalculatorCard = view.findViewById(R.id.shippingCardAddress);
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
+
+
+        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+        FirebaseApp.initializeApp(getActivity());
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+
+        Intent intent = getActivity().getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            if (scheme.equals("https")) {
+                String token = uri.getQueryParameter("token");
+                Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
+            }
+        }
 
         YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
@@ -341,6 +363,7 @@ public class OrderFragment extends Fragment {
 //
 
     private void callMeApi(String bearerToken) {
+
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getUser("Bearer " + bearerToken);

@@ -181,7 +181,7 @@ public class PackageDetails extends Fragment {
                             } else if (type.equals("singlePhoto")) {
                                 jsonArray.add(id);
                                 callAdditionalPhoto();
-                            }else if (type.equals("split")) {
+                            } else if (type.equals("split")) {
                                 jsonArray.add(id);
                                 callSplitPackageApi();
                             }
@@ -206,7 +206,7 @@ public class PackageDetails extends Fragment {
 
                         @Override
                         public void callApi() {
-                            LoadingDialog.showLoadingDialog(getActivity() , "");
+                            LoadingDialog.showLoadingDialog(getActivity(), "");
                             callViewPackage();
                         }
                     });
@@ -537,7 +537,7 @@ public class PackageDetails extends Fragment {
                     while (jsonArray.size() > 0) {
                         jsonArray.remove(0);
                     }
-                    while (ids.size()>0){
+                    while (ids.size() > 0) {
                         ids.remove(0);
                     }
 
@@ -635,7 +635,6 @@ public class PackageDetails extends Fragment {
         });
 
     }
-
 
 
 }

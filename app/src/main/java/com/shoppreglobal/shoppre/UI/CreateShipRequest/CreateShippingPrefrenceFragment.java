@@ -67,10 +67,9 @@ public class CreateShippingPrefrenceFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (list.contains("gift")){
+                if (list.contains("gift")) {
                     giftText = giftNoteEditText.getText().toString();
-                }
-                else {
+                } else {
                     giftText = "";
                 }
 

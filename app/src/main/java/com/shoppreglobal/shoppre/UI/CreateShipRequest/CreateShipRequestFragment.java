@@ -46,7 +46,7 @@ public class CreateShipRequestFragment extends Fragment {
     List<PackageModel> list;
     List<PackageModel> tempList;
     CardView back;
-    SharedPrefManager sharedPrefManager ;
+    SharedPrefManager sharedPrefManager;
     TextView selectedNumber, totalNumber, totalAmount;
     List<Integer> list1;
     MaterialButton choosePackageProceedBtn;
@@ -96,26 +96,23 @@ public class CreateShipRequestFragment extends Fragment {
 
                     if (list1.contains(id)) {
 
-                    }
-                    else {
+                    } else {
                         list1.add(id);
                         tempList.add(model);
                         selectedNumber.setText(String.valueOf(list1.size()));
                         total = total + priceAmount1;
                         totalAmount.setText("₹ " + String.valueOf(total));
-                        if (list1.size()<1){
+                        if (list1.size() < 1) {
                             choosePackageProceedBtn.setEnabled(false);
                             choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
-                        }
-                        else {
+                        } else {
                             choosePackageProceedBtn.setEnabled(true);
 
                             choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.selected_btn_color)));
                         }
-                        if (total>50000){
+                        if (total > 50000) {
                             totalValue.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             totalValue.setVisibility(View.GONE);
                         }
                         if (invoice == null) {
@@ -151,21 +148,17 @@ public class CreateShipRequestFragment extends Fragment {
                     }
 
 
-                }
-
-
-                else {
+                } else {
 
                     if (list1.contains(id)) {
                         list1.remove(id);
                         tempList.remove(model);
                         selectedNumber.setText(String.valueOf(list1.size()));
                         checkBox.setChecked(false);
-                        if (list1.size()<1){
+                        if (list1.size() < 1) {
                             choosePackageProceedBtn.setEnabled(false);
                             choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.grey)));
-                        }
-                        else {
+                        } else {
                             choosePackageProceedBtn.setEnabled(true);
                             choosePackageProceedBtn.setBackgroundTintList(ColorStateList.valueOf(getActivity().getResources().getColor(R.color.selected_btn_color)));
                         }
@@ -175,24 +168,22 @@ public class CreateShipRequestFragment extends Fragment {
                             totalAmount.setText("₹ " + String.valueOf(total));
 
                         }
-                        if (total>50000){
+                        if (total > 50000) {
                             totalValue.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             totalValue.setVisibility(View.GONE);
                         }
 
 
                         if (invoice == null) {
                             isContainInvoice = true;
-                        }
-                        else {
+                        } else {
                             isContainInvoice = false;
                         }
 
                         if (isContainInvoice) {
                             containDamage.setVisibility(View.VISIBLE);
-                            
+
                         } else {
                             containDamage.setVisibility(View.GONE);
                         }
@@ -246,45 +237,40 @@ public class CreateShipRequestFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                int inReviewCount = 0 , actionRequiredCount = 0;
-                boolean isBoth = false , isWrong = false , isRestricted = false;
-                for (int i = 0; i<tempList.size() ; i++){
-                    if (tempList.get(i).getStateName().equals("In Review")){
+                int inReviewCount = 0, actionRequiredCount = 0;
+                boolean isBoth = false, isWrong = false, isRestricted = false;
+                for (int i = 0; i < tempList.size(); i++) {
+                    if (tempList.get(i).getStateName().equals("In Review")) {
                         inReviewCount++;
-                    }
-                    else if (tempList.get(i).getStateName().equals("Action Required")){
+                    } else if (tempList.get(i).getStateName().equals("Action Required")) {
                         actionRequiredCount++;
                     }
-                    if (tempList.get(i).getIsWrongItem()!=null && tempList.get(i).getIsRestrictedItem()!=null){
+                    if (tempList.get(i).getIsWrongItem() != null && tempList.get(i).getIsRestrictedItem() != null) {
 
                         isBoth = true;
 
-                    }
-                    else if (tempList.get(i).getIsWrongItem()!=null){
+                    } else if (tempList.get(i).getIsWrongItem() != null) {
                         isWrong = true;
-                    }
-                    else if (tempList.get(i).getIsRestrictedItem()!=null){
+                    } else if (tempList.get(i).getIsRestrictedItem() != null) {
                         isRestricted = true;
                     }
                 }
 
-                if (!isBoth || !isRestricted || !isWrong ||inReviewCount==0 || actionRequiredCount==0){
+                if (!isBoth || !isRestricted || !isWrong || inReviewCount == 0 || actionRequiredCount == 0) {
                     StringBuilder allIds = new StringBuilder();
-                    for (int i=0 ; i<tempList.size() ; i++){
-                        if (i+1==tempList.size()){
+                    for (int i = 0; i < tempList.size(); i++) {
+                        if (i + 1 == tempList.size()) {
                             allIds.append(tempList.get(i).getId());
-                        }
-                        else {
-                            allIds.append(tempList.get(i).getId()+",");
+                        } else {
+                            allIds.append(tempList.get(i).getId() + ",");
                         }
                     }
 
                     callRedirectShipment(allIds);
-                }
-                else {
+                } else {
                     AlertDialogBox alertDialogBox = new AlertDialogBox();
-                    alertDialogBox.showAlertDialog(getContext() , tempList , inReviewCount , actionRequiredCount
-                            , isBoth , isRestricted , isWrong  );
+                    alertDialogBox.showAlertDialog(getContext(), tempList, inReviewCount, actionRequiredCount
+                            , isBoth, isRestricted, isWrong);
                 }
 
             }
@@ -295,22 +281,22 @@ public class CreateShipRequestFragment extends Fragment {
 
     private void callRedirectShipment(StringBuilder allIds) {
 
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
 
         Call<RedirectShipmentResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi()
-                .redirect("Bearer "+sharedPrefManager.getBearerToken(),allIds.toString());
+                .redirect("Bearer " + sharedPrefManager.getBearerToken(), allIds.toString());
 
         call.enqueue(new Callback<RedirectShipmentResponse>() {
             @Override
             public void onResponse(Call<RedirectShipmentResponse> call, Response<RedirectShipmentResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     ShipmentMeta shipmentMeta = response.body().getShipmentMeta();
                     Bundle bundle = new Bundle();
-                    bundle.putString("ids" , allIds.toString());
-                    bundle.putString("liquid" , response.body().getIsLiquid());
-                    bundle.putSerializable("meta" , (Serializable) shipmentMeta);
+                    bundle.putString("ids", allIds.toString());
+                    bundle.putString("liquid", response.body().getIsLiquid());
+                    bundle.putSerializable("meta", (Serializable) shipmentMeta);
                     CreateShipmentDeliveryAddress address = new CreateShipmentDeliveryAddress();
                     address.setArguments(bundle);
 
@@ -320,11 +306,9 @@ public class CreateShipRequestFragment extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, address, null)
                             .addToBackStack(null).commit();
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi(allIds);
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -337,6 +321,7 @@ public class CreateShipRequestFragment extends Fragment {
             }
         });
     }
+
     private void callRefreshTokenApi(StringBuilder allIds) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
