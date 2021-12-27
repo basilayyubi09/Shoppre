@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -147,9 +148,11 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
             @Override
             public void onClick(View v) {
+                Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenu);
 
-                PopupMenu popupMenu = new PopupMenu(context, v);
+                PopupMenu popupMenu = new PopupMenu(wrapper, v );
 
+                popupMenu.setGravity(Gravity.RIGHT);
                 popupMenu.getMenuInflater().inflate(R.menu.three_dots_menu, popupMenu.getMenu());
 
                 if (list.size() < 2) {
@@ -248,7 +251,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             @Override
             public void onClick(View v) {
 
-                ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog(list.size(),new ViewPhotoDialog.Click() {
+                ViewPhotoDialog viewPhotoDialog = new ViewPhotoDialog(list.size(), new ViewPhotoDialog.Click() {
                     @Override
                     public void fiveRupeesClick(MaterialButton unlockPhotoBtn
                             , TextView orText
@@ -268,7 +271,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
                     @Override
                     public void proceed(Integer id) {
-                        getData.dotsVisiblity("multiPhoto" , id , position);
+                        getData.dotsVisiblity("multiPhoto", id, position);
                     }
 
                     @Override
@@ -293,7 +296,6 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
         arrayAdapter = new ArrayAdapter(context, R.layout.pop_menu, menu);
         holder.threeDotSanple.setAdapter(arrayAdapter);
-
 
 
     }
