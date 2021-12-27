@@ -29,6 +29,7 @@
                 android:id="@+id/viewOrderProductName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Redmi Note 9 Pro Max"
                 android:maxEms="10"
                 android:singleLine="true"
@@ -49,14 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/colorHeading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Color: "
-                android:textColor="@color/black"
-                android:textFontWeight="400"
-                android:textSize="10sp" />
+
 
             <TextView
                 android:id="@+id/viewOrderProductColor"

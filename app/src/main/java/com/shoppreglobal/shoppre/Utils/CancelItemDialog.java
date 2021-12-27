@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.google.android.material.button.MaterialButton;
 import com.shoppreglobal.shoppre.R;
@@ -20,9 +21,13 @@ public class CancelItemDialog {
         dialog.setContentView(R.layout.return_item_dialog_box);
 
         MaterialButton addMoreProductBtn, proceedWith1ItemBtn;
+        ImageView close;
 
         addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
         proceedWith1ItemBtn = dialog.findViewById(R.id.proceedWith1ItemBtn);
+        close = dialog.findViewById(R.id.close);
+
+
 
         addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
             @Override

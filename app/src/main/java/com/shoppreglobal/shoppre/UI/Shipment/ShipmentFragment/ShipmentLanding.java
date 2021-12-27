@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -91,6 +92,10 @@ import java.util.Locale;
 import java.util.concurrent.Future;
 
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -244,28 +249,6 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onClick(View v) {
                 downloadInvoiceApi();
-                Dexter.withContext(getContext())
-                        .withPermissions(
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        ).withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            downloadFile();
-                        } else {
-                            Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-
-                    }
-
-
-                }).check();
-
             }
         });
 
@@ -285,6 +268,7 @@ public class ShipmentLanding extends Fragment {
             public void onClick(View v) {
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("shipmentId", id);
+                bundle2.putInt("size", size);
                 PaymentSummary paymentSummary = new PaymentSummary();
                 paymentSummary.setArguments(bundle2);
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, paymentSummary, null)
@@ -370,7 +354,7 @@ public class ShipmentLanding extends Fragment {
 
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-        PRDownloader.download(getUrl, file.getPath(), URLUtil.guessFileName(getUrl, null, null))
+        PRDownloader.download(url, file.getPath(), URLUtil.guessFileName(url, null, null))
                 .build()
                 .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                     @Override
@@ -438,7 +422,31 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onResponse(Call<DownloadInvoiceModelResponse> call, Response<DownloadInvoiceModelResponse> response) {
                 if (response.code() == 200) {
-                    url = response.body().getInvoiceObject();
+                    DownloadInvoiceModelResponse downloadInvoiceModelResponse = response.body();
+                    url = downloadInvoiceModelResponse.getInvoiceObject();
+
+                    Dexter.withContext(getContext())
+                            .withPermissions(
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                            ).withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                downloadFile();
+                            } else {
+                                Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                        }
+
+
+                    }).check();
+
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {
@@ -857,6 +865,7 @@ public class ShipmentLanding extends Fragment {
                     LoadingDialog.showLoadingDialog(getActivity(), "");
                     callMinioUploadApi(file);
 
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -882,7 +891,10 @@ public class ShipmentLanding extends Fragment {
 
                     Log.d("splitUrl", splitUrl);
 
-                        callMinioUpload2Api();
+//                        callMinioUpload2Api(responseUrl);
+                        MinioUploading minioUploading = new MinioUploading();
+                        minioUploading.execute();
+
 
 
                     LoadingDialog.cancelLoading();
@@ -904,34 +916,68 @@ public class ShipmentLanding extends Fragment {
         });
     }
 
-    private void callMinioUpload2Api() {
-        JsonObject object = new JsonObject();
-        object.addProperty("file", responseObject);
+    private void callMinioUpload2Api(String responseUrl) {
 
-        LoadingDialog.showLoadingDialog(getActivity(), "");
-        Call<Integer> call = DynamicRetrofitClient.getDynamicInstance()
-                .getAppApi().minioUpload2(splitUrl, object.toString());
-        call.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.code()==200){
 
-                    LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
-                }else {
-                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                    LoadingDialog.cancelLoading();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-                LoadingDialog.cancelLoading();
-            }
-        });
+//        JsonObject object = new JsonObject();
+//        object.addProperty("file", responseObject);
+//
+//        LoadingDialog.showLoadingDialog(getActivity(), "");
+//        Call<Integer> call = DynamicRetrofitClient.getDynamicInstance()
+//                .getAppApi().minioUpload2(splitUrl, object.toString());
+//        call.enqueue(new Callback<Integer>() {
+//            @Override
+//            public void onResponse(Call<Integer> call, Response<Integer> response) {
+//                if (response.code()==200){
+//
+//                    LoadingDialog.cancelLoading();
+//                }else if (response.code()==401){
+//                    callRefreshTokenApi();
+//                    LoadingDialog.cancelLoading();
+//                }else {
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//                    LoadingDialog.cancelLoading();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Integer> call, Throwable t) {
+//
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+//                LoadingDialog.cancelLoading();
+//            }
+//        });
     }
+
+    class MinioUploading extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, encodedFile);
+            Request request = new Request.Builder()
+                    .url(responseUrl)
+                    .method("PUT", body)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+            try {
+                okhttp3.Response response = client.newCall(request).execute();
+                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            //process message
+        }
+    }
+
 }

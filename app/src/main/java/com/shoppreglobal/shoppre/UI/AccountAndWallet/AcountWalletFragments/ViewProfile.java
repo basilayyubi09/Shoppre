@@ -73,7 +73,7 @@ public class ViewProfile extends Fragment {
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
     LinearLayout resend , main;
-    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue;
+    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue, tvChangePassword;
     SharedPrefManager sharedPrefManager;
     EditText phoneNoEditText;
 
@@ -146,7 +146,18 @@ public class ViewProfile extends Fragment {
         emailCheck = view.findViewById(R.id.emailCheck);
         phoneNoCheck = view.findViewById(R.id.phoneNoCheck);
         phoneNoEditText = view.findViewById(R.id.phoneNoEditText);
+        tvChangePassword = view.findViewById(R.id.tvChangePassword);
 
+
+        ///change password
+
+        tvChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ChangePasswordFragment(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
 
 

@@ -348,6 +348,12 @@ public class ShippingCalculator extends Fragment {
 
                 if (position > 0) {
                     Id = listCategory.get(position).getId();
+                    if (listCategory.get(position).getName().equals("Liquid")){
+                        yesButton.setTextColor(getResources().getColor(R.color.white));
+                        noButton.setTextColor(getResources().getColor(R.color.black));
+                        yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
+                        noButton.setBackground(getResources().getDrawable(no_btn_bg1));
+                    }
                 }
             }
 

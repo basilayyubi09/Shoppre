@@ -59,7 +59,7 @@ public class ShipmentUpdates extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle!=null){
             id = bundle.getInt("id");
-            Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
 
         LoadingDialog.showLoadingDialog(getActivity(), "");

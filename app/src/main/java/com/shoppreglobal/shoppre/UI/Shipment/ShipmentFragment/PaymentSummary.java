@@ -64,6 +64,7 @@ public class PaymentSummary extends Fragment {
     RecyclerView boxRecycler;
     BoxWeightAdapter boxWeightAdapter;
     List<BoxWeight> list;
+    int size;
 
     int flag = 1;
     int flag2 = 3;
@@ -172,6 +173,8 @@ public class PaymentSummary extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             shipmentId = bundle.getInt("shipmentId");
+            size = bundle.getInt("size");
+
         }
 
         paymentSummaryTabLayout = view.findViewById(R.id.paymentSumaryTabLayout);
@@ -186,15 +189,11 @@ public class PaymentSummary extends Fragment {
         shipmentUpdates.setArguments(bundle1);
 
         viewPagerAdapter = new PaymentSummaryViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(shipmentDetails, "Shipment Details");
+        viewPagerAdapter.addFragment(shipmentDetails, "Shipment Details" + " (" + String.valueOf(size) + ")");
         viewPagerAdapter.addFragment(shipmentUpdates, "Shipment Updates");
         viewPager.setAdapter(viewPagerAdapter);
 
         paymentSummaryTabLayout.setupWithViewPager(viewPager);
-
-
-
-
 
 
 

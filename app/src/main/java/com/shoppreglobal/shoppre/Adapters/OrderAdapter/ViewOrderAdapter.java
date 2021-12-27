@@ -45,16 +45,25 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
 
 //        holder.productImage.getDrawable();
         holder.productName.setText(list.get(position).getName());
-        if (list.get(position).getColor().equals("") || list.get(position).getColor() == null) {
+        if (list.get(position).getColor().equals("") || list.get(position).getColor() == null && list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
             holder.productColor.setVisibility(View.GONE);
             holder.colorHeading.setVisibility(View.GONE);
-        } else {
-            holder.productColor.setText(list.get(position).getColor());
+        } else if(list.get(position).getColor().equals("") || list.get(position).getColor() == null) {
+            holder.productColor.setText("Size: "+list.get(position).getSize());
+
+        } else if(list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
+            holder.productColor.setText("Color: "+list.get(position).getColor());
+
+        }
+
+        else
+         {
+            holder.productColor.setText("Color & Size: "+list.get(position).getColor()+" "+list.get(position).getSize());
         }
 
         holder.productQuantity.setText(String.valueOf(list.get(position).getQuantity()));
 
-        holder.productRate.setText(String.valueOf(list.get(position).getPriceAmount()));
+        holder.productRate.setText("₹ "+String.valueOf(list.get(position).getPriceAmount()));
 //
 
         holder.webView.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +113,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             productColor = itemView.findViewById(R.id.viewOrderProductColor);
             productQuantity = itemView.findViewById(R.id.viewOrderProductQuantity);
             productRate = itemView.findViewById(R.id.viewOrderProductRate);
-            colorHeading = itemView.findViewById(R.id.colorHeading);
+
             toolTip = itemView.findViewById(R.id.toolTip);
 
         }

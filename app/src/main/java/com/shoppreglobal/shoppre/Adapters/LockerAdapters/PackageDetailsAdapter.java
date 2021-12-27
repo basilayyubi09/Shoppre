@@ -197,6 +197,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         dialog.setContentView(R.layout.return_item_dialog_box);
 
                         MaterialButton addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
+                        ImageView close = dialog.findViewById(R.id.close);
                         TextView string = dialog.findViewById(R.id.string);
                         if (list.size() < 2) {
                             addMoreProductBtn.setVisibility(View.GONE);
@@ -212,6 +213,13 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
                         } else if (type.equals("split")) {
                             string.setText(R.string.split);
                         }
+
+                        close.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
 
                         addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -74,10 +74,11 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/drawable/yes_btn_bg1.xml" value="0.23796296296296296" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/activity_order.xml" value="0.264" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/activity_reset_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/activity_sign_up.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/add_address_popup.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/add_address_title.xml" value="0.1685185185185185" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/box_recycler_single_layout.xml" value="0.264" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/box_recycler_single_layout.xml" value="0.3724770642201835" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/cancel_your_shipment_dialog_box.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/cart_badge_text.xml" value="1.3375" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/cart_item_single_layout.xml" value="0.264" />
@@ -91,15 +92,16 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/dropdown_text_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_cancelled_order.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_change_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_create_ship_request.xml" value="0.2" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_create_ship_request_summary.xml" value="0.264" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_create_shipment_delivery_address.xml" value="0.1824074074074074" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_create_shipping_prefrence.xml" value="0.264" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_empty_address_book.xml" value="0.20462962962962963" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_empty_cart.xml" value="0.536" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_empty_cart.xml" value="0.264" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_final_order_summary.xml" value="0.536" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_locker_ready_to_ship.xml" value="0.17222222222222222" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_locker_view_package.xml" value="0.15069444444444444" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_locker_view_package.xml" value="0.264" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_my_cash_web_view.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_order.xml" value="0.19907407407407407" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_order_details.xml" value="0.25416666666666665" />
@@ -118,7 +120,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_self_shopper_place_order_fargment.xml" value="0.152" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_ship_it_to_seller_landing.xml" value="0.264" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_details.xml" value="0.19537037037037036" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_landing.xml" value="0.19537037037037036" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_landing.xml" value="0.19074074074074074" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_list.xml" value="0.18055555555555555" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipment_updates.xml" value="0.22497308934337998" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_shipping_calculator.xml" value="0.20277777777777778" />
@@ -161,7 +163,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_dialog_box.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_item_single_layout.xml" value="0.8" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_single_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_order_single_layout.xml" value="0.19814814814814816" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_order_single_layout.xml" value="0.4" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_photo_dialog.xml" value="0.2" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_sample_dialog.xml" value="0.36678200692041524" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/wallet_fragment_spinner_text.xml" value="0.25416666666666665" />

@@ -2,13 +2,16 @@ package com.shoppreglobal.shoppre.UI.Locker;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,6 +26,8 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageDetails;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageUpdates;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ViewOrderPersonalShop;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -49,7 +54,10 @@ public class LockerViewPackage extends Fragment {
     PackageDetails packageDetails = new PackageDetails();
     List<PackageItem> list;
     PackageUpdates packageUpdates = new PackageUpdates();
+    CardView uploadInvoiceCard;
     ViewPackageViewPager viewPackageViewPagerAdapter;
+    LinearLayout viewPackageViewMore;
+    String orderCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,12 +73,15 @@ public class LockerViewPackage extends Fragment {
         trackingNumber = view.findViewById(R.id.trackingNumber);
         amount = view.findViewById(R.id.amount);
         websiteName = view.findViewById(R.id.websiteName);
+        uploadInvoiceCard = view.findViewById(R.id.uploadInvoiceCard);
+        viewPackageViewMore = view.findViewById(R.id.viewPackageViewMore);
         sharedPrefManager = new SharedPrefManager(getActivity());
 
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             id = bundle.getInt("id");
+
 
         }
 
@@ -84,6 +95,22 @@ public class LockerViewPackage extends Fragment {
             callViewPackage();
 
         }
+
+        viewPackageViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle2 = new Bundle();
+
+                bundle2.putString("id", String.valueOf(id));
+                bundle2.putString("orderCode", orderCode);
+
+
+                ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
+                viewOrderPersonalShop.setArguments(bundle2);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
 
         return view;
@@ -103,8 +130,16 @@ public class LockerViewPackage extends Fragment {
                     list = response.body().getPackageItems();
                     bundle1.putInt("id", response.body().getId());
                     bundle1.putSerializable("list", (Serializable) list);
+                    orderCode = String.valueOf(response.body().getOrderCode());
                     packageDetails.setArguments(bundle1);
+
                     Bundle bundle = new Bundle();
+
+                    if (response.body().getInvoice()==null){
+                        uploadInvoiceCard.setVisibility(View.VISIBLE);
+                    }else {
+                        uploadInvoiceCard.setVisibility(View.GONE);
+                    }
 
                     bundle.putInt("id", response.body().getId());
 

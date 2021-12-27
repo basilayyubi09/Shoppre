@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -91,6 +92,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         }
 
 
+        list.get(position).getOrderCode();
 
         holder.lockerViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +101,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
 
 
                 bundle.putInt("id", list.get(position).getId());
+
 
                 LockerViewPackage lockerViewPackage = new LockerViewPackage();
                 lockerViewPackage.setArguments(bundle);

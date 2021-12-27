@@ -761,6 +761,23 @@
                         android:layout_marginTop="13dp"
                         />
                     <TextView
+                        android:id="@+id/tvChangePassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#3A5FD8"
+                        android:text="Change Password"
+                        android:textSize="12sp"
+                        android:layout_marginLeft="22dp"
+                        android:layout_marginTop="19dp"
+                        android:textFontWeight="500"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#CCCBCD"
+                        android:layout_marginHorizontal="23dp"
+                        android:layout_marginTop="13dp"
+                        />
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/help_amp_faqs"

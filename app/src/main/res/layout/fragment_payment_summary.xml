@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Nikkitha Shanker"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="22dp"
-                        android:text="24 Airport Rd - Garhoud - Dubai - United Arab Emirates"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="22dp"
                         android:layout_marginBottom="24dp"
-                        android:text="+9714702 4444"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textFontWeight="500"
                         android:textSize="12sp" />
