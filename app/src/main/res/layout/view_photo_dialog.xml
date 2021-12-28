@@ -140,7 +140,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 android:text="OR"
-                android:textColor="#3A5FD8"
+                android:textColor="@color/black"
                 android:textFontWeight="500"
                 android:textSize="14sp" />
 

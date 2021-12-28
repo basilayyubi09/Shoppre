@@ -3,7 +3,7 @@ package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.NotificationManager;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -139,6 +139,7 @@ public class ShipmentLanding extends Fragment {
     String responseObject;
     String splitUrl;
     String responseUrl;
+    String file;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -851,7 +852,7 @@ public class ShipmentLanding extends Fragment {
                 String selectedFilePath = data.getData().getPath();
                 String string = selectedFilePath;
                 String[] parts = string.split("/");
-                String file= parts[parts.length-1];
+                file= parts[parts.length-1];
                 Log.d("Path", file);
 
                 try {
@@ -891,9 +892,9 @@ public class ShipmentLanding extends Fragment {
 
                     Log.d("splitUrl", splitUrl);
 
-//                        callMinioUpload2Api(responseUrl);
-                        MinioUploading minioUploading = new MinioUploading();
-                        minioUploading.execute();
+                        callMinioUpload2Api(responseUrl);
+//                        MinioUploading minioUploading = new MinioUploading();
+//                        minioUploading.execute();
 
 
 
@@ -919,65 +920,63 @@ public class ShipmentLanding extends Fragment {
     private void callMinioUpload2Api(String responseUrl) {
 
 
-//        JsonObject object = new JsonObject();
-//        object.addProperty("file", responseObject);
-//
 //        LoadingDialog.showLoadingDialog(getActivity(), "");
 //        Call<Integer> call = DynamicRetrofitClient.getDynamicInstance()
-//                .getAppApi().minioUpload2(splitUrl, object.toString());
+//                .getAppApi().minioUpload2(responseUrl, encodedFile);
 //        call.enqueue(new Callback<Integer>() {
 //            @Override
 //            public void onResponse(Call<Integer> call, Response<Integer> response) {
 //                if (response.code()==200){
-//
+//                    Log.d("Sucsessssss", String.valueOf(response.code()));
 //                    LoadingDialog.cancelLoading();
 //                }else if (response.code()==401){
 //                    callRefreshTokenApi();
 //                    LoadingDialog.cancelLoading();
 //                }else {
-//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
 //                    LoadingDialog.cancelLoading();
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//
 //                }
 //            }
 //
 //            @Override
 //            public void onFailure(Call<Integer> call, Throwable t) {
-//
-//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
 //                LoadingDialog.cancelLoading();
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
     }
 
-    class MinioUploading extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String[] params) {
-
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, encodedFile);
-            Request request = new Request.Builder()
-                    .url(responseUrl)
-                    .method("PUT", body)
-                    .addHeader("Content-Type", "application/json")
-                    .build();
-            try {
-                okhttp3.Response response = client.newCall(request).execute();
-                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-            //process message
-        }
-    }
+//    class MinioUploading extends AsyncTask<String, String, String> {
+//
+//        @Override
+//        protected String doInBackground(String[] params) {
+//
+//            OkHttpClient client = new OkHttpClient().newBuilder()
+//                    .build();
+//            MediaType mediaType = MediaType.parse("application/json");
+//            RequestBody body = RequestBody.create(mediaType, file);
+//            Request request = new Request.Builder()
+//                    .url(responseUrl)
+//                    .method("PUT", body)
+//                    .addHeader("Content-Type", "application/json")
+//                    .build();
+//            try {
+//                okhttp3.Response response = client.newCall(request).execute();
+//                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String message) {
+//            //process message
+//        }
+//    }
 
 }

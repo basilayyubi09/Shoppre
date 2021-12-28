@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -33,13 +34,14 @@ public class LandingDialog {
         final Dialog dialog = new Dialog(context);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.landing_dialog);
 
 
         MaterialButton continueOrder = dialog.findViewById(R.id.continueOrder);
         MaterialButton createNewOrder = dialog.findViewById(R.id.createNewOrder);
+        ImageView close = dialog.findViewById(R.id.close);
 
         continueOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +58,14 @@ public class LandingDialog {
 //                Toast.makeText(context.getApplicationContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
             }
         });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         createNewOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

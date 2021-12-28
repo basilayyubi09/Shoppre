@@ -623,7 +623,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -660,7 +660,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -698,7 +698,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -735,7 +735,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -772,7 +772,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -809,7 +809,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -847,7 +847,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -879,14 +879,14 @@
                                 <View
                                     android:id="@+id/vPickupView"
                                     android:layout_width="1dp"
-                                    android:layout_height="11dp"
+                                    android:layout_height="match_parent"
                                     android:background="#D2D2D2" />
 
                                 <View
                                     android:id="@+id/vPickupView2"
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -954,7 +954,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -991,7 +991,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1028,7 +1028,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1065,7 +1065,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1102,7 +1102,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1139,7 +1139,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1176,7 +1176,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1213,7 +1213,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1244,13 +1244,13 @@
 
                                 <View
                                     android:layout_width="1dp"
-                                    android:layout_height="11dp"
+                                    android:layout_height="match_parent"
                                     android:background="#D2D2D2" />
 
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1313,7 +1313,7 @@
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1344,13 +1344,13 @@
 
                                 <View
                                     android:layout_width="1dp"
-                                    android:layout_height="11dp"
+                                    android:layout_height="match_parent"
                                     android:background="#D2D2D2" />
 
                                 <View
                                     android:layout_width="12dp"
                                     android:layout_height="1dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_gravity="bottom"
                                     android:background="#D2D2D2" />
 
                                 <TextView
@@ -1532,7 +1532,7 @@
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_gravity="bottom"
                                 android:background="#D2D2D2" />
 
                             <TextView
@@ -1567,14 +1567,14 @@
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="11dp"
+                                android:layout_height="match_parent"
                                 android:layout_marginLeft="13dp"
                                 android:background="#D2D2D2" />
 
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_gravity="bottom"
                                 android:background="#D2D2D2" />
 
                             <TextView
@@ -1641,7 +1641,7 @@
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_gravity="bottom"
                                 android:background="#D2D2D2" />
 
                             <TextView
@@ -1666,14 +1666,14 @@
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="11dp"
+                                android:layout_height="match_parent"
                                 android:layout_marginLeft="13dp"
                                 android:background="#D2D2D2" />
 
                             <View
                                 android:layout_width="12dp"
                                 android:layout_height="1dp"
-                                android:layout_marginTop="10dp"
+                                android:layout_gravity="bottom"
                                 android:background="#D2D2D2" />
 
                             <TextView

@@ -209,26 +209,28 @@
                                 android:layout_marginLeft="15dp"
 
                                 android:background="@drawable/dashed_line_vertical" />
+
                             <TextView
+                                android:id="@+id/click"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Click tp upload"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="35dp"
-                                android:id="@+id/click"
+                                android:text="Click tp upload"
                                 android:textColor="#7E7E7E"
-                                android:textSize="10sp"
-                                android:textFontWeight="600"/>
+                                android:textFontWeight="600"
+                                android:textSize="10sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Supported Formats: .pdf, .png or .jpg"
                                 android:layout_below="@+id/click"
-                                android:layout_marginTop="30dp"
                                 android:layout_centerHorizontal="true"
+                                android:layout_marginTop="30dp"
+                                android:text="Supported Formats: .pdf, .png or .jpg"
                                 android:textColor="#7E7E7E"
-                                android:textSize="10sp"
-                                android:textFontWeight="500"/>
+                                android:textFontWeight="500"
+                                android:textSize="10sp" />
                             <View
                                 android:layout_width="5dp"
                                 android:layout_height="138dp"

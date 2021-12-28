@@ -56,6 +56,8 @@ public class PreviousShipmentAdapter extends RecyclerView.Adapter<PreviousShipme
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", response.getId());
+                bundle.putInt("size", response.getPackages().size());
+                bundle.putInt("stateId", response.getStateId());
                 bundle.putString("stateName", response.getStateName());
                 bundle.putSerializable("packages", (Serializable) response.getPackages());
                 ShipmentLanding shipmentLanding = new ShipmentLanding();

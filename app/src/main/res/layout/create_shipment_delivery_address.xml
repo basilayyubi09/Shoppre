@@ -24,8 +24,9 @@
                 <RadioButton
                     android:id="@+id/radioBtn"
                     android:layout_width="28dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:buttonTint="#3A5FD8"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
