@@ -608,6 +608,7 @@ public class ShipmentLanding extends Fragment {
 
 
         for (int i = 0; i < list.size(); i++) {
+
             if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false ) {
                 if (stateId == 16 || stateId == 100){
                     uploadInvoiceHelpText.setVisibility(View.VISIBLE);

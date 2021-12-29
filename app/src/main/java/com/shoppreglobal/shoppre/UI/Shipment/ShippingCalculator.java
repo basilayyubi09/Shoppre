@@ -353,6 +353,9 @@ public class ShippingCalculator extends Fragment {
                         noButton.setTextColor(getResources().getColor(R.color.black));
                         yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
                         noButton.setBackground(getResources().getDrawable(no_btn_bg1));
+                        noButton.setClickable(false);
+                    }else {
+                        noButton.setClickable(true);
                     }
                 }
             }
@@ -362,6 +365,8 @@ public class ShippingCalculator extends Fragment {
 
             }
         });
+
+
 
         return view;
     }
@@ -426,6 +431,7 @@ public class ShippingCalculator extends Fragment {
                     listCategory = response.body();
                     listCategory.add(0, new ProductCategoryResponse(0, "Choose Category"));
 
+
                     categoryAdapter = new ArrayAdapter<ProductCategoryResponse>(
                             getActivity(), R.layout.choose_category_dropdown_text, listCategory
                     ) {
@@ -448,9 +454,10 @@ public class ShippingCalculator extends Fragment {
                             if (position == 0) {
                                 chooseCategoryTextView.setVisibility(View.GONE);
                                 chooseCategoryTextView.setTextColor(Color.GRAY);
-                            } else {
+                            }else {
                                 chooseCategoryTextView.setTextColor(Color.BLACK);
                             }
+
                             return view;
                         }
                     };

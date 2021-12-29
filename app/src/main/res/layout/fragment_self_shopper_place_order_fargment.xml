@@ -221,11 +221,15 @@
                                 android:textFontWeight="600"
                                 android:textSize="10sp" />
 
+
                             <TextView
+                                android:id="@+id/path"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/click"
                                 android:layout_centerHorizontal="true"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="40dp"
                                 android:layout_marginTop="30dp"
                                 android:text="Supported Formats: .pdf, .png or .jpg"
                                 android:textColor="#7E7E7E"
@@ -251,18 +255,18 @@
 
                 </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Our team will accept your package based on this document.
-Please note that you will have to upload a tax invoice on order dispatch."
-                    android:layout_marginHorizontal="7dp"
-                    android:gravity="center"
-                    android:textSize="10sp"
-                    android:textFontWeight="500"
-                    android:textColor="@color/black"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="20dp"
-                    android:lineHeight="12.2dp"/>
+                    android:gravity="center"
+                    android:lineHeight="12.2dp"
+                    android:text="Our team will accept your package based on this document.\nPlease note that you will have to upload a tax invoice on order dispatch."
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:textSize="10sp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
