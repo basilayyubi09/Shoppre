@@ -132,6 +132,8 @@ public class ShipmentLanding extends Fragment {
     String responseUrl;
     String file;
     byte[] byteArray;
+    LinearLayout uploadInvoiceArrowHome;
+    TextView invoiceUploadedHome;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -322,7 +324,7 @@ public class ShipmentLanding extends Fragment {
 
                     uploadInvoiceAdapter = new UploadInvoiceAdapter(list2, getActivity(), dialog, new UploadInvoiceAdapter.CallbackInterface() {
                         @Override
-                        public void onSelection() {
+                        public void onSelection(LinearLayout uploadInvoiceArrow, TextView invoiceUploaded) {
                             Intent intent = new Intent();
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
                             // Set your required file type
@@ -330,6 +332,8 @@ public class ShipmentLanding extends Fragment {
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intent, "DEMO"), 1001);
 
+                            uploadInvoiceArrowHome = uploadInvoiceArrow;
+                            invoiceUploadedHome = invoiceUploaded;
 
                         }
 
@@ -644,13 +648,14 @@ public class ShipmentLanding extends Fragment {
 
                 if (stateId == 16 || stateId == 100) {
                     uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                    uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                    uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
                     inReviewHelpText.setVisibility(View.GONE);
                     inReview.setVisibility(View.GONE);
                 }
 
             }
             break;
+
         }
 
 
@@ -921,8 +926,8 @@ public class ShipmentLanding extends Fragment {
 //                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
 
                     Log.d("splitUrl", splitUrl);
-
                     LoadingDialog.cancelLoading();
+
 //                    callMinioUpload2Api(responseUrl , encodedFile);
                     MinioUploading minioUploading = new MinioUploading();
                     minioUploading.execute();
@@ -984,6 +989,7 @@ public class ShipmentLanding extends Fragment {
         @Override
         protected String doInBackground(String[] params) {
 
+
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             MediaType mediaType = MediaType.parse("application/octet");
@@ -996,6 +1002,9 @@ public class ShipmentLanding extends Fragment {
             try {
                 okhttp3.Response response = client.newCall(request).execute();
                 Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
