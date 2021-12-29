@@ -39,7 +39,7 @@ import retrofit2.Response;
 public class WalletFragment extends Fragment {
 
     List<WalletTransaction> list , list1;
-    String[] title = {"  All  ", "  My Cash  ", "  Rewards  "};
+    String[] title = {"  All  ", "  My Cash  ", "  My Rewards  "};
     Spinner allSpinner;
     ArrayAdapter arrayAdapter;
     WalletTransactionAdapter walletAdapter;

@@ -164,6 +164,8 @@
                         android:insetBottom="0dp"
                         android:letterSpacing="0.03"
                         android:text="Proceed To Pay"
+                        android:paddingHorizontal="44dp"
+                        android:paddingVertical="11dp"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="12sp"

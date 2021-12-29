@@ -183,8 +183,8 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
                             case R.id.ship_to_india:
 
-                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipWithinIndiaFragment(), null)
-                                        .addToBackStack(null).commit();
+//                                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipWithinIndiaFragment(), null)
+//                                        .addToBackStack(null).commit();
 
                                 break;
                         }

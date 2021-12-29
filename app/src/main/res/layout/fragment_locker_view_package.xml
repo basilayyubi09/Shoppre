@@ -295,7 +295,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/uploadInvoiceCard"
-            android:visibility="gone"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="21dp"
@@ -305,7 +305,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="26dp">
+                >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -318,8 +318,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_weight="600"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginLeft="12dp"
+                        android:textFontWeight="600"
                         android:lineSpacingExtra="2dp"
                         android:text="No invoice found for this package"
                         android:textColor="@color/black"
@@ -329,7 +330,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:layout_weight="400"
+                        android:textFontWeight="400"
+                        android:layout_marginBottom="23sp"
+                        android:layout_marginLeft="12dp"
                         android:lineSpacingExtra="2dp"
                         android:text="As per customs regulations, attaching invoice is mandatory for all shipments"
                         android:textColor="@color/black"
@@ -348,9 +351,11 @@
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textFontWeight="700"
+                    android:letterSpacing="0.03"
                     android:textSize="10sp"
                     app:backgroundTint="#2D8DFF"
-                    app:cornerRadius="5dp" />
+                    app:cornerRadius="5dp"
+                    android:layout_marginRight="12dp"/>
 
 
             </LinearLayout>
