@@ -274,7 +274,7 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (!modelResponse.getShipment().getTracking_url().equals("")){
+                if (!modelResponse.getShipment().getTracking_url().equals("")) {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("url", modelResponse.getShipment().getTracking_url());
@@ -616,34 +616,45 @@ public class ShipmentLanding extends Fragment {
 
 
         for (int i = 0; i < list.size(); i++) {
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()!=null){
-                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false  && stateId == 16 || stateId == 100 ) {
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() != null) {
 
-                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
-                        inReviewHelpText.setVisibility(View.GONE);
-                        inReview.setVisibility(View.GONE);
+                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false) {
 
-
-                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
-
-                        uploadInvoiceHelpText.setVisibility(View.GONE);
-                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
-                        inReviewHelpText.setVisibility(View.VISIBLE);
-                        inReview.setVisibility(View.VISIBLE);
-
-                }else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==null){
-                    if (stateId == 16 || stateId == 100){
+                    if (stateId == 16 || stateId == 100) {
                         uploadInvoiceHelpText.setVisibility(View.VISIBLE);
                         uploadInvoiceBtn.setVisibility(View.VISIBLE);
                         inReviewHelpText.setVisibility(View.GONE);
                         inReview.setVisibility(View.GONE);
                     }
-                }
-                break;
-            }
 
+
+                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
+
+
+                    if (stateId == 16 || stateId == 17 || stateId == 101) {
+                        uploadInvoiceHelpText.setVisibility(View.GONE);
+                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                        inReviewHelpText.setVisibility(View.VISIBLE);
+                        inReview.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == null) {
+
+                if (stateId == 16 || stateId == 100) {
+                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                    uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                    inReviewHelpText.setVisibility(View.GONE);
+                    inReview.setVisibility(View.GONE);
+                }
+
+            }
+            break;
         }
+
+
+
         if (modelResponse.getTotalHours() == 0) {
             cancelShipmentBtn.setVisibility(View.VISIBLE);
         } else if (modelResponse.getTotalHours() > 0) {
@@ -905,7 +916,7 @@ public class ShipmentLanding extends Fragment {
 
                     responseUrl = response.body().getUrl();
                     String[] parts = responseUrl.split("/");
-                    splitUrl = parts[parts.length-1];
+                    splitUrl = parts[parts.length - 1];
 
 //                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
 
@@ -913,8 +924,8 @@ public class ShipmentLanding extends Fragment {
 
                     LoadingDialog.cancelLoading();
 //                    callMinioUpload2Api(responseUrl , encodedFile);
-                        MinioUploading minioUploading = new MinioUploading();
-                        minioUploading.execute();
+                    MinioUploading minioUploading = new MinioUploading();
+                    minioUploading.execute();
 
 
                 } else if (response.code() == 401) {
