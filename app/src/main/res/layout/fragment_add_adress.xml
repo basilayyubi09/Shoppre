@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="Address Book"
+                    android:text="Add Delivery Address"
                     android:textColor="@color/black"
                     android:textFontWeight="700"
                     android:textSize="14sp"

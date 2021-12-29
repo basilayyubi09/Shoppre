@@ -42,6 +42,7 @@ import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentIndexModelRespons
 
 import java.util.List;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -49,6 +50,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -456,10 +458,11 @@ public interface AppApi {
     );
 
     //https://stag-minio.shoppre.com/test/2021/11/eabc97be-a2f8-41d5-a926-87575e3bbaba.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VLJVI0W8O91GZ7UTP9M7%2F20211220%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20211220T122000Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=22e0fad760facfd68901063e4692c66d4c869290224f6343edd43a022c3cc555
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
+
+
     @PUT("{link}")
     Call<Integer> minioUpload2(
             @Path("link") String path,
-            @Body String object
+            @Body RequestBody object
     );
 }

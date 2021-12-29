@@ -82,7 +82,9 @@
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="18dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -106,7 +108,9 @@
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="18dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -131,6 +135,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="18dp"
                                 android:text="Download Order Invoice"
                                 android:textColor="#3A5FD8"
                                 android:textFontWeight="500"

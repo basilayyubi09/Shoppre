@@ -83,7 +83,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="we_usually_don_t">We usually don’t place orders on this website. Please go through return/refund policies before placing your order. If you trust this website, we’ll still place this order on your behalf.</string>
     <string name="looks_like_you_are_">Looks like you are ordering from an e-Pharmacy. Click here to read medicine related shipping guidelines before placing your order.</string>
     <string name="choose_packages">Choose Packages for Shipment</string>
-    <string name="the_total_value">The Total Value of your shipment is above ₹ 50,000. You need to pay additional charges to ship it.</string>
+    <string name="the_total_value">The Total Value of your shipment is above ₹ 50,000.\nYou need to pay additional charges to ship it.</string>
     <string name="_1_of_the_packages">1 of the packages selected does not have an invoice.<br></br>It is mandatory to attach invoice for all shipments as per customs regulations.</string>
     <string name="shipping_preference">Shipping Preference</string>
     <string name="get_vip_treatment"><![CDATA[Get VIP treatment by pushing your packages ahead in the shipment queue. Faster Consolidation, Special Requests & Out the Door quickly!]]></string>

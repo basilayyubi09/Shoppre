@@ -135,9 +135,9 @@ public class LockerViewPackage extends Fragment {
 
                     Bundle bundle = new Bundle();
 
-                    if (response.body().getInvoice()==null){
+                    if (response.body().getInvoice() == null) {
                         uploadInvoiceCard.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         uploadInvoiceCard.setVisibility(View.GONE);
                     }
 

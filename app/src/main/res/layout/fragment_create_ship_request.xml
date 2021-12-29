@@ -48,11 +48,12 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:textColor="#FF891C"
-                           android:text="@string/the_total_value"
+                           android:text="The Total Value of your shipment is above ₹ 50,000.\nYou need to pay additional charges to ship it."
                            android:textSize="8sp"
                            android:textFontWeight="500"
                            android:layout_marginVertical="7dp"
                            android:layout_marginHorizontal="17dp"
+                           android:layout_gravity="center"
                            android:gravity="center"
                            android:lineHeight="9.75dp"/>
 
@@ -72,11 +73,11 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:textColor="#FF891C"
-                           android:text="@string/_1_of_the_packages"
+                           android:text="1 of the packages selected does not have an invoice.\nIt is mandatory to attach invoice for all shipments as per customs regulations."
                            android:textSize="8sp"
-                           android:textFontWeight="500"
+                           android:textFontWeight="700"
                            android:layout_marginVertical="7dp"
-                           android:layout_marginHorizontal="17dp"
+                           android:layout_marginHorizontal="13dp"
                            android:gravity="center"
                            android:lineHeight="9.75dp"/>
 

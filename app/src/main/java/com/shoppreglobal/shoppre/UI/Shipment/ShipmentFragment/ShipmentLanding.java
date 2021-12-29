@@ -35,6 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -140,6 +141,7 @@ public class ShipmentLanding extends Fragment {
     String splitUrl;
     String responseUrl;
     String file;
+    byte[] byteArray;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -397,7 +399,7 @@ public class ShipmentLanding extends Fragment {
                             type = "*/*";
 
                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                        Uri data = Uri.fromFile(file);
+                        Uri data = FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
 
                         intent.setDataAndType(data, type);
 
@@ -538,7 +540,6 @@ public class ShipmentLanding extends Fragment {
                     modelResponse = response.body();
 
 
-
                     if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
                         firstLayout.setVisibility(View.VISIBLE);
                         secondLayout.setVisibility(View.GONE);
@@ -587,15 +588,13 @@ public class ShipmentLanding extends Fragment {
         contactNumber.setText(modelResponse.getShipment().getPhone());
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
-        if (modelResponse.getShipment().getShipmentBoxes().size()>0){
+        if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
             totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
             totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
             boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
             boxRecycle.setLayoutManager(linearLayoutManager);
             boxRecycle.setAdapter(boxAdapter);
         }
-
-
 
 
         if (modelResponse.getShipment().getSubTotalAmount() == 0) {
@@ -609,18 +608,21 @@ public class ShipmentLanding extends Fragment {
 
 
         for (int i = 0; i < list.size(); i++) {
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false && stateId == 16 || stateId == 100) {
-                uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                uploadInvoiceBtn.setVisibility(View.VISIBLE);
-                inReviewHelpText.setVisibility(View.GONE);
-                inReview.setVisibility(View.GONE);
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false ) {
+                if (stateId == 16 || stateId == 100){
+                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                    uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                    inReviewHelpText.setVisibility(View.GONE);
+                    inReview.setVisibility(View.GONE);
+                }
 
-            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
-                uploadInvoiceHelpText.setVisibility(View.GONE);
-                uploadInvoiceButtonLayout.setVisibility(View.GONE);
-                inReviewHelpText.setVisibility(View.VISIBLE);
-                inReview.setVisibility(View.VISIBLE);
-
+            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
+                if (stateId == 16 || stateId == 17 || stateId == 101){
+                    uploadInvoiceHelpText.setVisibility(View.GONE);
+                    uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                    inReviewHelpText.setVisibility(View.VISIBLE);
+                    inReview.setVisibility(View.VISIBLE);
+                }
             }
         }
         if (modelResponse.getTotalHours() == 0) {
@@ -700,7 +702,7 @@ public class ShipmentLanding extends Fragment {
         contactNumber.setText(modelResponse.getShipment().getPhone());
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
-        if (modelResponse.getShipment().getShipmentBoxes().size()>0){
+        if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
             if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
                 dimension.setText("To be Calculated");
             } else {
@@ -719,8 +721,6 @@ public class ShipmentLanding extends Fragment {
                 finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
             }
         }
-
-
 
 
         if (modelResponse.getShipment().getSubTotalAmount() == 0) {
@@ -852,19 +852,19 @@ public class ShipmentLanding extends Fragment {
                 String selectedFilePath = data.getData().getPath();
                 String string = selectedFilePath;
                 String[] parts = string.split("/");
-                file= parts[parts.length-1];
+                file = parts[parts.length - 1];
                 Log.d("Path", file);
 
                 try {
                     InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedInvoice);
-                    byte[] byteArray = new byte[inputStream.available()];
+                     byteArray = new byte[inputStream.available()];
                     inputStream.read(byteArray);
                     encodedFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
                     Log.d("Encoded String", encodedFile);
 
                     LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callMinioUploadApi(file);
+                    callMinioUploadApi(byteArray);
 
 
                 } catch (IOException e) {
@@ -874,35 +874,35 @@ public class ShipmentLanding extends Fragment {
         }
     }
 
-    private void callMinioUploadApi(String file) {
+    private void callMinioUploadApi(byte[] encodedFile) {
 
-        Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer "+sharedPrefManager.getBearerToken(),
-               file);
+        Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer " + sharedPrefManager.getBearerToken(),
+                file);
         call.enqueue(new Callback<MinioUploadModelResponse>() {
             @Override
             public void onResponse(Call<MinioUploadModelResponse> call, Response<MinioUploadModelResponse> response) {
-                if (response.code()==200){
-                        responseObject = response.body().getObject();
+                if (response.code() == 200) {
+                    responseObject = response.body().getObject();
 
                     responseUrl = response.body().getUrl();
                     String[] parts = responseUrl.split("/");
                     splitUrl = parts[parts.length-1];
 
-                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
 
                     Log.d("splitUrl", splitUrl);
 
-                        callMinioUpload2Api(responseUrl);
-//                        MinioUploading minioUploading = new MinioUploading();
-//                        minioUploading.execute();
-
-
-
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
+//                    callMinioUpload2Api(responseUrl , encodedFile);
+                        MinioUploading minioUploading = new MinioUploading();
+                        minioUploading.execute();
+
+
+
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
@@ -917,22 +917,24 @@ public class ShipmentLanding extends Fragment {
         });
     }
 
-    private void callMinioUpload2Api(String responseUrl) {
-
-
-//        LoadingDialog.showLoadingDialog(getActivity(), "");
+//    private void callMinioUpload2Api(String responseUrl, byte[] encodedFile) {
+//
+//
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), encodedFile);
+//
+//
 //        Call<Integer> call = DynamicRetrofitClient.getDynamicInstance()
-//                .getAppApi().minioUpload2(responseUrl, encodedFile);
+//                .getAppApi().minioUpload2(splitUrl, requestBody);
 //        call.enqueue(new Callback<Integer>() {
 //            @Override
 //            public void onResponse(Call<Integer> call, Response<Integer> response) {
-//                if (response.code()==200){
+//                if (response.code() == 200) {
 //                    Log.d("Sucsessssss", String.valueOf(response.code()));
 //                    LoadingDialog.cancelLoading();
-//                }else if (response.code()==401){
+//                } else if (response.code() == 401) {
 //                    callRefreshTokenApi();
 //                    LoadingDialog.cancelLoading();
-//                }else {
+//                } else {
 //                    LoadingDialog.cancelLoading();
 //                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
 //
@@ -945,38 +947,38 @@ public class ShipmentLanding extends Fragment {
 //                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
-
-    }
-
-//    class MinioUploading extends AsyncTask<String, String, String> {
 //
-//        @Override
-//        protected String doInBackground(String[] params) {
-//
-//            OkHttpClient client = new OkHttpClient().newBuilder()
-//                    .build();
-//            MediaType mediaType = MediaType.parse("application/json");
-//            RequestBody body = RequestBody.create(mediaType, file);
-//            Request request = new Request.Builder()
-//                    .url(responseUrl)
-//                    .method("PUT", body)
-//                    .addHeader("Content-Type", "application/json")
-//                    .build();
-//            try {
-//                okhttp3.Response response = client.newCall(request).execute();
-//                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String message) {
-//            //process message
-//        }
 //    }
+
+    class MinioUploading extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/octet");
+            RequestBody body = RequestBody.create(mediaType, byteArray);
+            Request request = new Request.Builder()
+                    .url(responseUrl)
+                    .method("PUT", body)
+                    .addHeader("Content-Type", "application/octet-stream")
+                    .build();
+            try {
+                okhttp3.Response response = client.newCall(request).execute();
+                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            //process message
+        }
+    }
 
 }

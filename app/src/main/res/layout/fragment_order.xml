@@ -154,7 +154,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/forgetSomething"
-
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
@@ -163,13 +163,14 @@
                     app:cardElevation="4dp">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="26dp">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="8dp"
+                            android:layout_marginRight="32dp"
+                            android:layout_marginVertical="26dp"
+                            android:layout_marginLeft="12dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -191,6 +192,7 @@
                             android:id="@+id/forgotContinueBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
+                            android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
