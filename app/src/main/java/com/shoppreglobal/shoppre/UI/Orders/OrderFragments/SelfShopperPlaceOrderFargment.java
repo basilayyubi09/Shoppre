@@ -9,9 +9,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +28,30 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
+import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
+import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
+import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.ViewSampleDialog;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SelfShopperPlaceOrderFargment extends Fragment {
 
@@ -44,6 +64,8 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     MaterialButton proceed;
     Bitmap bitmap;
     LinearLayout clickableLayout;
+    byte[] byteArray;
+    String encodedFile , responseObject , responseUrl , splitUrl;
     String file;
 
     @Override
@@ -81,9 +103,11 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                     Toast.makeText(getActivity(), "Please Select an Image", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if (savedInstanceState != null) return;
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
-                            .addToBackStack(null).commit();
+//                    if (savedInstanceState != null) return;
+//                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
+//                            .addToBackStack(null).commit();
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callMinioUploadApi();
                 }
             }
         });
@@ -100,20 +124,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     }
 
 
-    public void FromCamera() {
 
-        Log.i("camera", "startCameraActivity()");
-        File file = new File(File.pathSeparator);
-        Uri outputFileUri = Uri.fromFile(file);
-
-
-
-        Intent intent = new Intent(
-                android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        startActivityForResult(intent, 1);
-
-    }
 
     public void FromCard() {
         final int MyVersion = Build.VERSION.SDK_INT;
@@ -149,6 +160,18 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             Log.d("Path", file);
 
             path.setText(selectedFilePath);
+            i=1;
+
+            try {
+                InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedFile);
+                byteArray = new byte[inputStream.available()];
+                inputStream.read(byteArray);
+                encodedFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 //            Uri selectedImage = data.getData();
 //            String[] filePathColumn = { "*/*" };
 //
@@ -187,6 +210,130 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
         }
 
+    }
+
+    private void callMinioUploadApi() {
+
+        Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer " + sharedPrefManager.getBearerToken(),
+                file);
+        call.enqueue(new Callback<MinioUploadModelResponse>() {
+            @Override
+            public void onResponse(Call<MinioUploadModelResponse> call, Response<MinioUploadModelResponse> response) {
+                if (response.code() == 200) {
+                    responseObject = response.body().getObject();
+
+                    responseUrl = response.body().getUrl();
+                    String[] parts = responseUrl.split("/");
+                    splitUrl = parts[parts.length-1];
+
+                    SelfShopperPlaceOrderFargment.MinioUploading minioUploading = new SelfShopperPlaceOrderFargment.MinioUploading();
+                    minioUploading.execute();
+
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    LoadingDialog.cancelLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MinioUploadModelResponse> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+    }
+
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+                    LoadingDialog.cancelLoading();
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong please try again!", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+    }
+    class MinioUploading extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/octet");
+            RequestBody body = RequestBody.create(mediaType, byteArray);
+            Request request = new Request.Builder()
+                    .url(responseUrl)
+                    .method("PUT", body)
+                    .addHeader("Content-Type", "application/octet-stream")
+                    .build();
+            try {
+
+                okhttp3.Response response = client.newCall(request).execute();
+                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+                callSelfShopperApi(body);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            //process message
+        }
+    }
+
+    private void callSelfShopperApi(RequestBody body) {
+        Call<Integer> call = RetrofitClient3.getInstance3().getAppApi()
+                .selfShopper("Bearer "+sharedPrefManager.getBearerToken(),body);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.code()==201){
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }
+                else{
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

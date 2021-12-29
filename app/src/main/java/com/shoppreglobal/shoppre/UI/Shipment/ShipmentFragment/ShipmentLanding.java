@@ -968,7 +968,7 @@ public class ShipmentLanding extends Fragment {
 //
 //    }
 
-    class MinioUploading extends AsyncTask<String, String, String> {
+    public class MinioUploading extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String[] params) {
