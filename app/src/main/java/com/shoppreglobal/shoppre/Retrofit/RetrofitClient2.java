@@ -9,8 +9,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class RetrofitClient2 {
-    private static final String BASE_URL = "https://uat-login.shoppreglobal.com/api/";
-    private static RetrofitClient myClient;
+    private static final String BASE_URL = "https://uat-login.shoppreglobal.com/";
+    private static RetrofitClient2 myClient;
     private Retrofit retrofit;
 
     RetrofitClient2() {
@@ -27,9 +27,9 @@ public class RetrofitClient2 {
             .connectTimeout(60, TimeUnit.SECONDS)
             .build();
 
-    public static synchronized RetrofitClient getInstance() {
+    public static synchronized RetrofitClient2 getInstance() {
         if (myClient == null) {
-            myClient = new RetrofitClient();
+            myClient = new RetrofitClient2();
         }
         return myClient;
     }
