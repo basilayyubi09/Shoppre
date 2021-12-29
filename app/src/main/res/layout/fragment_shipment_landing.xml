@@ -530,11 +530,11 @@
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:gravity="center"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="22dp"
-                                    android:layout_weight="1">
+                                    android:layout_weight="1"
+                                    android:gravity="center">
 
 
                                     <LinearLayout
@@ -577,21 +577,22 @@
                             android:textSize="8sp"
                             android:visibility="gone" />
 
-                    <LinearLayout
-                        android:id="@+id/uploadInvoiceButtonLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="24dp">
-                        <androidx.cardview.widget.CardView
-                            android:visibility="gone"
-                            android:id="@+id/cancelShipmentBtn"
+                        <LinearLayout
+                            android:id="@+id/uploadInvoiceButtonLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:layout_marginRight="20dp"
-                            android:clickable="true"
-                            app:cardCornerRadius="5dp">
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="24dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cancelShipmentBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:clickable="true"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:visibility="gone"
+                                app:cardCornerRadius="5dp">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -605,26 +606,27 @@
                                     android:textSize="12sp" />
 
 
-                        </androidx.cardview.widget.CardView>
-                        <com.google.android.material.button.MaterialButton
-                            android:visibility="gone"
-                            android:id="@+id/uploadInvoiceBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="32dp"
-                            android:insetTop="0dp"
-                            android:insetBottom="0dp"
-                            android:paddingHorizontal="19dp"
-                            android:paddingVertical="8dp"
-                            android:layout_marginBottom="10dp"
-                            app:cornerRadius="5dp"
-                            app:backgroundTint="#17B28F"
-                            android:text="Upload Invoice"
-                            android:textAllCaps="false"
-                            android:letterSpacing="0.03"
-                            android:textColor="@color/white"
-                            android:textFontWeight="600"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/uploadInvoiceBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:layout_marginBottom="10dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:letterSpacing="0.03"
+                                android:paddingHorizontal="19dp"
+                                android:paddingVertical="8dp"
+                                android:text="Upload Invoice"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textFontWeight="600"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
+                        </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/inReviewTag"
@@ -904,19 +906,18 @@
                             android:id="@+id/downloadInvoiceLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
                             android:layout_marginTop="19dp"
                             android:gravity="center_horizontal"
-                            >
+                            android:visibility="gone">
 
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/downloadInvoiceBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="27dp"
-                                android:clickable="true"
                                 android:layout_marginLeft="24dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_weight="1"
+                                android:clickable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
                                 app:cardCornerRadius="5dp">
 
@@ -938,9 +939,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="27dp"
 
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginRight="24dp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginRight="24dp"
+                                android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
                                 android:insetTop="0dp"
                                 android:insetBottom="0dp"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ public class ReadyToShipReturnedAndDiscard extends Fragment {
     SharedPrefManager sharedPrefManager;
     List<PackageModel> list = new ArrayList<>();
     ReadyToShipAdapter returnedAndDiscardAdapter;
+    TextView emptyText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,7 @@ public class ReadyToShipReturnedAndDiscard extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ready_to_ship_returned_and_discard, container, false);
 
         returnedAndDiscardRecycler = view.findViewById(R.id.returnedAndDiscardRecycler);
+        emptyText = view.findViewById(R.id.emptyText);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
@@ -72,6 +75,14 @@ public class ReadyToShipReturnedAndDiscard extends Fragment {
                     list = response.body().getPackages();
                     returnedAndDiscardAdapter = new ReadyToShipAdapter(list, getContext());
                     returnedAndDiscardRecycler.setAdapter(returnedAndDiscardAdapter);
+                    int count = returnedAndDiscardAdapter.getItemCount();
+                    if (count == 0) {
+                        emptyText.setVisibility(View.VISIBLE);
+                        returnedAndDiscardRecycler.setVisibility(View.GONE);
+                    } else {
+                        emptyText.setVisibility(View.GONE);
+                        returnedAndDiscardRecycler.setVisibility(View.VISIBLE);
+                    }
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

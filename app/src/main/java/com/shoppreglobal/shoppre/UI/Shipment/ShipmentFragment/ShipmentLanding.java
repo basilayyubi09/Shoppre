@@ -3,13 +3,10 @@ package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -34,7 +31,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -53,7 +49,6 @@ import com.downloader.Progress;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -66,23 +61,20 @@ import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPa
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.UploadInvoiceAdapter;
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
-import com.shoppreglobal.shoppre.Retrofit.DynamicRetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -90,8 +82,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Future;
-
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -276,6 +266,24 @@ public class ShipmentLanding extends Fragment {
                 paymentSummary.setArguments(bundle2);
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, paymentSummary, null)
                         .addToBackStack(null).commit();
+            }
+        });
+
+
+        trackShipmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!modelResponse.getShipment().getTracking_url().equals("")){
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", modelResponse.getShipment().getTracking_url());
+                    WebViewFragment cash = new WebViewFragment();
+                    cash.setArguments(bundle);
+                    if (savedInstanceState != null) return;
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                            .addToBackStack(null).commit();
+                }
             }
         });
 
@@ -858,7 +866,7 @@ public class ShipmentLanding extends Fragment {
 
                 try {
                     InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedInvoice);
-                     byteArray = new byte[inputStream.available()];
+                    byteArray = new byte[inputStream.available()];
                     inputStream.read(byteArray);
                     encodedFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
@@ -897,7 +905,6 @@ public class ShipmentLanding extends Fragment {
 //                    callMinioUpload2Api(responseUrl , encodedFile);
                         MinioUploading minioUploading = new MinioUploading();
                         minioUploading.execute();
-
 
 
                 } else if (response.code() == 401) {

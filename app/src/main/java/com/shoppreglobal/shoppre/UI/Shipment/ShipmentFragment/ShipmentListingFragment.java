@@ -1,16 +1,16 @@
 package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.ShipmentListingAdapter;
@@ -19,6 +19,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentIndexModelResponse;
+import com.shoppreglobal.shoppre.UI.Locker.LockerReadyToShip;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -33,22 +34,25 @@ import retrofit2.Response;
 
 
 public class ShipmentListingFragment extends Fragment {
-///////// implemented LockerReadyToShip's ReadyToShipAdapter will change to accordingly
+    ///////// implemented LockerReadyToShip's ReadyToShipAdapter will change to accordingly
     // change single adapter ready to ship single layout to shipment listing single
     SharedPrefManager sharedPrefManager;
     List<Shipment> list = new ArrayList<>();
     ShipmentListingAdapter shipmentListingAdapter;
     RecyclerView recyclerView;
-    LinearLayout returnAndDiscardText;
+    MaterialButton createShipRequestBtn;
+    LinearLayout returnAndDiscardText, emptyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_shipment_listing, container, false);
+        View view = inflater.inflate(R.layout.fragment_shipment_listing, container, false);
 
 
         recyclerView = view.findViewById(R.id.lockerReadyToShipRecycler);
+        emptyView = view.findViewById(R.id.emptyView);
+        createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -64,7 +68,13 @@ public class ShipmentListingFragment extends Fragment {
         }
 
 
-
+        createShipRequestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
+                        .addToBackStack(null).commit();
+            }
+        });
 
         returnAndDiscardText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,18 +92,26 @@ public class ShipmentListingFragment extends Fragment {
 
     private void callShipmentIndexApi() {
         Call<ShipmentIndexModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().shipmentIndex("Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().shipmentIndex("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<ShipmentIndexModelResponse>() {
             @Override
             public void onResponse(Call<ShipmentIndexModelResponse> call, Response<ShipmentIndexModelResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     list = response.body().getShipments();
                     shipmentListingAdapter = new ShipmentListingAdapter(list, getContext());
                     recyclerView.setAdapter(shipmentListingAdapter);
+                    int count = shipmentListingAdapter.getItemCount();
+                    if (count == 0) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        emptyView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==400){
+                } else if (response.code() == 400) {
                     callRefreshTokenApi();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }

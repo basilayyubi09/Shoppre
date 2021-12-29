@@ -48,7 +48,50 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/emptyView"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="78dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/view_photo_blurred" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="24dp"
+                        android:text="Looks like you have no active shipments"
+                        android:textColor="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/createShipRequestBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="144dp"
+                        android:paddingVertical="14dp"
+                        android:paddingHorizontal="45dp"
+                        android:text="Create Ship Request"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textFontWeight="700"
+                        android:textSize="14sp"
+                        app:backgroundTint="#17B28F"
+                        app:cornerRadius="5dp"
+                        android:letterSpacing="0.03"/>
+                </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
+
                     android:id="@+id/lockerReadyToShipRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
