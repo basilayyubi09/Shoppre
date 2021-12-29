@@ -37,6 +37,7 @@ public interface Api {
     /*
        Forgot password Api
         https://staging-login.shoppre.com/api/password_reset
+        https://uat-login.shoppreglobal.com/api/password_reset
     */
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/password_reset")

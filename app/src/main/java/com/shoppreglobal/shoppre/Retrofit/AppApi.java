@@ -465,4 +465,13 @@ public interface AppApi {
             @Path("link") String path,
             @Body RequestBody object
     );
+
+    //https://uat-app1.shoppreglobal.com/api/packages
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/packages")
+    Call<Integer> selfShopper(
+            @Header("Authorization") String auth,
+            @Body RequestBody requestBody
+    );
+
 }
