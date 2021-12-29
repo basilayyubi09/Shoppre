@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_margin="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -273,6 +273,7 @@
                     android:layout_height="32dp"
                     android:insetBottom="0dp"
                     android:insetTop="0dp"
+                    android:layout_marginBottom="10dp"
                     android:backgroundTint="#17B28F"
                     android:layout_marginHorizontal="60dp"
                     android:text="Proceed"

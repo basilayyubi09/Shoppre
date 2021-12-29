@@ -616,23 +616,33 @@ public class ShipmentLanding extends Fragment {
 
 
         for (int i = 0; i < list.size(); i++) {
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()!=null){
+                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false  && stateId == 16 || stateId == 100 ) {
 
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false ) {
-                if (stateId == 16 || stateId == 100){
-                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                    uploadInvoiceBtn.setVisibility(View.VISIBLE);
-                    inReviewHelpText.setVisibility(View.GONE);
-                    inReview.setVisibility(View.GONE);
-                }
+                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                        inReviewHelpText.setVisibility(View.GONE);
+                        inReview.setVisibility(View.GONE);
 
-            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
-                if (stateId == 16 || stateId == 17 || stateId == 101){
-                    uploadInvoiceHelpText.setVisibility(View.GONE);
-                    uploadInvoiceButtonLayout.setVisibility(View.GONE);
-                    inReviewHelpText.setVisibility(View.VISIBLE);
-                    inReview.setVisibility(View.VISIBLE);
+
+                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
+
+                        uploadInvoiceHelpText.setVisibility(View.GONE);
+                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                        inReviewHelpText.setVisibility(View.VISIBLE);
+                        inReview.setVisibility(View.VISIBLE);
+
+                }else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived()==null){
+                    if (stateId == 16 || stateId == 100){
+                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                        inReviewHelpText.setVisibility(View.GONE);
+                        inReview.setVisibility(View.GONE);
+                    }
                 }
+                break;
             }
+
         }
         if (modelResponse.getTotalHours() == 0) {
             cancelShipmentBtn.setVisibility(View.VISIBLE);

@@ -157,7 +157,7 @@ public class PackageModel implements Serializable {
         return invoice;
     }
 
-    public boolean getIsFullInvoiceReceived() {
+    public Boolean getIsFullInvoiceReceived() {
         return isFullInvoiceReceived;
     }
 
