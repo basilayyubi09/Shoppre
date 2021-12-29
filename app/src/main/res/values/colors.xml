@@ -24,6 +24,7 @@
     <color name="ready_to_ship_green_color">#00A781</color>
     <color name="action_required_yellow_color">#F8B800</color>
     <color name="in_review_blue_color">#0073FF</color>
+    <color name="in_review_new_blue_color">#00A3C7</color>
     <color name="text_red">#FF0000</color>
 
     <color name="text_blue">#2C469A</color>

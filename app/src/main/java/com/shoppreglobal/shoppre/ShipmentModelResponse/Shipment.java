@@ -73,10 +73,13 @@ public class Shipment {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("tracking_url")
+    @Expose
+    private String tracking_url;
+
     @SerializedName("estimated_amount")
     @Expose
     private Float estimatedAmount;
-
 
 
     @SerializedName("Country")
@@ -106,6 +109,14 @@ public class Shipment {
     @SerializedName("PackageUserCharges")
     @Expose
     private List<Object> packageUserCharges = null;
+
+    public String getTracking_url() {
+        return tracking_url;
+    }
+
+    public void setTracking_url(String tracking_url) {
+        this.tracking_url = tracking_url;
+    }
 
     public Float getEstimatedAmount() {
         return estimatedAmount;
@@ -256,7 +267,6 @@ public class Shipment {
     public void setBoxWidth(Integer boxWidth) {
         this.boxWidth = boxWidth;
     }
-
 
 
     public Float getSubTotalAmount() {
