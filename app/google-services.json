@@ -1,40 +1,93 @@
 {
   "project_info": {
-    "project_number": "1082618645310",
-    "project_id": "shoppreglobal",
-    "storage_bucket": "shoppreglobal.appspot.com"
+    "project_number": "569763436942",
+    "firebase_url": "https://shoppre-e7115.firebaseio.com",
+    "project_id": "shoppre-e7115",
+    "storage_bucket": "shoppre-e7115.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1082618645310:android:e40642c3be60f39d727a6f",
+        "mobilesdk_app_id": "1:569763436942:android:d376419dd7d0603d",
         "android_client_info": {
-          "package_name": "com.shoppreglobal.shoppre"
+          "package_name": "com.shoppre.play"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1082618645310-k8b52ehpp5027k9qnilq3tng3k8vnfvc.apps.googleusercontent.com",
+          "client_id": "569763436942-e4mqvmmsrmb545vnbk9ng8btvj0v61e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoppre.play",
+            "certificate_hash": "a2ad672f3774ead26c1a962b80b96a73867bd761"
+          }
+        },
+        {
+          "client_id": "569763436942-tued2l8toh46oetvsqjheep8af8os2l3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoppre.play",
+            "certificate_hash": "90135b259f3271c2b07e08cde1a522e696201e42"
+          }
+        },
+        {
+          "client_id": "569763436942-02blm1skupo7gmuc6el6k7ccum430iq8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDpoeAiKmu-BqsT4nOy9R0IVwl1CieE2_U"
+          "current_key": "AIzaSyBWFa8LIhKsmpbOkyM2JJ8fDz9tLjbfN8M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1082618645310-k8b52ehpp5027k9qnilq3tng3k8vnfvc.apps.googleusercontent.com",
+              "client_id": "569763436942-02blm1skupo7gmuc6el6k7ccum430iq8.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1082618645310-1t9lu6ne9qfaqv1u1mrde3aro68rci80.apps.googleusercontent.com",
+              "client_id": "569763436942-2rpnvc21c70fmcckn5st7rlklduq7kpc.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.app.Shoppre"
+                "bundle_id": "com.shoppre.play"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569763436942:android:2642cea8003bde489dacdf",
+        "android_client_info": {
+          "package_name": "com.shoppreglobal.shoppre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569763436942-02blm1skupo7gmuc6el6k7ccum430iq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWFa8LIhKsmpbOkyM2JJ8fDz9tLjbfN8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569763436942-02blm1skupo7gmuc6el6k7ccum430iq8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "569763436942-2rpnvc21c70fmcckn5st7rlklduq7kpc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shoppre.play"
               }
             }
           ]

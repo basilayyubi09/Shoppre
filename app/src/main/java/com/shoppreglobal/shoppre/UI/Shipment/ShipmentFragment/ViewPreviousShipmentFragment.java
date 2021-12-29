@@ -1,14 +1,14 @@
 package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
@@ -35,14 +35,17 @@ public class ViewPreviousShipmentFragment extends Fragment {
     RecyclerView previousShipmentRecycler;
     SharedPrefManager sharedPrefManager;
     List<Shipment> list;
+    TextView emptyText;
     PreviousShipmentAdapter previousShipmentAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_view_previous_shipment, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_previous_shipment, container, false);
         previousShipmentRecycler = view.findViewById(R.id.previousShipmentRecycler);
-         list = new ArrayList<>();
+        emptyText = view.findViewById(R.id.emptyText);
+        list = new ArrayList<>();
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
@@ -56,21 +59,29 @@ public class ViewPreviousShipmentFragment extends Fragment {
         }
         return view;
     }
+
     private void previousShipmentApi() {
         Call<PreviousShipmentModelResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().previousShipment("Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().previousShipment("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<PreviousShipmentModelResponse>() {
             @Override
             public void onResponse(Call<PreviousShipmentModelResponse> call, Response<PreviousShipmentModelResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     list = response.body().getShipments();
                     previousShipmentAdapter = new PreviousShipmentAdapter(list, getContext());
                     previousShipmentRecycler.setAdapter(previousShipmentAdapter);
-
+                    int count = previousShipmentAdapter.getItemCount();
+                    if (count == 0) {
+                        emptyText.setVisibility(View.VISIBLE);
+                        previousShipmentRecycler.setVisibility(View.GONE);
+                    } else {
+                        emptyText.setVisibility(View.GONE);
+                        previousShipmentRecycler.setVisibility(View.VISIBLE);
+                    }
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
                 }

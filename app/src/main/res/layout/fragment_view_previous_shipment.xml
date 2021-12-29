@@ -46,7 +46,20 @@
                     android:textSize="14sp" />
 
 
+                <TextView
+                    android:id="@+id/emptyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"
+                    android:layout_margin="40dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="Looks like you don't have any previous shipments"
+                    android:visibility="gone"/>
                 <androidx.recyclerview.widget.RecyclerView
+
                     android:id="@+id/previousShipmentRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

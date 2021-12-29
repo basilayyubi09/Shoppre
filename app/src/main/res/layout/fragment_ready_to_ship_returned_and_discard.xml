@@ -35,12 +35,25 @@
                         android:textFontWeight="700"
                         android:textSize="14sp" />
 
-
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/emptyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textFontWeight="500"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"
+                    android:layout_margin="40dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:text="Looks like you don't have any previous returned / discarded packages."
+                    />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/returnedAndDiscardRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
+
                     android:layout_marginBottom="24dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 

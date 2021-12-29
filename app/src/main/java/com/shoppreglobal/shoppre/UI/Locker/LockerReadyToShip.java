@@ -26,6 +26,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.CreateShipRequest.CreateShipRequestFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -46,7 +47,7 @@ public class LockerReadyToShip extends Fragment {
     ReadyToShipAdapter readyToShipAdapter;
     RecyclerView lockerReadyToShipRecycler;
     LinearLayout returnAndDiscardText;
-    MaterialButton createShipRequestBtn;
+    MaterialButton createShipRequestBtn , placeAnOrderBtn;
     LinearLayout emptyLockerDiscardText;
     CardView emptyLockerCard, lockerReadyToShipCard;
 
@@ -61,6 +62,7 @@ public class LockerReadyToShip extends Fragment {
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
+        placeAnOrderBtn = view.findViewById(R.id.placeAnOrderBtn);
         emptyLockerDiscardText = view.findViewById(R.id.emptyLockerDiscardText);
         emptyLockerCard = view.findViewById(R.id.emptyLockerCard);
         lockerReadyToShipCard = view.findViewById(R.id.lockerReadyToShipCard);
@@ -123,6 +125,14 @@ public class LockerReadyToShip extends Fragment {
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ReadyToShipReturnedAndDiscard(), null)
                         .addToBackStack(null).commit();
 
+            }
+        });
+
+        placeAnOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+                        .addToBackStack(null).commit();
             }
         });
 

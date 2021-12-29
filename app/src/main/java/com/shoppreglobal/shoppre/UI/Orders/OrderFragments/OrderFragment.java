@@ -107,9 +107,7 @@ public class OrderFragment extends Fragment {
 
 
 
-        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
-        FirebaseApp.initializeApp(getActivity());
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+
 
         Intent intent = getActivity().getIntent();
         String action = intent.getAction();

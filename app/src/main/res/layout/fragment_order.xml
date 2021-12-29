@@ -565,6 +565,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="700"
+                            android:letterSpacing="0.03"
                             android:textSize="14sp"
                             app:backgroundTint="#17B28F"
                             app:cornerRadius="5dp" />
