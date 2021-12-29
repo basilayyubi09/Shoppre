@@ -194,6 +194,7 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SignUp_Valid.this, LoginActivity.class));
+                finish();
             }
         });
     }

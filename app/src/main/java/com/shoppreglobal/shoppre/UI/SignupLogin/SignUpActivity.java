@@ -445,9 +445,8 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (ApiException e) {
 
             LoadingDialog.cancelLoading();
-            Snackbar snackbar = Snackbar.make(getApplicationContext()
-                    , findViewById(R.id.main), e.toString(), Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Toast.makeText(SignUpActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
@@ -574,22 +573,22 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else if (response.code()==401){
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Toast.makeText(SignUpActivity.this, "Invalid Token", Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Toast.makeText(SignUpActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+
+
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
-                snackbar.show();
+                Toast.makeText(SignUpActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -622,22 +621,20 @@ public class SignUpActivity extends AppCompatActivity {
 
                 else if (response.code()==400){
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Toast.makeText(SignUpActivity.this, "Code has expired", Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
-                snackbar.show();
+                Toast.makeText(SignUpActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

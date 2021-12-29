@@ -864,7 +864,8 @@ public class ShipmentLanding extends Fragment {
                     Log.d("Encoded String", encodedFile);
 
                     LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callMinioUploadApi(file);
+                    callMinioUploadApi(encodedFile);
+                    
 
 
                 } catch (IOException e) {
