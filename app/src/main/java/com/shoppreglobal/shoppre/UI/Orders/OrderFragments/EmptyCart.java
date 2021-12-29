@@ -342,7 +342,7 @@ public class EmptyCart extends Fragment {
 
     private void callVerifyLinkApi(Editable s) {
         String abcd = "=" + urlField.getText().toString();
-        LoadingDialog.showLoadingDialog(getActivity(), "");
+
         Call<VerifyLinkResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi().verifyLink(abcd);
@@ -350,7 +350,7 @@ public class EmptyCart extends Fragment {
             @Override
             public void onResponse(Call<VerifyLinkResponse> call, Response<VerifyLinkResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     if (response.body().getStore() == null) {
                         dontPlace.setVisibility(View.VISIBLE);
                         goNext = true;
@@ -375,7 +375,7 @@ public class EmptyCart extends Fragment {
 
             @Override
             public void onFailure(Call<VerifyLinkResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
+
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });

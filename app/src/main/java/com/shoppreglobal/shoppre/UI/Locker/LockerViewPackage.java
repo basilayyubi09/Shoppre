@@ -27,6 +27,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageDetails;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageUpdates;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ViewOrderPersonalShop;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -101,13 +102,17 @@ public class LockerViewPackage extends Fragment {
             public void onClick(View v) {
                 Bundle bundle2 = new Bundle();
 
-                bundle2.putString("id", String.valueOf(id));
-                bundle2.putString("orderCode", orderCode);
+//                bundle2.putString("id", String.valueOf(id));
+//                bundle2.putString("orderCode", orderCode);
+//
+//
+//                ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
+//                viewOrderPersonalShop.setArguments(bundle2);
+//                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)
+//                        .addToBackStack(null).commit();
 
-
-                ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
-                viewOrderPersonalShop.setArguments(bundle2);
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
+                        , new OrderFragment(), null)
                         .addToBackStack(null).commit();
             }
         });

@@ -62,8 +62,10 @@ public class ShipmentDetailsAdapter extends RecyclerView.Adapter<ShipmentDetails
 
         holder.shippingDetailsWeight.setText(String.valueOf(packageModel.getWeight()));
 
-        if (packageModel.getInvoice()==null){
+        if (packageModel.getIsFullInvoiceReceived()==false){
             holder.noInvoiceFoundText.setVisibility(View.VISIBLE);
+        }else {
+            holder.noInvoiceFoundText.setVisibility(View.GONE);
         }
 
         holder.viewPackage.setOnClickListener(new View.OnClickListener() {

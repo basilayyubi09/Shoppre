@@ -31,7 +31,7 @@ public class FifthOnBoarding extends Fragment {
 
     private Button startShopping;
     ImageView backBtn4;
-    TextView lockerNo;
+    TextView lockerNo, virtualAddressName;
     SharedPrefManager sharedPrefManager;
 
 
@@ -44,6 +44,7 @@ public class FifthOnBoarding extends Fragment {
         startShopping = view.findViewById(R.id.startShoppingBtn);
         backBtn4 = view.findViewById(R.id.back_arrow4);
         lockerNo = view.findViewById(R.id.lockerNo);
+        virtualAddressName = view.findViewById(R.id.virtualAddressName);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
 
@@ -76,6 +77,8 @@ public class FifthOnBoarding extends Fragment {
             }
         });
 
+
+
         return view;
     }
 
@@ -106,6 +109,7 @@ public class FifthOnBoarding extends Fragment {
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
                     LoadingDialog.cancelLoading();
+                    virtualAddressName.setText(sharedPrefManager.getFullName());
                 }
                 else  if(response.code() == 401){
                     callRefreshTokenApi();

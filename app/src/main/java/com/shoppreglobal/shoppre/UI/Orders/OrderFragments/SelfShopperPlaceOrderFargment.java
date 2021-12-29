@@ -37,13 +37,14 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
     SharedPrefManager sharedPrefManager;
     MaterialButton selfShopProceedBtn;
-    TextView viewSample;
+    TextView viewSample, path;
     ImageView img ;
     int i = 0;
     MaterialCardView layout ;
     MaterialButton proceed;
     Bitmap bitmap;
     LinearLayout clickableLayout;
+    String file;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +63,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         clickableLayout = view.findViewById(R.id.clickableLayout);
         layout = view.findViewById(R.id.layout);
         proceed = view.findViewById(R.id.proceed);
+        path = view.findViewById(R.id.path);
 
         viewSample.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,9 +121,12 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             if (!checkIfAlreadyhavePermission()) {
                 getActivity().requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             } else {
-                Intent i = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, 2);
+                Intent intent = new Intent();
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                // Set your required file type
+                intent.setType("*/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "DEMO"), 1001);
             }
         }
 
@@ -134,25 +139,33 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 2 && resultCode == RESULT_OK && null != data) {
+        if (requestCode == 1001 && resultCode == RESULT_OK && null != data) {
 
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Uri selectedFile = data.getData();
+            String selectedFilePath = data.getData().getPath();
+            String string = selectedFilePath;
+            String[] parts = string.split("/");
+            file = parts[parts.length - 1];
+            Log.d("Path", file);
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            img.setVisibility(View.VISIBLE);
-            layout.setVisibility(View.GONE);
-            i = 1;
-            bitmap = BitmapFactory.decodeFile(picturePath);
-            Toast.makeText(getActivity(), picturePath, Toast.LENGTH_SHORT).show();
-            img.setImageBitmap(bitmap);
+            path.setText(selectedFilePath);
+//            Uri selectedImage = data.getData();
+//            String[] filePathColumn = { "*/*" };
+//
+//            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+//                    filePathColumn, null, null, null);
+//            cursor.moveToFirst();
+//
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            String picturePath = cursor.getString(columnIndex);
+//            cursor.close();
+//
+//            img.setVisibility(View.VISIBLE);
+//            layout.setVisibility(View.GONE);
+//            i = 1;
+//            bitmap = BitmapFactory.decodeFile(picturePath);
+//            Toast.makeText(getActivity(), picturePath, Toast.LENGTH_SHORT).show();
+//            img.setImageBitmap(bitmap);
 
 //            if (bitmap != null) {
 //                ImageView rotate = (ImageView) findViewById(R.id.rotate);

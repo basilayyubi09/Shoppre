@@ -1,33 +1,73 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.downloader.Error;
+import com.downloader.OnCancelListener;
+import com.downloader.OnDownloadListener;
+import com.downloader.OnPauseListener;
+import com.downloader.OnProgressListener;
+import com.downloader.OnStartOrResumeListener;
+import com.downloader.PRDownloader;
+import com.downloader.Progress;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ViewOrderViewPagerAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ShowOrderResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderDetails;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,14 +75,19 @@ import retrofit2.Response;
 
 public class ViewOrderPersonalShop extends Fragment {
 
+
     SharedPrefManager sharedPrefManager;
     TabLayout viewOrderTabLayout;
     ViewPager viewOrderViewPager;
     String orderCode;
-    TextView websiteName, status, orderNumberText, date;
+    TextView websiteName, status, orderNumberText, date, tvDownloadInvoice;
     ViewOrderViewPagerAdapter viewPagerAdapter;
     Bundle bundle;
     String id;
+    String url;
+    String testingUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    File outputFile;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +105,7 @@ public class ViewOrderPersonalShop extends Fragment {
         status = view.findViewById(R.id.status);
         orderNumberText = view.findViewById(R.id.orderNumberText);
         date = view.findViewById(R.id.date);
+        tvDownloadInvoice = view.findViewById(R.id.tvDownloadInvoice);
 
         bundle = this.getArguments();
         OrderDetails orderDetails = new OrderDetails();
@@ -86,9 +132,160 @@ public class ViewOrderPersonalShop extends Fragment {
         viewOrderViewPager.setAdapter(viewPagerAdapter);
         viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
 
+        tvDownloadInvoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadOrderInvoice();
+
+            }
+        });
+
 
         return view;
     }
+
+    private void downloadOrderInvoice() {
+
+        Dexter.withContext(getContext())
+                .withPermissions(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                ).withListener(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if (report.areAllPermissionsGranted()) {
+                    downloadFile();
+                } else {
+                    Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+            }
+
+
+        }).check();
+
+    }
+
+    private void downloadFile() {
+        ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Downloading....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+        PRDownloader.download(url, file.getPath(), URLUtil.guessFileName(url, null, null))
+                .build()
+                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
+                    @Override
+                    public void onStartOrResume() {
+
+                    }
+                })
+                .setOnPauseListener(new OnPauseListener() {
+                    @Override
+                    public void onPause() {
+
+                    }
+                })
+                .setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+                })
+                .setOnProgressListener(new OnProgressListener() {
+                    @Override
+                    public void onProgress(Progress progress) {
+                        long per = progress.currentBytes * 100 / progress.totalBytes;
+                        progressDialog.setMessage("Downloading : " + per + " %");
+                    }
+                })
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Download Complete", Toast.LENGTH_SHORT).show();
+
+                        File file1 = new File(String.valueOf(file));
+                        MimeTypeMap map = MimeTypeMap.getSingleton();
+                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+                        String type = map.getMimeTypeFromExtension(ext);
+
+                        if (type == null)
+                            type = "*/*";
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        Uri data = FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
+
+                        intent.setDataAndType(data, type);
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), "Download Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                });
+    }
+
+//    private void downloadInvoiceApi() {
+//
+//        Call<DownloadInvoiceModelResponse> call = RetrofitClient3.getInstance3()
+//                .getAppApi().downloadInvoice("Bearer " + sharedPrefManager.getBearerToken(), id);
+//        call.enqueue(new Callback<DownloadInvoiceModelResponse>() {
+//            @Override
+//            public void onResponse(Call<DownloadInvoiceModelResponse> call, Response<DownloadInvoiceModelResponse> response) {
+//                if (response.code() == 200) {
+//                    DownloadInvoiceModelResponse downloadInvoiceModelResponse = response.body();
+//                    url = downloadInvoiceModelResponse.getInvoiceObject();
+//
+//                    Dexter.withContext(getContext())
+//                            .withPermissions(
+//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                    Manifest.permission.READ_EXTERNAL_STORAGE
+//                            ).withListener(new MultiplePermissionsListener() {
+//                        @Override
+//                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+//                            if (report.areAllPermissionsGranted()) {
+//                                downloadFile(url);
+//                            } else {
+//                                Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+//
+//                        }
+//
+//
+//                    }).check();
+//
+//                } else if (response.code() == 401) {
+//                    callRefreshTokenApi();
+//                } else {
+//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DownloadInvoiceModelResponse> call, Throwable t) {
+//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
+
+
 
     private void callShowOrderApi() {
 
@@ -103,7 +300,14 @@ public class ViewOrderPersonalShop extends Fragment {
             public void onResponse(Call<ShowOrderResponse> call, Response<ShowOrderResponse> response) {
                 if (response.code() == 200) {
 
+                    if (response.body().getSellerInvoice()!=null){
+                        url = response.body().getSellerInvoice();
+                    }
+
+
                     addTextToFields(response.body());
+
+
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
                 } else {
@@ -168,6 +372,5 @@ public class ViewOrderPersonalShop extends Fragment {
         status.setText(showOrderResponse.getOrderState().getState().getName());
         LoadingDialog.cancelLoading();
     }
-
 
 }

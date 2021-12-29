@@ -120,6 +120,7 @@ public class EmptyAddressBook extends Fragment {
 
         bearerToken = sharedPrefManager.getBearerToken();
 
+        emptyAddressNameText.setText(sharedPrefManager.getFullName());
 
         ////Virtual Address Copy Button
 

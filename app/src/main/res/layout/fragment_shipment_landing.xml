@@ -926,7 +926,6 @@
                                     android:layout_height="match_parent"
                                     android:background="@drawable/logout_shadow"
                                     android:gravity="center"
-                                    android:paddingHorizontal="10dp"
                                     android:text="Download Invoice"
                                     android:textColor="#2D8DFF"
                                     android:textFontWeight="700"
