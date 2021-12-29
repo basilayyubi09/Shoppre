@@ -46,6 +46,7 @@ import java.io.InputStream;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -106,8 +107,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 //                    if (savedInstanceState != null) return;
 //                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
 //                            .addToBackStack(null).commit();
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callMinioUploadApi();
+//                    LoadingDialog.showLoadingDialog(getActivity(), "");
+//                    callMinioUploadApi();
+                    Toast.makeText(getActivity(), "Work in progress", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -310,8 +312,12 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     }
 
     private void callSelfShopperApi(RequestBody body) {
+        //MultipartBody.FORM
+        final RequestBody rPhoneNumber = RequestBody.create(MediaType.parse("text/plain"), responseObject);
         Call<Integer> call = RetrofitClient3.getInstance3().getAppApi()
-                .selfShopper("Bearer "+sharedPrefManager.getBearerToken(),body);
+
+
+                .selfShopper("Bearer "+sharedPrefManager.getBearerToken(), rPhoneNumber);
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
