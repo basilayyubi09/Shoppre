@@ -35,10 +35,13 @@ public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvo
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        if (list.get(position).getIsFullInvoiceReceived()==false){
+        if (list.get(position).getIsFullInvoiceReceived()!=null){
+            if (list.get(position).getIsFullInvoiceReceived()==false){
+                holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
+            }
+        }else {
             holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
         }
-
     }
 
     @Override

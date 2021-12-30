@@ -134,6 +134,7 @@ public class ShipmentLanding extends Fragment {
     byte[] byteArray;
     LinearLayout uploadInvoiceArrowHome;
     TextView invoiceUploadedHome;
+    int strResponse;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -552,23 +553,28 @@ public class ShipmentLanding extends Fragment {
                     modelResponse = response.body();
 
 
-                    if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
-                        firstLayout.setVisibility(View.VISIBLE);
-                        secondLayout.setVisibility(View.GONE);
+                    setShipmentDetailsValue();
 
-                        setShipmentDetailsValue();
-
-                    } else {
-                        firstLayout.setVisibility(View.GONE);
-                        secondLayout.setVisibility(View.VISIBLE);
-
-                        setBoxShipmentDetailsValue();
-
-
-                    }
+//                    if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
+//                        firstLayout.setVisibility(View.VISIBLE);
+//                        secondLayout.setVisibility(View.GONE);
+//
+//                        setShipmentDetailsValue();
+//
+//                    } else {
+//                        firstLayout.setVisibility(View.GONE);
+//                        secondLayout.setVisibility(View.VISIBLE);
+//
+//                        setBoxShipmentDetailsValue();
+//
+//
+//                    }
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
             }
@@ -581,115 +587,119 @@ public class ShipmentLanding extends Fragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setBoxShipmentDetailsValue() {
 
-        String s = modelResponse.getShipment().getCreatedAt();
-        String[] split = s.split("T");
-        String date1 = split[0];
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
-        LocalDate ld = LocalDate.parse(date1, dtf);
-        String month_name = dtf2.format(ld);
-
-        deliverToName.setText(modelResponse.getShipment().getCustomerName());
-        shipmentId.setText(String.valueOf("#" + modelResponse.getShipment().getId()));
-        deliveryAddress.setText(modelResponse.getShipment().getAddress());
-        requestDate.setText(month_name);
-        contactNumber.setText(modelResponse.getShipment().getPhone());
-        packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
-
-        if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
-            totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
-            totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
-            boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
-            boxRecycle.setLayoutManager(linearLayoutManager);
-            boxRecycle.setAdapter(boxAdapter);
-        }
-
-
-        if (modelResponse.getShipment().getSubTotalAmount() == 0) {
-            totalCost.setText("To be Calculated");
-        } else {
-            totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
-        }
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void setBoxShipmentDetailsValue() {
+//
+//        String s = modelResponse.getShipment().getCreatedAt();
+//        String[] split = s.split("T");
+//        String date1 = split[0];
+//
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+//        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+//        LocalDate ld = LocalDate.parse(date1, dtf);
+//        String month_name = dtf2.format(ld);
+//
+//        deliverToName.setText(modelResponse.getShipment().getCustomerName());
+//        shipmentId.setText(String.valueOf("#" + modelResponse.getShipment().getId()));
+//        deliveryAddress.setText(modelResponse.getShipment().getAddress());
+//        requestDate.setText(month_name);
+//        contactNumber.setText(modelResponse.getShipment().getPhone());
+//        packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
+//
+//        if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
+//            totalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()));
+//            totalCharge.setText("₹ " + String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
+//            boxAdapter = new BoxAdapter(getActivity(), modelResponse.getShipment().getShipmentBoxes());
+//            boxRecycle.setLayoutManager(linearLayoutManager);
+//            boxRecycle.setAdapter(boxAdapter);
+//        }
+//
+//
+//        if (modelResponse.getShipment().getSubTotalAmount() == 0) {
+//            totalCost.setText("To be Calculated");
+//        } else {
+//            totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
+//        }
 
 
 /////Conditions for tags and buttons
 
-
-        for (int i = 0; i < list.size(); i++) {
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() != null) {
-
-                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false) {
-
-                    if (stateId == 16 || stateId == 100) {
-                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
-                        inReviewHelpText.setVisibility(View.GONE);
-                        inReview.setVisibility(View.GONE);
-                    }
-
-
-                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
-
-
-                    if (stateId == 16 || stateId == 17 || stateId == 101) {
-                        uploadInvoiceHelpText.setVisibility(View.GONE);
-                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
-                        inReviewHelpText.setVisibility(View.VISIBLE);
-                        inReview.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == null) {
-
-                if (stateId == 16 || stateId == 100) {
-                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                    uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
-                    inReviewHelpText.setVisibility(View.GONE);
-                    inReview.setVisibility(View.GONE);
-                }
-
-            }
-            break;
-
-        }
-
-
-
-        if (modelResponse.getTotalHours() == 0) {
-            cancelShipmentBtn.setVisibility(View.VISIBLE);
-        } else if (modelResponse.getTotalHours() > 0) {
-            cancelShipmentBtn.setVisibility(View.GONE);
-        }
-
-        if (stateId == 18) {
-            makePaymentBtn.setVisibility(View.VISIBLE);
-            makePaymentHelpText.setVisibility(View.VISIBLE);
-        } else if (stateId == 20) {
-            uploadWireTransferText.setVisibility(View.VISIBLE);
-            verifyPaymentHelpText.setVisibility(View.VISIBLE);
-            verifyPaymentTag.setVisibility(View.VISIBLE);
-            changePaymentMethodText.setVisibility(View.VISIBLE);
-        } else if (stateId == 22) {
-            paymentConfirmTag.setVisibility(View.VISIBLE);
-            paymentConfirmHelpText.setVisibility(View.VISIBLE);
-        } else if (stateId == 24) {
-            dispatchedTagCard.setVisibility(View.VISIBLE);
-            downloadInvoiceLayout.setVisibility(View.VISIBLE);
-        } else if (stateId == 40) {
-            deliveredTag.setVisibility(View.VISIBLE);
-            downloadInvoiceLayout.setVisibility(View.VISIBLE);
-        } else if (stateId == 21) {
-            paymentFailedTag.setVisibility(View.VISIBLE);
-            retryPaymentBtn.setVisibility(View.VISIBLE);
-            retryPaymentHelpText.setVisibility(View.VISIBLE);
-        }
-
-    }
+//        if (modelResponse.getTotalHours() == 0) {
+//            cancelShipmentBtn.setVisibility(View.VISIBLE);
+//        } else if (modelResponse.getTotalHours() > 0) {
+//            cancelShipmentBtn.setVisibility(View.GONE);
+//        }
+//
+//
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() != null) {
+//
+//                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false) {
+//
+//                    if (stateId == 16 || stateId == 100) {
+//                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+//                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
+//                        inReviewHelpText.setVisibility(View.GONE);
+//                        inReview.setVisibility(View.GONE);
+//                    }
+//
+//
+//                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
+//
+//
+//                    if (stateId == 16 || stateId == 17 || stateId == 101) {
+//                        uploadInvoiceHelpText.setVisibility(View.GONE);
+//                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
+//                        inReviewHelpText.setVisibility(View.VISIBLE);
+//                        inReview.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//
+//
+//            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == null) {
+//
+//                if (stateId == 16 || stateId == 100) {
+//                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+//                    uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+//                    inReviewHelpText.setVisibility(View.GONE);
+//                    inReview.setVisibility(View.GONE);
+//                }
+//
+//            }
+//            break;
+//
+//        }
+//
+//
+//
+//
+//
+//        if (stateId == 18) {
+//            makePaymentBtn.setVisibility(View.VISIBLE);
+//            makePaymentHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 20) {
+//            uploadWireTransferText.setVisibility(View.VISIBLE);
+//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+//            verifyPaymentTag.setVisibility(View.VISIBLE);
+//            changePaymentMethodText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 22) {
+//            paymentConfirmTag.setVisibility(View.VISIBLE);
+//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 24) {
+//            dispatchedTagCard.setVisibility(View.VISIBLE);
+//            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+//        } else if (stateId == 40) {
+//            deliveredTag.setVisibility(View.VISIBLE);
+//            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+//        } else if (stateId == 21) {
+//            paymentFailedTag.setVisibility(View.VISIBLE);
+//            retryPaymentBtn.setVisibility(View.VISIBLE);
+//            retryPaymentHelpText.setVisibility(View.VISIBLE);
+//        }
+//
+//    }
 
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
@@ -738,23 +748,34 @@ public class ShipmentLanding extends Fragment {
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
         if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
-            if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
+            if (modelResponse.getShipment().getBoxLength()!=null && modelResponse.getShipment().getBoxHeight()!=null && modelResponse.getShipment().getBoxWidth()!=null){
+                if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
+                    dimension.setText("To be Calculated");
+                } else {
+                    dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
+                }
+            }else {
                 dimension.setText("To be Calculated");
-            } else {
-                dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
+
             }
 
-            if (modelResponse.getShipment().getVolumetricWeight() == 0) {
+            if (modelResponse.getShipment().getVolumetricWeight()!=null && modelResponse.getShipment().getFinalWeight()!=null && modelResponse.getShipment().getFinalWeight()!=null){
+                if (modelResponse.getShipment().getVolumetricWeight() == 0) {
+                    volumetricWeight.setText("To be Calculated");
+                } else {
+                    volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()) + " KG");
+                }
+
+                if (modelResponse.getShipment().getFinalWeight() == 0) {
+                    finalWeight.setText("To be Calculated");
+                } else {
+                    finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
+                }
+            }else {
                 volumetricWeight.setText("To be Calculated");
-            } else {
-                volumetricWeight.setText(String.valueOf(modelResponse.getShipment().getBoxWidth()) + " KG");
+                finalWeight.setText("To be Calculated");
             }
 
-            if (modelResponse.getShipment().getFinalWeight() == 0) {
-                finalWeight.setText("To be Calculated");
-            } else {
-                finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
-            }
         }
 
 
@@ -764,29 +785,51 @@ public class ShipmentLanding extends Fragment {
             totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
         }
 
-
-/////Conditions for tags and buttons
-
-
-        for (int i = 0; i < list.size(); i++) {
-            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false && stateId == 16 || stateId == 100) {
-                uploadInvoiceHelpText.setVisibility(View.VISIBLE);
-                uploadInvoiceBtn.setVisibility(View.VISIBLE);
-                inReviewHelpText.setVisibility(View.GONE);
-                inReview.setVisibility(View.GONE);
-
-            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
-                uploadInvoiceHelpText.setVisibility(View.GONE);
-                uploadInvoiceButtonLayout.setVisibility(View.GONE);
-                inReviewHelpText.setVisibility(View.VISIBLE);
-                inReview.setVisibility(View.VISIBLE);
-
-            }
-        }
         if (modelResponse.getTotalHours() == 0) {
             cancelShipmentBtn.setVisibility(View.VISIBLE);
         } else if (modelResponse.getTotalHours() > 0) {
             cancelShipmentBtn.setVisibility(View.GONE);
+        }
+
+
+
+        for (int i = 0; i < list.size(); i++) {
+            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() != null) {
+
+                if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false) {
+
+                    if (stateId == 16 || stateId == 100) {
+                        uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                        uploadInvoiceBtn.setVisibility(View.VISIBLE);
+                        inReviewHelpText.setVisibility(View.GONE);
+                        inReview.setVisibility(View.GONE);
+                    }
+
+
+                } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true) {
+
+
+                    if (stateId == 16 || stateId == 17 || stateId == 101) {
+                        uploadInvoiceHelpText.setVisibility(View.GONE);
+                        uploadInvoiceButtonLayout.setVisibility(View.GONE);
+                        inReviewHelpText.setVisibility(View.VISIBLE);
+                        inReview.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == null) {
+
+                if (stateId == 16 || stateId == 100) {
+                    uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+                    uploadInvoiceButtonLayout.setVisibility(View.VISIBLE);
+                    inReviewHelpText.setVisibility(View.GONE);
+                    inReview.setVisibility(View.GONE);
+                }
+
+            }
+            break;
+
         }
 
         if (stateId == 18) {
@@ -811,6 +854,55 @@ public class ShipmentLanding extends Fragment {
             retryPaymentBtn.setVisibility(View.VISIBLE);
             retryPaymentHelpText.setVisibility(View.VISIBLE);
         }
+
+
+
+/////Conditions for tags and buttons
+
+
+//        for (int i = 0; i < list.size(); i++) {
+//            if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == false && stateId == 16 || stateId == 100) {
+//                uploadInvoiceHelpText.setVisibility(View.VISIBLE);
+//                uploadInvoiceBtn.setVisibility(View.VISIBLE);
+//                inReviewHelpText.setVisibility(View.GONE);
+//                inReview.setVisibility(View.GONE);
+//
+//            } else if (modelResponse.getPackages().get(i).getIsFullInvoiceReceived() == true && stateId == 16 || stateId == 17 || stateId == 101) {
+//                uploadInvoiceHelpText.setVisibility(View.GONE);
+//                uploadInvoiceButtonLayout.setVisibility(View.GONE);
+//                inReviewHelpText.setVisibility(View.VISIBLE);
+//                inReview.setVisibility(View.VISIBLE);
+//
+//            }
+//        }
+//        if (modelResponse.getTotalHours() == 0) {
+//            cancelShipmentBtn.setVisibility(View.VISIBLE);
+//        } else if (modelResponse.getTotalHours() > 0) {
+//            cancelShipmentBtn.setVisibility(View.GONE);
+//        }
+//
+//        if (stateId == 18) {
+//            makePaymentBtn.setVisibility(View.VISIBLE);
+//            makePaymentHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 20) {
+//            uploadWireTransferText.setVisibility(View.VISIBLE);
+//            verifyPaymentHelpText.setVisibility(View.VISIBLE);
+//            verifyPaymentTag.setVisibility(View.VISIBLE);
+//            changePaymentMethodText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 22) {
+//            paymentConfirmTag.setVisibility(View.VISIBLE);
+//            paymentConfirmHelpText.setVisibility(View.VISIBLE);
+//        } else if (stateId == 24) {
+//            dispatchedTagCard.setVisibility(View.VISIBLE);
+//            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+//        } else if (stateId == 40) {
+//            deliveredTag.setVisibility(View.VISIBLE);
+//            downloadInvoiceLayout.setVisibility(View.VISIBLE);
+//        } else if (stateId == 21) {
+//            paymentFailedTag.setVisibility(View.VISIBLE);
+//            retryPaymentBtn.setVisibility(View.VISIBLE);
+//            retryPaymentHelpText.setVisibility(View.VISIBLE);
+//        }
     }
 
 
@@ -1002,9 +1094,7 @@ public class ShipmentLanding extends Fragment {
             try {
                 okhttp3.Response response = client.newCall(request).execute();
                 Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
-
-
-
+                strResponse = response.code();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -1016,6 +1106,13 @@ public class ShipmentLanding extends Fragment {
         @Override
         protected void onPostExecute(String message) {
             //process message
+            if (strResponse==200){
+                Toast.makeText(getActivity(), "Invoice upload successfully", Toast.LENGTH_SHORT).show();
+                uploadInvoiceArrowHome.setVisibility(View.GONE);
+                invoiceUploadedHome.setVisibility(View.VISIBLE);
+            }else {
+                Toast.makeText(getActivity(), "Invoice upload Failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
