@@ -47,7 +47,13 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         holder.readyToShipImg.getDrawable();
         holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
         holder.packageId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
-        holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
+
+        if (list.get(position).getStore()!=null){
+            holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
+        }else {
+            holder.readyToShipWebSiteName.setText("");
+        }
+
 
         if (list.get(position).getIsRestrictedItem() != null && list.get(position).getIsWrongItem() != null) {
             holder.damageRestricted.setVisibility(View.VISIBLE);

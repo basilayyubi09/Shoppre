@@ -190,7 +190,12 @@ public class LockerViewPackage extends Fragment {
         date.setText(month_name);
 
         trackingNumber.setText(list.getInvoiceCode());
-        websiteName.setText(list.getStore().getName());
+        if (list.getStore()!=null){
+            websiteName.setText(list.getStore().getName());
+        }else {
+            websiteName.setText("");
+        }
+
         packageId.setText("#" + String.valueOf(list.getId()));
         weight.setText(String.valueOf(list.getWeight()));
         amount.setText("₹ " + String.valueOf(list.getPriceAmount()));

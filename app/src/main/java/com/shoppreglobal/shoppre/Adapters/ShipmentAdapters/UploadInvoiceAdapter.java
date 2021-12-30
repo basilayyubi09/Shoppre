@@ -1,40 +1,26 @@
 package com.shoppreglobal.shoppre.Adapters.ShipmentAdapters;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageItem;
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
-import com.shoppreglobal.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.shoppreglobal.shoppre.R;
-import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.UploadInvoiceProductResponse;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.UploadInvoiceResponse;
 import com.shoppreglobal.shoppre.UI.Locker.LockerViewPackage;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
-import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdapter.viewHolder> {
 
@@ -113,7 +99,7 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
             public void onClick(View v) {
 
 
-                    mCallback.onSelection();
+                    mCallback.onSelection(holder.uploadInvoiceArrow, holder.invoiceUploaded);
 
             }
         });
@@ -167,6 +153,6 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
     }
 
     public interface CallbackInterface{
-        void onSelection();
+        void onSelection(LinearLayout uploadInvoiceArrow, TextView invoiceUploaded);
     }
 }
