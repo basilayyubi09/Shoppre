@@ -27,6 +27,8 @@ import com.shoppreglobal.shoppre.OrderModuleResponses.DeleteOrderResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.GetCommentsResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ProductCategoryResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.SearchStoreResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.SelfShopperResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ShippingRateResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ShopperOrdersResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ShowOrderResponse;
@@ -48,6 +50,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -469,12 +473,20 @@ public interface AppApi {
     );
 
     //https://uat-app1.shoppreglobal.com/api/packages
-    @Multipart
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("api/packages")
-    Call<Integer> selfShopper(
+    Call<SelfShopperResponse> selfShopper(
             @Header("Authorization") String auth,
-            @Part("") RequestBody requestBody
+            @Body String requestBody
     );
 
+    //https://uat-app1.shoppreglobal.com/api/search?type=Store&q=
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("api/search?")
+    Call<SearchStoreResponse> searchStore(
+
+            @Query("type") String store,
+            @Query("q") String q
+    );
 }

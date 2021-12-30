@@ -153,7 +153,8 @@
                     android:textFontWeight="500"
                     android:textSize="10sp"
                     android:layout_marginTop="13dp"/>
-                <EditText
+                <AutoCompleteTextView
+                    android:id="@+id/etStore"
                     android:layout_width="match_parent"
                     android:layout_height="28dp"
                     android:background="@drawable/edittext_bg"
@@ -165,7 +166,17 @@
                     android:paddingStart="15dp"
                     android:inputType="text"/>
 
-
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/storeError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="* Please Select Store."
+                    android:textColor="@color/design_default_color_error"
+                    android:textFontWeight="500"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="5dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

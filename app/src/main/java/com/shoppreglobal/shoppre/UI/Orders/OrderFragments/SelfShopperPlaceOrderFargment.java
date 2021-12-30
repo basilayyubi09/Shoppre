@@ -5,19 +5,20 @@ import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,24 +30,24 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.SearchStoreResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.SelfShopperResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
-import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
+import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 import com.shoppreglobal.shoppre.Utils.ViewSampleDialog;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
+import java.util.List;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -58,16 +59,18 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
     SharedPrefManager sharedPrefManager;
     MaterialButton selfShopProceedBtn;
-    TextView viewSample, path;
-    ImageView img ;
-    int i = 0;
-    MaterialCardView layout ;
+    TextView viewSample, path, storeError;
+    ImageView img;
+    int i = 0, storeId = 0;
+    MaterialCardView layout;
     MaterialButton proceed;
-    Bitmap bitmap;
+    AutoCompleteTextView etStore;
     LinearLayout clickableLayout;
     byte[] byteArray;
-    String encodedFile , responseObject , responseUrl , splitUrl;
+    ArrayAdapter arrayAdapter;
+    String encodedFile, responseObject, responseUrl, splitUrl;
     String file;
+    SearchStoreResponse list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +85,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         selfShopProceedBtn = view.findViewById(R.id.proceed);
 
         viewSample = view.findViewById(R.id.viewSample);
+        storeError = view.findViewById(R.id.storeError);
         img = view.findViewById(R.id.img);
+        etStore = view.findViewById(R.id.etStore);
         clickableLayout = view.findViewById(R.id.clickableLayout);
         layout = view.findViewById(R.id.layout);
         proceed = view.findViewById(R.id.proceed);
@@ -100,16 +105,19 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (i == 0){
+                if (i == 0) {
+                    storeError.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Please Select an Image", Toast.LENGTH_SHORT).show();
                 }
-                else {
-//                    if (savedInstanceState != null) return;
-//                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ThankYouFragment(), null)
-//                            .addToBackStack(null).commit();
-//                    LoadingDialog.showLoadingDialog(getActivity(), "");
-//                    callMinioUploadApi();
-                    Toast.makeText(getActivity(), "Work in progress", Toast.LENGTH_SHORT).show();
+                else if (storeId==0){
+                    storeError.setVisibility(View.VISIBLE);
+                }else {
+
+
+                    storeError.setVisibility(View.GONE);
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callMinioUploadApi();
+
                 }
             }
         });
@@ -121,11 +129,69 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                 FromCard();
             }
         });
+
+        etStore.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.length() > 0) {
+                    callSearchStoreApi(s.toString());
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etStore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getItemAtPosition(position);
+                if (item instanceof SearchStoreResponse.Item) {
+                    SearchStoreResponse.Item item1 = (SearchStoreResponse.Item) item;
+                    storeId = ((SearchStoreResponse.Item) item).getId();
+
+
+                }
+
+            }
+        });
         return view;
 
     }
 
+    private void callSearchStoreApi(String toString) {
+        Call<SearchStoreResponse> call = RetrofitClient3.getInstance3().getAppApi()
+                .searchStore("Store", toString);
+        call.enqueue(new Callback<SearchStoreResponse>() {
+            @Override
+            public void onResponse(Call<SearchStoreResponse> call, Response<SearchStoreResponse> response) {
 
+                if (response.code() == 200) {
+                    list = response.body();
+                    List<SearchStoreResponse.Item> list1 = list.getItems();
+                    arrayAdapter = new ArrayAdapter(getActivity()
+                            , R.layout.dropdown_single_layout, list1);
+                    etStore.setAdapter(arrayAdapter);
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchStoreResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
     public void FromCard() {
@@ -144,10 +210,12 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         }
 
     }
+
     private boolean checkIfAlreadyhavePermission() {
         int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,7 +230,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             Log.d("Path", file);
 
             path.setText(selectedFilePath);
-            i=1;
+            i = 1;
 
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedFile);
@@ -174,28 +242,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            Uri selectedImage = data.getData();
-//            String[] filePathColumn = { "*/*" };
-//
-//            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-//                    filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
-//
-//            img.setVisibility(View.VISIBLE);
-//            layout.setVisibility(View.GONE);
-//            i = 1;
-//            bitmap = BitmapFactory.decodeFile(picturePath);
-//            Toast.makeText(getActivity(), picturePath, Toast.LENGTH_SHORT).show();
-//            img.setImageBitmap(bitmap);
 
-//            if (bitmap != null) {
-//                ImageView rotate = (ImageView) findViewById(R.id.rotate);
-//
-//            }
 
         } else {
 
@@ -226,7 +273,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
                     responseUrl = response.body().getUrl();
                     String[] parts = responseUrl.split("/");
-                    splitUrl = parts[parts.length-1];
+                    splitUrl = parts[parts.length - 1];
 
                     SelfShopperPlaceOrderFargment.MinioUploading minioUploading = new SelfShopperPlaceOrderFargment.MinioUploading();
                     minioUploading.execute();
@@ -278,6 +325,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             }
         });
     }
+
     class MinioUploading extends AsyncTask<String, String, String> {
 
         @Override
@@ -312,30 +360,36 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     }
 
     private void callSelfShopperApi(RequestBody body) {
-        //MultipartBody.FORM
-        final RequestBody rPhoneNumber = RequestBody.create(MediaType.parse("text/plain"), responseObject);
-        Call<Integer> call = RetrofitClient3.getInstance3().getAppApi()
 
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("invoice"  , responseObject);
+        jsonObject.addProperty("store_id"  , storeId);
 
-                .selfShopper("Bearer "+sharedPrefManager.getBearerToken(), rPhoneNumber);
-        call.enqueue(new Callback<Integer>() {
+        Call<SelfShopperResponse> call = RetrofitClient3.getInstance3().getAppApi().selfShopper("Bearer " + sharedPrefManager.getBearerToken()
+                , jsonObject.toString());
+        call.enqueue(new Callback<SelfShopperResponse>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.code()==201){
+            public void onResponse(Call<SelfShopperResponse> call, Response<SelfShopperResponse> response) {
+                if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                }
-                else if (response.code()==401){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type" , "order");
+                    bundle.putInt("id" , response.body().getId());
+                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+                    thankYouFragment.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, thankYouFragment, null)
+                            .addToBackStack(null).commit();
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else{
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<SelfShopperResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
