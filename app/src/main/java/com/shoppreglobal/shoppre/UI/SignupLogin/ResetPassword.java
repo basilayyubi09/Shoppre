@@ -1,7 +1,5 @@
 package com.shoppreglobal.shoppre.UI.SignupLogin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,9 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.ChangePasswordResponse;
@@ -39,8 +36,10 @@ public class ResetPassword extends AppCompatActivity {
     SharedPrefManager sharedPrefManager;
     LinearLayout main;
     int id;
+    String token;
     String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     String currentPasswordString, newPasswordString, confirmNewPasswordString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +49,11 @@ public class ResetPassword extends AppCompatActivity {
         newPassword = findViewById(R.id.newPassword);
         confirmTIL = findViewById(R.id.confirmTIL);
         main = findViewById(R.id.main);
-        currentPassword =findViewById(R.id.currentPassword);
+        currentPassword = findViewById(R.id.currentPassword);
         helperText = findViewById(R.id.helperText);
         newPasswordError = findViewById(R.id.newPasswordError);
         confirmError = findViewById(R.id.confirmError);
-        currentPasswordError = findViewById(R.id.currentPasswordError);
+
         setupUI(main);
 
         Intent intent = getIntent();
@@ -63,8 +62,8 @@ public class ResetPassword extends AppCompatActivity {
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
             if (scheme.equals("https")) {
-                 id = Integer.parseInt(uri.getQueryParameter("id"));
-                String token = uri.getQueryParameter("token");
+                id = Integer.parseInt(uri.getQueryParameter("id"));
+                 token = uri.getQueryParameter("token");
 
             }
         }
@@ -76,7 +75,7 @@ public class ResetPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getTextFromField();
-                if ( !validateNewPassword() || !validateConfirmNewPassword()) {
+                if (!validateNewPassword() || !validateConfirmNewPassword()) {
                     return;
                 } else {
                     callChangePasswordApi();
@@ -86,37 +85,45 @@ public class ResetPassword extends AppCompatActivity {
 
 
     }
+
     private void callChangePasswordApi() {
+
+        //{
+        //	"id": "100603",
+        //	"confirm_password": "1",
+        //	"password": "1",
+        //	"email": "",
+        //	"token": "29908df865a153b00000c8d8e5915479"
+        //}
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("old_password", "");
-        jsonObject.addProperty("password", newPasswordString);
+        jsonObject.addProperty("id", id);
         jsonObject.addProperty("confirm_password", confirmNewPasswordString);
+        jsonObject.addProperty("password", newPasswordString);
+        jsonObject.addProperty("email", "");
+        jsonObject.addProperty("token",token );
         LoadingDialog.showLoadingDialog(ResetPassword.this, "");
-        Call<ChangePasswordResponse> call = RetrofitClient.getInstance().getApi().changePassword("Bearer " + sharedPrefManager.getBearerToken()
-                , id, jsonObject.toString());
-        call.enqueue(new Callback<ChangePasswordResponse>() {
+        Call<String> call = RetrofitClient.getInstance().getApi().resetPassword( id, jsonObject.toString());
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ChangePasswordResponse> call, Response<ChangePasswordResponse> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.code() == 200) {
 
                     LoadingDialog.cancelLoading();
-                    Toast.makeText(ResetPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetPassword.this, "Your account password has been reset. Please login to continue."
+                            , Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(ResetPassword.this, LoginActivity.class));
                     finish();
 
 
-                } else if (response.code() == 401) {
-
-                    callRefreshTokenApi();
-                } else {
+                }else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(ResetPassword.this, response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Toast.makeText(ResetPassword.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
@@ -151,18 +158,16 @@ public class ResetPassword extends AppCompatActivity {
     }
 
 
-
     private boolean validateNewPassword() {
         if (newPasswordString.equals("")) {
             helperText.setVisibility(View.GONE);
             newPasswordError.setVisibility(View.VISIBLE);
             return false;
-        }
-        else if(!newPasswordString.matches(passwordPattern)){
+        } else if (!newPasswordString.matches(passwordPattern)) {
             helperText.setVisibility(View.GONE);
             newPasswordError.setVisibility(View.VISIBLE);
             return false;
-        }else {
+        } else {
             helperText.setVisibility(View.VISIBLE);
             newPasswordError.setVisibility(View.GONE);
             return true;

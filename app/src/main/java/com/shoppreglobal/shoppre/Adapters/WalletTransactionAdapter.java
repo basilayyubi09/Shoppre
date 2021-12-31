@@ -58,12 +58,14 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
 //        else
 //            holder.messageText.setText(list.get(position).getMessageText());
         if (list.get(position).getAmount().toString().startsWith("-")){
+            String value = list.get(position).getAmount().toString();
+            value = value.substring(1);
             holder.price.setTextColor(Color.parseColor("#EF5261"));
-            holder.price.setText("₹ "+list.get(position).getAmount().toString());
+            holder.price.setText("- ₹ "+value);
         }
         else{
             holder.price.setTextColor(Color.parseColor("#17B28F"));
-            holder.price.setText("+"+"₹ "+list.get(position).getAmount().toString());
+            holder.price.setText("+"+" ₹ "+list.get(position).getAmount().toString());
         }
 
 

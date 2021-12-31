@@ -48,6 +48,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClientWallet;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.SignupLogin.SignUpActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -73,7 +74,7 @@ public class ViewProfile extends Fragment {
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
     LinearLayout resend , main;
-    TextView profileName, lockerNo, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue, tvChangePassword;
+    TextView profileName, lockerNo, contactUs , faq,profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue, tvChangePassword;
     SharedPrefManager sharedPrefManager;
     EditText phoneNoEditText;
 
@@ -112,6 +113,8 @@ public class ViewProfile extends Fragment {
 
 
         wallet = view.findViewById(R.id.wallet);
+        faq = view.findViewById(R.id.faq);
+        contactUs = view.findViewById(R.id.contactUs);
         redBoxText = view.findViewById(R.id.redBoxText);
         countryCodePicker = view.findViewById(R.id.countryCodePicker);
         resend = view.findViewById(R.id.resend);
@@ -285,6 +288,31 @@ public class ViewProfile extends Fragment {
             }
         });
 
+        faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("url", "https://www.shoppre.com/faq");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", "https://www.shoppre.com/contact");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+            }
+        });
         updateBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override

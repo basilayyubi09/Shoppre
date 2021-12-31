@@ -107,74 +107,59 @@ public class WalletFragment extends Fragment {
         showHideContents();
 
 
-        myCash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392946-what-is-my-cash-");
-                WebViewFragment cash = new WebViewFragment();
-                cash.setArguments(bundle);
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
-                        .addToBackStack(null).commit();
+        myCash.setOnClickListener(view1 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392946-what-is-my-cash-");
+            WebViewFragment cash = new WebViewFragment();
+            cash.setArguments(bundle);
+            if (savedInstanceState != null) return;
+            OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                    .addToBackStack(null).commit();
 
-            }
         });
 
-        showMoreContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
-                {
+        showMoreContent.setOnClickListener(v -> {
+            if (!CheckNetwork.isInternetAvailable(getActivity())) //if connection not available
+            {
 
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                } else {
-                    //Wallet Transaction api
-                    LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callApi();
-                }
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "No Internet Connection", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                //Wallet Transaction api
+                LoadingDialog.showLoadingDialog(getActivity(), "");
+                callApi();
             }
         });
-        myRewards.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392947-what-is-my-rewards-");
-                WebViewFragment cash = new WebViewFragment();
-                cash.setArguments(bundle);
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
-                        .addToBackStack(null).commit();
-            }
+        myRewards.setOnClickListener(view12 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392947-what-is-my-rewards-");
+            WebViewFragment cash = new WebViewFragment();
+            cash.setArguments(bundle);
+            if (savedInstanceState != null) return;
+            OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                    .addToBackStack(null).commit();
         });
 
-        howCanI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392948-where-can-i-use-my-wallet-money-");
-                WebViewFragment cash = new WebViewFragment();
-                cash.setArguments(bundle);
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
-                        .addToBackStack(null).commit();
-            }
+        howCanI.setOnClickListener(view13 -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/articles/81000392948-where-can-i-use-my-wallet-money-");
+            WebViewFragment cash = new WebViewFragment();
+            cash.setArguments(bundle);
+            if (savedInstanceState != null) return;
+            OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                    .addToBackStack(null).commit();
         });
 
-        readMoreLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        readMoreLayout.setOnClickListener(view14 -> {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/folders/81000288275");
-                WebViewFragment cash = new WebViewFragment();
-                cash.setArguments(bundle);
-                if (savedInstanceState != null) return;
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
-                        .addToBackStack(null).commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("url", "https://go-shoppre.freshdesk.com/support/solutions/folders/81000288275");
+            WebViewFragment cash = new WebViewFragment();
+            cash.setArguments(bundle);
+            if (savedInstanceState != null) return;
+            OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                    .addToBackStack(null).commit();
 
-            }
         });
 
         walletAdapter.notifyDataSetChanged();
@@ -304,10 +289,5 @@ public class WalletFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        offSet = 0;
-        limit = 5;
-    }
+
 }
