@@ -778,6 +778,7 @@
                         android:layout_marginTop="13dp"
                         />
                     <TextView
+                        android:id="@+id/faq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/help_amp_faqs"
@@ -794,6 +795,7 @@
                         android:layout_marginTop="13dp"
                         />
                     <TextView
+                        android:id="@+id/contactUs"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/contact_us"

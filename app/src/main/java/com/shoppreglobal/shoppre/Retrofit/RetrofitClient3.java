@@ -15,6 +15,7 @@ public class RetrofitClient3 {
     private Retrofit retrofit3;
 
     RetrofitClient3() {
+
         retrofit3 = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient1)

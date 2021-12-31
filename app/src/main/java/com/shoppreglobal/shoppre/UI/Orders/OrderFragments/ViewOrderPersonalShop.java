@@ -152,11 +152,10 @@ public class ViewOrderPersonalShop extends Fragment {
                     date.setText(month_name);
                     if (response.body().getPkg().getStore()!=null){
                         websiteName.setText(response.body().getPkg().getStore().getName());
-                        orderNumberText.setText("#" + response.body().getPkg().getId());
-                        status.setText(response.body().getPkg().getPackageState().getState().getName());
-
-                        singleOrderImage.setImageResource(R.drawable.ic_self_shopper);
                     }
+                    orderNumberText.setText("#" + response.body().getPkg().getId());
+                    status.setText(response.body().getPkg().getPackageState().getState().getName());
+                    singleOrderImage.setImageResource(R.drawable.ic_self_shopper);
 
                     bundle.putString("orderCode", orderCode);
                     bundle.putString("imageUrl", imageUrl);
@@ -416,6 +415,7 @@ public class ViewOrderPersonalShop extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void addTextToFields(ShowOrderResponse showOrderResponse) {
+
         String s = showOrderResponse.getCreatedAt();
         String[] split = s.split("T");
         String date1 = split[0];

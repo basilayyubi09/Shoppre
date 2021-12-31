@@ -150,4 +150,13 @@ public interface Api {
             @Path("id") Integer id
             ,@Body String object
     );
+
+    //https://uat-login.shoppreglobal.com/api/password_reset/100376
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/password_reset/{id}")
+    Call<String> resetPassword(
+
+            @Path("id") Integer id
+            ,@Body String object
+    );
 }

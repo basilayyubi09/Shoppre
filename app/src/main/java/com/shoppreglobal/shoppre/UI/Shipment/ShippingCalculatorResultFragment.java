@@ -29,6 +29,7 @@ import com.shoppreglobal.shoppre.Retrofit.LogisticClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.PricingTableDialog;
 
@@ -48,8 +49,8 @@ public class ShippingCalculatorResultFragment extends Fragment {
     Integer countryId, categoryId;
     ArrayAdapter<Item> arrayAdapter;
     List<SlabResponse> slabResponse;
-    LinearLayout edit, chooseCountryLayout, viewCountry;
-    String weightFromBundle, kg, liquid, height, width, length;
+    LinearLayout edit, chooseCountryLayout, viewCountry , restricted;
+    String weightFromBundle, kg, liquid, height, width, length , countryName="" , countryNameP;
 
 
     @Override
@@ -59,6 +60,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);
+        restricted = view.findViewById(R.id.restricted);
         unit = view.findViewById(R.id.unit);
         viewPricingTable = view.findViewById(R.id.viewPricingTable);
         chooseCountryLayout = view.findViewById(R.id.chooseCountryLayout);
@@ -88,7 +90,9 @@ public class ShippingCalculatorResultFragment extends Fragment {
             liquid = bundle.getString("liquid");
             countryId = bundle.getInt("countryId");
             categoryId = bundle.getInt("categoryId");
+            countryNameP = shippingRateResponse.getName();
             location.setText(shippingRateResponse.getName());
+            chooseCountry.setText(shippingRateResponse.getName());
             unit.setText(kg);
             weight.setText(weightFromBundle);
             double rate = shippingRateResponse.getCustomerRate();
@@ -144,6 +148,37 @@ public class ShippingCalculatorResultFragment extends Fragment {
             public void onClick(View v) {
 
                 showDialogue();
+            }
+        });
+        restricted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", "https://ship.shoppre.com/prohibited-items-what-you-cannot-ship-internationally-from-india");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+        viewCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url;
+                if (countryName.equals("")){
+                    url = "https://www.shoppre.com/shipping-from-india-to-"+countryNameP;
+                }
+                else {
+                    url = "https://www.shoppre.com/shipping-from-india-to-"+countryName;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url);
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
             }
         });
         return view;
@@ -203,6 +238,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
                     String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
 
                 }
+                countryName = adapterView.getItemAtPosition(i).toString();
                 chooseCountry.setText(adapterView.getItemAtPosition(i).toString());
                 chooseCountry.setTextColor(R.color.black);
                 inputLayout.getEditText().setText("");

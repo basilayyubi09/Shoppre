@@ -57,7 +57,6 @@ public class SignUp_Valid extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_valid);
 
 
-
         //Shared Preference
         sharedPrefManager = new SharedPrefManager(SignUp_Valid.this);
         if (sharedPrefManager.checkLogin()) {

@@ -60,11 +60,10 @@ public class OrderFragment extends Fragment {
     MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn, forgotContinueBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
-    CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
+    CardView banner, ordersCard, verifyEmailBox, helpAndFaq,
+            virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
     FrameLayout main;
     TextView bannerVirtualAddress;
-
-
     List<Order> list;
     List<IncomingPkg> list1;
     LinearLayout orderListing, secondContainer;
@@ -86,6 +85,7 @@ public class OrderFragment extends Fragment {
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
+        helpAndFaq = view.findViewById(R.id.helpAndFaqCard);
         banner = view.findViewById(R.id.banner);
         main = view.findViewById(R.id.main);
         forgetSomething = view.findViewById(R.id.forgetSomething);
@@ -152,7 +152,19 @@ public class OrderFragment extends Fragment {
         });
 
 
-        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
+        helpAndFaq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", "https://www.shoppre.com/faq");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+    virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -264,6 +276,8 @@ public class OrderFragment extends Fragment {
 //        orderRecycler.setAdapter(ordersAdapter);
 //
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
         orderRecycler.setLayoutManager(linearLayoutManager);
 
 //        int number = orderRecycler.getAdapter().getItemCount();
