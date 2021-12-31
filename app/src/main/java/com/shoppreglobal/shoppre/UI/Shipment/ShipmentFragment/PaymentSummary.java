@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.PaymentSummaryViewPagerAdapter;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.BoxWeightAdapter;
@@ -24,6 +27,8 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.BoxWeight;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -32,6 +37,7 @@ import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,7 +71,9 @@ public class PaymentSummary extends Fragment {
     RecyclerView boxRecycler;
     BoxWeightAdapter boxWeightAdapter;
     List<BoxWeight> list;
+    MaterialButton makePaymentBtn;
     int size;
+    String url;
 
     int flag = 1;
     int flag2 = 3;
@@ -175,6 +183,7 @@ public class PaymentSummary extends Fragment {
         membershipChild1 = view.findViewById(R.id.membershipChild1);
         membershipChild2 = view.findViewById(R.id.membershipChild2);
         tvServiceChargeDiscount = view.findViewById(R.id.tvServiceChargeDiscount);
+        makePaymentBtn = view.findViewById(R.id.makePaymentBtn);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -236,8 +245,57 @@ public class PaymentSummary extends Fragment {
             }
         });
 
+        makePaymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payAuthorizeApi();
+            }
+        });
+
 
         return view;
+    }
+
+    private void payAuthorizeApi() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("grant_type", "loginAs");
+        jsonObject.addProperty("username", sharedPrefManager.getEmail());
+        jsonObject.addProperty("app_id", 28);
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<String> call = RetrofitClient.getInstance()
+                .getApi().payAuthorize("Bearer "+sharedPrefManager.getBearerToken(), jsonObject.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code()==200){
+                    url = response.body();
+                    LoadingDialog.cancelLoading();
+                    Log.d("urlllllllll", String.valueOf(url));
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", url);
+                    WebViewFragment pay = new WebViewFragment();
+                    pay.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
+                            .addToBackStack(null).commit();
+
+
+                }else if (response.code()==401){
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                }else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(),t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void callPaymentSummaryApi() {

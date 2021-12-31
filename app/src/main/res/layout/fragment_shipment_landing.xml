@@ -569,13 +569,14 @@
                             android:id="@+id/uploadInvoiceHelpText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="40dp"
+                            android:layout_marginHorizontal="46dp"
+                            android:layout_marginTop="28dp"
                             android:gravity="center"
                             android:text="@string/the_shipment_cannot"
                             android:textColor="#818181"
-                            android:textFontWeight="400"
+                            android:textFontWeight="500"
                             android:textSize="8sp"
-                            android:visibility="gone" />
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:id="@+id/uploadInvoiceButtonLayout"

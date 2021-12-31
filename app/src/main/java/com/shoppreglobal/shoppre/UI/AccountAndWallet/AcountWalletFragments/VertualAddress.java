@@ -53,6 +53,8 @@ public class VertualAddress extends Fragment {
         pinCodeCopyBtn = view.findViewById(R.id.pinCodeCopyBtn);
         phoneNoCopyBtn = view.findViewById(R.id.phoneNoCopyBtn);
 
+        virtualAddressName.setText(sharedPrefManager.getFullName());
+
 
         nameCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override

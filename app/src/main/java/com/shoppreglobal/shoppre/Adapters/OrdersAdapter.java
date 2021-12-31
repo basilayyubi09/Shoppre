@@ -32,10 +32,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     List<IncomingPkg> list1;
     Context context;
 
+
     public OrdersAdapter(List<Order> list, List<IncomingPkg> list1, Context context) {
         this.list = list;
         this.list1 = list1;
         this.context = context;
+
     }
 
     @NonNull

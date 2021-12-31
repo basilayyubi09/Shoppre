@@ -11,6 +11,7 @@ import com.shoppreglobal.shoppre.AuthenticationModel.SignInDirectResponse;
 import com.shoppreglobal.shoppre.AuthenticationModel.SignInGoogleResponse;
 import com.shoppreglobal.shoppre.AuthenticationModel.SignUpGoogleResponse;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -149,5 +150,13 @@ public interface Api {
             @Header("Authorization") String auth,
             @Path("id") Integer id
             ,@Body String object
+    );
+
+    //https://staging-login.shoppreglobal.com/api/authorise
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("api/authorise")
+    Call<String> payAuthorize(
+            @Header("Authorization") String auth,
+            @Body String objects
     );
 }

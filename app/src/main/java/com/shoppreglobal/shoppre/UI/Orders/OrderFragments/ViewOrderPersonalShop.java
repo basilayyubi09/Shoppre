@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,8 @@ public class ViewOrderPersonalShop extends Fragment {
     String url;
     OrderDetails orderDetails;
     OrderUpdates orderUpdates;
+    Integer shopperId;
+    String testUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -141,6 +144,7 @@ public class ViewOrderPersonalShop extends Fragment {
                 if (response.code() == 200) {
                     dateString = response.body().getPkg().getCreatedAt();
                     imageUrl = response.body().getPkg().getInvoice();
+
                     String[] split = dateString.split("T");
                     String date1 = split[0];
 
@@ -189,28 +193,60 @@ public class ViewOrderPersonalShop extends Fragment {
     }
 
     private void downloadOrderInvoice() {
-
-        Dexter.withContext(getContext())
-                .withPermissions(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                ).withListener(new MultiplePermissionsListener() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<String> call = RetrofitClient3.getInstance3()
+                .getAppApi().orderInvoiceDownload("Bearer "+sharedPrefManager.getBearerToken(), shopperId);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                if (report.areAllPermissionsGranted()) {
-                    downloadFile();
-                } else {
-                    Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code()==200){
+
+                    url = response.body();
+
+                    Log.d("Sucesss", url);
+
+                    Dexter.withContext(getContext())
+                            .withPermissions(
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE
+                            ).withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                downloadFile();
+                            } else {
+                                Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                        }
+
+
+                    }).check();
+
+
+                    LoadingDialog.cancelLoading();
+                }else if (response.code()==401){
+                    callRefreshTokenApi(type);
+                    LoadingDialog.cancelLoading();
+                }else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
-            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+            public void onFailure(Call<String> call, Throwable t) {
 
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
+        });
 
-
-        }).check();
 
     }
 
@@ -281,6 +317,8 @@ public class ViewOrderPersonalShop extends Fragment {
                 });
     }
 
+
+
 //    private void downloadInvoiceApi() {
 //
 //        Call<DownloadInvoiceModelResponse> call = RetrofitClient3.getInstance3()
@@ -343,10 +381,7 @@ public class ViewOrderPersonalShop extends Fragment {
             public void onResponse(Call<ShowOrderResponse> call, Response<ShowOrderResponse> response) {
                 if (response.code() == 200) {
 
-                    if (response.body().getSellerInvoice() != null) {
-                        url = response.body().getSellerInvoice();
-                    }
-
+                    shopperId = response.body().getShopperOrderId();
 
                     addTextToFields(response.body());
 

@@ -791,17 +791,27 @@ public class ShipmentLanding extends Fragment {
         }
 
 
-        if (modelResponse.getShipment().getSubTotalAmount() == 0) {
+        if (modelResponse.getShipment().getSubTotalAmount()!=null){
+            if (modelResponse.getShipment().getSubTotalAmount() == 0) {
+                totalCost.setText("To be Calculated");
+            } else {
+                totalCost.setText((String.valueOf("₹ "+modelResponse.getShipment().getSubTotalAmount())));
+            }
+        }else {
             totalCost.setText("To be Calculated");
-        } else {
-            totalCost.setText(String.valueOf(modelResponse.getShipment().getSubTotalAmount()));
         }
 
-        if (modelResponse.getTotalHours() == 0) {
-            cancelShipmentBtn.setVisibility(View.VISIBLE);
-        } else if (modelResponse.getTotalHours() > 0) {
+
+        if (modelResponse.getTotalHours()!=null){
+            if (modelResponse.getTotalHours() == 0) {
+                cancelShipmentBtn.setVisibility(View.VISIBLE);
+            } else if (modelResponse.getTotalHours() > 0) {
+                cancelShipmentBtn.setVisibility(View.GONE);
+            }
+        }else {
             cancelShipmentBtn.setVisibility(View.GONE);
         }
+
 
 
 

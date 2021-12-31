@@ -24,6 +24,10 @@ public class ShowOrderResponse implements Serializable {
     @SerializedName("price_amount")
     @Expose
     private Integer priceAmount;
+    @SerializedName("shopper_order_id")
+    @Expose
+    private Integer shopperOrderId;
+
     @SerializedName("personal_shopper_cost")
     @Expose
     private Integer personalShopperCost;
@@ -78,6 +82,15 @@ public class ShowOrderResponse implements Serializable {
     @SerializedName("transactionOrders")
     @Expose
     private List<Object> transactionOrders = null;
+
+    public Integer getShopperOrderId() {
+        return shopperOrderId;
+    }
+
+    public void setShopperOrderId(Integer shopperOrderId) {
+        this.shopperOrderId = shopperOrderId;
+    }
+
 
     public Integer getId() {
         return id;
