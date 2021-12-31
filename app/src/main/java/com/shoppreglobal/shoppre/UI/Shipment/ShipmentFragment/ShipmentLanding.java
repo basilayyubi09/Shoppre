@@ -135,6 +135,7 @@ public class ShipmentLanding extends Fragment {
     LinearLayout uploadInvoiceArrowHome;
     TextView invoiceUploadedHome;
     int strResponse;
+    Dialog dialog1;
 
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
@@ -297,13 +298,22 @@ public class ShipmentLanding extends Fragment {
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setContentView(R.layout.upload_invoice_dialog_box);
 
         RecyclerView uploadInvoiceRecycler;
+        ImageView closeBtn;
 
 
         uploadInvoiceRecycler = dialog.findViewById(R.id.uploadInvoiceRecycler);
+        closeBtn = dialog.findViewById(R.id.closeBtn);
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
 
         uploadInvoicePackagesApi(uploadInvoiceRecycler, dialog);
@@ -335,6 +345,8 @@ public class ShipmentLanding extends Fragment {
 
                             uploadInvoiceArrowHome = uploadInvoiceArrow;
                             invoiceUploadedHome = invoiceUploaded;
+                            dialog1 = dialog;
+
 
                         }
 
@@ -1110,6 +1122,7 @@ public class ShipmentLanding extends Fragment {
                 Toast.makeText(getActivity(), "Invoice upload successfully", Toast.LENGTH_SHORT).show();
                 uploadInvoiceArrowHome.setVisibility(View.GONE);
                 invoiceUploadedHome.setVisibility(View.VISIBLE);
+                dialog1.dismiss();
             }else {
                 Toast.makeText(getActivity(), "Invoice upload Failed", Toast.LENGTH_SHORT).show();
             }

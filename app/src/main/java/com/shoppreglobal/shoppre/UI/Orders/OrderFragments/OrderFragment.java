@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.shoppreglobal.shoppre.Utils.LandingDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.tooltip.Tooltip;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class OrderFragment extends Fragment {
     MaterialButton addYourFirstOrderBtn, verifyEmailBtn, submit, shippingCalculator, addNewOrderBtn, forgotContinueBtn;
     SharedPrefManager sharedPrefManager;
     RecyclerView orderRecycler;
-    CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething;
+    CardView banner, ordersCard, verifyEmailBox, virtualAddressCard, shippingCalculatorCard, sevenDay, forgetSomething, helpAndFaqCard;
     FrameLayout main;
     TextView bannerVirtualAddress;
 
@@ -104,9 +106,7 @@ public class OrderFragment extends Fragment {
         cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCardAddress);
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
-
-
-
+        helpAndFaqCard = view.findViewById(R.id.helpAndFaqCard);
 
 
         Intent intent = getActivity().getIntent();
@@ -282,6 +282,9 @@ public class OrderFragment extends Fragment {
 
         return view;
     }
+
+
+
 
 
     private void callGetOrderListing() {

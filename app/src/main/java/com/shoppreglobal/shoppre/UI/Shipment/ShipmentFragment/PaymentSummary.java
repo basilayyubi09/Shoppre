@@ -54,7 +54,8 @@ public class PaymentSummary extends Fragment {
     TextView tvShipmentLevelCharges, tvDiscardShoesBox, tvExpressProcessing, tvSpecialItemClearance, tvGiftNote, tvGiftWrap, tvOverWeight, tvCommercialShipment, tvOutsideDeliveryArea, tvPickupCharges;
     TextView tvDelayCharges, tvAdditionalStorage, tvPaymentDelayFees, tvServiceChargeTotal, tvShippingCharge, tvServiceCharge, tvDiscountOrAdditional, tvPackageLevelDiscount, tvShipmentLevelCharges2, tvMemberShipSavings, tvShippingChargeDiscount, tvFinalShippingCharges, actualWeightText;
     LinearLayout additionalStorageLayout, paymentDelayLayout, packageLevelLayout, packageLevelChargesLayout, boxWeight, shippingLevelLayout;
-
+    LinearLayout membershipSavingLayout, membershipChild1, membershipChild2;
+    TextView shippingLevelChargeTitle, tvServiceChargeDiscount;
     ViewPager viewPager;
     PaymentSummaryViewPagerAdapter viewPagerAdapter;
     TabLayout paymentSummaryTabLayout;
@@ -169,6 +170,11 @@ public class PaymentSummary extends Fragment {
         boxDimensionLayout = view.findViewById(R.id.boxDimensionLayout);
         volumetricWeightLayout = view.findViewById(R.id.volumetricWeightLayout);
         shippingLevelLayout = view.findViewById(R.id.shippingLevelLayout);
+        shippingLevelChargeTitle = view.findViewById(R.id.shippingLevelChargeTitle);
+        membershipSavingLayout = view.findViewById(R.id.membershipSavingLayout);
+        membershipChild1 = view.findViewById(R.id.membershipChild1);
+        membershipChild2 = view.findViewById(R.id.membershipChild2);
+        tvServiceChargeDiscount = view.findViewById(R.id.tvServiceChargeDiscount);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -184,7 +190,7 @@ public class PaymentSummary extends Fragment {
         shipmentUpdates = new ShipmentUpdates();
 
         Bundle bundle1 = new Bundle();
-        bundle1.putInt("id",shipmentId);
+        bundle1.putInt("id", shipmentId);
         shipmentDetails.setArguments(bundle1);
         shipmentUpdates.setArguments(bundle1);
 
@@ -194,7 +200,6 @@ public class PaymentSummary extends Fragment {
         viewPager.setAdapter(viewPagerAdapter);
 
         paymentSummaryTabLayout.setupWithViewPager(viewPager);
-
 
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
@@ -276,47 +281,44 @@ public class PaymentSummary extends Fragment {
         addressPhoneNo.setText(modelResponse.getShipment().getPhone());
 
 
-
-
-        if (modelResponse.getShippingChargeSummary().getTotalItemValue()!=null){
-            if (modelResponse.getShippingChargeSummary().getTotalItemValue()!=0){
+        if (modelResponse.getShippingChargeSummary().getTotalItemValue() != null) {
+            if (modelResponse.getShippingChargeSummary().getTotalItemValue() != 0) {
                 tvTotalItemValue.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getTotalItemValue()));
-            }else {
+            } else {
                 totalItemLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             totalItemLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getShippingChargeSummary().getTotalPackageCount()!=null){
-            if(modelResponse.getShippingChargeSummary().getTotalPackageCount()!=0){
+        if (modelResponse.getShippingChargeSummary().getTotalPackageCount() != null) {
+            if (modelResponse.getShippingChargeSummary().getTotalPackageCount() != 0) {
                 tvTotalPackageCount.setText(String.valueOf(modelResponse.getShippingChargeSummary().getTotalPackageCount()));
-            }else {
+            } else {
                 totalPackageCountLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             totalPackageCountLayout.setVisibility(View.GONE);
         }
 
-        if (modelResponse.getShippingChargeSummary().getBoxWeights().size()==1){
+        if (modelResponse.getShippingChargeSummary().getBoxWeights().size() == 1) {
 
             actualWeightLayout.setVisibility(LinearLayout.VISIBLE);
             boxDimensionLayout.setVisibility(View.VISIBLE);
             volumetricWeightLayout.setVisibility(View.VISIBLE);
 
-                tvActualWeight.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getActualWeight()));
-                tvBoxDimenson.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxLength()+"*"+modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxWidth()+"*"+modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxHeight()+" cm"));
-                tvVolumetricWeight.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getVolumetricWeight()));
-                boxRecycler.setVisibility(View.GONE);
-                boxWeight.setVisibility(View.GONE);
+            tvActualWeight.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getActualWeight()));
+            tvBoxDimenson.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxLength() + "*" + modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxWidth() + "*" + modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getBoxHeight() + " cm"));
+            tvVolumetricWeight.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBoxWeights().get(0).getVolumetricWeight()));
+            boxRecycler.setVisibility(View.GONE);
+            boxWeight.setVisibility(View.GONE);
 
-        }else {
+        } else {
 
             actualWeightLayout.setVisibility(LinearLayout.GONE);
             boxDimensionLayout.setVisibility(View.GONE);
             volumetricWeightLayout.setVisibility(View.GONE);
-
 
 
             boxWeight.setVisibility(View.VISIBLE);
@@ -325,8 +327,6 @@ public class PaymentSummary extends Fragment {
             boxWeightAdapter = new BoxWeightAdapter(list, getActivity());
             boxRecycler.setAdapter(boxWeightAdapter);
         }
-
-
 
 
 //        if (modelResponse.getShippingChargeSummary().getBoxWeights().size() < 1) {
@@ -365,70 +365,68 @@ public class PaymentSummary extends Fragment {
 //        }
 
 
-        if (modelResponse.getShippingChargeSummary().getFinalChargeableWeight()!=null){
-            if (modelResponse.getShippingChargeSummary().getFinalChargeableWeight()!=0){
+        if (modelResponse.getShippingChargeSummary().getFinalChargeableWeight() != null) {
+            if (modelResponse.getShippingChargeSummary().getFinalChargeableWeight() != 0) {
                 tvFinalChargeableWeight.setText(String.valueOf(modelResponse.getShippingChargeSummary().getFinalChargeableWeight() + " Kg"));
-            }else {
+            } else {
                 finalChargeableLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             finalChargeableLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getShippingChargeSummary().getSubTotal()!=null){
-            if (modelResponse.getShippingChargeSummary().getSubTotal()!=0){
+        if (modelResponse.getShippingChargeSummary().getSubTotal() != null) {
+            if (modelResponse.getShippingChargeSummary().getSubTotal() != 0) {
                 tvSubTotal.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getSubTotal()));
-            }else {
+            } else {
                 subTotalLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             subTotalLayout.setVisibility(View.GONE);
         }
 
 
-
-        if (modelResponse.getShippingChargeSummary().getShippingDiscount()!=null){
-            if (modelResponse.getShippingChargeSummary().getShippingDiscount()!=0){
+        if (modelResponse.getShippingChargeSummary().getShippingDiscount() != null) {
+            if (modelResponse.getShippingChargeSummary().getShippingDiscount() != 0) {
                 tvShippingDiscount.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getShippingDiscount()));
-            }else {
+            } else {
                 shippingDiscountLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             shippingDiscountLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=null){
-            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=0){
+        if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != null) {
+            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != 0) {
                 tvBasicShippingChargeTotal.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
-            }else {
+            } else {
                 basicShippingChargeTotalLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             basicShippingChargeTotalLayout.setVisibility(View.GONE);
         }
 
 
-
-        if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=null){
-            if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=0){
+        if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount() != null) {
+            if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount() != 0) {
                 tvMemberShipDiscount.setText(String.valueOf("-₹" + modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()));
-            }else {
+            } else {
                 memberShipDiscountLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             memberShipDiscountLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=null){
-            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=0){
-                tvShippingChargeTotal.setText(String.valueOf("₹ "+modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
-            }else {
+        if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != null) {
+            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != 0) {
+                tvShippingChargeTotal.setText(String.valueOf("₹ " + modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
+            } else {
                 tvShippingChargeTotal.setText("₹0");
             }
-        }else {
+        } else {
             tvShippingChargeTotal.setText("₹0");
         }
 
@@ -440,126 +438,121 @@ public class PaymentSummary extends Fragment {
 //        }
 
 
-
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcChargesTotal()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcChargesTotal()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcChargesTotal() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcChargesTotal() != 0) {
                 tvPackageLevelCharges.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcChargesTotal()));
-            }else {
+            } else {
                 tvPackageLevelCharges.setText("₹0");
             }
-        }else {
+        } else {
             tvPackageLevelCharges.setText("₹0");
         }
 
 
-
 //////package Consolidation
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount()!=0){
-                tvPackageConsolidation.setText(String.valueOf("₹"+modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount()));
-            }else {
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount() != 0) {
+                tvPackageConsolidation.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getConsolidationChargeAmount()));
+            } else {
                 packageConsolidationLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             packageConsolidationLayout.setVisibility(View.GONE);
         }
 
 
         ////////
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount()!=0){
-                tvViewPhoto.setText(String.valueOf("₹"+modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount()));
-            }else {
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount() != 0) {
+                tvViewPhoto.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPhotoAmount()));
+            } else {
                 viewPhotoLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             viewPhotoLayout.setVisibility(View.GONE);
         }
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getSplitPackageAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getSplitPackageAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getSplitPackageAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getSplitPackageAmount() != 0) {
                 tvSplitPackage.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getSplitPackageAmount()));
-            }else {
+            } else {
                 splitPackageLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             splitPackageLayout.setVisibility(View.GONE);
         }
 
 
-
-
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn()!=0){
-                tvPackageReturn.setText(String.valueOf("₹"+modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn()));
-            }else {
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn() != 0) {
+                tvPackageReturn.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPackageReturn()));
+            } else {
                 packageReturnLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             packageReturnLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getWrongAddressAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getWrongAddressAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getWrongAddressAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getWrongAddressAmount() != 0) {
                 tvWrongAddress.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getWrongAddressAmount()));
-            }else {
+            } else {
                 wrongAddressLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             wrongAddressLayout.setVisibility(View.GONE);
         }
 
 
-
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getScanDocumentAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getScanDocumentAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getScanDocumentAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getScanDocumentAmount() != 0) {
                 tvScanDocument.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getScanDocumentAmount()));
-            }else {
+            } else {
                 scanDocumentLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             scanDocumentLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getReceiveMailAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getReceiveMailAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getReceiveMailAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getReceiveMailAmount() != 0) {
                 tvReceiveMail.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getReceiveMailAmount()));
-            }else {
+            } else {
                 receiveMailLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             receiveMailLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount() != 0) {
                 tvPickupAmount.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()));
-            }else {
+            } else {
                 pickUpAmountLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             pickUpAmountLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount() != 0) {
                 tvShipmentLevelCharges.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()));
-            }else {
+            } else {
                 shipmentLevelChargesLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             shipmentLevelChargesLayout.setVisibility(View.GONE);
         }
 
 ///////discard ShoesBox condition here
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRepackingChargeAmount()!=null) {
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRepackingChargeAmount()!=0) {
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRepackingChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRepackingChargeAmount() != 0) {
                 tvDiscardShoesBox.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getRepackingChargeAmount()));
             } else {
                 discardShoeBoxLayout.setVisibility(View.GONE);
@@ -569,20 +562,19 @@ public class PaymentSummary extends Fragment {
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getExpressProcessingChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getExpressProcessingChargeAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getExpressProcessingChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getExpressProcessingChargeAmount() != 0) {
                 tvExpressProcessing.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getExpressProcessingChargeAmount()));
-            }else {
+            } else {
                 expressProcessingLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             expressProcessingLayout.setVisibility(View.GONE);
         }
 
 
-
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getLiquidChargeAmount()!=null) {
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getLiquidChargeAmount()!=0) {
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getLiquidChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getLiquidChargeAmount() != 0) {
                 tvSpecialItemClearance.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getLiquidChargeAmount()));
             } else {
                 specialItemClearanceLayout.setVisibility(View.GONE);
@@ -592,83 +584,82 @@ public class PaymentSummary extends Fragment {
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftNoteChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftNoteChargeAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftNoteChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftNoteChargeAmount() != 0) {
                 tvGiftNote.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftNoteChargeAmount()));
-            }else {
+            } else {
                 giftNoteLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             giftNoteLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftWrapChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftWrapChargeAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftWrapChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftWrapChargeAmount() != 0) {
                 tvGiftWrap.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getGiftWrapChargeAmount()));
-            }else {
+            } else {
                 giftWrapLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             giftWrapLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getOverweightChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getOverweightChargeAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getOverweightChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getOverweightChargeAmount() != 0) {
                 tvOverWeight.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getOverweightChargeAmount()));
-            }else {
+            } else {
                 overWeightLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             overWeightLayout.setVisibility(View.GONE);
         }
 
 
-       if (modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount()!=null){
-           if (modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount()!=0){
-               tvCommercialShipment.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount()));
-           }else {
-               commercialShipmentLayout.setVisibility(View.GONE);
-           }
-       }else {
-           commercialShipmentLayout.setVisibility(View.GONE);
-       }
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount() != 0) {
+                tvCommercialShipment.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getCommercialChargeAmount()));
+            } else {
+                commercialShipmentLayout.setVisibility(View.GONE);
+            }
+        } else {
+            commercialShipmentLayout.setVisibility(View.GONE);
+        }
 
 
         ////////////Outside Delivery Area Condition here
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount()!=0){
-                tvOutsideDeliveryArea.setText(String.valueOf("₹"+modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount()));
-            }else {
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount() != 0) {
+                tvOutsideDeliveryArea.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentMeta().getRemoteAreaChargeAmount()));
+            } else {
                 outSideDeliveryAreaLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             outSideDeliveryAreaLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()!=0){
+        if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount() != null) {
+            if (modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount() != 0) {
                 tvPickupCharges.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getOriginalPlcCharges().getPickupAmount()));
-            }else {
+            } else {
                 pickupChargesLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             pickupChargesLayout.setVisibility(View.GONE);
         }
 
-       if (modelResponse.getServiceChargesSummary().getDelayCharges()!=null){
-           if (modelResponse.getServiceChargesSummary().getDelayCharges()!=0){
-               tvDelayCharges.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getDelayCharges()));
-           }else {
-               tvDelayCharges.setText("0");
-           }
-       }else {
-           tvDelayCharges.setText("0");
-       }
-
+        if (modelResponse.getServiceChargesSummary().getDelayCharges() != null) {
+            if (modelResponse.getServiceChargesSummary().getDelayCharges() != 0) {
+                tvDelayCharges.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getDelayCharges()));
+            } else {
+                tvDelayCharges.setText("0");
+            }
+        } else {
+            tvDelayCharges.setText("0");
+        }
 
 
         /////additional Storage fees condition here
@@ -684,7 +675,7 @@ public class PaymentSummary extends Fragment {
 //        }
 
 
-        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getPaymentDelayCharges()!=null) {
+        if (modelResponse.getServiceChargesSummary().getShipmentMeta().getPaymentDelayCharges() != null) {
             if (modelResponse.getServiceChargesSummary().getShipmentMeta().getPaymentDelayCharges() == 0) {
                 paymentDelayLayout.setVisibility(View.GONE);
             } else {
@@ -694,102 +685,115 @@ public class PaymentSummary extends Fragment {
             paymentDelayLayout.setVisibility(View.GONE);
         }
 
-        if (modelResponse.getServiceChargesSummary().getServiceChargesTotal()!=null){
-            if (modelResponse.getServiceChargesSummary().getServiceChargesTotal()!=0){
+        if (modelResponse.getServiceChargesSummary().getServiceChargesTotal() != null) {
+            if (modelResponse.getServiceChargesSummary().getServiceChargesTotal() != 0) {
                 tvServiceChargeTotal.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getServiceChargesTotal()));
-            }else {
+            } else {
                 tvServiceChargeTotal.setText("₹0");
             }
-        }else {
+        } else {
             tvServiceChargeTotal.setText("₹0");
         }
 
 
-
-
-            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=null){
-                if (modelResponse.getShippingChargeSummary().getBasicShippingCosts()!=0){
-                    tvShippingCharge.setText(String.valueOf(modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
-                }else {
-                    shippingLevelLayout.setVisibility(View.GONE);
-                }
-            }else {
+        if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != null) {
+            if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != 0) {
+                tvShippingCharge.setText(String.valueOf("₹" +modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
+            } else {
                 shippingLevelLayout.setVisibility(View.GONE);
             }
+        } else {
+            shippingLevelLayout.setVisibility(View.GONE);
+        }
 
 ///////////////////////////////////////////////////////////////////////
 
-        if (modelResponse.getServiceChargesSummary().getServiceChargesTotal()!=null){
-            if (modelResponse.getServiceChargesSummary().getServiceChargesTotal()!=0){
+        if (modelResponse.getServiceChargesSummary().getServiceChargesTotal() != null) {
+            if (modelResponse.getServiceChargesSummary().getServiceChargesTotal() != 0) {
                 tvServiceCharge.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getServiceChargesTotal()));
-            }else {
+            } else {
                 tvServiceCharge.setText("₹0");
             }
-        }else {
+        } else {
             tvServiceCharge.setText("₹0");
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getDiscountOrAdditionalCharges()!=null){
-            if (modelResponse.getServiceChargesSummary().getDiscountOrAdditionalCharges()!=0){
+        if (modelResponse.getServiceChargesSummary().getDiscountOrAdditionalCharges() != null) {
+            if (modelResponse.getServiceChargesSummary().getDiscountOrAdditionalCharges() != 0) {
                 tvDiscountOrAdditional.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getDiscountOrAdditionalCharges()));
-            }else {
+            } else {
                 tvDiscountOrAdditional.setText("₹0");
             }
-        }else {
+        } else {
             tvDiscountOrAdditional.setText("₹0");
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getPackageLevelDiscount()!=null){
-            if (modelResponse.getServiceChargesSummary().getPackageLevelDiscount()!=0){
+        if (modelResponse.getServiceChargesSummary().getPackageLevelDiscount() != null) {
+            if (modelResponse.getServiceChargesSummary().getPackageLevelDiscount() != 0) {
                 tvPackageLevelDiscount.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getPackageLevelDiscount()));
-            }else {
+            } else {
                 packageLevelLayout.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             packageLevelLayout.setVisibility(View.GONE);
         }
 
 
-
-        if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()!=null){
-            if (modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()!=0){
-                tvShipmentLevelCharges2.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getShipmentLevelChargesAmount()));
-            }else {
-                tvShipmentLevelCharges2.setText("₹0");
+        if (modelResponse.getShippingChargeSummary().getShippingDiscount() != null) {
+            if (modelResponse.getShippingChargeSummary().getShippingDiscount() > 0) {
+                shippingLevelChargeTitle.setText("Shipping Discount");
+                tvShipmentLevelCharges2.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getShippingDiscount()));
+            } else if (modelResponse.getShippingChargeSummary().getShippingDiscount() < 0) {
+                shippingLevelChargeTitle.setText("Shipping Additional charges");
+                tvShipmentLevelCharges2.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getShippingDiscount()));
             }
-        }else {
-            tvShipmentLevelCharges2.setText("₹0");
+        } else {
+            shippingLevelLayout.setVisibility(View.GONE);
         }
 
 
-        if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=null){
-            if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=0){
+        if (modelResponse.getShipment().getIsMembershipPlanApplied() != null) {
+            if (modelResponse.getShipment().getIsMembershipPlanApplied() == 0) {
+                membershipSavingLayout.setVisibility(View.GONE);
+                membershipChild1.setVisibility(View.GONE);
+                membershipChild2.setVisibility(View.GONE);
+            } else {
                 tvMemberShipSavings.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()));
-            }else {
-                tvMemberShipSavings.setText("₹0");
+                tvShippingChargeDiscount.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getMembershipShippingDiscount()));
+                tvServiceChargeDiscount.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getMembershipServiceChargeDiscount()));
             }
-        }else {
-            tvMemberShipSavings.setText("₹0");
+        } else {
+            membershipSavingLayout.setVisibility(View.GONE);
+            membershipChild1.setVisibility(View.GONE);
+            membershipChild2.setVisibility(View.GONE);
         }
 
 
+//        if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=null){
+//            if (modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()!=0){
+//                tvMemberShipSavings.setText(String.valueOf("₹" + modelResponse.getServiceChargesSummary().getMembershipTotalDiscount()));
+//            }else {
+//                tvMemberShipSavings.setText("₹0");
+//            }
+//        }else {
+//            tvMemberShipSavings.setText("₹0");
+//        }
 
 
 //        tvShippingChargeDiscount.setText("Shipping Charge Discount " + "(" + modelResponse.getServiceChargesSummary().getMembershipShippingDiscount() + "%)");
 
 
-        if (modelResponse.getShipment().getEstimatedAmount()!=null){
-            if (modelResponse.getShipment().getEstimatedAmount()!=0){
-                tvFinalShippingCharges.setText(String.valueOf("₹ "+modelResponse.getShipment().getEstimatedAmount()));
-            }else {
+        if (modelResponse.getShipment().getEstimatedAmount() != null) {
+            if (modelResponse.getShipment().getEstimatedAmount() != 0) {
+                tvFinalShippingCharges.setText(String.valueOf("₹ " + modelResponse.getShipment().getEstimatedAmount()));
+            } else {
                 tvFinalShippingCharges.setText("₹ 00.00");
             }
-        }else {
+        } else {
             tvFinalShippingCharges.setText("₹ 00.00");
         }
-
 
 
     }

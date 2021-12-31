@@ -112,6 +112,7 @@
 
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/helpAndFaqCard"
                         android:layout_width="114dp"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="5dp"

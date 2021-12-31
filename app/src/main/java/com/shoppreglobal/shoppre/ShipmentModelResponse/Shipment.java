@@ -37,6 +37,9 @@ public class Shipment {
     @SerializedName("phone")
     @Expose
     private String phone;
+    @SerializedName("is_membership_plan_applied")
+    @Expose
+    private Integer isMembershipPlanApplied;
     @SerializedName("final_amount")
     @Expose
     private Integer finalAmount;
@@ -109,6 +112,16 @@ public class Shipment {
     @SerializedName("PackageUserCharges")
     @Expose
     private List<Object> packageUserCharges = null;
+
+
+    public Integer getIsMembershipPlanApplied() {
+        return isMembershipPlanApplied;
+    }
+
+    public void setIsMembershipPlanApplied(Integer isMembershipPlanApplied) {
+        this.isMembershipPlanApplied = isMembershipPlanApplied;
+    }
+
 
     public String getTracking_url() {
         return tracking_url;
