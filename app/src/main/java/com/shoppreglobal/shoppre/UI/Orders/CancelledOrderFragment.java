@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.CancelledApiResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.IncomingPkg;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
@@ -36,6 +37,7 @@ public class CancelledOrderFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     RecyclerView recycle;
     List<Order> list;
+    List<IncomingPkg> list1;
     TextView text;
     OrdersAdapter ordersAdapter;
     CardView cancelOrderVirtualAddressCard, cancelOrderShippingCalculatorCard, cancelOrderFaqAndHelpCard;
@@ -73,6 +75,7 @@ public class CancelledOrderFragment extends Fragment {
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
@@ -93,14 +96,15 @@ public class CancelledOrderFragment extends Fragment {
                 if (response.code() == 201) {
 
                     list = response.body().getOrders();
-                    ordersAdapter = new OrdersAdapter(list, getContext());
+                    list1 = response.body().getIncomingPkgs();
+                    ordersAdapter = new OrdersAdapter(list, list1, getContext());
                     recycle.setLayoutManager(linearLayoutManager);
                     recycle.setAdapter(ordersAdapter);
 
                     int number = recycle.getAdapter().getItemCount();
                     if (number == 0) {
-                       recycle.setVisibility(View.GONE);
-                       text.setVisibility(View.VISIBLE);
+                        recycle.setVisibility(View.GONE);
+                        text.setVisibility(View.VISIBLE);
 
                     } else {
                         recycle.setVisibility(View.VISIBLE);
@@ -108,11 +112,9 @@ public class CancelledOrderFragment extends Fragment {
                     }
                     ordersAdapter.notifyDataSetChanged();
                     LoadingDialog.cancelLoading();
-                }
-                else if (response.code() == 401) {
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();

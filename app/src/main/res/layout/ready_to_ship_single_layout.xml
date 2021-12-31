@@ -125,14 +125,7 @@
             android:textSize="8sp"
             android:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Free Locker Days exceeded"
-            android:textColor="#EF5261"
-            android:textFontWeight="500"
-            android:textSize="8sp" />
+
 
         <TextView
 

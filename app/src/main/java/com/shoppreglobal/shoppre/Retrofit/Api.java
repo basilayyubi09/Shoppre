@@ -1,6 +1,7 @@
 package com.shoppreglobal.shoppre.Retrofit;
 
 import com.shoppreglobal.shoppre.AccountResponse.AccessTokenResponse;
+import com.shoppreglobal.shoppre.AccountResponse.ChangePasswordResponse;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.AccountResponse.VerifyEmailResponse;
@@ -18,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Api {
@@ -138,5 +140,14 @@ public interface Api {
     Call<VerifyEmailResponse> getVerify(
             @Header("Authorization") String auth,
             @Path("id") int id
+    );
+
+    //https://uat-login.shoppreglobal.com/api/users/100376/changePassword
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/users/{id}/changePassword")
+    Call<ChangePasswordResponse> changePassword(
+            @Header("Authorization") String auth,
+            @Path("id") Integer id
+            ,@Body String object
     );
 }
