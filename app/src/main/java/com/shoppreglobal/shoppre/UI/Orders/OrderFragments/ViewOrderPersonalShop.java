@@ -4,11 +4,9 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.downloader.Error;
@@ -40,34 +39,22 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ViewOrderViewPagerAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.ShowOrderResponse;
+import com.shoppreglobal.shoppre.OrderModuleResponses.ViewSelfShopperResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.DownloadInvoiceModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderDetails;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,15 +67,17 @@ public class ViewOrderPersonalShop extends Fragment {
     TabLayout viewOrderTabLayout;
     ViewPager viewOrderViewPager;
     String orderCode;
+    CircleImageView singleOrderImage;
     TextView websiteName, status, orderNumberText, date, tvDownloadInvoice;
     ViewOrderViewPagerAdapter viewPagerAdapter;
     Bundle bundle;
-    String id;
+    String id, dateString, type, imageUrl;
     String url;
-    String testingUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
-    File outputFile;
+    OrderDetails orderDetails;
+    OrderUpdates orderUpdates;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -106,31 +95,28 @@ public class ViewOrderPersonalShop extends Fragment {
         orderNumberText = view.findViewById(R.id.orderNumberText);
         date = view.findViewById(R.id.date);
         tvDownloadInvoice = view.findViewById(R.id.tvDownloadInvoice);
+        singleOrderImage = view.findViewById(R.id.singleOrderImage);
 
         bundle = this.getArguments();
-        OrderDetails orderDetails = new OrderDetails();
-        OrderUpdates orderUpdates = new OrderUpdates();
+        orderDetails = new OrderDetails();
+        orderUpdates = new OrderUpdates();
         if (bundle != null) {
             orderCode = getArguments().getString("orderCode");
             id = getArguments().getString("id");
+            dateString = getArguments().getString("date");
+            type = getArguments().getString("type");
         }
-        callShowOrderApi();
 
 
-        bundle.putString("orderCode", orderCode);
-        bundle.putString("id" , id);
-        orderDetails.setArguments(bundle);
-        orderUpdates.setArguments(bundle);
+        if (type.equals("ss")) {
+            callViewSelfShopperApi();
+        } else {
+            LoadingDialog.showLoadingDialog(getActivity(), "");
+            callShowOrderApi();
+        }
 
 
 
-
-        viewPagerAdapter = new ViewOrderViewPagerAdapter(getChildFragmentManager());
-
-        viewPagerAdapter.addFragment(orderDetails, "Order Details");
-        viewPagerAdapter.addFragment(orderUpdates, "Order Updates");
-        viewOrderViewPager.setAdapter(viewPagerAdapter);
-        viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
 
         tvDownloadInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +128,64 @@ public class ViewOrderPersonalShop extends Fragment {
 
 
         return view;
+    }
+
+    private void callViewSelfShopperApi() {
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<ViewSelfShopperResponse> call = RetrofitClient3.getInstance3().getAppApi().viewSelfShopper(
+                "Bearer " + sharedPrefManager.getBearerToken(), id);
+        call.enqueue(new Callback<ViewSelfShopperResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<ViewSelfShopperResponse> call, Response<ViewSelfShopperResponse> response) {
+                if (response.code() == 200) {
+                    dateString = response.body().getPkg().getCreatedAt();
+                    imageUrl = response.body().getPkg().getInvoice();
+                    String[] split = dateString.split("T");
+                    String date1 = split[0];
+
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+                    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+                    LocalDate ld = LocalDate.parse(date1, dtf);
+                    String month_name = dtf2.format(ld);
+
+                    date.setText(month_name);
+                    if (response.body().getPkg().getStore()!=null){
+                        websiteName.setText(response.body().getPkg().getStore().getName());
+                        orderNumberText.setText("#" + response.body().getPkg().getId());
+                        status.setText(response.body().getPkg().getPackageState().getState().getName());
+
+                        singleOrderImage.setImageResource(R.drawable.ic_self_shopper);
+                    }
+
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putString("imageUrl", imageUrl);
+                    bundle.putString("id", id);
+                    orderDetails.setArguments(bundle);
+                    orderUpdates.setArguments(bundle);
+
+                    viewPagerAdapter = new ViewOrderViewPagerAdapter(getChildFragmentManager());
+
+                    viewPagerAdapter.addFragment(orderDetails, "Order Details");
+                    viewPagerAdapter.addFragment(orderUpdates, "Order Updates");
+                    viewOrderViewPager.setAdapter(viewPagerAdapter);
+                    viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("self");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ViewSelfShopperResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void downloadOrderInvoice() {
@@ -286,7 +330,6 @@ public class ViewOrderPersonalShop extends Fragment {
 //    }
 
 
-
     private void callShowOrderApi() {
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
@@ -300,16 +343,27 @@ public class ViewOrderPersonalShop extends Fragment {
             public void onResponse(Call<ShowOrderResponse> call, Response<ShowOrderResponse> response) {
                 if (response.code() == 200) {
 
-                    if (response.body().getSellerInvoice()!=null){
+                    if (response.body().getSellerInvoice() != null) {
                         url = response.body().getSellerInvoice();
                     }
 
 
                     addTextToFields(response.body());
 
+                    bundle.putString("orderCode", orderCode);
+                    bundle.putString("imageUrl", imageUrl);
+                    bundle.putString("id", id);
+                    orderDetails.setArguments(bundle);
+                    orderUpdates.setArguments(bundle);
 
+                    viewPagerAdapter = new ViewOrderViewPagerAdapter(getChildFragmentManager());
+
+                    viewPagerAdapter.addFragment(orderDetails, "Order Details");
+                    viewPagerAdapter.addFragment(orderUpdates, "Order Updates");
+                    viewOrderViewPager.setAdapter(viewPagerAdapter);
+                    viewOrderTabLayout.setupWithViewPager(viewOrderViewPager);
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("personal");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -326,7 +380,7 @@ public class ViewOrderPersonalShop extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String type) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -337,7 +391,12 @@ public class ViewOrderPersonalShop extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callShowOrderApi();
+                    if (type.equals("self")) {
+                        callViewSelfShopperApi();
+                    } else {
+                        callShowOrderApi();
+                    }
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);

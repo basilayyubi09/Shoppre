@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -24,12 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
+import com.shoppreglobal.shoppre.OrderModuleResponses.IncomingPkg;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderState__1;
@@ -45,7 +43,6 @@ import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LandingDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,6 +66,7 @@ public class OrderFragment extends Fragment {
 
 
     List<Order> list;
+    List<IncomingPkg> list1;
     LinearLayout orderListing, secondContainer;
     OrdersAdapter ordersAdapter;
     LinearLayout cancel;
@@ -106,9 +104,6 @@ public class OrderFragment extends Fragment {
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
 
 
-
-
-
         Intent intent = getActivity().getIntent();
         String action = intent.getAction();
         if (action != null && action.equals(Intent.ACTION_VIEW)) {
@@ -125,6 +120,7 @@ public class OrderFragment extends Fragment {
 
 
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
 
         setupUI(main);
 
@@ -137,6 +133,7 @@ public class OrderFragment extends Fragment {
             LoadingDialog.showLoadingDialog(getActivity(), "");
             callMeApi(sharedPrefManager.getBearerToken());
         }
+
 
         //check if orderCode Value stored in shared pref
         //According to this value will show and hide forget something block
@@ -171,7 +168,7 @@ public class OrderFragment extends Fragment {
         shippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
                         .addToBackStack(null).commit();
 
@@ -181,6 +178,7 @@ public class OrderFragment extends Fragment {
         shippingCalculator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
                         .addToBackStack(null).commit();
             }
@@ -262,23 +260,23 @@ public class OrderFragment extends Fragment {
         });
 
 
-        ordersAdapter = new OrdersAdapter(list, getContext());
-        orderRecycler.setAdapter(ordersAdapter);
-
+//        ordersAdapter = new OrdersAdapter(list, getContext());
+//        orderRecycler.setAdapter(ordersAdapter);
+//
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         orderRecycler.setLayoutManager(linearLayoutManager);
 
-        int number = orderRecycler.getAdapter().getItemCount();
-        if (number == 0) {
-            banner.setVisibility(View.VISIBLE);
-            ordersCard.setVisibility(View.VISIBLE);
-            orderListing.setVisibility(View.GONE);
-        } else {
-            banner.setVisibility(View.GONE);
-            ordersCard.setVisibility(View.GONE);
-            orderListing.setVisibility(View.VISIBLE);
-        }
-        ordersAdapter.notifyDataSetChanged();
+//        int number = orderRecycler.getAdapter().getItemCount();
+//        if (number == 0) {
+//            banner.setVisibility(View.VISIBLE);
+//            ordersCard.setVisibility(View.VISIBLE);
+//            orderListing.setVisibility(View.GONE);
+//        } else {
+//            banner.setVisibility(View.GONE);
+//            ordersCard.setVisibility(View.GONE);
+//            orderListing.setVisibility(View.VISIBLE);
+//        }
+//        ordersAdapter.notifyDataSetChanged();
 
         return view;
     }
@@ -296,7 +294,8 @@ public class OrderFragment extends Fragment {
                 if (response.code() == 201) {
 
                     list = response.body().getOrders();
-                    ordersAdapter = new OrdersAdapter(list, getContext());
+                    list1 = response.body().getIncomingPkgs();
+                    ordersAdapter = new OrdersAdapter(list, list1, getContext());
                     orderRecycler.setAdapter(ordersAdapter);
                     int number = orderRecycler.getAdapter().getItemCount();
                     if (number == 0) {

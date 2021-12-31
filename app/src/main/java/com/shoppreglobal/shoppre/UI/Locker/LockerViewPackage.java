@@ -201,6 +201,7 @@ public class LockerViewPackage extends Fragment {
         amount.setText("₹ " + String.valueOf(list.getPriceAmount()));
 
 
+
         if (list.getStateNameAndColor().getStateName().equals("In Review")) {
             comment.setText(list.getStateNameAndColor().getStateName());
             comment.setTextColor(getActivity().getColor(R.color.in_review_blue_color));
@@ -224,11 +225,12 @@ public class LockerViewPackage extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                } else {
                     callViewPackage();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

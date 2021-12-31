@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ViewOrderAdapter;
@@ -36,10 +40,10 @@ public class OrderDetails extends Fragment {
 
     List<OrderItem> list1 = new ArrayList<>();
     ViewOrderAdapter viewOrderAdapter;
-
+    ImageView image;
     TextView text;
     SharedPrefManager sharedPrefManager ;
-    String orderCode;
+    String orderCode , imageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,17 +52,36 @@ public class OrderDetails extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order_details, container, false);
         orderDetailsRecycler = view.findViewById(R.id.orderDetailsRecycler);
         text = view.findViewById(R.id.text);
+        image = view.findViewById(R.id.image);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         Bundle bundle = getArguments();
         if (bundle != null) {
 
             orderCode =  bundle.getString("orderCode");
+            imageUrl =  bundle.getString("imageUrl");
+
 
         }
 
-       LoadingDialog.showLoadingDialog(getActivity(),"");
-        callShowOrderApi();
+        if (orderCode.equals("null")){
+            orderDetailsRecycler.setVisibility(View.GONE);
+            CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(getActivity());
+            circularProgressDrawable.setStrokeWidth(5f);
+            circularProgressDrawable.setCenterRadius(30f);
+            circularProgressDrawable.start();
+            Glide.with(getActivity())
+                    .load(imageUrl)
+                    .placeholder(circularProgressDrawable)
+                    .into(image);
+            image.setVisibility(View.VISIBLE);
+        }
+        else {
+            LoadingDialog.showLoadingDialog(getActivity(),"");
+            callShowOrderApi();
+
+        }
+
 
 
         return view;
