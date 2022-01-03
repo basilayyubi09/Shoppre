@@ -350,6 +350,7 @@
                                 android:textSize="11sp" />
 
                             <EditText
+                                android:id="@+id/referralET"
                                 android:layout_width="match_parent"
                                 android:layout_height="24dp"
                                 android:layout_marginLeft="19dp"

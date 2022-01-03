@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -28,15 +27,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ThankYouFragment extends Fragment {
 
-    SharedPrefManager sharedPrefManager;
+
     LinearLayout address;
-    TextView shipment , order , shipment24 , orderId;
+    TextView shipment, order, shipment24, orderId, oneShopText;
     MaterialButton invite;
-    MaterialCardView note , addressCard;
-    LinearLayout viewOrder , viewShipment;
+    MaterialCardView note, addressCard, oneShop;
+    LinearLayout viewOrder, viewShipment;
     MaterialButton wtspBtn;
     Integer id;
-    CircleImageView facebook , instagram , youtube , linkedin , twitter;
+    String shopName;
+    CircleImageView facebook, instagram, youtube, linkedin, twitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +44,11 @@ public class ThankYouFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_thank_you, container, false);
         address = view.findViewById(R.id.address);
+        oneShop = view.findViewById(R.id.oneShop);
         facebook = view.findViewById(R.id.facebook);
         instagram = view.findViewById(R.id.instagram);
         youtube = view.findViewById(R.id.youtube);
+        oneShopText = view.findViewById(R.id.oneShopText);
         linkedin = view.findViewById(R.id.linkedin);
         twitter = view.findViewById(R.id.twitter);
         invite = view.findViewById(R.id.invite);
@@ -62,9 +64,9 @@ public class ThankYouFragment extends Fragment {
         addressCard = view.findViewById(R.id.addressCard);
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
 
-            if (bundle.getString("type").equals("summary")){
+            if (bundle.getString("type").equals("summary")) {
                 addressCard.setVisibility(View.GONE);
                 note.setVisibility(View.VISIBLE);
                 order.setVisibility(View.GONE);
@@ -73,14 +75,18 @@ public class ThankYouFragment extends Fragment {
                 orderId.setVisibility(View.GONE);
                 shipment.setVisibility(View.VISIBLE);
                 shipment24.setVisibility(View.VISIBLE);
-            }
-            else if (bundle.getString("type").equals("order")){
-             id = bundle.getInt("id");
+            } else if (bundle.getString("type").equals("order")) {
+                id = bundle.getInt("id");
+            } else if (bundle.getString("type").equals("selfOrder")) {
+                id = bundle.getInt("id");
+                shopName = bundle.getString("shopName");
+                oneShop.setVisibility(View.VISIBLE);
+                oneShopText.setText("Looks like you’ve added products only from " + shopName);
             }
 
         }
-        if (id!=null){
-            orderId.setText("#"+String.valueOf(id));
+        if (id != null) {
+            orderId.setText("Order ID: " + "#" + String.valueOf(id));
             viewOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,7 +102,7 @@ public class ThankYouFragment extends Fragment {
 
                 String link = "https://www.instagram.com/shoppre_official/";
                 String package1 = "com.instagram.android";
-                openLink(link ,package1);
+                openLink(link, package1);
 
             }
         });
@@ -107,7 +113,7 @@ public class ThankYouFragment extends Fragment {
 
                 String link = "https://www.facebook.com/shoppreofficial";
                 String package1 = "com.facebook.katana";
-                openLink(link ,package1);
+                openLink(link, package1);
 
             }
         });
@@ -117,7 +123,7 @@ public class ThankYouFragment extends Fragment {
 
                 String link = "https://www.youtube.com/shoppreofficial";
                 String package1 = "com.google.android.youtube";
-                openLink(link ,package1);
+                openLink(link, package1);
 
             }
         });
@@ -127,7 +133,7 @@ public class ThankYouFragment extends Fragment {
 
                 String link = "https://www.linkedin.com/company/shoppre.com";
                 String package1 = "com.linkedin.android";
-                openLink(link ,package1);
+                openLink(link, package1);
 
             }
         });
@@ -137,7 +143,7 @@ public class ThankYouFragment extends Fragment {
 
                 String link = "https://twitter.com/shoppreofficial";
                 String package1 = "com.twitter.android";
-                openLink(link ,package1);
+                openLink(link, package1);
 
             }
         });
@@ -175,7 +181,7 @@ public class ThankYouFragment extends Fragment {
         return view;
     }
 
-    private void openLink(String appLink, String aPackage ) {
+    private void openLink(String appLink, String aPackage) {
         try {
             Uri uri = Uri.parse(appLink);
 
@@ -184,8 +190,7 @@ public class ThankYouFragment extends Fragment {
             intent.setPackage(aPackage);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        catch (ActivityNotFoundException activityNotFoundException){
+        } catch (ActivityNotFoundException activityNotFoundException) {
             Uri uri = Uri.parse(appLink);
 
             Intent intent = new Intent(Intent.ACTION_VIEW);

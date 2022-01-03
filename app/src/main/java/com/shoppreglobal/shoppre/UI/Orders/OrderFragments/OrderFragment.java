@@ -29,15 +29,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
+import com.shoppreglobal.shoppre.AccountResponse.ReferralHistoryResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
+import com.shoppreglobal.shoppre.AccountResponse.SubmitReferralResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.IncomingPkg;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderListingResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderState__1;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.Retrofit.ReferralRetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
@@ -85,6 +89,7 @@ public class OrderFragment extends Fragment {
     LinearLayout cancel;
     OrderState__1 orderState;
     int flag = 0;
+    EditText referralET;
     Integer shoppreId, id;
     String url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
@@ -99,6 +104,7 @@ public class OrderFragment extends Fragment {
 
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
+        referralET = view.findViewById(R.id.referralET);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         helpAndFaq = view.findViewById(R.id.helpAndFaqCard);
         banner = view.findViewById(R.id.banner);
@@ -149,15 +155,6 @@ public class OrderFragment extends Fragment {
             callMeApi(sharedPrefManager.getBearerToken());
         }
 
-
-        //check if orderCode Value stored in shared pref
-        //According to this value will show and hide forget something block
-//        if (sharedPrefManager.getOrderCode().equals("")) {
-//            forgetSomething.setVisibility(View.GONE);
-//        } else {
-//            forgetSomething.setVisibility(View.VISIBLE);
-//        }
-
         bannerVirtualAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +191,7 @@ public class OrderFragment extends Fragment {
 
             }
         });
-    virtualAddressCard.setOnClickListener(new View.OnClickListener() {
+        virtualAddressCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -239,14 +236,6 @@ public class OrderFragment extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopper(), null)
                             .addToBackStack(null).commit();
                 }
-
-//                }
-//                else {
-//                    LandingDialog landingDialog = new LandingDialog();
-//                    landingDialog.showDialog(getActivity());
-//                }
-
-
             }
         });
 
@@ -254,7 +243,7 @@ public class OrderFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (savedInstanceState != null) return;
+
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new CancelledOrderFragment(), null)
                         .addToBackStack(null).commit();
             }
@@ -301,28 +290,62 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (referralET.getText().toString().equals("")){
+                    Toast.makeText(getActivity(), "Enter Referral code", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    callSubmitReferralApi();
+                }
+            }
+        });
 
-//        ordersAdapter = new OrdersAdapter(list, getContext());
-//        orderRecycler.setAdapter(ordersAdapter);
-//
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         orderRecycler.setLayoutManager(linearLayoutManager);
 
-//        int number = orderRecycler.getAdapter().getItemCount();
-//        if (number == 0) {
-//            banner.setVisibility(View.VISIBLE);
-//            ordersCard.setVisibility(View.VISIBLE);
-//            orderListing.setVisibility(View.GONE);
-//        } else {
-//            banner.setVisibility(View.GONE);
-//            ordersCard.setVisibility(View.GONE);
-//            orderListing.setVisibility(View.VISIBLE);
-//        }
-//        ordersAdapter.notifyDataSetChanged();
-
         return view;
+    }
+
+    private void callSubmitReferralApi() {
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("referral_code" , referralET.getText().toString());
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        Call<SubmitReferralResponse> call = ReferralRetrofitClient.getInstance3().getRefferalApi()
+                .submitReferralCode("Bearer "+sharedPrefManager.getBearerToken()
+                        , sharedPrefManager.getId() , jsonObject.toString());
+        call.enqueue(new Callback<SubmitReferralResponse>() {
+            @Override
+            public void onResponse(Call<SubmitReferralResponse> call, Response<SubmitReferralResponse> response) {
+                if (response.code()==200){
+                    if (response.body().getStatus()==200){
+                        LoadingDialog.cancelLoading();
+                        Toast.makeText(getActivity(), "Referral code applied successfully", Toast.LENGTH_SHORT).show();
+                        sevenDay.setVisibility(View.GONE);
+                    }
+                    else {
+                        Toast.makeText(getActivity(), response.body().getError(), Toast.LENGTH_SHORT).show();
+                        LoadingDialog.cancelLoading();
+                    }
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi();
+                }
+                else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubmitReferralResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -354,16 +377,6 @@ public class OrderFragment extends Fragment {
                         orderListing.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
-                    String s = sharedPrefManager.getCreateDate();
-                    String[] split = s.split("T");
-                    String date = split[0];
-
-                    int daysBetween = getDateDiffFromNow(date);
-                    if (daysBetween > 7) {
-                        sevenDay.setVisibility(View.GONE);
-                    } else {
-                        sevenDay.setVisibility(View.VISIBLE);
-                    }
 
                     if (response.body().getPendingOrders().size() > 0) {
                         id = response.body().getPendingOrders().get(0).getId();
@@ -382,8 +395,8 @@ public class OrderFragment extends Fragment {
                     }
 
 
-//                    callShopperOrdersApi();
-                    LoadingDialog.cancelLoading();
+                    callReferralApi();
+//                    LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
 
@@ -401,7 +414,52 @@ public class OrderFragment extends Fragment {
         });
     }
 
-//
+    //
+    private void callReferralApi() {
+        Call<ReferralHistoryResponse> call = ReferralRetrofitClient
+                .getInstance3()
+                .getRefferalApi().getReferralHistory("Bearer " + sharedPrefManager.getBearerToken(), sharedPrefManager.getFirstName());
+        call.enqueue(new Callback<ReferralHistoryResponse>() {
+            @Override
+            public void onResponse(Call<ReferralHistoryResponse> call, Response<ReferralHistoryResponse> response) {
+                if (response.code() == 200) {
+
+                    if (response.body().getUser().getReferredBy() != null) {
+                        sevenDay.setVisibility(View.GONE);
+                    } else {
+                        String s = sharedPrefManager.getCreateDate();
+                        String[] split = s.split("T");
+                        String date = split[0];
+
+                        int daysBetween = getDateDiffFromNow(date);
+
+                        if (daysBetween > 7) {
+                            sevenDay.setVisibility(View.GONE);
+                        } else {
+                            sevenDay.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferralHistoryResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            }
+        });
+    }
 
     private void callMeApi(String bearerToken) {
 

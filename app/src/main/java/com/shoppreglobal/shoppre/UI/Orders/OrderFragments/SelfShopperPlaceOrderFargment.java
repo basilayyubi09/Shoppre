@@ -69,7 +69,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     byte[] byteArray;
     ArrayAdapter arrayAdapter;
     String encodedFile, responseObject, responseUrl, splitUrl;
-    String file;
+    String file , storeName;
     SearchStoreResponse list;
 
     @Override
@@ -158,6 +158,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                 if (item instanceof SearchStoreResponse.Item) {
                     SearchStoreResponse.Item item1 = (SearchStoreResponse.Item) item;
                     storeId = ((SearchStoreResponse.Item) item).getId();
+                    storeName = ((SearchStoreResponse.Item) item).getName();
 
 
                 }
@@ -373,7 +374,8 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                 if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
-                    bundle.putString("type" , "order");
+                    bundle.putString("type" , "selfOrder");
+                    bundle.putString("shopName" , storeName);
                     bundle.putInt("id" , response.body().getId());
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle);

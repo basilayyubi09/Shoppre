@@ -51,7 +51,8 @@ public class WalletFragment extends Fragment {
     String bearerToken;
     TextView myWalletMyCash, myWalletMyRewards, emptyWalletText, myCash, myRewards, howCanI;
     ImageView emptyWalletImage;
-    Integer offSet =0, limit=5;
+    Integer offSet , limit;
+
 
 
 
@@ -61,7 +62,8 @@ public class WalletFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
-
+        offSet = 0 ;
+        limit = 5;
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("account");
 
