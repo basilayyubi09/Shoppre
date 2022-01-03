@@ -1,8 +1,14 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,6 +84,8 @@ public class ViewOrderPersonalShop extends Fragment {
     OrderUpdates orderUpdates;
     Integer shopperId;
     String testUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    DownloadManager downloadManager;
+    long downloadId;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -212,7 +220,7 @@ public class ViewOrderPersonalShop extends Fragment {
                         @Override
                         public void onPermissionsChecked(MultiplePermissionsReport report) {
                             if (report.areAllPermissionsGranted()) {
-                                downloadFile();
+                                downloadFile(url);
                             } else {
                                 Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
                             }
@@ -249,122 +257,60 @@ public class ViewOrderPersonalShop extends Fragment {
 
     }
 
-    private void downloadFile() {
-        ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Downloading....");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+    private void downloadFile(String url) {
 
-        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        PRDownloader.download(url, file.getPath(), URLUtil.guessFileName(url, null, null))
-                .build()
-                .setOnStartOrResumeListener(new OnStartOrResumeListener() {
-                    @Override
-                    public void onStartOrResume() {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        String title = URLUtil.guessFileName(url, null, null);
+        request.setTitle(title);
+        request.setDescription("Downloading file please wait....");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.allowScanningByMediaScanner();
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
 
-                    }
-                })
-                .setOnPauseListener(new OnPauseListener() {
-                    @Override
-                    public void onPause() {
+        downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
 
-                    }
-                })
-                .setOnCancelListener(new OnCancelListener() {
-                    @Override
-                    public void onCancel() {
-
-                    }
-                })
-                .setOnProgressListener(new OnProgressListener() {
-                    @Override
-                    public void onProgress(Progress progress) {
-                        long per = progress.currentBytes * 100 / progress.totalBytes;
-                        progressDialog.setMessage("Downloading : " + per + " %");
-                    }
-                })
-                .start(new OnDownloadListener() {
-                    @Override
-                    public void onDownloadComplete() {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Download Complete", Toast.LENGTH_SHORT).show();
-
-                        File file1 = new File(String.valueOf(file));
-                        MimeTypeMap map = MimeTypeMap.getSingleton();
-                        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
-                        String type = map.getMimeTypeFromExtension(ext);
-
-                        if (type == null)
-                            type = "*/*";
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        Uri data = FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
-
-                        intent.setDataAndType(data, type);
-
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), "Download Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                });
+        Toast.makeText(getActivity(), "Downloading Start", Toast.LENGTH_SHORT).show();
     }
 
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Cursor c = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
+            if (c!=null){
+                c.moveToFirst();
+                try {
+                    @SuppressLint("Range") String fileUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                    File mFile = new File(Uri.parse(fileUri).getPath());
+                    String fileName = mFile.getAbsolutePath();
+                    openFile(fileName);
+                }catch (Exception e){
+                    Log.e("error", "Could not open the downloaded file");
+                }
+            }
+        }
+    };
 
+    public static String getMimeType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
 
-//    private void downloadInvoiceApi() {
-//
-//        Call<DownloadInvoiceModelResponse> call = RetrofitClient3.getInstance3()
-//                .getAppApi().downloadInvoice("Bearer " + sharedPrefManager.getBearerToken(), id);
-//        call.enqueue(new Callback<DownloadInvoiceModelResponse>() {
-//            @Override
-//            public void onResponse(Call<DownloadInvoiceModelResponse> call, Response<DownloadInvoiceModelResponse> response) {
-//                if (response.code() == 200) {
-//                    DownloadInvoiceModelResponse downloadInvoiceModelResponse = response.body();
-//                    url = downloadInvoiceModelResponse.getInvoiceObject();
-//
-//                    Dexter.withContext(getContext())
-//                            .withPermissions(
-//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-//                                    Manifest.permission.READ_EXTERNAL_STORAGE
-//                            ).withListener(new MultiplePermissionsListener() {
-//                        @Override
-//                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-//                            if (report.areAllPermissionsGranted()) {
-//                                downloadFile(url);
-//                            } else {
-//                                Toast.makeText(getActivity(), "Please Allow the Permission", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-//
-//                        }
-//
-//
-//                    }).check();
-//
-//                } else if (response.code() == 401) {
-//                    callRefreshTokenApi();
-//                } else {
-//                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<DownloadInvoiceModelResponse> call, Throwable t) {
-//                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//    }
+    private void openFile(String file) {
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setDataAndType(Uri.fromFile(new File(file)), getMimeType(url));//this is for pdf file. Use appropreate mime type
+            startActivity(i);
+        } catch (Exception e) {
+            Toast.makeText(getActivity(),"Respective application not detected. File saved in download folder",Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     private void callShowOrderApi() {

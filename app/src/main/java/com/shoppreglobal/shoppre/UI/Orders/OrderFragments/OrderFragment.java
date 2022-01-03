@@ -1,15 +1,21 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -44,6 +50,14 @@ import com.shoppreglobal.shoppre.Utils.LandingDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.CookieManager;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,6 +86,7 @@ public class OrderFragment extends Fragment {
     OrderState__1 orderState;
     int flag = 0;
     Integer shoppreId, id;
+    String url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,6 +177,21 @@ public class OrderFragment extends Fragment {
                 if (savedInstanceState != null) return;
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
                         .addToBackStack(null).commit();
+
+
+//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+//                String title = URLUtil.guessFileName(url, null, null);
+//                request.setTitle(title);
+//                request.setDescription("Downloading file...");
+//                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//                request.allowScanningByMediaScanner();
+//                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
+//
+//                DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+//                downloadManager.enqueue(request);
+//
+//                Toast.makeText(getActivity(), "Downloading Start", Toast.LENGTH_SHORT).show();
+
             }
         });
     virtualAddressCard.setOnClickListener(new View.OnClickListener() {
@@ -575,4 +605,8 @@ public class OrderFragment extends Fragment {
 //            }
 //        });
 //    }
+
+
+
+
 }

@@ -106,6 +106,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="your_package_contains_damaged_items">- Your package contains<font color="#FF0000"><b> damaged</b></font> items</string>
     <string name="your_package_contains">- Your package contains<font color="#FF0000"><b> restricted</b></font> items, which\ncan be shipped<b> only within India</b>. Deselect the\npackage to ship internationally.</string>
     <string name="get_rs_500_cashback_when_your_friend_s_first_package_arrives_at_our_warehouse">Get Rs. 500 cashback when your friend’s first package arrives at our warehouse</string>
+    <string name="unable_to_open_file">Unable to open file</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

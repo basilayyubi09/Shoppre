@@ -54,7 +54,7 @@
                     android:layout_height="318dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="22dp"
-                    android:src="@mipmap/img" />
+                    android:src="@mipmap/onboarding2img" />
 
                 <TextView
                     android:layout_width="match_parent"

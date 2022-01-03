@@ -495,13 +495,6 @@ public interface AppApi {
     );
 
 
-//    @Headers({"Content-Type: application/json;charset=UTF-8"})
-//    @POST("api/orders/submitOptions")
-//    Call<ResponseBody> submitOrder(
-//            @Header("Authorization") String auth,
-//            @Body String objects);
-
-
     //https://uat-app1.shoppreglobal.com/api/shopperOrders/invoice/28
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("api/shopperOrders/invoice/{shopperId}")
