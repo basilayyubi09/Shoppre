@@ -86,6 +86,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             @Override
             public void onClick(View v) {
 
+//                holder.toolTip.performLongClick();
                 showToolTip(v);
 
             }

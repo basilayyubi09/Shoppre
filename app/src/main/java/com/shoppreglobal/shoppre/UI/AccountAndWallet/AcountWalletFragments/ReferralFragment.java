@@ -23,9 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.ReferralHistory;
 import com.shoppreglobal.shoppre.AccountResponse.ReferralHistoryResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
+import com.shoppreglobal.shoppre.AccountResponse.SubmitReferralResponse;
 import com.shoppreglobal.shoppre.Adapters.AccountAndWallet.ReferralAdapter;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.ReferralRetrofitClient;
@@ -36,8 +38,11 @@ import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,13 +55,14 @@ public class ReferralFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
     RecyclerView referralRecycle;
     MaterialCardView haveARefCard;
-    LinearLayout emptyReferralLayout, showMoreLayout, readMoreLayout, main, shareBtn;
+    LinearLayout emptyReferralLayout, referralCodeLayout, showMoreLayout, readMoreLayout, main, shareBtn;
     SharedPrefManager sharedPrefManager;
     String bearerToken;
-    TextView referralCodeText;
+    TextView referralCodeText, submit;
     MaterialButton copyBtn;
     TextView refer, share, use, faq;
     EditText have;
+    boolean isReferred = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +77,8 @@ public class ReferralFragment extends Fragment {
 
         emptyReferralLayout = view.findViewById(R.id.emptyReferralLayout);
         haveARefCard = view.findViewById(R.id.haveARefCard);
+        submit = view.findViewById(R.id.submit);
+        referralCodeLayout = view.findViewById(R.id.referralCodeLayout);
         showMoreLayout = view.findViewById(R.id.showMoreLayout);
         referralRecycle = view.findViewById(R.id.referralRecycler);
         copyBtn = view.findViewById(R.id.copyBtn);
@@ -95,6 +103,13 @@ public class ReferralFragment extends Fragment {
         referralRecycle.setAdapter(referralAdapter);
 
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                callSubmitReferralApi();
+            }
+        });
         copyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +146,7 @@ public class ReferralFragment extends Fragment {
 
         referralAdapter.notifyDataSetChanged();
 
+
         refer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,7 +166,7 @@ public class ReferralFragment extends Fragment {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/*");
                 shareIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Hey, I’m inviting you to use Shoppre.com, the fastest and affordable way to shop and ship from India. Get INR 350 by clicking on the link below or using the referral code during sign-up! Code -" +referralCodeText.getText().toString()+ ". https://login.shoppre.com/signup?referral_code="+referralCodeText.getText().toString());
+                        "Hey, I’m inviting you to use Shoppre.com, the fastest and affordable way to shop and ship from India. Get INR 350 by clicking on the link below or using the referral code during sign-up! Code -" + referralCodeText.getText().toString() + ". https://login.shoppre.com/signup?referral_code=" + referralCodeText.getText().toString());
                 getActivity().startActivity(shareIntent);
             }
         });
@@ -194,20 +210,93 @@ public class ReferralFragment extends Fragment {
                         .addToBackStack(null).commit();
             }
         });
+
         return view;
+    }
+
+
+    private void callSubmitReferralApi() {
+        LoadingDialog.showLoadingDialog(getActivity() , "");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("referral_code", have.getText().toString());
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<SubmitReferralResponse> call = ReferralRetrofitClient.getInstance3().getRefferalApi()
+                .submitReferralCode("Bearer " + sharedPrefManager.getBearerToken()
+                        , sharedPrefManager.getId(), jsonObject.toString());
+        call.enqueue(new Callback<SubmitReferralResponse>() {
+            @Override
+            public void onResponse(Call<SubmitReferralResponse> call, Response<SubmitReferralResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().getStatus() == 200) {
+                        LoadingDialog.cancelLoading();
+                        Toast.makeText(getActivity(), "Referral code applied successfully", Toast.LENGTH_SHORT).show();
+                        referralCodeLayout.setVisibility(View.GONE);
+                    } else {
+                        Toast.makeText(getActivity(), response.body().getError(), Toast.LENGTH_SHORT).show();
+                        LoadingDialog.cancelLoading();
+                    }
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("submit");
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SubmitReferralResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public int getDateDiffFromNow(String date) {
+        int days = 0;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            long diff = new Date().getTime() - sdf.parse(date).getTime();
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            days = ((int) (long) hours / 24);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Toast.makeText(getActivity(), days, Toast.LENGTH_SHORT).show();
+        return days;
     }
 
     private void callReferralApi() {
         Call<ReferralHistoryResponse> call = ReferralRetrofitClient
                 .getInstance3()
-                .getRefferalApi().getReferralHistory("Bearer " + bearerToken , sharedPrefManager.getFirstName());
+                .getRefferalApi().getReferralHistory("Bearer " + bearerToken, sharedPrefManager.getFirstName());
         call.enqueue(new Callback<ReferralHistoryResponse>() {
             @Override
             public void onResponse(Call<ReferralHistoryResponse> call, Response<ReferralHistoryResponse> response) {
                 if (response.code() == 200) {
                     String code = response.body().getUser().getReferralCode();
-                    if (!code.equals("")){
+                    if (!code.equals("")) {
                         referralCodeText.setText(code);
+                    }
+                    if (response.body().getUser().getReferredBy() != null) {
+                        referralCodeLayout.setVisibility(View.GONE);
+                    } else {
+                        String s = sharedPrefManager.getCreateDate();
+                        String[] split = s.split("T");
+                        String date = split[0];
+
+                        int daysBetween = getDateDiffFromNow(date);
+
+                        if (daysBetween > 7) {
+                            referralCodeLayout.setVisibility(View.GONE);
+                        } else {
+
+                            referralCodeLayout.setVisibility(View.VISIBLE);
+
+
+                        }
+
                     }
 
                     list = response.body().getReferralHistory();
@@ -217,7 +306,7 @@ public class ReferralFragment extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
@@ -234,7 +323,7 @@ public class ReferralFragment extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String submit) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -245,7 +334,12 @@ public class ReferralFragment extends Fragment {
 
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callReferralApi();
+                    if (submit.equals("submit")) {
+                        callSubmitReferralApi();
+                    } else {
+                        callReferralApi();
+                    }
+
 
                 } else {
                     LoadingDialog.cancelLoading();

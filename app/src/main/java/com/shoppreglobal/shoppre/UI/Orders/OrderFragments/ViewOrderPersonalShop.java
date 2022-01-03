@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.downloader.Error;
@@ -77,7 +76,7 @@ public class ViewOrderPersonalShop extends Fragment {
     OrderDetails orderDetails;
     OrderUpdates orderUpdates;
     Integer shopperId;
-    String testUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -119,8 +118,6 @@ public class ViewOrderPersonalShop extends Fragment {
         }
 
 
-
-
         tvDownloadInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +141,7 @@ public class ViewOrderPersonalShop extends Fragment {
                 if (response.code() == 200) {
                     dateString = response.body().getPkg().getCreatedAt();
                     imageUrl = response.body().getPkg().getInvoice();
-
+                    tvDownloadInvoice.setVisibility(View.GONE);
                     String[] split = dateString.split("T");
                     String date1 = split[0];
 
@@ -154,7 +151,7 @@ public class ViewOrderPersonalShop extends Fragment {
                     String month_name = dtf2.format(ld);
 
                     date.setText(month_name);
-                    if (response.body().getPkg().getStore()!=null){
+                    if (response.body().getPkg().getStore() != null) {
                         websiteName.setText(response.body().getPkg().getStore().getName());
                     }
                     orderNumberText.setText("#" + response.body().getPkg().getId());
@@ -194,11 +191,11 @@ public class ViewOrderPersonalShop extends Fragment {
     private void downloadOrderInvoice() {
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<String> call = RetrofitClient3.getInstance3()
-                .getAppApi().orderInvoiceDownload("Bearer "+sharedPrefManager.getBearerToken(), shopperId);
+                .getAppApi().orderInvoiceDownload("Bearer " + sharedPrefManager.getBearerToken(), shopperId);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
                     url = response.body();
 
@@ -228,10 +225,10 @@ public class ViewOrderPersonalShop extends Fragment {
 
 
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi(type);
                     LoadingDialog.cancelLoading();
-                }else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
 
@@ -315,7 +312,6 @@ public class ViewOrderPersonalShop extends Fragment {
 
                 });
     }
-
 
 
 //    private void downloadInvoiceApi() {
