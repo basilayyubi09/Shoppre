@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
+
                 android:layout_marginTop="26dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
@@ -96,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="39dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="70dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
