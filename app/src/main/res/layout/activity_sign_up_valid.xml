@@ -9,9 +9,7 @@
     tools:context=".UI.SignupLogin.SignUp_Valid"
     android:id="@+id/main">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +20,7 @@
                 android:layout_width="164dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="20dp"
                 android:contentDescription="Shoppre Logo"
                 android:src="@mipmap/shoppre_logo" />
 
@@ -30,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="28dp">
+                android:layout_marginTop="15dp">
 
                 <ImageView
                     android:id="@+id/backArrow"
@@ -62,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="38dp"
                 app:boxBackgroundColor="@color/box_background_color"
                 app:boxCornerRadiusBottomEnd="5dp"
@@ -330,11 +328,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:paddingBottom="30dp"
                 android:text="@string/alreay_have"
                 android:textSize="12sp" />
 
         </LinearLayout>
-    </ScrollView>
+
 </LinearLayout>
