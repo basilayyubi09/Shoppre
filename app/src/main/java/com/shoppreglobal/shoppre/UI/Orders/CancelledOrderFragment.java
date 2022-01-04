@@ -21,6 +21,7 @@ import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShippingCalculator;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -40,7 +41,7 @@ public class CancelledOrderFragment extends Fragment {
     List<IncomingPkg> list1;
     TextView text;
     OrdersAdapter ordersAdapter;
-    CardView cancelOrderVirtualAddressCard, cancelOrderShippingCalculatorCard, cancelOrderFaqAndHelpCard;
+    CardView cancelOrderVirtualAddressCard, cancelOrderShippingCalculatorCard, helpAndFaqCard;
     LinearLayoutManager linearLayoutManager;
 
     @Override
@@ -51,6 +52,7 @@ public class CancelledOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cancelled_order, container, false);
 
         recycle = view.findViewById(R.id.recycle);
+        helpAndFaqCard = view.findViewById(R.id.helpAndFaqCard);
         text = view.findViewById(R.id.text);
         cancelOrderVirtualAddressCard = view.findViewById(R.id.cancelOrderVirtualAddressCard);
         cancelOrderShippingCalculatorCard = view.findViewById(R.id.cancelOrderShippingCalculatorCard);
@@ -64,11 +66,27 @@ public class CancelledOrderFragment extends Fragment {
             }
         });
 
+        helpAndFaqCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                 Bundle bundle = new Bundle();
+                bundle.putString("url", "https://www.shoppre.com/faq");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+
+            }
+        });
         cancelOrderShippingCalculatorCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShippingCalculator(), null)
                         .addToBackStack(null).commit();
+
+
             }
         });
 
