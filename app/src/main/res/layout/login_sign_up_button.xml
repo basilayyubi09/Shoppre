@@ -8,7 +8,7 @@
     android:layout_marginLeft="83dp"
     android:layout_marginRight="81dp"
     android:textColor="@color/white"
-    android:layout_marginTop="28dp"
+    android:layout_marginTop="22dp"
     android:layout_gravity="center_horizontal"
     android:backgroundTint="@color/button_blue"
     android:insetTop="0dp"
