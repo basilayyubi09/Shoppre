@@ -7,8 +7,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1B274E"
-        app:menu="@menu/notification_menu">
+        android:background="#1B274E">
 
         <ImageView
             android:layout_width="116dp"

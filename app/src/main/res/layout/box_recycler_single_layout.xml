@@ -7,13 +7,11 @@
     <LinearLayout
         android:id="@+id/packageLevelLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp">
+        android:layout_height="wrap_content">
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="13dp"
             android:background="#D2D2D2" />
 
         <View
@@ -25,7 +23,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
+            android:layout_weight="1">
 
         <TextView
             android:id="@+id/tvBoxNumber"
@@ -33,11 +31,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
-            android:layout_weight="1"
+
             android:text="Box "
             android:textColor="#676767"
             android:textFontWeight="400"
             android:textSize="12sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvBoxWeight"
@@ -49,8 +49,51 @@
             android:textFontWeight="400"
             android:textSize="10sp" />
 
-        </LinearLayout>
+
 
     </LinearLayout>
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="20dp">-->
+
+<!--        <View-->
+<!--            android:id="@+id/view1"-->
+<!--            android:layout_width="1dp"-->
+<!--            android:layout_height="12dp"-->
+<!--            android:background="#D2D2D2" />-->
+
+<!--        <View-->
+<!--            android:id="@+id/view2"-->
+<!--            android:layout_width="12dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_alignBottom="@+id/view1"-->
+<!--            android:background="#D2D2D2" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:text="Box"-->
+<!--            android:textColor="#676767"-->
+<!--            android:textFontWeight="400"-->
+<!--            android:textSize="12sp" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_marginTop="3dp"-->
+<!--            android:text="Box"-->
+<!--            android:textColor="#676767"-->
+<!--            android:textFontWeight="400"-->
+<!--            android:textSize="12sp" />-->
+<!--        -->
+<!--        -->
+<!--    </RelativeLayout>-->
+
+
 
 </LinearLayout>

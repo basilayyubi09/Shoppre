@@ -2,6 +2,7 @@ package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ParentFinalOrderSummaryAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.CartModelResponse;
@@ -45,6 +47,7 @@ public class FinalOrderSummaryFragment extends Fragment {
     Integer shoppreId;
     CheckBox check;
     int totalCount = 0, subTotal = 0, shoppreTotal = 0;
+    String url;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +71,7 @@ public class FinalOrderSummaryFragment extends Fragment {
 
         }
         LoadingDialog.showLoadingDialog(getActivity(), "");
-        callCartApi(shoppreId);
+        callCartApi();
 
 
         proceedToPayBtn.setOnClickListener(new View.OnClickListener() {
@@ -76,14 +79,17 @@ public class FinalOrderSummaryFragment extends Fragment {
             public void onClick(View v) {
 
                 if (check.isChecked()){
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id" , shoppreId);
-                    bundle1.putString("type","order");
-                    ThankYouFragment thankYouFragment = new ThankYouFragment();
-                    thankYouFragment.setArguments(bundle1);
-                    OrderActivity.fragmentManager.beginTransaction()
-                            .replace(R.id.orderFrameLayout, thankYouFragment)
-                            .addToBackStack(null).commit();
+//                    Bundle bundle1 = new Bundle();
+//                    bundle1.putInt("id" , shoppreId);
+//                    bundle1.putString("type","order");
+//                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+//                    thankYouFragment.setArguments(bundle1);
+//                    OrderActivity.fragmentManager.beginTransaction()
+//                            .replace(R.id.orderFrameLayout, thankYouFragment)
+//                            .addToBackStack(null).commit();
+
+                    payAuthorizeApi();
+
                 }
                 else {
                     Toast.makeText(getActivity(), "Please agree Terms & Condition to continue ", Toast.LENGTH_SHORT).show();
@@ -98,7 +104,49 @@ public class FinalOrderSummaryFragment extends Fragment {
         return view;
     }
 
-    private void callCartApi(Integer shoppreId) {
+    private void payAuthorizeApi() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("grant_type", "loginAs");
+        jsonObject.addProperty("username", sharedPrefManager.getEmail());
+        jsonObject.addProperty("app_id", 28);
+        LoadingDialog.showLoadingDialog(getActivity(), "");
+        Call<String> call = RetrofitClient.getInstance()
+                .getApi().payAuthorize("Bearer "+sharedPrefManager.getBearerToken(), jsonObject.toString());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.code()==200){
+                    url = response.body();
+                    LoadingDialog.cancelLoading();
+                    Log.d("urlllllllll", String.valueOf(url));
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", url);
+                    WebViewFragment pay = new WebViewFragment();
+                    pay.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
+                            .addToBackStack(null).commit();
+
+
+                }else if (response.code()==401){
+                    callRefreshTokenApi("auth");
+                    LoadingDialog.cancelLoading();
+                }else {
+                    LoadingDialog.cancelLoading();
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                LoadingDialog.cancelLoading();
+                Toast.makeText(getActivity(),t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void callCartApi() {
         Call<CartModelResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi().getCartItem("Bearer " + sharedPrefManager.getBearerToken(), shoppreId);
@@ -121,7 +169,7 @@ public class FinalOrderSummaryFragment extends Fragment {
                     recyclerView.setAdapter(adapter);
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi(shoppreId);
+                    callRefreshTokenApi("cart");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -138,7 +186,7 @@ public class FinalOrderSummaryFragment extends Fragment {
 
     }
 
-    private void callRefreshTokenApi(Integer sId) {
+    private void callRefreshTokenApi(String auth) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -149,7 +197,12 @@ public class FinalOrderSummaryFragment extends Fragment {
 
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callCartApi(sId);
+                    if (auth.equals("auth")){
+                        payAuthorizeApi();
+                    }else {
+                        callCartApi();
+                    }
+
 
                 } else {
                     LoadingDialog.cancelLoading();
