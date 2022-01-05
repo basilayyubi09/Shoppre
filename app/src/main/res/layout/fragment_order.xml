@@ -181,7 +181,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:layout_weight="800"
+                                android:textFontWeight="800"
                                 android:lineSpacingExtra="2dp"
                                 android:text="Forgot Something?\nYour previous Personal Shopper order is still waiting for you..."
                                 android:textColor="@color/black"

@@ -38,7 +38,7 @@ public class BoxWeightAdapter extends RecyclerView.Adapter<BoxWeightAdapter.view
 
 
         holder.tvBoxNumber.setText("Box "+String.valueOf(position+1));
-        holder.tvBoxWeight.setText(String.valueOf(list.get(position).getFinalWeight()));
+        holder.tvBoxWeight.setText(String.valueOf(list.get(position).getFinalWeight())+" Kg");
 
     }
 
