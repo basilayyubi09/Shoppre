@@ -2,6 +2,8 @@ package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ParentFinalOrderSummaryAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.CartModelResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
+import com.shoppreglobal.shoppre.OrderModuleResponses.OrderItem;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
@@ -25,6 +30,7 @@ import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,15 +112,45 @@ public class FinalOrderSummaryFragment extends Fragment {
             public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
                 if (response.code() == 200) {
                     list = response.body().getOrders();
+                    List<Integer> idList = new ArrayList<>();
+
+
+                    JsonArray jsonArray = new JsonArray();
+                    JsonArray idArray = new JsonArray();
+
                     for (int i = 0; i < list.size(); i++) {
-                        shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
+                        idList.add(list.get(i).getOrderItems().get(i).getId())  ;
+                        shoppreTotal = shoppreTotal+list.get(i).getPersonalShopperCost();
                         totalCount = totalCount + list.get(i).getSubTotal();
                         subTotal = subTotal + list.get(i).getPriceAmount();
                         total.setText("₹ " + String.valueOf(totalCount));
-                        shoppreFee.setText("₹ " + String.valueOf(totalCount));
+                        shoppreFee.setText("₹ " + String.valueOf(shoppreTotal));
                         orderTotal.setText("₹ " + String.valueOf(subTotal));
                     }
+                    for (int i=0 ; i<list.size();i++){
+                        idArray.add(list.get(i).getId());
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("id",list.get(i).getId());
+                        jsonObject.addProperty("amount",list.get(i).getSubTotal());
+                        jsonObject.addProperty("psAmount",list.get(i).getPersonalShopperCost());
+                        jsonObject.addProperty("priceAmount",list.get(i).getPriceAmount());
+                        jsonObject.addProperty("storeName",list.get(i).getStore().getName());
+                        jsonArray.add(jsonObject);
+                    }
+                    Log.d("Array of ids" , idArray.toString());
+                    Log.d("Array" , jsonArray.toString());
 
+                    byte[] data = new byte[0];
+                    try {
+                        data = jsonArray.toString().getBytes("UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+                    Log.d("Base 64 String" , base64);
+//                    Toast.makeText(getActivity(), String.valueOf(idList.size()), Toast.LENGTH_SHORT).show();
+//                    JsonObject jsonObject = new JsonObject();
+//                    jsonObject.addProperty("id","");
                     adapter = new ParentFinalOrderSummaryAdapter(list, getActivity());
                     recyclerView.setAdapter(adapter);
                     LoadingDialog.cancelLoading();

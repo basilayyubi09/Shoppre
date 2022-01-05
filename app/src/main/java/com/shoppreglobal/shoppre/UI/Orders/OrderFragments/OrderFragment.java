@@ -1,21 +1,15 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -54,14 +48,6 @@ import com.shoppreglobal.shoppre.Utils.LandingDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.CookieManager;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -293,10 +279,9 @@ public class OrderFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (referralET.getText().toString().equals("")){
+                if (referralET.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), "Enter Referral code", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     callSubmitReferralApi();
                 }
             }
@@ -311,30 +296,27 @@ public class OrderFragment extends Fragment {
     }
 
     private void callSubmitReferralApi() {
-        JsonObject jsonObject= new JsonObject();
-        jsonObject.addProperty("referral_code" , referralET.getText().toString());
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("referral_code", referralET.getText().toString());
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<SubmitReferralResponse> call = ReferralRetrofitClient.getInstance3().getRefferalApi()
-                .submitReferralCode("Bearer "+sharedPrefManager.getBearerToken()
-                        , sharedPrefManager.getId() , jsonObject.toString());
+                .submitReferralCode("Bearer " + sharedPrefManager.getBearerToken()
+                        , sharedPrefManager.getId(), jsonObject.toString());
         call.enqueue(new Callback<SubmitReferralResponse>() {
             @Override
             public void onResponse(Call<SubmitReferralResponse> call, Response<SubmitReferralResponse> response) {
-                if (response.code()==200){
-                    if (response.body().getStatus()==200){
+                if (response.code() == 200) {
+                    if (response.body().getStatus() == 200) {
                         LoadingDialog.cancelLoading();
                         Toast.makeText(getActivity(), "Referral code applied successfully", Toast.LENGTH_SHORT).show();
                         sevenDay.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getActivity(), response.body().getError(), Toast.LENGTH_SHORT).show();
                         LoadingDialog.cancelLoading();
                     }
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -471,7 +453,7 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code() == 200) {
 
-                    if (response.body().getIsEmailVerified()!=null){
+                    if (response.body().getIsEmailVerified() != null) {
                         if (response.body().getIsEmailVerified() == 0) {
 
                             verifyEmailBox.setVisibility(View.VISIBLE);
@@ -479,7 +461,7 @@ public class OrderFragment extends Fragment {
 
                             verifyEmailBox.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         verifyEmailBox.setVisibility(View.VISIBLE);
                     }
 
@@ -668,8 +650,6 @@ public class OrderFragment extends Fragment {
 //            }
 //        });
 //    }
-
-
 
 
 }
