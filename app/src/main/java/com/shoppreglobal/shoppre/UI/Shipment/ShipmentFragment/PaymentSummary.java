@@ -248,7 +248,7 @@ public class PaymentSummary extends Fragment {
         makePaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payAuthorizeApi();
+//                payAuthorizeApi();
             }
         });
 
