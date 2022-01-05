@@ -471,13 +471,18 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code() == 200) {
 
-                    if (response.body().getIsEmailVerified() == 0) {
+                    if (response.body().getIsEmailVerified()!=null){
+                        if (response.body().getIsEmailVerified() == 0) {
 
+                            verifyEmailBox.setVisibility(View.VISIBLE);
+                        } else if (response.body().getIsEmailVerified() == 1) {
+
+                            verifyEmailBox.setVisibility(View.GONE);
+                        }
+                    }else {
                         verifyEmailBox.setVisibility(View.VISIBLE);
-                    } else if (response.body().getIsEmailVerified() == 1) {
-
-                        verifyEmailBox.setVisibility(View.GONE);
                     }
+
 
                     callGetOrderListing();
                 } else if (response.code() == 401) {

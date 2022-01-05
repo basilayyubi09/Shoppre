@@ -522,16 +522,22 @@ public class ViewProfile extends Fragment {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code()==200){
 
-                    if (response.body().getIsEmailVerified()==0){
+                    if (response.body().getIsEmailVerified()!=null){
+                        if (response.body().getIsEmailVerified()==0){
+                            unverified.setVisibility(View.VISIBLE);
+                            resend.setVisibility(View.VISIBLE);
+                        }
+                        else if (response.body().getIsEmailVerified()==1){
+
+                            unverified.setVisibility(View.GONE);
+                            resend.setVisibility(View.GONE);
+                            emailCheck.setVisibility(View.VISIBLE);
+                        }
+                    }else {
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);
                     }
-                    else if (response.body().getIsEmailVerified()==1){
 
-                        unverified.setVisibility(View.GONE);
-                        resend.setVisibility(View.GONE);
-                        emailCheck.setVisibility(View.VISIBLE);
-                    }
                     callApi();
                 }
                 else if (response.code()==401){

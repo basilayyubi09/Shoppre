@@ -79,7 +79,12 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             }
         });
         holder.btn.setVisibility(View.VISIBLE);
-        holder.btn.setText(list.get(position).getOrderItemState().getState().getName());
+        if (list.get(position).getOrderItemState().getState()!=null){
+            holder.btn.setText(list.get(position).getOrderItemState().getState().getName());
+        }else {
+            holder.btn.setText("");
+        }
+
 
 
         holder.toolTip.setOnClickListener(new View.OnClickListener() {
