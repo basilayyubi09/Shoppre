@@ -47,7 +47,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
         holder.productName.setText(list.get(position).getName());
         if (list.get(position).getColor().equals("") || list.get(position).getColor() == null && list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
             holder.productColor.setVisibility(View.GONE);
-            holder.colorHeading.setVisibility(View.GONE);
+//            holder.colorHeading.setVisibility(View.GONE);
         } else if(list.get(position).getColor().equals("") || list.get(position).getColor() == null) {
             holder.productColor.setText("Size: "+list.get(position).getSize());
 

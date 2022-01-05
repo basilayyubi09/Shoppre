@@ -73,23 +73,22 @@ public class ViewProfile extends Fragment {
     ImageView profileImage, triangleImage, nameCheck, emailCheck, phoneNoCheck;
     SwitchCompat whatsappSwitch;
     CountryCodePicker countryCodePicker;
-    LinearLayout resend , main;
-    TextView profileName, lockerNo, contactUs , faq,profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue, tvChangePassword;
+    LinearLayout resend, main;
+    TextView profileName, lockerNo, contactUs, faq, profilePrice, wallet, manageAddresses, virtualIndianAddress, salutationError, titleValue, tvChangePassword;
     SharedPrefManager sharedPrefManager;
     EditText phoneNoEditText;
 
     //For Title Spinner
     String[] title = new String[]{"Title", "Mr", "Ms", "Mrs"};
-    String email, phoneNumber, name, ccp, titleText ;
-    TextView nameError, emailError, numberError, unverified, emailWrong ,updateProfileEmail;
+    String email, phoneNumber, name, ccp, titleText;
+    TextView nameError, emailError, numberError, unverified, emailWrong, updateProfileEmail;
 
-    char firstLetter;
+    char firstLetter = 'U';
     TextDrawable textDrawable;
     ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
     int randomColor = colorGenerator.getRandomColor();
 
     Spinner chooseTitle;
-
 
 
 //    @Override
@@ -163,19 +162,16 @@ public class ViewProfile extends Fragment {
         });
 
 
-
-
-
         ///Title Spinner
 
         final List<String> titleList = new ArrayList<>(Arrays.asList(title));
 
-        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList){
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList) {
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -184,10 +180,10 @@ public class ViewProfile extends Fragment {
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
                 TextView titleTv = (TextView) view1;
-                if (position == 0){
+                if (position == 0) {
                     titleTv.setVisibility(View.GONE);
                     titleTv.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     titleTv.setTextColor(Color.BLACK);
                 }
                 return view1;
@@ -199,7 +195,7 @@ public class ViewProfile extends Fragment {
         chooseTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0){
+                if (position > 0) {
 
                 }
             }
@@ -227,15 +223,14 @@ public class ViewProfile extends Fragment {
         });
 
 
-
-
-
-        LoadingDialog.showLoadingDialog(getActivity(),"");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         callMeApi(sharedPrefManager.getBearerToken());
 
 
+        if (!sharedPrefManager.getFirstName().equals("")) {
+            firstLetter = sharedPrefManager.getFirstName().charAt(0);
+        }
 
-        firstLetter = sharedPrefManager.getFirstName().charAt(0);
 
         ////Profile RoundImage with Letter
 
@@ -259,9 +254,9 @@ public class ViewProfile extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (fullNameEditText.getText().toString().equals("") && titleText.equals("Title")){
+                if (fullNameEditText.getText().toString().equals("") && titleText.equals("Title")) {
                     nameCheck.setVisibility(View.GONE);
-                }else {
+                } else {
                     nameCheck.setVisibility(View.VISIBLE);
                 }
 
@@ -279,9 +274,9 @@ public class ViewProfile extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (fullNameEditText.getText().toString().equals("")  && titleText.equals("Title")){
+                if (fullNameEditText.getText().toString().equals("") && titleText.equals("Title")) {
                     nameCheck.setVisibility(View.GONE);
-                }else {
+                } else {
                     nameCheck.setVisibility(View.VISIBLE);
                 }
 
@@ -399,8 +394,8 @@ public class ViewProfile extends Fragment {
             public void onClick(View view) {
                 sharedPrefManager.logOut();
                 GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions
-                .DEFAULT_SIGN_IN).build();
-                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity() , googleSignInOptions);
+                        .DEFAULT_SIGN_IN).build();
+                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity(), googleSignInOptions);
 
                 googleSignInClient.signOut();
 
@@ -413,10 +408,9 @@ public class ViewProfile extends Fragment {
         phoneNoEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (phoneNoEditText.getText().length()==10)
-                {
+                if (phoneNoEditText.getText().length() == 10) {
                     phoneNoCheck.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     phoneNoCheck.setVisibility(View.GONE);
                 }
             }
@@ -424,10 +418,9 @@ public class ViewProfile extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (phoneNoEditText.getText().length()==10)
-                {
+                if (phoneNoEditText.getText().length() == 10) {
                     phoneNoCheck.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     phoneNoCheck.setVisibility(View.GONE);
                 }
             }
@@ -435,10 +428,9 @@ public class ViewProfile extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (phoneNoEditText.getText().length()==10)
-                {
+                if (phoneNoEditText.getText().length() == 10) {
                     phoneNoCheck.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     phoneNoCheck.setVisibility(View.GONE);
                 }
             }
@@ -452,20 +444,20 @@ public class ViewProfile extends Fragment {
 
         int id = sharedPrefManager.getId();
         Call<WalletTransactionResponse> call = RetrofitClientWallet.getInstanceWallet()
-                .getAppApi().getDetails(id,0 , 20 , "Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().getDetails(id, 0, 20, "Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.isSuccessful()) {
 
                     User user = response.body().getUser();
-                    profilePrice.setText("₹ "+String.valueOf(user.getWalletAmount()));
+                    profilePrice.setText("₹ " + String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
 
-                }else{
+                } else {
 
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , response.message() , Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
             }
@@ -473,7 +465,7 @@ public class ViewProfile extends Fragment {
             @Override
             public void onFailure(Call<WalletTransactionResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout) , t.toString() , Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }
         });
@@ -482,21 +474,19 @@ public class ViewProfile extends Fragment {
     private void callVerifyEmailId() {
 
         Call<VerifyEmailResponse> call = RetrofitClient.getInstance()
-                .getApi().getVerify("Bearer "+sharedPrefManager.getBearerToken(), sharedPrefManager.getId());
+                .getApi().getVerify("Bearer " + sharedPrefManager.getBearerToken(), sharedPrefManager.getId());
         call.enqueue(new Callback<VerifyEmailResponse>() {
             @Override
             public void onResponse(Call<VerifyEmailResponse> call, Response<VerifyEmailResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     redBoxText.setVisibility(View.VISIBLE);
-                }
-                else if(response.code()==403){
+                } else if (response.code() == 403) {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -516,11 +506,11 @@ public class ViewProfile extends Fragment {
     private void callMeApi(String bearerToken) {
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()
-                .getUser("Bearer "+bearerToken);
+                .getUser("Bearer " + bearerToken);
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
                     if (response.body().getIsEmailVerified()!=null){
                         if (response.body().getIsEmailVerified()==0){
@@ -539,11 +529,9 @@ public class ViewProfile extends Fragment {
                     }
 
                     callApi();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -558,6 +546,7 @@ public class ViewProfile extends Fragment {
             }
         });
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
@@ -565,13 +554,12 @@ public class ViewProfile extends Fragment {
         call.enqueue(new Callback<RefreshTokenResponse>() {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     callMeApi(sharedPrefManager.getBearerToken());
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -711,12 +699,12 @@ public class ViewProfile extends Fragment {
         }
         final List<String> titleList = new ArrayList<>(Arrays.asList(title));
 
-        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList){
+        final ArrayAdapter<String> titleSpinerArrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.title_spinner, titleList) {
             @Override
             public boolean isEnabled(int position) {
-                if (position == 0){
+                if (position == 0) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -725,10 +713,10 @@ public class ViewProfile extends Fragment {
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
                 TextView titleTv = (TextView) view1;
-                if (position == 0){
+                if (position == 0) {
                     titleTv.setVisibility(View.GONE);
                     titleTv.setTextColor(Color.GRAY);
-                }else {
+                } else {
                     titleTv.setTextColor(Color.BLACK);
                 }
                 return view1;
@@ -822,17 +810,15 @@ public class ViewProfile extends Fragment {
             numberError.setVisibility(View.VISIBLE);
             return false;
 
-        }else if (phoneNumber.equals("")){
+        } else if (phoneNumber.equals("")) {
             phoneNoCheck.setVisibility(View.GONE);
             return false;
-        }
-        else {
+        } else {
             numberError.setVisibility(View.GONE);
             phoneNoCheck.setVisibility(View.VISIBLE);
             return true;
         }
     }
-
 
 
     public void setupUI(View view) {
@@ -855,11 +841,12 @@ public class ViewProfile extends Fragment {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0
