@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_margin="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_weight="400"
+                            android:textFontWeight="400"
                             android:text="Based on optimized courier partner \nfor the country selected"
                             android:textColor="@color/black"
                             android:textSize="10sp" />
@@ -194,7 +194,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_weight="500"
+                            android:textFontWeight="500"
                             android:text="Non-Liquid Price for 0.5 KG = ₹ 1590"
                             android:textColor="@color/black"
                             android:textSize="10sp"
@@ -240,7 +240,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_weight="400"
+                            android:textFontWeight="400"
                             android:text="Not Charged per item"
                             android:layout_marginLeft="17dp"
                             android:textColor="@color/black"
@@ -311,7 +311,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_weight="400"
+                            android:textFontWeight="400"
                             android:layout_marginLeft="17dp"
                             android:text="if applicable to be paid in the destination\ncountry, check country guides below"
                             android:textColor="@color/black"
@@ -362,6 +362,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
+                    android:textFontWeight="400"
                     android:textColor="@color/black"
                     android:text="Like our prices?"
                     android:layout_gravity="center_horizontal"
@@ -374,6 +375,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:textColor="@color/white"
+                    android:layout_marginBottom="5dp"
                     android:textSize="12sp"
                     android:layout_gravity="center_horizontal"
                     android:textAllCaps="false"
@@ -521,7 +523,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:layout_weight="400"
+                            android:textFontWeight="400"
                             android:text="The category you selected has some\nrestricted items, click to find out"
                             android:textColor="@color/black"
                             android:textSize="10sp" />

@@ -613,6 +613,7 @@
                                 android:paddingHorizontal="40dp"
                                 android:paddingVertical="8dp"
                                 android:text="Get Estimate"
+                                android:letterSpacing="0.03"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textFontWeight="700"
