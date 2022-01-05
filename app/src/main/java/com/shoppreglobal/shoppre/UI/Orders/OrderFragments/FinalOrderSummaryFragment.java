@@ -75,20 +75,18 @@ public class FinalOrderSummaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (check.isChecked()){
+                if (check.isChecked()) {
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id" , shoppreId);
-                    bundle1.putString("type","order");
+                    bundle1.putInt("id", shoppreId);
+                    bundle1.putString("type", "order");
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), "Please agree Terms & Condition to continue ", Toast.LENGTH_SHORT).show();
                 }
-
 
 
             }
