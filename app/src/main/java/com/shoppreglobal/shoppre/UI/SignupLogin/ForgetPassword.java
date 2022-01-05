@@ -1,10 +1,15 @@
 package com.shoppreglobal.shoppre.UI.SignupLogin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -38,6 +43,7 @@ public class ForgetPassword extends AppCompatActivity {
         emailIdField = findViewById(R.id.emailId);
         main = findViewById(R.id.main);
 
+        setupUI(main);
 
         sendResendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +131,39 @@ public class ForgetPassword extends AppCompatActivity {
             emailIdField.setBoxStrokeWidth(0);
 
             return true;
+        }
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(ForgetPassword.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager.isAcceptingText()) {
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
         }
     }
 

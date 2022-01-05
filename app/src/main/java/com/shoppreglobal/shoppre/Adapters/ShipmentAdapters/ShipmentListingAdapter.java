@@ -47,35 +47,42 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
         holder.name.setText(shipment.getCustomerName());
         holder.quantity.setText("(" + String.valueOf(shipment.getPackages().size()) + ")");
 
-        if (shipment.getStateName().equals("Awaiting Payment")) {
-            holder.action.setText(shipment.getStateName());
+        if (shipment.getStateName()!=null){
+            if (shipment.getStateName().equals("Awaiting Payment")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.action_required_background));
+            } else if (shipment.getStateName().equals("In Review")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.in_review_new_blue_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.in_review_shipment_bg));
+            } else if (shipment.getStateName().equals("Pending Invoice Upload")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
+            } else if (shipment.getStateName().equals("Payment Failed")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
+            } else if (shipment.getStateName().equals("Payment Confirmed")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.payment_confirm_green_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.payment_confirm_background));
+            } else if (shipment.getStateName().equals("Dispatched")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
+            } else if (shipment.getStateName().equals("Delivered")) {
+                holder.action.setText(shipment.getStateName());
+                holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
+            }
+        }else {
+            holder.action.setText("   ");
             holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
             holder.action.setBackground(context.getDrawable(R.drawable.action_required_background));
-        } else if (shipment.getStateName().equals("In Review")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.in_review_new_blue_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.in_review_shipment_bg));
-        } else if (shipment.getStateName().equals("Pending Invoice Upload")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
-        } else if (shipment.getStateName().equals("Payment Failed")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.pending_invoice_purple_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.pending_invoice_background));
-        } else if (shipment.getStateName().equals("Payment Confirmed")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.payment_confirm_green_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.payment_confirm_background));
-        } else if (shipment.getStateName().equals("Dispatched")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
-        } else if (shipment.getStateName().equals("Delivered")) {
-            holder.action.setText(shipment.getStateName());
-            holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
-            holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
         }
+
         holder.shipmentId.setText("Shipment ID #" + shipment.getId());
         holder.viewShipment.setOnClickListener(new View.OnClickListener() {
             @Override

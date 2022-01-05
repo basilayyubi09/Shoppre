@@ -89,7 +89,14 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
                 holder.action.setText("Ready To Ship");
                 holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
                 holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
-            } else {
+            } else if (list.get(position).getStateName().equals("Package Returned")) {
+                holder.lockerViewMore.setVisibility(View.VISIBLE);
+                holder.process.setVisibility(View.GONE);
+                holder.action.setText("Package Returned");
+                holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
+                holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
+            }
+            else {
                 holder.lockerViewMore.setVisibility(View.VISIBLE);
                 holder.process.setVisibility(View.GONE);
                 holder.action.setText(list.get(position).getStateName());

@@ -151,6 +151,7 @@
                     android:layout_height="wrap_content"
                     android:text="Enter e-Commerce Website/Store Name"
                     android:textFontWeight="500"
+                    android:textColor="@color/black"
                     android:textSize="10sp"
                     android:layout_marginTop="13dp"/>
                 <AutoCompleteTextView
@@ -227,7 +228,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="35dp"
-                                android:text="Click tp upload"
+                                android:text="Click to upload"
                                 android:textColor="#7E7E7E"
                                 android:textFontWeight="600"
                                 android:textSize="10sp" />
@@ -239,9 +240,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/click"
                                 android:layout_centerHorizontal="true"
-                                android:gravity="center"
                                 android:layout_marginHorizontal="40dp"
                                 android:layout_marginTop="30dp"
+                                android:gravity="center"
                                 android:text="Supported Formats: .pdf, .png or .jpg"
                                 android:textColor="#7E7E7E"
                                 android:textFontWeight="500"
@@ -276,7 +277,7 @@
                     android:lineHeight="12.2dp"
                     android:text="Our team will accept your package based on this document.\nPlease note that you will have to upload a tax invoice on order dispatch."
                     android:textColor="@color/black"
-                    android:textFontWeight="500"
+                    android:textFontWeight="600"
                     android:textSize="10sp" />
 
                 <com.google.android.material.button.MaterialButton

@@ -29,17 +29,18 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/close"
             android:id="@+id/please"/>
+
         <TextView
-            android:layout_below="@+id/please"
+            android:id="@+id/sample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample"
+            android:layout_below="@+id/please"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:text="Sample"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textFontWeight="400"
-            android:id="@+id/sample"/>
+            android:textFontWeight="500"
+            android:textSize="12sp" />
 
         <ImageView
             android:padding="8dp"

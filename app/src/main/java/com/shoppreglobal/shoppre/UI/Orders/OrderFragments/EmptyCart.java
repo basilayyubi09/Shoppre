@@ -261,6 +261,7 @@ public class EmptyCart extends Fragment {
 
         itemCartCard.setOnClickListener(v -> {
 
+
             if (flag == 1) {
 
                 productCartCard.setVisibility(View.VISIBLE);
