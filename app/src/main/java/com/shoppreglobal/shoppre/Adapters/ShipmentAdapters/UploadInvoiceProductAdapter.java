@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shoppreglobal.shoppre.LockerModelResponse.PackageItem;
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.UploadInvoiceProductResponse;
@@ -17,10 +18,10 @@ import java.util.List;
 
 public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvoiceProductAdapter.viewHolder> {
 
-    List<PackageModel> list;
+    List<PackageItem> list;
     Context context;
 
-    public UploadInvoiceProductAdapter(List<PackageModel> list, Context context) {
+    public UploadInvoiceProductAdapter(List<PackageItem> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -35,13 +36,18 @@ public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvo
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        if (list.get(position).getIsFullInvoiceReceived()!=null){
-            if (list.get(position).getIsFullInvoiceReceived()==false){
-                holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
-            }
-        }else {
-            holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
-        }
+        holder.productItems.setText(list.get(position).getName());
+
+
+//        if (list.get(position).getIsFullInvoiceReceived()!=null){
+//            if (list.get(position).getIsFullInvoiceReceived()==false){
+//                holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
+//            }else {
+//                holder.productItems.setVisibility(View.GONE);
+//            }
+//        }else {
+//            holder.productItems.setText(list.get(position).getPackageItems().get(position).getName());
+//        }
     }
 
     @Override
@@ -49,7 +55,7 @@ public class UploadInvoiceProductAdapter extends RecyclerView.Adapter<UploadInvo
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView productItems;
 

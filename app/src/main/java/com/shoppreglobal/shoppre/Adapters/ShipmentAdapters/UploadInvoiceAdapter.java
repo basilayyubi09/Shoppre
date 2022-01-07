@@ -26,9 +26,9 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
 
     List<PackageModel> list;
     Context context;
-    RecyclerView uploadInvoiceItemsRecycler;
     int flag = 1;
-    List<PackageItem> list1 = new ArrayList<>();
+    List<PackageItem> list1;
+    UploadInvoiceProductAdapter uploadInvoiceProductAdapter;
     Dialog dialog;
     private int IMAGE_CODE = 100;
     private boolean isSelected = false;
@@ -67,16 +67,12 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
             holder.invoiceUploaded.setVisibility(View.VISIBLE);
         }
 
+        list1 = new ArrayList<>();
 
-        UploadInvoiceProductAdapter uploadInvoiceProductAdapter = new UploadInvoiceProductAdapter(list, context);
+        list1 = list.get(position).getPackageItems();
+
+        uploadInvoiceProductAdapter = new UploadInvoiceProductAdapter(list1, context);
         holder.uploadInvoiceItemsRecycler.setAdapter(uploadInvoiceProductAdapter);
-
-//        list1.add(new UploadInvoiceProductResponse("RedmiNote 9 Pro Max"));
-//        list1.add(new UploadInvoiceProductResponse("RedmiNote 9 Pro Max"));
-//        list1.add(new UploadInvoiceProductResponse("RedmiNote 9 Pro Max"));
-//        list1.add(new UploadInvoiceProductResponse("RedmiNote 9 Pro Max"));
-//        list1.add(new UploadInvoiceProductResponse("RedmiNote 9 Pro Max"));
-
 
 
         holder.expandBtn.setOnClickListener(new View.OnClickListener() {
