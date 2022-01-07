@@ -111,6 +111,7 @@ public class ShipmentListingFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 400) {
                     callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }

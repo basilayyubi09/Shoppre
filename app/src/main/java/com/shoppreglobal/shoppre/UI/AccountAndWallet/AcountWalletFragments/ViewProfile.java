@@ -405,36 +405,36 @@ public class ViewProfile extends Fragment {
         });
 
 
-        phoneNoEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (phoneNoEditText.getText().length() == 10) {
-                    phoneNoCheck.setVisibility(View.VISIBLE);
-                } else {
-                    phoneNoCheck.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (phoneNoEditText.getText().length() == 10) {
-                    phoneNoCheck.setVisibility(View.VISIBLE);
-                } else {
-                    phoneNoCheck.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                if (phoneNoEditText.getText().length() == 10) {
-                    phoneNoCheck.setVisibility(View.VISIBLE);
-                } else {
-                    phoneNoCheck.setVisibility(View.GONE);
-                }
-            }
-        });
+//        phoneNoEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                if (phoneNoEditText.getText().length() == 10) {
+//                    phoneNoCheck.setVisibility(View.VISIBLE);
+//                } else {
+//                    phoneNoCheck.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                if (phoneNoEditText.getText().length() == 10) {
+//                    phoneNoCheck.setVisibility(View.VISIBLE);
+//                } else {
+//                    phoneNoCheck.setVisibility(View.GONE);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if (phoneNoEditText.getText().length() == 10) {
+//                    phoneNoCheck.setVisibility(View.VISIBLE);
+//                } else {
+//                    phoneNoCheck.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
 
         return view;
@@ -829,7 +829,7 @@ public class ViewProfile extends Fragment {
             return false;
         } else {
             numberError.setVisibility(View.GONE);
-            phoneNoCheck.setVisibility(View.VISIBLE);
+//            phoneNoCheck.setVisibility(View.VISIBLE);
             return true;
         }
     }
