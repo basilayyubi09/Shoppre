@@ -53,14 +53,14 @@
                     android:layout_width="318dp"
                     android:layout_height="318dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="22dp"
+
                     android:src="@mipmap/shop" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="-20dp"
                     android:gravity="center_horizontal"
                     android:text="@string/shop_from_1000_indian_websites_get_it_delivered_to_your_virtual_address"
                     android:textAlignment="center"
