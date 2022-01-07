@@ -2,15 +2,14 @@ package com.shoppreglobal.shoppre.UI.Locker;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.shoppreglobal.shoppre.R;
@@ -29,6 +28,7 @@ public class ReturnLanding extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_return_landing, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         sellerPickerBorder = view.findViewById(R.id.sellerPickerBorder);
         shipItToSellerBorder = view.findViewById(R.id.shipItToSellerBorder);
@@ -70,23 +70,22 @@ public class ReturnLanding extends Fragment {
         return_landing_proceed_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flag == 1){
+                if (flag == 1) {
 
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new LockerReadyToShip(), null)
                             .addToBackStack(null).commit();
 
-                }else if(flag == 2){
+                } else if (flag == 2) {
 
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new ShipItToSellerLanding(), null)
                             .addToBackStack(null).commit();
 
-                }else {
+                } else {
                     flag = 0;
                     Toast.makeText(getContext(), "Please select any one to Proceed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
 
         return view;

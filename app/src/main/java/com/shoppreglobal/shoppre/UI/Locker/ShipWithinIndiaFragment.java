@@ -1,13 +1,12 @@
 package com.shoppreglobal.shoppre.UI.Locker;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.fragment.app.Fragment;
 
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddAddress;
@@ -23,6 +22,7 @@ public class ShipWithinIndiaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ship_within_india, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         addMoreShipmentAddress = view.findViewById(R.id.addMoreShipmentAddress);
 

@@ -46,6 +46,7 @@ public class ReadyToShipReturnedAndDiscard extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ready_to_ship_returned_and_discard, container, false);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         returnedAndDiscardRecycler = view.findViewById(R.id.returnedAndDiscardRecycler);
         emptyText = view.findViewById(R.id.emptyText);
 

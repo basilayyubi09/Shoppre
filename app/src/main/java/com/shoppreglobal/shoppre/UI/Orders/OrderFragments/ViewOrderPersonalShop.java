@@ -73,7 +73,6 @@ public class ViewOrderPersonalShop extends Fragment {
     OrderDetails orderDetails;
     OrderUpdates orderUpdates;
     Integer shopperId;
-    String testUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
     DownloadManager downloadManager;
     long downloadId;
 
@@ -84,6 +83,7 @@ public class ViewOrderPersonalShop extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_order_personal_shop, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");

@@ -28,6 +28,7 @@ public class AddressBook extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("account");
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
 
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
 

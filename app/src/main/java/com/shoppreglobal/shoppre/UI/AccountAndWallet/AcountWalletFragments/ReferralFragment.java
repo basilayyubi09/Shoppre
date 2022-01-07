@@ -97,6 +97,7 @@ public class ReferralFragment extends Fragment {
 
         //shared pref manager
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         bearerToken = sharedPrefManager.getBearerToken();
         referralAdapter = new ReferralAdapter(getContext(), list);
         referralRecycle.setLayoutManager(linearLayoutManager);
@@ -216,7 +217,7 @@ public class ReferralFragment extends Fragment {
 
 
     private void callSubmitReferralApi() {
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("referral_code", have.getText().toString());
         LoadingDialog.showLoadingDialog(getActivity(), "");

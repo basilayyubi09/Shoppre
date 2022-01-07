@@ -25,10 +25,8 @@ import com.shoppreglobal.shoppre.AccountResponse.ChangePasswordResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
-import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.SignupLogin.LoginActivity;
-import com.shoppreglobal.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
@@ -68,6 +66,7 @@ public class ChangePasswordFragment extends Fragment {
         setupUI(main);
 
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,12 +167,11 @@ public class ChangePasswordFragment extends Fragment {
             helperText.setVisibility(View.GONE);
             newPasswordError.setVisibility(View.VISIBLE);
             return false;
-        }
-        else if(!newPasswordString.matches(passwordPattern)){
+        } else if (!newPasswordString.matches(passwordPattern)) {
             helperText.setVisibility(View.GONE);
             newPasswordError.setVisibility(View.VISIBLE);
             return false;
-        }else {
+        } else {
             helperText.setVisibility(View.VISIBLE);
             newPasswordError.setVisibility(View.GONE);
             return true;

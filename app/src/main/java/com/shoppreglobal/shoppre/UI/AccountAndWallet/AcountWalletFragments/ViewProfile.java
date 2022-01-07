@@ -152,6 +152,7 @@ public class ViewProfile extends Fragment {
 
 
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         ///change password
         tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -48,7 +48,7 @@ public class ShipmentListingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipment_listing, container, false);
-
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         recyclerView = view.findViewById(R.id.lockerReadyToShipRecycler);
         emptyView = view.findViewById(R.id.emptyView);

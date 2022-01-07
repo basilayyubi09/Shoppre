@@ -44,6 +44,7 @@ public class ViewPreviousShipmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_previous_shipment, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         previousShipmentRecycler = view.findViewById(R.id.previousShipmentRecycler);
         emptyText = view.findViewById(R.id.emptyText);

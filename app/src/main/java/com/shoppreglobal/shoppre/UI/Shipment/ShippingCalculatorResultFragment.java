@@ -58,6 +58,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);

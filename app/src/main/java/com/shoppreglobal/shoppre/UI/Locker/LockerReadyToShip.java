@@ -47,7 +47,7 @@ public class LockerReadyToShip extends Fragment {
     ReadyToShipAdapter readyToShipAdapter;
     RecyclerView lockerReadyToShipRecycler;
     LinearLayout returnAndDiscardText;
-    MaterialButton createShipRequestBtn , placeAnOrderBtn;
+    MaterialButton createShipRequestBtn, placeAnOrderBtn;
     LinearLayout emptyLockerDiscardText;
     CardView emptyLockerCard, lockerReadyToShipCard;
 
@@ -59,6 +59,7 @@ public class LockerReadyToShip extends Fragment {
         View view = inflater.inflate(R.layout.fragment_locker_ready_to_ship, container, false);
 
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);
@@ -141,25 +142,23 @@ public class LockerReadyToShip extends Fragment {
     }
 
     private void callReadyToSendApi() {
-        LoadingDialog.showLoadingDialog(getActivity(),"");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<ReadyToSendResponse> call = RetrofitClient3.getInstance3()
-                .getAppApi().readyToSend("Bearer "+sharedPrefManager.getBearerToken());
+                .getAppApi().readyToSend("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<ReadyToSendResponse>() {
             @Override
             public void onResponse(Call<ReadyToSendResponse> call, Response<ReadyToSendResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
                     CreateShipRequestFragment createShipRequestFragment = new CreateShipRequestFragment();
-                    bundle.putSerializable("list" , (Serializable) response.body().getPackages());
+                    bundle.putSerializable("list", (Serializable) response.body().getPackages());
                     createShipRequestFragment.setArguments(bundle);
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout,createShipRequestFragment, null)
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, createShipRequestFragment, null)
                             .addToBackStack(null).commit();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }

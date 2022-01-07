@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class WalletFragment extends Fragment {
 
-    List<WalletTransaction> list , list1;
+    List<WalletTransaction> list, list1;
     String[] title = {"  All  ", "  My Cash  ", "  My Rewards  "};
     Spinner allSpinner;
     ArrayAdapter arrayAdapter;
@@ -51,9 +51,7 @@ public class WalletFragment extends Fragment {
     String bearerToken;
     TextView myWalletMyCash, myWalletMyRewards, emptyWalletText, myCash, myRewards, howCanI;
     ImageView emptyWalletImage;
-    Integer offSet , limit;
-
-
+    Integer offSet, limit;
 
 
     @Override
@@ -62,12 +60,13 @@ public class WalletFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
-        offSet = 0 ;
+        offSet = 0;
         limit = 5;
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("account");
 
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         allSpinner = view.findViewById(R.id.allSpinner);
         myWalletMyCash = view.findViewById(R.id.myWalletMyCash);
         myCash = view.findViewById(R.id.myCash);
@@ -185,10 +184,10 @@ public class WalletFragment extends Fragment {
                 if (response.isSuccessful()) {
 
 
-                        list1 = response.body().getWalletTransactions();
-                    for (int i=0 ; i<list1.size() ; i++){
+                    list1 = response.body().getWalletTransactions();
+                    for (int i = 0; i < list1.size(); i++) {
 
-                        list.add( list1.get(i));
+                        list.add(list1.get(i));
 
 
                     }
@@ -208,17 +207,16 @@ public class WalletFragment extends Fragment {
                     }
 
 
-                        if (list1.size()==0 || list1.size()<5){
-                            showMoreContent.setVisibility(View.GONE);
-                        }
-                        else {
-                            showMoreContent.setVisibility(View.VISIBLE);
-                        }
+                    if (list1.size() == 0 || list1.size() < 5) {
+                        showMoreContent.setVisibility(View.GONE);
+                    } else {
+                        showMoreContent.setVisibility(View.VISIBLE);
+                    }
 
 
                     list1.clear();
                     offSet = limit;
-                    limit = limit+5;
+                    limit = limit + 5;
 //                    int date = walletTransactionResponse.getUser().getId();
 //                    Toast.makeText(getActivity(), String.valueOf(date), Toast.LENGTH_SHORT).show();
 
@@ -229,7 +227,7 @@ public class WalletFragment extends Fragment {
                     int myReward = response.body().getUser().getParcelWalletAmount() + response.body().getUser().getPsWalletAmount()
                             + response.body().getUser().getCourierWalletAmount();
 
-                    myWalletMyCash.setText("₹ " +String.valueOf(myReward) );
+                    myWalletMyCash.setText("₹ " + String.valueOf(myReward));
                     myWalletMyRewards.setText("₹ " + response.body().getUser().getMarketingWalletAmount().toString());
                     LoadingDialog.cancelLoading();
 

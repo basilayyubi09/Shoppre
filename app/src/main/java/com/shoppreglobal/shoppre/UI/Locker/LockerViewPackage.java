@@ -2,7 +2,6 @@ package com.shoppreglobal.shoppre.UI.Locker;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageDetails;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageUpdates;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
-import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ViewOrderPersonalShop;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -77,7 +75,7 @@ public class LockerViewPackage extends Fragment {
         uploadInvoiceCard = view.findViewById(R.id.uploadInvoiceCard);
         viewPackageViewMore = view.findViewById(R.id.viewPackageViewMore);
         sharedPrefManager = new SharedPrefManager(getActivity());
-
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -190,9 +188,9 @@ public class LockerViewPackage extends Fragment {
         date.setText(month_name);
 
         trackingNumber.setText(list.getInvoiceCode());
-        if (list.getStore()!=null){
+        if (list.getStore() != null) {
             websiteName.setText(list.getStore().getName());
-        }else {
+        } else {
             websiteName.setText("");
         }
 
@@ -201,8 +199,7 @@ public class LockerViewPackage extends Fragment {
         amount.setText("₹ " + String.valueOf(list.getPriceAmount()));
 
 
-
-        if (list.getStateNameAndColor().getStateName()!=null){
+        if (list.getStateNameAndColor().getStateName() != null) {
             if (list.getStateNameAndColor().getStateName().equals("In Review")) {
                 comment.setText(list.getStateNameAndColor().getStateName());
                 comment.setTextColor(getActivity().getColor(R.color.in_review_blue_color));
@@ -216,7 +213,7 @@ public class LockerViewPackage extends Fragment {
                 comment.setTextColor(getActivity().getColor(R.color.ready_to_ship_green_color));
                 comment.setBackground(getActivity().getDrawable(R.drawable.ready_to_ship_background));
             }
-        }else {
+        } else {
             comment.setText("   ");
             comment.setTextColor(getActivity().getColor(R.color.in_review_blue_color));
             comment.setBackground(getActivity().getDrawable(R.drawable.price_changed_background));

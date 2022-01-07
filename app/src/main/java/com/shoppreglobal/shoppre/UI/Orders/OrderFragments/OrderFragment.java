@@ -79,6 +79,7 @@ public class OrderFragment extends Fragment {
     EditText referralET;
     Integer shoppreId, id;
     boolean isEmailVerified;
+    YouTubePlayerView youTubePlayerView;
 
 
     @Override
@@ -86,6 +87,7 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
@@ -112,6 +114,7 @@ public class OrderFragment extends Fragment {
         cancel = view.findViewById(R.id.cancel);
         shippingCalculatorCard = view.findViewById(R.id.shippingCardAddress);
         bannerVirtualAddress = view.findViewById(R.id.bannerVirtualAddress);
+        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
 
 
         Intent intent = getActivity().getIntent();
@@ -125,9 +128,6 @@ public class OrderFragment extends Fragment {
             }
 
         }
-
-        YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
-        getLifecycle().addObserver(youTubePlayerView);
 
 
         list = new ArrayList<>();
@@ -354,6 +354,8 @@ public class OrderFragment extends Fragment {
                     if (number == 0) {
                         banner.setVisibility(View.VISIBLE);
                         ordersCard.setVisibility(View.VISIBLE);
+
+                        getLifecycle().addObserver(youTubePlayerView);
                         secondContainer.setVisibility(View.VISIBLE);
                         orderListing.setVisibility(View.GONE);
                         topCard.setVisibility(View.GONE);

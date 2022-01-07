@@ -3,9 +3,6 @@ package com.shoppreglobal.shoppre.UI.Locker;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.shoppreglobal.shoppre.AccountResponse.CountryResponse;
@@ -45,6 +44,8 @@ public class ShipItToSellerLanding extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ship_it_to_seller_landing, container, false);
+
+        OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         shipItToSellerCountry = view.findViewById(R.id.shipItToSellerCountry);
         shipToSellerCountryTextView = view.findViewById(R.id.shipToSellerCountryTextView);
