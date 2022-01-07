@@ -57,17 +57,6 @@
     </style>
 
 
-
-
-    <style name="SpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:divider">#d1d1d1</item>
-        <item name="android:dividerHeight">0.5dp</item>
-    </style>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:dropDownListViewStyle">@style/SpinnerStyle</item>
-    </style>
-
     <!--   spinner Theme -->
     <style name="MySpinner" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:dividerHeight">0.5dp</item>
@@ -77,17 +66,5 @@
 
 
     ////////////
-    <style name="PopupMenuTextView" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textColor">#00FF00</item>
-        <item name="android:textSize">10sp</item>
-        <item name="fontWeight">500</item>
-
-    </style>
-
-    <style name="PopupMenuBackground" parent="android:Widget.Holo.Light.ListPopupWindow">
-<!--        <item name="android:popupBackground">#e3e3e3</item>-->
-
-
-    </style>
 
 </resources>

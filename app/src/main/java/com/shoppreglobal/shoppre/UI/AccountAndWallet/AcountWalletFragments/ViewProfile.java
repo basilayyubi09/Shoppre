@@ -177,6 +177,8 @@ public class ViewProfile extends Fragment {
                 }
             }
 
+
+
             @Override
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
@@ -404,39 +406,6 @@ public class ViewProfile extends Fragment {
                 getActivity().finishAffinity();
             }
         });
-
-
-//        phoneNoEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                if (phoneNoEditText.getText().length() == 10) {
-//                    phoneNoCheck.setVisibility(View.VISIBLE);
-//                } else {
-//                    phoneNoCheck.setVisibility(View.GONE);
-//                }
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                if (phoneNoEditText.getText().length() == 10) {
-//                    phoneNoCheck.setVisibility(View.VISIBLE);
-//                } else {
-//                    phoneNoCheck.setVisibility(View.GONE);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//                if (phoneNoEditText.getText().length() == 10) {
-//                    phoneNoCheck.setVisibility(View.VISIBLE);
-//                } else {
-//                    phoneNoCheck.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-
 
         return view;
     }
@@ -801,23 +770,6 @@ public class ViewProfile extends Fragment {
         }
     }
 
-
-//    public boolean validateEmail() {
-//        String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
-//        if (email.equals("")) {
-//            emailError.setVisibility(View.VISIBLE);
-//            return false;
-//        } else if (!email.matches(emailPattern)) {
-//            emailWrong.setVisibility(View.VISIBLE);
-//            return false;
-//        } else {
-//            emailWrong.setVisibility(View.GONE);
-//            emailError.setVisibility(View.GONE);
-//            return true;
-//        }
-//
-//
-//    }
 
     public boolean validateNumber() {
 

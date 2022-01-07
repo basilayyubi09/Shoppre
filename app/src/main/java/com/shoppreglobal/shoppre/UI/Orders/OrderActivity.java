@@ -54,10 +54,6 @@ public class OrderActivity extends AppCompatActivity {
 
 
         frameLayout = findViewById(R.id.orderFrameLayout);
-        locker = findViewById(R.id.lockerCard);
-        shipment = findViewById(R.id.shipmentCard);
-        account = findViewById(R.id.accountCard);
-        order = findViewById(R.id.orderCard);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setItemIconTintList(null);
 

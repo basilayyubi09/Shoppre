@@ -3,9 +3,7 @@
     <string name="helper_text"><![CDATA[Use 8 or more characters with a mix of letters, numbers & symbols]]></string>
     <string name="by_signing_">By signing up, you agree to Shoppre\'s <u>Terms of Use</u> &amp; <u>Privacy Policy</u></string>
     <string name="create_your_account_string">Create Your Account</string>
-    <string name="full_name_string">Full Name</string>
     <string name="email_id_string">Email ID</string>
-    <string name="password_string">Password</string>
     <string name="confirm_password_string">Confirm Password</string>
 
     <string name="worry_not_w">
@@ -23,9 +21,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="reset_password_string">Reset Password</string>
     <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF"> Login</font></string>
 
-    <string name="password_error_string">Looks like the Email ID and Password you entered are incorrect. Please try again!</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--    Onboarding text-->
     <string name="get_a_unique_indian_virtual_address_to_shop">Get a unique Indian Virtual Address to shop!</string>
@@ -33,7 +29,6 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="we_ll_consolidate_ship_it_to_you">We\'ll consolidate &amp; ship it to you!</string>
     <string name="unlock_your_unique_virtual_address">Unlock your unique Virtual Address</string>
     <string name="use_this_address_to_shop_from_india">Use this address\nto shop from India</string>
-    <string name="your_indian_virtual_address">Your Indian Virtual Address</string>
     <string name="locker_no_sa_29j17_122545_indian_shoppre_llp_182_1st_floor_2nd_cross_rd_7th_main_koramangala_1st_block_bengaluru_karnataka_560_034">Indian Shoppre LLP,<br />#182, 1st Floor, 2nd Cross Rd,<br />7th Main, Koramangala 1st Block,<br />Bengaluru, Karnataka - 560 034</string>
 
     <!--    facebook -->
@@ -51,22 +46,16 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="wallet_transaction">Wallet Transaction</string>
     <string name="share_the_unique">Share the unique code and invite your friends to ship with Shoppre and earn a cashback of Rs 350 when their first package dispatches. They get Rs. 350 too!</string>
     <string name="you_have_not">You have not invited anybody yet. Share the referral with your friends and start earning now!</string>
-    <string name="can_i_transfer_the_cashback_to_my_bank">Can I Transfer the Cashback to My Bank?</string>
-    <string name="how_can_i_invite_my_friends">How Can I Invite My Friends?</string>
-    <string name="how_does_shoppre_referrals_work">How Does Shoppre Referrals Work?</string>
     <string name="enter_the_referral_code_">Enter the referral code shared by your\nfriend and get you referral reward</string>
     <string name="my_wallet">My Wallet</string>
     <string name="my_cash">My Cash</string>
-    <string name="u20b9_100">₹ 100</string>
     <string name="my_rewards">My Rewards</string>
-    <string name="u20b9_250">₹ 250</string>
     <string name="referral_offers_coupons">REFERRAL/ OFFERS/ COUPONS</string>
     <string name="read_more">Read More</string>
     <string name="wow_can_i_use_my_wallet_balance">Wow can I use My Wallet balance?</string>
     <string name="delete"><u>Delete</u></string>
     <string name="edit"><u>Edit</u></string>
     <string name="varify_your_account_details">We’ve sent an email with the verification link to your ID which is valid for <b>7 days only</b>. Please verify your account to access all the features.</string>
-    <string name="delivery_address">24 Airport Rd -<br />Garhoud - Dubai -<br />United Arab Emirates</string>
     <string name="update_address">Update Address</string>
     <string name="i_agree_to_all_terms_conditions">I agree to all  <font color='#8F8F8F'><u><bold>Terms &amp; Conditions</bold></u></font></string>
     <string name="ill_shop_for_my_self_text">Shop directly on any Indian sites and get it delivered to your ShoppRe Virtual Address. We\'ll receive your package &amp; ship it to anywhere across the globe</string>
@@ -83,8 +72,6 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="we_usually_don_t">We usually don’t place orders on this website. Please go through return/refund policies before placing your order. If you trust this website, we’ll still place this order on your behalf.</string>
     <string name="looks_like_you_are_">Looks like you are ordering from an e-Pharmacy. Click here to read medicine related shipping guidelines before placing your order.</string>
     <string name="choose_packages">Choose Packages for Shipment</string>
-    <string name="the_total_value">The Total Value of your shipment is above ₹ 50,000.\nYou need to pay additional charges to ship it.</string>
-    <string name="_1_of_the_packages">1 of the packages selected does not have an invoice.<br></br>It is mandatory to attach invoice for all shipments as per customs regulations.</string>
     <string name="shipping_preference">Shipping Preference</string>
     <string name="get_vip_treatment"><![CDATA[Get VIP treatment by pushing your packages ahead in the shipment queue. Faster Consolidation, Special Requests & Out the Door quickly!]]></string>
     <string name="ship_request_summary">Ship Request Summary</string>
@@ -98,15 +85,9 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="we_re_processing_">We’re processing your shipment request.\nYou will receive the payment link shortly.</string>
     <string name="please_make_the_payment">Please make the payment within 7 days of initiation after which there’ll be a charge of ₹ 100/day. The charges will be added to the wallet.</string>
     <string name="orders_more_than_15">Orders more than 15 items per website will incur an additional service fees of INR 50 per item</string>
-    <string name="exchange_toast">We’re reviewing your Exchange Request</string>
-    <string name="return_toast">We’re reviewing your Return Request</string>
-    <string name="split_toast">We’re reviewing your Split Package Request</string>
-    <string name="discard_toast">We’re reviewing your Discard Request</string>
-    <string name="photo_toast">We’re reviewing your Additional Photo Request</string>
     <string name="your_package_contains_damaged_items">- Your package contains<font color="#FF0000"><b> damaged</b></font> items</string>
     <string name="your_package_contains">- Your package contains<font color="#FF0000"><b> restricted</b></font> items, which\ncan be shipped<b> only within India</b>. Deselect the\npackage to ship internationally.</string>
     <string name="get_rs_500_cashback_when_your_friend_s_first_package_arrives_at_our_warehouse">Get Rs. 500 cashback when your friend’s first package arrives at our warehouse</string>
-    <string name="unable_to_open_file">Unable to open file</string>
 
     <!--    <string name="password_error_message"><![CDATA[A Password 8 or more characters with a mix of letters, numbers & symbols is required]]></string>-->
 

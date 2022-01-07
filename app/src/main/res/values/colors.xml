@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FF891C</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
@@ -19,7 +18,6 @@
     <color name="skipcolor">#3A5FD8</color>
     <color name="button_color">#17B28F</color>
     <color name="selected_btn_color">#2D8DFF</color>
-    <color name="unselected_btn_color">#F8F8F8</color>
     <color name="grey">#AFADAD</color>
     <color name="ready_to_ship_green_color">#00A781</color>
     <color name="action_required_yellow_color">#F8B800</color>
@@ -28,7 +26,6 @@
     <color name="text_red">#FF0000</color>
 
     <color name="text_blue">#2C469A</color>
-    <color name="toast_yellow">#FFBC50</color>
     <color name="pending_invoice_purple_color">#FF0101</color>
     <color name="payment_confirm_green_color">#00A781</color>
     <color name="dispatched_blue_color">#8950FC</color>
