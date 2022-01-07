@@ -5,10 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -38,21 +35,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.FileProvider;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.downloader.Error;
-import com.downloader.OnCancelListener;
-import com.downloader.OnDownloadListener;
-import com.downloader.OnPauseListener;
-import com.downloader.OnProgressListener;
-import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
-import com.downloader.Progress;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -157,7 +146,7 @@ public class ShipmentLanding extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipment_landing, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         Bundle bundle = this.getArguments();
@@ -478,7 +467,7 @@ public class ShipmentLanding extends Fragment {
                     File mFile = new File(Uri.parse(fileUri).getPath());
                     String fileName = mFile.getAbsolutePath();
                     openFile(fileName);
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("error", "Could not open the downloaded file");
                 }
             }
@@ -500,14 +489,9 @@ public class ShipmentLanding extends Fragment {
             i.setDataAndType(Uri.fromFile(new File(file)), getMimeType(url));//this is for pdf file. Use appropreate mime type
             startActivity(i);
         } catch (Exception e) {
-            Toast.makeText(getActivity(),"Respective application not detected. File saved in download folder",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Respective application not detected. File saved in download folder", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
 
 
     private void downloadInvoiceApi() {
@@ -828,18 +812,18 @@ public class ShipmentLanding extends Fragment {
         packageTotalWeight.setText(String.valueOf(modelResponse.getShipment().getWeight()) + " KG");
 
         if (modelResponse.getShipment().getShipmentBoxes().size() > 0) {
-            if (modelResponse.getShipment().getBoxLength()!=null && modelResponse.getShipment().getBoxHeight()!=null && modelResponse.getShipment().getBoxWidth()!=null){
+            if (modelResponse.getShipment().getBoxLength() != null && modelResponse.getShipment().getBoxHeight() != null && modelResponse.getShipment().getBoxWidth() != null) {
                 if (modelResponse.getShipment().getBoxLength() == 0 && modelResponse.getShipment().getBoxHeight() == 0 && modelResponse.getShipment().getBoxWidth() == 0) {
                     dimension.setText("To be Calculated");
                 } else {
                     dimension.setText(String.valueOf(modelResponse.getShipment().getBoxLength()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxHeight()) + "cm" + " x " + String.valueOf(modelResponse.getShipment().getBoxWidth()));
                 }
-            }else {
+            } else {
                 dimension.setText("To be Calculated");
 
             }
 
-            if (modelResponse.getShipment().getVolumetricWeight()!=null && modelResponse.getShipment().getFinalWeight()!=null && modelResponse.getShipment().getFinalWeight()!=null){
+            if (modelResponse.getShipment().getVolumetricWeight() != null && modelResponse.getShipment().getFinalWeight() != null && modelResponse.getShipment().getFinalWeight() != null) {
                 if (modelResponse.getShipment().getVolumetricWeight() == 0) {
                     volumetricWeight.setText("To be Calculated");
                 } else {
@@ -851,7 +835,7 @@ public class ShipmentLanding extends Fragment {
                 } else {
                     finalWeight.setText(String.valueOf(modelResponse.getShipment().getFinalWeight()) + " KG");
                 }
-            }else {
+            } else {
                 volumetricWeight.setText("To be Calculated");
                 finalWeight.setText("To be Calculated");
             }
@@ -859,28 +843,26 @@ public class ShipmentLanding extends Fragment {
         }
 
 
-        if (modelResponse.getShipment().getSubTotalAmount()!=null){
+        if (modelResponse.getShipment().getSubTotalAmount() != null) {
             if (modelResponse.getShipment().getSubTotalAmount() == 0) {
                 totalCost.setText("To be Calculated");
             } else {
-                totalCost.setText((String.valueOf("₹ "+modelResponse.getShipment().getSubTotalAmount())));
+                totalCost.setText((String.valueOf("₹ " + modelResponse.getShipment().getSubTotalAmount())));
             }
-        }else {
+        } else {
             totalCost.setText("To be Calculated");
         }
 
 
-        if (modelResponse.getTotalHours()!=null){
+        if (modelResponse.getTotalHours() != null) {
             if (modelResponse.getTotalHours() == 0) {
                 cancelShipmentBtn.setVisibility(View.VISIBLE);
             } else if (modelResponse.getTotalHours() > 0) {
                 cancelShipmentBtn.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             cancelShipmentBtn.setVisibility(View.GONE);
         }
-
-
 
 
         for (int i = 0; i < list.size(); i++) {
@@ -944,7 +926,6 @@ public class ShipmentLanding extends Fragment {
             retryPaymentBtn.setVisibility(View.VISIBLE);
             retryPaymentHelpText.setVisibility(View.VISIBLE);
         }
-
 
 
 /////Conditions for tags and buttons
@@ -1196,12 +1177,12 @@ public class ShipmentLanding extends Fragment {
         @Override
         protected void onPostExecute(String message) {
             //process message
-            if (strResponse==200){
+            if (strResponse == 200) {
                 Toast.makeText(getActivity(), "Invoice upload successfully", Toast.LENGTH_SHORT).show();
                 uploadInvoiceArrowHome.setVisibility(View.GONE);
                 invoiceUploadedHome.setVisibility(View.VISIBLE);
                 dialog1.dismiss();
-            }else {
+            } else {
                 Toast.makeText(getActivity(), "Invoice upload Failed", Toast.LENGTH_SHORT).show();
             }
         }

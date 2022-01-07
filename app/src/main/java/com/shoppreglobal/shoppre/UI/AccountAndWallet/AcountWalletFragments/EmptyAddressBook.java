@@ -124,7 +124,7 @@ public class EmptyAddressBook extends Fragment {
 
         ////Virtual Address Copy Button
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         emptyAddressNameCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

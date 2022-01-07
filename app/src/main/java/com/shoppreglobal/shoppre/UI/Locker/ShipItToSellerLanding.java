@@ -23,6 +23,7 @@ import com.shoppreglobal.shoppre.AccountResponse.CountryResponse;
 import com.shoppreglobal.shoppre.AccountResponse.Item;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class ShipItToSellerLanding extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ship_it_to_seller_landing, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         shipItToSellerCountry = view.findViewById(R.id.shipItToSellerCountry);
         shipToSellerCountryTextView = view.findViewById(R.id.shipToSellerCountryTextView);
 

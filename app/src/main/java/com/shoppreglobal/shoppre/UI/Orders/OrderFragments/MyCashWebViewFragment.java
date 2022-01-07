@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import androidx.fragment.app.Fragment;
 
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 
@@ -22,7 +23,7 @@ public class MyCashWebViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_my_cash_web_view, container, false);
-
+        OrderActivity.bottomNavigationView.setVisibility(View.GONE);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 

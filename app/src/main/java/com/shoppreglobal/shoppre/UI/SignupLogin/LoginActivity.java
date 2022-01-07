@@ -46,11 +46,11 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView dont_have_acnt, forgotPassword;
+    TextView forgotPassword;
     TextInputLayout passwordField;
     MaterialButton loginBtn, googleLoginBtn, fbLoginBtn;
-    LinearLayout main;
-    String emailId, password , checkLogin;
+    LinearLayout main, dont_have_acnt;
+    String emailId, password, checkLogin;
     GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
     TextInputLayout loginEmailIdField;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //Hooks
-        dont_have_acnt = findViewById(R.id.dont_have_acnt);
+        dont_have_acnt = findViewById(R.id.signUpNow);
         forgotPassword = findViewById(R.id.forgot_password);
         loginEmailIdField = findViewById(R.id.emailIdField);
         passwordField = findViewById(R.id.passwordField);
@@ -79,8 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         googleLoginBtn = findViewById(R.id.login_google_btn);
         fbLoginBtn = findViewById(R.id.login_fb_logo);
         main = findViewById(R.id.main);
-
-
 
 
         setupUI(main);
@@ -93,13 +91,12 @@ public class LoginActivity extends AppCompatActivity {
         googleLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                 {
 
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else {
+                } else {
                     signIn();
                     LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
                 }
@@ -115,15 +112,15 @@ public class LoginActivity extends AppCompatActivity {
                 if (!validateEmailField() || !validatePasswordField()) {
                     return;
                 } else {
-                    if(!CheckNetwork.isInternetAvailable(getApplicationContext()) ) //if connection not available
+                    if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                     {
 
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection",Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "No Internet Connection", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    }
-                    else{
-                        signInDirect();
+                    } else {
                         LoadingDialog.showLoadingDialog(LoginActivity.this, getString(R.string.Loading));
+                        signInDirect();
+
                     }
                 }
             }
@@ -234,11 +231,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<SignUpGoogleResponse> call, Response<SignUpGoogleResponse> response) {
                 SignUpGoogleResponse signUpGoogleResponse = response.body();
                 if (response.isSuccessful()) {
-                    if (signUpGoogleResponse.getToken()!= null) {
+                    if (signUpGoogleResponse.getToken() != null) {
 
                         checkLogin = "signup";
                         callAuthApi(signUpGoogleResponse.getToken().getAccessToken());
-                    } else if (signUpGoogleResponse.getToken()==null) {
+                    } else if (signUpGoogleResponse.getToken() == null) {
                         signInFacebook(emailId, firstName, lastName);
                     }
                 }
@@ -345,7 +342,7 @@ public class LoginActivity extends AppCompatActivity {
             String firstName = acct.getGivenName();
             String lastName = acct.getFamilyName();
             String email = acct.getEmail();
-             personId = acct.getId();
+            personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
             if (acct != null) {
@@ -484,7 +481,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private void callAuthApi(String bearer) {
         String bearerToken = bearer;
 
@@ -499,30 +495,27 @@ public class LoginActivity extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearerToken , paramObject.toString());
+                .getAuth("Bearer " + bearerToken, paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if (response.code()==200){
+                if (response.code() == 200) {
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
-                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
+//                    String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
 //                    Log.d("Auth api response ",code);
-                    callAccessTokenApi(part2 , bearerToken);
+                    callAccessTokenApi(part2, bearerToken);
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Invalid Token", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -530,7 +523,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
@@ -538,39 +531,34 @@ public class LoginActivity extends AppCompatActivity {
 
     private void callAccessTokenApi(String part2, String bearer1) {
 
-        String auth =bearer1;
+        String auth = bearer1;
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , auth);
+                .getAccessToken(part2, auth);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 //                  callMeApi(response.body().getAccessToken());
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     sharedPrefManager.setLogin();
                     LoadingDialog.cancelLoading();
-                    if (checkLogin.equals("login")){
-                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                    if (checkLogin.equals("login")) {
+                        startActivity(new Intent(LoginActivity.this, OrderActivity.class));
+                        finish();
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, OnBoardingActivity.class));
                         finish();
                     }
-                    else{
-                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
-                        finish();
-                    }
-                }
-
-                else if (response.code()==400){
+                } else if (response.code() == 400) {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Code has expired", Snackbar.LENGTH_LONG);
                     snackbar.show();
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.main), "Something Went Wrong", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }
@@ -578,22 +566,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 LoadingDialog.cancelLoading();
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(),Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.main), t.toString(), Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
     }
+
     private void callMeApi(String token) {
 
         Call<MeResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .getUser("Bearer "+token);
+                .getUser("Bearer " + token);
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
-                if (response.code() == 200){
+                if (response.code() == 200) {
 
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
                     sharedPrefManager.storeLastName(response.body().getLastName());
@@ -606,22 +595,20 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefManager.setLogin();
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), response.body().getSalutation()
-                            +"\n"+response.body().getFirstName()+"\n" +
-                            response.body().getLastName()+"\n"+
-                            response.body().getName()+"\n"+
-                            response.body().getEmail()+"\n"+
+                            + "\n" + response.body().getFirstName() + "\n" +
+                            response.body().getLastName() + "\n" +
+                            response.body().getName() + "\n" +
+                            response.body().getEmail() + "\n" +
                             response.body().getVirtualAddressCode(), Toast.LENGTH_LONG).show();
-                    if (checkLogin.equals("login")){
-                        startActivity(new Intent(LoginActivity.this , OrderActivity.class));
+                    if (checkLogin.equals("login")) {
+                        startActivity(new Intent(LoginActivity.this, OrderActivity.class));
                         finishAffinity();
-                    }
-                    else{
-                        startActivity(new Intent(LoginActivity.this , OnBoardingActivity.class));
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, OnBoardingActivity.class));
                         finishAffinity();
                     }
 
-                }
-                else  if(response.code() == 401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getApplicationContext(), "not registered", Toast.LENGTH_SHORT).show();
                 }
@@ -635,6 +622,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -655,11 +643,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0
@@ -669,7 +658,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(LoginActivity.this , SignUpActivity.class));
+        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         finish();
     }
 }

@@ -78,7 +78,7 @@ public class LockerViewPackage extends Fragment {
         viewPackageViewMore = view.findViewById(R.id.viewPackageViewMore);
         sharedPrefManager = new SharedPrefManager(getActivity());
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             id = bundle.getInt("id");

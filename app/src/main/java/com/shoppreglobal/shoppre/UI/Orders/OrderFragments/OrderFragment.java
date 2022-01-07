@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +42,7 @@ import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewP
 import com.shoppreglobal.shoppre.UI.Orders.CancelledOrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Shipment.ShippingCalculator;
+import com.shoppreglobal.shoppre.UI.SignupLogin.LockAccountActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LandingDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -70,26 +70,29 @@ public class OrderFragment extends Fragment {
     TextView bannerVirtualAddress;
     List<Order> list;
     List<IncomingPkg> list1;
-    LinearLayout orderListing, secondContainer;
+    LinearLayout topCard, secondContainer;
+    CardView orderListing;
     OrdersAdapter ordersAdapter;
     LinearLayout cancel;
     OrderState__1 orderState;
     int flag = 0;
     EditText referralET;
     Integer shoppreId, id;
-    String url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+    boolean isEmailVerified;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
         addYourFirstOrderBtn = view.findViewById(R.id.addYourFirstOrderBtn);
         verifyEmailBox = view.findViewById(R.id.verifyEmailBox);
+        topCard = view.findViewById(R.id.topCard);
         referralET = view.findViewById(R.id.referralET);
         verifyEmailBtn = view.findViewById(R.id.verifyEmailBtn);
         helpAndFaq = view.findViewById(R.id.helpAndFaqCard);
@@ -120,6 +123,7 @@ public class OrderFragment extends Fragment {
                 String token = uri.getQueryParameter("token");
                 Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
             }
+
         }
 
         YouTubePlayerView youTubePlayerView = view.findViewById(R.id.youtube_player_view);
@@ -335,7 +339,7 @@ public class OrderFragment extends Fragment {
         Call<OrderListingResponse> call = RetrofitClient3.getInstance3()
                 .getAppApi().getOrderListing("Bearer " + sharedPrefManager.getBearerToken());
 
-        Log.i("TAG", "callGetOrderListing:bearer " + sharedPrefManager.getBearerToken());
+
         call.enqueue(new Callback<OrderListingResponse>() {
             @Override
             public void onResponse(Call<OrderListingResponse> call, Response<OrderListingResponse> response) {
@@ -352,11 +356,13 @@ public class OrderFragment extends Fragment {
                         ordersCard.setVisibility(View.VISIBLE);
                         secondContainer.setVisibility(View.VISIBLE);
                         orderListing.setVisibility(View.GONE);
+                        topCard.setVisibility(View.GONE);
                     } else {
                         banner.setVisibility(View.GONE);
                         ordersCard.setVisibility(View.GONE);
                         secondContainer.setVisibility(View.GONE);
                         orderListing.setVisibility(View.VISIBLE);
+                        topCard.setVisibility(View.VISIBLE);
                     }
                     ordersAdapter.notifyDataSetChanged();
 
@@ -414,8 +420,8 @@ public class OrderFragment extends Fragment {
                         String date = split[0];
 
                         int daysBetween = getDateDiffFromNow(date);
-
                         if (daysBetween > 7) {
+
                             sevenDay.setVisibility(View.GONE);
                         } else {
                             sevenDay.setVisibility(View.VISIBLE);
@@ -452,20 +458,33 @@ public class OrderFragment extends Fragment {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code() == 200) {
-
                     if (response.body().getIsEmailVerified() != null) {
                         if (response.body().getIsEmailVerified() == 0) {
-
+                            isEmailVerified = false;
                             verifyEmailBox.setVisibility(View.VISIBLE);
                         } else if (response.body().getIsEmailVerified() == 1) {
-
+                            isEmailVerified = true;
                             verifyEmailBox.setVisibility(View.GONE);
                         }
                     } else {
+                        isEmailVerified = false;
                         verifyEmailBox.setVisibility(View.VISIBLE);
                     }
 
+                    String s = sharedPrefManager.getCreateDate();
+                    String[] split = s.split("T");
+                    String date = split[0];
 
+                    int dayGap = getDateDiffFromNow(date);
+                    if (dayGap > 7) {
+                        if (!isEmailVerified) {
+                            LoadingDialog.cancelLoading();
+                            Intent intent = new Intent(getActivity(), LockAccountActivity.class);
+                            intent.putExtra("email", sharedPrefManager.getEmail());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }
                     callGetOrderListing();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

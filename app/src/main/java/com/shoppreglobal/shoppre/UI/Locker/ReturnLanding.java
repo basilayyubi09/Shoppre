@@ -29,7 +29,7 @@ public class ReturnLanding extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_return_landing, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         sellerPickerBorder = view.findViewById(R.id.sellerPickerBorder);
         shipItToSellerBorder = view.findViewById(R.id.shipItToSellerBorder);
 

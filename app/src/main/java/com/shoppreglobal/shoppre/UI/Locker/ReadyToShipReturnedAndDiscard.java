@@ -18,6 +18,7 @@ import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -44,7 +45,7 @@ public class ReadyToShipReturnedAndDiscard extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ready_to_ship_returned_and_discard, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         returnedAndDiscardRecycler = view.findViewById(R.id.returnedAndDiscardRecycler);
         emptyText = view.findViewById(R.id.emptyText);
 

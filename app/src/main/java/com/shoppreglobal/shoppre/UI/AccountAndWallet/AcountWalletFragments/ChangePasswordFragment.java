@@ -26,6 +26,7 @@ import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.SignupLogin.LoginActivity;
 import com.shoppreglobal.shoppre.UI.SignupLogin.SignUp_Valid;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -65,6 +66,8 @@ public class ChangePasswordFragment extends Fragment {
 
 
         setupUI(main);
+
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

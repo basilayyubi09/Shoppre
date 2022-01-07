@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 public class VertualAddress extends Fragment {
@@ -55,7 +56,7 @@ public class VertualAddress extends Fragment {
 
         virtualAddressName.setText(sharedPrefManager.getFullName());
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         nameCopyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

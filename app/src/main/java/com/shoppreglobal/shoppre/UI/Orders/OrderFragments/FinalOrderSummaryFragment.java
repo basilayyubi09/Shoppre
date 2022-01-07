@@ -31,10 +31,7 @@ import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
-import org.json.JSONArray;
-
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +51,7 @@ public class FinalOrderSummaryFragment extends Fragment {
     MaterialButton proceedToPayBtn;
     Integer shoppreId;
     CheckBox check;
-    int totalCount , subTotal, shoppreTotal ;
+    int totalCount, subTotal, shoppreTotal;
     String url;
     String base64;
 
@@ -63,7 +60,10 @@ public class FinalOrderSummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_final_order_summary, container, false);
-        totalCount = 0; subTotal = 0; shoppreTotal = 0;
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
+        totalCount = 0;
+        subTotal = 0;
+        shoppreTotal = 0;
         orderTotal = view.findViewById(R.id.orderTotal);
         total = view.findViewById(R.id.total);
         check = view.findViewById(R.id.check);
@@ -98,9 +98,8 @@ public class FinalOrderSummaryFragment extends Fragment {
 //                            .replace(R.id.orderFrameLayout, thankYouFragment)
 //                            .addToBackStack(null).commit();
 
-//                    payAuthorizeApi();
+                    payAuthorizeApi();
 
-                    Toast.makeText(getActivity(), "Work in progress", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), "Please agree Terms & Condition to continue ", Toast.LENGTH_SHORT).show();
                 }
@@ -114,8 +113,9 @@ public class FinalOrderSummaryFragment extends Fragment {
 
     private void payAuthorizeApi() {
         JsonObject jsonObject = new JsonObject();
+        String email = sharedPrefManager.getEmail();
         jsonObject.addProperty("grant_type", "loginAs");
-        jsonObject.addProperty("username", sharedPrefManager.getEmail());
+        jsonObject.addProperty("username", email);
         jsonObject.addProperty("app_id", 28);
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<String> call = RetrofitClient.getInstance()
@@ -130,13 +130,20 @@ public class FinalOrderSummaryFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     Log.d("urlllllllll", String.valueOf(url));
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("url", url + "&type=ps&params=" + base64);
-                    WebViewFragment pay = new WebViewFragment();
-                    pay.setArguments(bundle);
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
-                            .addToBackStack(null).commit();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("url", url + "&type=ps&params=" + base64);
+//                    WebViewFragment pay = new WebViewFragment();
+//                    pay.setArguments(bundle);
+//                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
+//                            .addToBackStack(null).commit();
 
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url + "&type=ps&params=" + base64));
+                    startActivity(i);
+
+//                    Intent defaultBrowser = Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER);
+//                    defaultBrowser.setData(Uri.parse(url + "&type=ps&params=" + base64));
+//                    startActivity(defaultBrowser);
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi("auth");
@@ -166,12 +173,11 @@ public class FinalOrderSummaryFragment extends Fragment {
             public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
                 if (response.code() == 200) {
                     list = response.body().getOrders();
-//                    List<Integer> idList = new ArrayList<>();
                     JsonArray idList = new JsonArray();
 
                     JsonArray jsonArray = new JsonArray();
                     JsonArray idArray = new JsonArray();
-                    String idString ;
+
                     for (int i = 0; i < list.size(); i++) {
 
                         idList.add(list.get(i).getOrderItems().get(i).getId());
@@ -192,52 +198,32 @@ public class FinalOrderSummaryFragment extends Fragment {
                         jsonObject.addProperty("storeName", list.get(i).getStore().getName());
                         jsonArray.add(jsonObject);
                     }
-                    Log.d("Array of ids", idArray.toString());
                     Log.d("Array", jsonArray.toString());
 
-
-                    /*
-                    dict["id"] = idStr
-        dict["amount"] = self.total
-        dict["objectData"] = orders
-        dict["customer_id"] = user?.id
-        dict["object_id"] = idStr
-        dict["axis_banned"] = false
-        dict["type"] = "ps"
-        dict["cancelUrl"] = "paymentorders://Orders"
-        dict["ps_fee"] = self.psFee
-                     */
                     JsonObject jsonObjectToSend = new JsonObject();
-                    jsonObjectToSend.add("id" , idList);
-                    jsonObjectToSend.addProperty("amount" , subTotal);
-                    jsonObjectToSend.addProperty("objectData" , jsonArray.toString());
-                    jsonObjectToSend.addProperty("customer_id" , sharedPrefManager.getId());
-                    jsonObjectToSend.addProperty("object_id" ,  String.valueOf(idList));
-                    jsonObjectToSend.addProperty("axis_banned" ,  false);
-                    jsonObjectToSend.addProperty("type" ,  "ps");
-                    jsonObjectToSend.addProperty("cancelUrl" ,  "paymentorders://Orders");
-                    jsonObjectToSend.addProperty("ps_fee" ,  shoppreTotal);
+                    jsonObjectToSend.add("id", idList);
+                    jsonObjectToSend.addProperty("amount", totalCount);
+                    jsonObjectToSend.add("objectData", jsonArray);
+                    jsonObjectToSend.addProperty("customer_id", sharedPrefManager.getId());
+                    jsonObjectToSend.add("object_id", idList);
+                    jsonObjectToSend.addProperty("axis_banned", false);
+                    jsonObjectToSend.addProperty("type", "ps");
+                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders");
+                    jsonObjectToSend.addProperty("ps_fee", shoppreTotal);
 
 
+                    Log.d("json to send", jsonObjectToSend.toString());
 
-//                    JsonArray arrayToSend = new JsonArray();
-//                    jsonArray.add(jsonObjectToSend);
-
-                    Log.d("json to send" , jsonObjectToSend.toString());
-                    byte[] data = new byte[0];
+                    byte[] encrpt = new byte[0];
                     try {
-                        data = jsonObjectToSend.toString().getBytes("UTF-8");
+                        encrpt = jsonObjectToSend.toString().getBytes("UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-
-                    byte[] data2 = jsonObjectToSend.toString().getBytes(StandardCharsets.UTF_8);
-                     base64 = Base64.encodeToString(data2, Base64.DEFAULT);
-//                    base64 = Base64.encode(data, Base64.DEFAULT);
+                    base64 = Base64.encodeToString(encrpt, Base64.DEFAULT);
                     Log.d("Base 64 String", base64);
-//                    Toast.makeText(getActivity(), String.valueOf(idList.size()), Toast.LENGTH_SHORT).show();
-//                    JsonObject jsonObject = new JsonObject();
-//                    jsonObject.addProperty("id","");
+
+
                     adapter = new ParentFinalOrderSummaryAdapter(list, getActivity());
                     recyclerView.setAdapter(adapter);
                     LoadingDialog.cancelLoading();

@@ -58,7 +58,7 @@ public class LockerReadyToShip extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_locker_ready_to_ship, container, false);
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         lockerReadyToShipRecycler = view.findViewById(R.id.lockerReadyToShipRecycler);
         returnAndDiscardText = view.findViewById(R.id.returnAndDiscardText);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);

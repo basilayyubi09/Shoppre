@@ -1,11 +1,9 @@
 package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.PaymentSummaryViewPagerAdapter;
@@ -28,16 +31,14 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.BoxWeight;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
-import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,7 +74,7 @@ public class PaymentSummary extends Fragment {
     List<BoxWeight> list;
     MaterialButton makePaymentBtn;
     int size;
-    String url;
+    String url, base64;
 
     int flag = 1;
     int flag2 = 3;
@@ -83,7 +84,7 @@ public class PaymentSummary extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payment_summary, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         shippingChargesDropdown = view.findViewById(R.id.shippingChargesDropdown);
@@ -248,7 +249,50 @@ public class PaymentSummary extends Fragment {
         makePaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                payAuthorizeApi();
+
+
+                JsonObject jsonObjectToSend = new JsonObject();
+                jsonObjectToSend.addProperty("id", modelResponse.getShipment().getOrderCode());
+                jsonObjectToSend.addProperty("amount", modelResponse.getShipment().getEstimatedAmount());
+                JsonArray jsonArray = new JsonArray();
+                jsonArray.add(jsonObjectToSend);
+
+                modelResponse.getShipment().getOrderCode();
+
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", modelResponse.getShipment().getId());
+                jsonObject.addProperty("amount", modelResponse.getShipment().getEstimatedAmount());
+                jsonObject.add("objectData", jsonArray);
+                jsonObject.addProperty("object_id", modelResponse.getShipment().getOrderCode());
+                jsonObject.addProperty("customer_id", modelResponse.getShipment().getCustomerId());
+                jsonObject.addProperty("axis_banned", false);
+                jsonObject.addProperty("cancelUrl", "paymentorders://Orders");
+                jsonObject.addProperty("offer_parameters", "");
+
+                Log.d("json to send", jsonObject.toString());
+
+                byte[] encrpt = new byte[0];
+                try {
+                    encrpt = jsonObject.toString().getBytes("UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                base64 = Base64.encodeToString(encrpt, Base64.DEFAULT);
+                Log.d("Base 64 String", base64);
+                payAuthorizeApi();
+                /*
+                 id: this.shipment.id,
+                amount: this.shipment.estimated_amount,
+                objectData: objectData,
+                object_id: this.shipment.order_code,
+                customer_id: this.shipment.customer_id,
+                axis_banned: false,
+                type: 'shipment',
+                cancelUrl: cancelUrl,
+                offer_parameters: this.shipment.offer_parameters,
+
+                 */
+
             }
         });
 
@@ -258,32 +302,37 @@ public class PaymentSummary extends Fragment {
 
     private void payAuthorizeApi() {
         JsonObject jsonObject = new JsonObject();
+        String email = sharedPrefManager.getEmail();
         jsonObject.addProperty("grant_type", "loginAs");
-        jsonObject.addProperty("username", sharedPrefManager.getEmail());
+        jsonObject.addProperty("username", email);
         jsonObject.addProperty("app_id", 28);
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<String> call = RetrofitClient.getInstance()
-                .getApi().payAuthorize("Bearer "+sharedPrefManager.getBearerToken(), jsonObject.toString());
+                .getApi().payAuthorize("Bearer " + sharedPrefManager.getBearerToken(), jsonObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     url = response.body();
                     LoadingDialog.cancelLoading();
                     Log.d("urlllllllll", String.valueOf(url));
+                    Log.d("base64", base64);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("url", url);
-                    WebViewFragment pay = new WebViewFragment();
-                    pay.setArguments(bundle);
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
-                            .addToBackStack(null).commit();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url + "&type=ps&params=" + base64));
+                    startActivity(i);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("url", url + "&type=ps&params=" + base64);
+//                    WebViewFragment pay = new WebViewFragment();
+//                    pay.setArguments(bundle);
+//                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
+//                            .addToBackStack(null).commit();
 
 
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
-                }else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -293,7 +342,7 @@ public class PaymentSummary extends Fragment {
             public void onFailure(Call<String> call, Throwable t) {
 
                 LoadingDialog.cancelLoading();
-                Toast.makeText(getActivity(),t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -756,7 +805,7 @@ public class PaymentSummary extends Fragment {
 
         if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != null) {
             if (modelResponse.getShippingChargeSummary().getBasicShippingCosts() != 0) {
-                tvShippingCharge.setText(String.valueOf("₹" +modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
+                tvShippingCharge.setText(String.valueOf("₹" + modelResponse.getShippingChargeSummary().getBasicShippingCosts()));
             } else {
                 shippingLevelLayout.setVisibility(View.GONE);
             }

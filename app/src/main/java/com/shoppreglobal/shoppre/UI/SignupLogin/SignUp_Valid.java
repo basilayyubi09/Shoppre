@@ -107,7 +107,7 @@ public class SignUp_Valid extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
+//                startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
                 finish();
             }
         });
@@ -233,6 +233,7 @@ public class SignUp_Valid extends AppCompatActivity {
                         LoadingDialog.cancelLoading();
                         Intent intent = new Intent(SignUp_Valid.this, SignUpActivity.class);
                         intent.putExtra("flag", 1);
+                        intent.putExtra("email", "");
                         startActivity(intent);
                         finish();
                     } else {
@@ -501,7 +502,10 @@ public class SignUp_Valid extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(SignUp_Valid.this, SignUpActivity.class));
+//        Intent intent = new Intent(SignUp_Valid.this, SignUpActivity.class);
+//        intent.putExtra("email", emailIdFromIntent);
+//        startActivity(intent);
+
         finish();
     }
 

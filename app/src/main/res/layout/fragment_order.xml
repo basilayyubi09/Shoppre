@@ -18,12 +18,15 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/orderListing"
+
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/topCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -155,11 +158,12 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/forgetSomething"
-
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
                     android:layout_marginTop="23dp"
+                    android:layout_marginBottom="10dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="4dp">
 
@@ -170,9 +174,9 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="32dp"
                             android:layout_marginVertical="26dp"
                             android:layout_marginLeft="12dp"
+                            android:layout_marginRight="32dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -181,10 +185,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:textFontWeight="800"
                                 android:lineSpacingExtra="2dp"
                                 android:text="Forgot Something?\nYour previous Personal Shopper order is still waiting for you..."
                                 android:textColor="@color/black"
+                                android:textFontWeight="800"
                                 android:textSize="10sp" />
 
 
@@ -194,8 +198,8 @@
                             android:id="@+id/forgotContinueBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
-                            android:layout_marginRight="12dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginRight="12dp"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
                             android:text="Continue Order"
@@ -213,6 +217,8 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:visibility="gone"
+                    android:id="@+id/orderListing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="21dp"
@@ -228,40 +234,38 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            >
+                            android:layout_height="match_parent">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="24dp"
                                 android:layout_marginTop="24dp"
+                                android:layout_weight="1"
                                 android:text="Orders"
                                 android:textColor="@color/black"
-                                android:layout_weight="1"
                                 android:textFontWeight="700"
                                 android:textSize="14sp" />
 
 
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/addNewOrderBtn"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="27dp"
-                                    android:layout_marginRight="17dp"
-                                    android:layout_marginTop="19dp"
-                                    android:layout_marginBottom="15dp"
-                                    android:paddingHorizontal="27dp"
-                                    android:letterSpacing="0.03"
-                                    android:insetTop="0dp"
-                                    android:insetBottom="0dp"
-                                    android:text="Add New Order"
-                                    android:textAllCaps="false"
-                                    android:textColor="@color/white"
-                                    android:textFontWeight="700"
-                                    android:textSize="12sp"
-                                    app:backgroundTint="#17B28F"
-                                    app:cornerRadius="5dp" />
-
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/addNewOrderBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="27dp"
+                                android:layout_marginTop="19dp"
+                                android:layout_marginRight="17dp"
+                                android:layout_marginBottom="15dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:letterSpacing="0.03"
+                                android:paddingHorizontal="27dp"
+                                android:text="Add New Order"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textFontWeight="700"
+                                android:textSize="12sp"
+                                app:backgroundTint="#17B28F"
+                                app:cornerRadius="5dp" />
 
 
                         </LinearLayout>
@@ -270,8 +274,7 @@
                             android:id="@+id/orderRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
-                            >
+                            android:layout_marginTop="14dp">
 
                         </androidx.recyclerview.widget.RecyclerView>
 
@@ -311,10 +314,10 @@
 
             <LinearLayout
                 android:id="@+id/secondContainer"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
 
                 <androidx.cardview.widget.CardView
@@ -563,13 +566,13 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="18dp"
+                            android:letterSpacing="0.03"
                             android:paddingHorizontal="26dp"
                             android:paddingVertical="14dp"
                             android:text="Calculate Shipping Prices"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textFontWeight="700"
-                            android:letterSpacing="0.03"
                             android:textSize="14sp"
                             app:backgroundTint="#17B28F"
                             app:cornerRadius="5dp" />

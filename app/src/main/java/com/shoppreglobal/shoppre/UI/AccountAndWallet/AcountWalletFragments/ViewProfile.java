@@ -151,8 +151,8 @@ public class ViewProfile extends Fragment {
         tvChangePassword = view.findViewById(R.id.tvChangePassword);
 
 
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         ///change password
-
         tvChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +224,7 @@ public class ViewProfile extends Fragment {
 
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
-        callMeApi(sharedPrefManager.getBearerToken());
+        callMeApi();
 
 
         if (!sharedPrefManager.getFirstName().equals("")) {
@@ -448,13 +448,16 @@ public class ViewProfile extends Fragment {
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.code()==200) {
 
                     User user = response.body().getUser();
                     profilePrice.setText("₹ " + String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
 
-                } else {
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi("wallet");
+                }else {
 
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
@@ -486,7 +489,10 @@ public class ViewProfile extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                } else {
+                }
+                else if (response.code()==401){
+                    callRefreshTokenApi("email");
+                }else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -503,10 +509,10 @@ public class ViewProfile extends Fragment {
         });
     }
 
-    private void callMeApi(String bearerToken) {
+    private void callMeApi() {
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()
-                .getUser("Bearer " + bearerToken);
+                .getUser("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
@@ -530,7 +536,7 @@ public class ViewProfile extends Fragment {
 
                     callApi();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("me");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -547,7 +553,7 @@ public class ViewProfile extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String where) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -558,7 +564,18 @@ public class ViewProfile extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callMeApi(sharedPrefManager.getBearerToken());
+                    if (where.equals("waller")){
+                        callApi();
+                    }
+                    else if (where.equals("me")){
+                        callMeApi();
+                    }
+                    else if (where.equals("update")){
+                        callUpdateProfileApi();
+                    }
+                    else {
+                        callVerifyEmailId();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -650,10 +667,7 @@ public class ViewProfile extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Successfully updated", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 } else if (response.code() == 401) {
-                    LoadingDialog.cancelLoading();
-
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    callRefreshTokenApi("update");
                 } else {
 
                     LoadingDialog.cancelLoading();

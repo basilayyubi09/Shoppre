@@ -52,7 +52,7 @@ public class CreateShippingPrefrenceFragment extends Fragment {
 
         }
         list = new ArrayList<>();
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         shippingPrefProceedBtn = view.findViewById(R.id.shippingPrefProceedBtn);
         giftNoteCheckBox = view.findViewById(R.id.giftNoteCheckBox);
         giftNoteEditText = view.findViewById(R.id.giftNoteEditText);

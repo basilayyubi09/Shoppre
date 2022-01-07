@@ -1,16 +1,15 @@
 package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -46,7 +45,7 @@ public class SelfShopper extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_self_shopper, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
@@ -114,18 +113,18 @@ public class SelfShopper extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (flag==1){
-                    LoadingDialog.showLoadingDialog(getActivity(),"");
+                if (flag == 1) {
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
                     callCreateShopper();
 
 
-                }else if (flag == 2){
+                } else if (flag == 2) {
 
-                    if (savedInstanceState != null)  return;
+                    if (savedInstanceState != null) return;
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new SelfShopperPlaceOrderFargment(), null)
                             .addToBackStack(null).commit();
 
-                }else {
+                } else {
 
                     flag = 0;
                     Toast.makeText(getContext(), "Please Select to Proceed", Toast.LENGTH_SHORT).show();
@@ -147,20 +146,18 @@ public class SelfShopper extends Fragment {
         call.enqueue(new Callback<ShopperOrdersResponse>() {
             @Override
             public void onResponse(Call<ShopperOrdersResponse> call, Response<ShopperOrdersResponse> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id" , response.body().getShopperOrder().getId());
-                    bundle.putString("type" , "new");
+                    bundle.putInt("id", response.body().getShopperOrder().getId());
+                    bundle.putString("type", "new");
                     EmptyCart emptyCart = new EmptyCart();
                     emptyCart.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, emptyCart, null)
                             .commit();
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -173,6 +170,7 @@ public class SelfShopper extends Fragment {
             }
         });
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()

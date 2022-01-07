@@ -69,7 +69,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     byte[] byteArray;
     ArrayAdapter arrayAdapter;
     String encodedFile, responseObject, responseUrl, splitUrl;
-    String file , storeName;
+    String file, storeName;
     SearchStoreResponse list;
 
     @Override
@@ -78,7 +78,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_self_shopper_place_order_fargment, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
@@ -108,10 +108,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                 if (i == 0) {
                     storeError.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Please Select an Image", Toast.LENGTH_SHORT).show();
-                }
-                else if (storeId==0){
+                } else if (storeId == 0) {
                     storeError.setVisibility(View.VISIBLE);
-                }else {
+                } else {
 
 
                     storeError.setVisibility(View.GONE);
@@ -363,8 +362,8 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
     private void callSelfShopperApi(RequestBody body) {
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("invoice"  , responseObject);
-        jsonObject.addProperty("store_id"  , storeId);
+        jsonObject.addProperty("invoice", responseObject);
+        jsonObject.addProperty("store_id", storeId);
 
         Call<SelfShopperResponse> call = RetrofitClient3.getInstance3().getAppApi().selfShopper("Bearer " + sharedPrefManager.getBearerToken()
                 , jsonObject.toString());
@@ -374,9 +373,9 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                 if (response.code() == 201) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
-                    bundle.putString("type" , "selfOrder");
-                    bundle.putString("shopName" , storeName);
-                    bundle.putInt("id" , response.body().getId());
+                    bundle.putString("type", "selfOrder");
+                    bundle.putString("shopName", storeName);
+                    bundle.putInt("id", response.body().getId());
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction()

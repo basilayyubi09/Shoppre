@@ -44,7 +44,7 @@ public class OrderSummaryFragment extends Fragment {
     MaterialButton orderSummaryProceedBtn;
     Integer id;
     String orderCode;
-    String[] ac , ins , pc ;
+    String[] ac, ins, pc;
     int flag = 0;
     Integer shoppreId;
 
@@ -53,7 +53,7 @@ public class OrderSummaryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_summary, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
@@ -95,32 +95,32 @@ public class OrderSummaryFragment extends Fragment {
 
 
                     pc[i] = spinner.getSelectedItem().toString();
-                        if (pc[i].equals("Select an option")){
+                    if (pc[i].equals("Select an option")) {
 
-                            pc[i] = "";
-                        }
-                        if (ac[i].equals("")||ins[i].equals("")||pc[i].equals("")){
-                            flag = 0;
-                        }
-                        else {JsonObject jsonObject = new JsonObject();
+                        pc[i] = "";
+                    }
+                    if (ac[i].equals("") || ins[i].equals("") || pc[i].equals("")) {
+                        flag = 0;
+                    } else {
+                        JsonObject jsonObject = new JsonObject();
 
-                        flag=1;
-                            jsonObject.addProperty("id",id);
-                            jsonObject.addProperty("order_code",orderCode);
-                            jsonObject.addProperty("additional_charges",Integer.parseInt(ac[i]));
-                            jsonObject.addProperty("instruction",ins[i]);
-                            jsonObject.addProperty("buy_if_price_changed",pc[i]);
-                            jsonArray.add(jsonObject);}
+                        flag = 1;
+                        jsonObject.addProperty("id", id);
+                        jsonObject.addProperty("order_code", orderCode);
+                        jsonObject.addProperty("additional_charges", Integer.parseInt(ac[i]));
+                        jsonObject.addProperty("instruction", ins[i]);
+                        jsonObject.addProperty("buy_if_price_changed", pc[i]);
+                        jsonArray.add(jsonObject);
+                    }
 
                 }
 
 
-                if (flag==0){
+                if (flag == 0) {
                     Toast.makeText(getActivity(), "Please fill all the details to continue", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    LoadingDialog.showLoadingDialog(getActivity() , "");
-                    callSubmitOrderApi(jsonArray , list);
+                } else {
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callSubmitOrderApi(jsonArray, list);
                 }
 
             }
@@ -132,30 +132,27 @@ public class OrderSummaryFragment extends Fragment {
     private void callSubmitOrderApi(JsonArray jsonArray, List<Order> list) {
 
 
-
         Call<ResponseBody> call = RetrofitClient3
                 .getInstance3()
-                .getAppApi().submitOrder("Bearer "+sharedPrefManager.getBearerToken(),jsonArray.toString() );
+                .getAppApi().submitOrder("Bearer " + sharedPrefManager.getBearerToken(), jsonArray.toString());
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id",shoppreId);
+                    bundle.putInt("id", shoppreId);
 
-                    bundle.putSerializable("list" , (Serializable) list);
-                    FinalOrderSummaryFragment  finalOrder = new FinalOrderSummaryFragment();
+                    bundle.putSerializable("list", (Serializable) list);
+                    FinalOrderSummaryFragment finalOrder = new FinalOrderSummaryFragment();
                     finalOrder.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, finalOrder, null)
-                        .addToBackStack(null).commit();
+                            .addToBackStack(null).commit();
 
-                }
-                else if (response.code()==401){
-                    callRefreshTokenAPi(jsonArray , list);
-                }
-                else {
+                } else if (response.code() == 401) {
+                    callRefreshTokenAPi(jsonArray, list);
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -170,36 +167,35 @@ public class OrderSummaryFragment extends Fragment {
     }
 
 
-
     private void callRefreshTokenAPi(JsonArray jsonArray, List<Order> list) {
 
-            Call<RefreshTokenResponse> call = RetrofitClient
-                    .getInstance().getApi()
-                    .getRefreshToken(sharedPrefManager.getRefreshToken());
-            call.enqueue(new Callback<RefreshTokenResponse>() {
-                @Override
-                public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                    if (response.code() == 200) {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
 
-                        sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-                        sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                        callSubmitOrderApi(jsonArray , list);
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    callSubmitOrderApi(jsonArray, list);
 
-                    } else {
-                        LoadingDialog.cancelLoading();
-                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                } else {
                     LoadingDialog.cancelLoading();
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-            });
+            }
 
-        }
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
 
 }

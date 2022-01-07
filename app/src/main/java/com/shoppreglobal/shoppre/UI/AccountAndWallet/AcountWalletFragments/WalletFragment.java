@@ -67,7 +67,7 @@ public class WalletFragment extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("account");
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         allSpinner = view.findViewById(R.id.allSpinner);
         myWalletMyCash = view.findViewById(R.id.myWalletMyCash);
         myCash = view.findViewById(R.id.myCash);

@@ -81,7 +81,7 @@ public class ShippingCalculator extends Fragment {
     final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
     TextView packageMinus, packagePlus, packageTextView, lenghtPlus, lenghtMinus, lengthTextView, heightPlus, heightMinus, heightTextView, widthPlus, widthMinus, widthTextView;
-    float widthCount = (float) 0.5 , heightCount = (float) 0.5, lengthCount = (float) 0.5, weightCount= (float) 0.5;
+    float widthCount = (float) 0.5, heightCount = (float) 0.5, lengthCount = (float) 0.5, weightCount = (float) 0.5;
 
     @Override
     public void onResume() {
@@ -100,7 +100,7 @@ public class ShippingCalculator extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipping_calculator, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         yesButton = view.findViewById(R.id.yesButton);
         noButton = view.findViewById(R.id.noButton);
         getEstimateBtn = view.findViewById(R.id.getEstimateBtn);
@@ -145,20 +145,19 @@ public class ShippingCalculator extends Fragment {
         setupUI(main);
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
 
 
-             packageTextView.setText(bundle.getString("weight"));
-             lengthTextView.setText(bundle.getString("length"));
-             heightTextView.setText(bundle.getString("height"));
+            packageTextView.setText(bundle.getString("weight"));
+            lengthTextView.setText(bundle.getString("length"));
+            heightTextView.setText(bundle.getString("height"));
             widthTextView.setText(bundle.getString("width"));
-            if (bundle.getString("liquid").equals("true")){
+            if (bundle.getString("liquid").equals("true")) {
                 yesButton.setTextColor(getResources().getColor(R.color.white));
                 noButton.setTextColor(getResources().getColor(R.color.black));
                 yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
                 noButton.setBackground(getResources().getDrawable(no_btn_bg1));
-            }
-            else if (bundle.getString("liquid").equals("false")){
+            } else if (bundle.getString("liquid").equals("false")) {
                 yesButton.setTextColor(getResources().getColor(R.color.black));
                 yesButton.setBackground(getResources().getDrawable(yes_btn_bg1));
                 noButton.setTextColor(getResources().getColor(R.color.white));
@@ -285,8 +284,6 @@ public class ShippingCalculator extends Fragment {
         });
 
 
-
-
         noButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"ResourceAsColor", "ResourceType"})
             @Override
@@ -348,13 +345,13 @@ public class ShippingCalculator extends Fragment {
 
                 if (position > 0) {
                     Id = listCategory.get(position).getId();
-                    if (listCategory.get(position).getName().equals("Liquid")){
+                    if (listCategory.get(position).getName().equals("Liquid")) {
                         yesButton.setTextColor(getResources().getColor(R.color.white));
                         noButton.setTextColor(getResources().getColor(R.color.black));
                         yesButton.setBackground(getResources().getDrawable(yes_btn_bg));
                         noButton.setBackground(getResources().getDrawable(no_btn_bg1));
                         noButton.setClickable(false);
-                    }else {
+                    } else {
                         noButton.setClickable(true);
                     }
                 }
@@ -367,45 +364,43 @@ public class ShippingCalculator extends Fragment {
         });
 
 
-
         return view;
     }
 
     private void callShippingRateApi() {
-        LoadingDialog.showLoadingDialog(getActivity(),"");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<ShippingRateResponse> call = LogisticClient
                 .getInstance3()
                 .getAppApi().getShippingRate(String.valueOf(countryId)
                         , "nondoc", weight,
-                        length, width,height,
+                        length, width, height,
                         cm, kg, liquid
                         , String.valueOf(Id));
         call.enqueue(new Callback<ShippingRateResponse>() {
             @Override
             public void onResponse(Call<ShippingRateResponse> call, Response<ShippingRateResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     LoadingDialog.cancelLoading();
-                     shippingRateResponse = response.body();
+                    shippingRateResponse = response.body();
                     Bundle bundle = new Bundle();
 
-                    bundle.putString("weight" , weight);
-                    bundle.putString("length" , length);
-                    bundle.putString("width" , width);
-                    bundle.putString("height" , height);
-                    bundle.putString("kg" , kg);
-                    bundle.putInt("countryId" , countryId);
-                    bundle.putInt("categoryId" , Id);
-                    bundle.putString("liquid" , liquid);
+                    bundle.putString("weight", weight);
+                    bundle.putString("length", length);
+                    bundle.putString("width", width);
+                    bundle.putString("height", height);
+                    bundle.putString("kg", kg);
+                    bundle.putInt("countryId", countryId);
+                    bundle.putInt("categoryId", Id);
+                    bundle.putString("liquid", liquid);
 
-                    bundle.putSerializable("rate" ,  shippingRateResponse);
+                    bundle.putSerializable("rate", shippingRateResponse);
                     ShippingCalculatorResultFragment shippingCalculatorResultFragment = new ShippingCalculatorResultFragment();
                     shippingCalculatorResultFragment.setArguments(bundle);
 
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, shippingCalculatorResultFragment, null)
                             .addToBackStack(null).commit();
 
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -454,7 +449,7 @@ public class ShippingCalculator extends Fragment {
                             if (position == 0) {
                                 chooseCategoryTextView.setVisibility(View.GONE);
                                 chooseCategoryTextView.setTextColor(Color.GRAY);
-                            }else {
+                            } else {
                                 chooseCategoryTextView.setTextColor(Color.BLACK);
                             }
 
@@ -607,6 +602,7 @@ public class ShippingCalculator extends Fragment {
             }
         });
     }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -627,11 +623,12 @@ public class ShippingCalculator extends Fragment {
             }
         }
     }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0

@@ -50,7 +50,7 @@ public class CancelledOrderFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cancelled_order, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         recycle = view.findViewById(R.id.recycle);
         helpAndFaqCard = view.findViewById(R.id.helpAndFaqCard);
         text = view.findViewById(R.id.text);
@@ -70,7 +70,7 @@ public class CancelledOrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                 Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("url", "https://www.shoppre.com/faq");
                 WebViewFragment cash = new WebViewFragment();
                 cash.setArguments(bundle);

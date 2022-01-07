@@ -96,7 +96,7 @@ public class ReferralFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         //shared pref manager
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         bearerToken = sharedPrefManager.getBearerToken();
         referralAdapter = new ReferralAdapter(getContext(), list);
         referralRecycle.setLayoutManager(linearLayoutManager);

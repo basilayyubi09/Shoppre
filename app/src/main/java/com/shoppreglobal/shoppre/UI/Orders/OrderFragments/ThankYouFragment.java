@@ -20,7 +20,6 @@ import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.Refer
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
-import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +42,7 @@ public class ThankYouFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_thank_you, container, false);
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         address = view.findViewById(R.id.address);
         oneShop = view.findViewById(R.id.oneShop);
         facebook = view.findViewById(R.id.facebook);

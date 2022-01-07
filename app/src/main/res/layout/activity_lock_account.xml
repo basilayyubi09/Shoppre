@@ -54,37 +54,24 @@
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="40dp"
+                android:layout_height="38dp"
+                android:layout_marginHorizontal="39dp"
                 android:layout_marginTop="26dp"
-                android:layout_marginRight="38dp"
-                app:boxBackgroundColor="@color/box_background_color"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxStrokeColor="@color/box_background_color"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:hintAnimationEnabled="false"
-                app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
+                android:backgroundTint="#F3F6F9"
+                android:elevation="0dp"
+                app:cardElevation="0dp"
+                >
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="38dp"
-                    android:inputType="none"
+                    android:layout_height="match_parent"
+                    android:id="@+id/email"
                     android:gravity="center"
-                    android:padding="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/hint_color"
+                    android:textColor="#676767"
                     android:textSize="12sp"
-                    app:boxStrokeColor="@color/box_background_color" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:textFontWeight="500"/>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <Button

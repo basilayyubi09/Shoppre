@@ -49,7 +49,7 @@ public class ShipmentListingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipment_listing, container, false);
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         recyclerView = view.findViewById(R.id.lockerReadyToShipRecycler);
         emptyView = view.findViewById(R.id.emptyView);
         createShipRequestBtn = view.findViewById(R.id.createShipRequestBtn);

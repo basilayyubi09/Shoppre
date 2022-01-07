@@ -29,6 +29,8 @@ public class ShipmentDetailsModelResponse {
     @Expose
     private ShippingChargeSummary shippingChargeSummary;
 
+
+
     public ServiceChargesSummary getServiceChargesSummary() {
         return serviceChargesSummary;
     }

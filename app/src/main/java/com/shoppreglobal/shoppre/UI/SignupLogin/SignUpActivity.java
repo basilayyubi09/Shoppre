@@ -47,14 +47,14 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    TextView loginText;
+
     TextInputLayout emailIdField;
     Button getStartedBtn, googleSignInButton, fbSignInBtn, fbLoginBtn;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
-    LinearLayout main;
+    LinearLayout main , loginText;
     String checkLogin;
     String personId;
 
@@ -71,6 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
             finish();
         }
 
+
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 //        Button crashButton = new Button(this);
@@ -86,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         //Hooks
-        loginText = findViewById(R.id.signup_already_acnt);
+        loginText = findViewById(R.id.login);
         getStartedBtn = findViewById(R.id.get_started_btn);
         googleSignInButton = findViewById(R.id.signup_google_btn);
         fbSignInBtn = findViewById(R.id.signup_fb_btn);
@@ -102,6 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int flag = extras.getInt("flag");
+
             if (flag == 1) {
                 setError("Looks like this user already exists! Please use a new Email ID");
             }
@@ -123,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(SignUpActivity.this, SignUp_Valid.class);
                 intent.putExtra("emailId", emailId);
                 startActivity(intent);
-                finish();
+
             }
 
         });

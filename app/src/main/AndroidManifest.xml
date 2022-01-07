@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.shoppreglobal.shoppre">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -31,10 +32,6 @@
         </provider>
 
         <activity
-            android:name=".UI.AccountAndWallet.AccountWalletActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".UI.Orders.OrderActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -52,6 +49,18 @@
                     android:host="uat-login.shoppreglobal.com"
                     android:path="/api/users/public/verify"
                     android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+<!--                //paymentorders://Orders?status=success/failed-->
+                <data
+                    android:host="Orders"
+                    android:scheme="paymentorders"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
         </activity>
         <activity

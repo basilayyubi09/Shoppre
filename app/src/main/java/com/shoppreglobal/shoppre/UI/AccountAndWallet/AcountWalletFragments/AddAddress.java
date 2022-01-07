@@ -41,6 +41,7 @@ import com.shoppreglobal.shoppre.AuthenticationModel.DeliveryListModel;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
@@ -131,7 +132,7 @@ public class AddAddress extends Fragment {
         triangleDropdown = view.findViewById(R.id.triangleDropdown);
         spinnerCountryLayout = view.findViewById(R.id.spinnerCountryLayout);
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
         final List<String> titleList = new ArrayList<>(Arrays.asList(titleArray));
 
 

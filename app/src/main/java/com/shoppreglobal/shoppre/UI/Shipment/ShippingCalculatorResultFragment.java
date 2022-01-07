@@ -49,8 +49,8 @@ public class ShippingCalculatorResultFragment extends Fragment {
     Integer countryId, categoryId;
     ArrayAdapter<Item> arrayAdapter;
     List<SlabResponse> slabResponse;
-    LinearLayout edit, chooseCountryLayout, viewCountry , restricted;
-    String weightFromBundle, kg, liquid, height, width, length , countryName="" , countryNameP;
+    LinearLayout edit, chooseCountryLayout, viewCountry, restricted;
+    String weightFromBundle, kg, liquid, height, width, length, countryName = "", countryNameP;
 
 
     @Override
@@ -58,6 +58,7 @@ public class ShippingCalculatorResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shipping_calculator_result, container, false);
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         location = view.findViewById(R.id.location);
         weight = view.findViewById(R.id.weight);
         restricted = view.findViewById(R.id.restricted);
@@ -166,11 +167,10 @@ public class ShippingCalculatorResultFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url;
-                if (countryName.equals("")){
-                    url = "https://www.shoppre.com/shipping-from-india-to-"+countryNameP;
-                }
-                else {
-                    url = "https://www.shoppre.com/shipping-from-india-to-"+countryName;
+                if (countryName.equals("")) {
+                    url = "https://www.shoppre.com/shipping-from-india-to-" + countryNameP;
+                } else {
+                    url = "https://www.shoppre.com/shipping-from-india-to-" + countryName;
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("url", url);

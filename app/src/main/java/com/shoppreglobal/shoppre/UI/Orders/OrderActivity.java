@@ -2,17 +2,16 @@ package com.shoppreglobal.shoppre.UI.Orders;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
@@ -25,13 +24,11 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.shoppreglobal.shoppre.UI.Locker.LockerReadyToShip;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ThankYouFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,18 +37,10 @@ import retrofit2.Response;
 public class OrderActivity extends AppCompatActivity {
 
     MaterialCardView locker, shipment, account, order;
-    ImageView lockerImage, orderImage, accountImage, shipmentImage;
     FrameLayout frameLayout;
     public static FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    public static String SELECTED_TAB = "order";
     SharedPrefManager sharedPrefManager;
-
-    BottomNavigationView bottomNavigationView;
-    Deque<Integer> integerDeque = new ArrayDeque<>(4);
-
-
-    boolean flag = true;
+    public static BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -75,9 +64,30 @@ public class OrderActivity extends AppCompatActivity {
 
         internetCheck();
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (action != null && action.equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            String scheme = uri.getScheme();
+            if (scheme.equals("paymentorders")) {
+                String status = uri.getQueryParameter("status");
+                if (status.equals("success")) {
 
-        fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
-                .commit();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putInt("id", 123);
+                    bundle1.putString("type", "order");
+                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+                    thankYouFragment.setArguments(bundle1);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, thankYouFragment)
+                            .addToBackStack(null).commit();
+                } else {
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+                            .addToBackStack(null).commit();
+                }
+            }
+        }
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -112,97 +122,9 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
-
-//        integerDeque.push(R.id.orderMenu);
-//
-//
-//        loadFragment(new OrderFragment());
-
-//        bottomNavigationView.setSelectedItemId(R.id.orderMenu);
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                int id = item.getItemId();
-//
-//                if (integerDeque.contains(id)){
-//                    if (id==R.id.orderMenu){
-//
-//                        if (integerDeque.size() != 1 ){
-//
-//                            if (flag){
-//                                integerDeque.addFirst(R.id.orderMenu);
-//
-//                                flag = false;
-//
-//
-//                            }
-//                        }
-//                    }
-//
-//                    integerDeque.remove(id);
-//                }
-//                integerDeque.push(id);
-//
-//
-//                loadFragment(getFragment(item.getItemId()));
-//
-//                return true;
-//            }
-//        });
-
-
     }
 
-    //    private Fragment getFragment(int itemId) {
-//        switch (itemId){
-//
-//            case R.id.orderMenu:
-//                bottomNavigationView.getMenu().getItem(0).setChecked(true);
-//                return new OrderFragment();
-//
-//            case R.id.lockerMenu:
-//                bottomNavigationView.getMenu().getItem(1).setChecked(true);
-//                return new LockerReadyToShip();
-//
-//
-//
-//            case R.id.shipmentMenu:
-//                bottomNavigationView.getMenu().getItem(2).setChecked(true);
-//                return new ShipmentList();
-//
-//            case R.id.accountMenu:
-//                bottomNavigationView.getMenu().getItem(3).setChecked(true);
-//                return new ViewProfile();
-//
-//        }
-//
-//        bottomNavigationView.getMenu().getItem(1).setChecked(true);
-//
-//        return new OrderFragment();
-//    }
-//
-//    private void loadFragment(Fragment fragment) {
-//
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.orderFrameLayout, fragment, fragment.getClass().getSimpleName())
-//                .commit();
-//
-//    }
 
-//    @Override
-//    public void onBackPressed() {
-//
-//        integerDeque.pop();
-//
-//        if (!integerDeque.isEmpty()){
-//
-//            loadFragment(getFragment(integerDeque.peek()));
-//        }else{
-//            finish();
-//        }
-//    }
 
 
     private void callMeApi() {
@@ -216,7 +138,7 @@ public class OrderActivity extends AppCompatActivity {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
                 if (response.code() == 200) {
-
+                    sharedPrefManager.setLogin();
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
                     sharedPrefManager.storeLastName(response.body().getLastName());
                     sharedPrefManager.storeFullName(response.body().getName());
@@ -229,7 +151,9 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeGroupId(response.body().getGroupId());
                     sharedPrefManager.storePhone(response.body().getPhone());
                     sharedPrefManager.storeCreateDate(response.body().getCreatedAt());
-                    LoadingDialog.cancelLoading();
+                    fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
+                            .commit();
+
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();

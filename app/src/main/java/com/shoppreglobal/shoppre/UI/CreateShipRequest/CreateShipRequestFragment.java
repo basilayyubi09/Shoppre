@@ -74,7 +74,7 @@ public class CreateShipRequestFragment extends Fragment {
         containDamage = view.findViewById(R.id.containDamage);
         totalAmount = view.findViewById(R.id.totalAmount);
 
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             list = (List<PackageModel>) bundle.getSerializable("list");

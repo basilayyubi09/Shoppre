@@ -22,7 +22,7 @@ Worry not! We’ve got your back.\nEnter your registered email address and we’
     <string name="confirm_new_password_string">Confirm New Password</string>
     <string name="reset_password_string">Reset Password</string>
     <string name="alreay_have"><font color="#000000">Already have an account?</font><font color="#2D8DFF"> Login</font></string>
-    <string name="dont_have"><font color="#000000">Don\'t have an account yet?</font><font color="#2D8DFF"> Sign Up Now</font></string>
+
     <string name="password_error_string">Looks like the Email ID and Password you entered are incorrect. Please try again!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

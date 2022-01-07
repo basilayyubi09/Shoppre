@@ -113,6 +113,17 @@ public class Shipment {
     @Expose
     private List<Object> packageUserCharges = null;
 
+    @SerializedName("order_code")
+    @Expose
+    private String orderCode;
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
 
     public Integer getIsMembershipPlanApplied() {
         return isMembershipPlanApplied;

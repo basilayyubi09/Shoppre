@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
 
@@ -26,7 +27,7 @@ public class AddressBook extends Fragment {
 
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("account");
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.accountMenu).setChecked(true);
 
         allAddressSpinner = view.findViewById(R.id.allAddressSpinner);
 

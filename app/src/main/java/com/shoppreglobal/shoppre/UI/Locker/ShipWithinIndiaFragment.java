@@ -23,7 +23,7 @@ public class ShipWithinIndiaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ship_within_india, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
         addMoreShipmentAddress = view.findViewById(R.id.addMoreShipmentAddress);
 
         addMoreShipmentAddress.setOnClickListener(new View.OnClickListener() {

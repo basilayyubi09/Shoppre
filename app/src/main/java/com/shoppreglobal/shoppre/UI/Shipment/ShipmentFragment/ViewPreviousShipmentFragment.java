@@ -18,6 +18,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.PreviousShipmentModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.Shipment;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -43,6 +44,7 @@ public class ViewPreviousShipmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_previous_shipment, container, false);
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.shipmentMenu).setChecked(true);
         previousShipmentRecycler = view.findViewById(R.id.previousShipmentRecycler);
         emptyText = view.findViewById(R.id.emptyText);
         list = new ArrayList<>();

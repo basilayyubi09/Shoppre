@@ -69,7 +69,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
         forSendList = new ArrayList<>();
 
         sharedPrefManager = new SharedPrefManager(getActivity());
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
 
         //////////Address Api
         allAddressesApi();

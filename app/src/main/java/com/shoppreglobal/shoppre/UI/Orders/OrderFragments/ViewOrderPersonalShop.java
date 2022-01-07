@@ -3,7 +3,6 @@ package com.shoppreglobal.shoppre.UI.Orders.OrderFragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,18 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.downloader.Error;
-import com.downloader.OnCancelListener;
-import com.downloader.OnDownloadListener;
-import com.downloader.OnPauseListener;
-import com.downloader.OnProgressListener;
-import com.downloader.OnStartOrResumeListener;
-import com.downloader.PRDownloader;
-import com.downloader.Progress;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.karumi.dexter.Dexter;
@@ -49,6 +39,7 @@ import com.shoppreglobal.shoppre.OrderModuleResponses.ViewSelfShopperResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderDetails;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.TabLayoutFragments.OrderUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -93,7 +84,7 @@ public class ViewOrderPersonalShop extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_order_personal_shop, container, false);
-
+        OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
@@ -124,8 +115,6 @@ public class ViewOrderPersonalShop extends Fragment {
             LoadingDialog.showLoadingDialog(getActivity(), "");
             callShowOrderApi();
         }
-
-
 
 
         tvDownloadInvoice.setOnClickListener(new View.OnClickListener() {
@@ -278,14 +267,14 @@ public class ViewOrderPersonalShop extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Cursor c = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
-            if (c!=null){
+            if (c != null) {
                 c.moveToFirst();
                 try {
                     @SuppressLint("Range") String fileUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                     File mFile = new File(Uri.parse(fileUri).getPath());
                     String fileName = mFile.getAbsolutePath();
                     openFile(fileName);
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("error", "Could not open the downloaded file");
                 }
             }
@@ -307,7 +296,7 @@ public class ViewOrderPersonalShop extends Fragment {
             i.setDataAndType(Uri.fromFile(new File(file)), getMimeType(url));//this is for pdf file. Use appropreate mime type
             startActivity(i);
         } catch (Exception e) {
-            Toast.makeText(getActivity(),"Respective application not detected. File saved in download folder",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Respective application not detected. File saved in download folder", Toast.LENGTH_SHORT).show();
         }
     }
 
