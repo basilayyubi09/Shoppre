@@ -150,7 +150,7 @@ public interface Api {
     Call<ChangePasswordResponse> changePassword(
             @Header("Authorization") String auth,
             @Path("id") Integer id
-            ,@Body String object
+            , @Body String object
     );
 
     //https://staging-login.shoppreglobal.com/api/authorise
@@ -167,14 +167,7 @@ public interface Api {
     Call<String> resetPassword(
 
             @Path("id") Integer id
-            ,@Body String object
+            , @Body String object
     );
 
-    //https://uat-login.shoppreglobal.com/api/users/me
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PUT("api/password_reset/{id}")
-    Call<VerifyEmailDeepLinkResponse> confirmEmail(
-            @Header("Authorization") String auth,
-            @Body String object
-    );
 }

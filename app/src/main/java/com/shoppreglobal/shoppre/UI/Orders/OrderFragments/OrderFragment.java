@@ -38,6 +38,7 @@ import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.ReferralRetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.Retrofit.StagingRetrofitClient;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewProfile;
 import com.shoppreglobal.shoppre.UI.Orders.CancelledOrderFragment;
@@ -80,6 +81,8 @@ public class OrderFragment extends Fragment {
     EditText referralET;
     Integer shoppreId, id;
     boolean isEmailVerified;
+
+    String scheme;
     YouTubePlayerView youTubePlayerView;
 
 
@@ -88,6 +91,7 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order, container, false);
+        
         OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());
@@ -119,12 +123,15 @@ public class OrderFragment extends Fragment {
 
 
         Intent intent = getActivity().getIntent();
+
         String action = intent.getAction();
+
         if (action != null && action.equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
-            String scheme = uri.getScheme();
+            scheme = uri.getScheme();
             if (scheme.equals("https")) {
-               callVerifyEmailApi();
+                callVerifyEmailApi();
+
             }
 
         }
@@ -300,16 +307,18 @@ public class OrderFragment extends Fragment {
     }
 
     private void callVerifyEmailApi() {
-        Call<VerifyEmailDeepLinkResponse> call =  RetrofitClient.getInstance()
-                .getApi().confirmEmail("Bearer "+sharedPrefManager.getBearerToken()
-                ,"");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("is_email_verified", true);
+        Call<VerifyEmailDeepLinkResponse> call = StagingRetrofitClient.getInstance4()
+                .getAppApi().confirmEmail("Bearer " + sharedPrefManager.getBearerToken()
+                        , jsonObject.toString());
         call.enqueue(new Callback<VerifyEmailDeepLinkResponse>() {
             @Override
             public void onResponse(Call<VerifyEmailDeepLinkResponse> call, Response<VerifyEmailDeepLinkResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
+
                     Toast.makeText(getActivity(), "Email Verified successfully", Toast.LENGTH_SHORT).show();
-                }
-                else  if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi("email");
                 }
             }
@@ -555,10 +564,9 @@ public class OrderFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    if (where.equals("email")){
+                    if (where.equals("email")) {
                         callVerifyEmailApi();
-                    }
-                    else {
+                    } else {
                         callMeApi(sharedPrefManager.getBearerToken());
                     }
 

@@ -6,6 +6,7 @@ import com.shoppreglobal.shoppre.AccountResponse.DeleteAddressResponse;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.UpdateAddressResponse;
 import com.shoppreglobal.shoppre.AccountResponse.UpdateProfileResponse;
+import com.shoppreglobal.shoppre.AccountResponse.VerifyEmailDeepLinkResponse;
 import com.shoppreglobal.shoppre.AccountResponse.WalletAmountResponse;
 import com.shoppreglobal.shoppre.AccountResponse.WalletTransactionResponse;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
@@ -502,4 +503,13 @@ public interface AppApi {
             @Header("Authorization") String auth,
             @Path("shopperId") Integer shopperId
     );
+
+    //https://uat-login.shoppreglobal.com/api/users/me
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/users/me")
+    Call<VerifyEmailDeepLinkResponse> confirmEmail(
+            @Header("Authorization") String auth,
+            @Body String object
+    );
+
 }

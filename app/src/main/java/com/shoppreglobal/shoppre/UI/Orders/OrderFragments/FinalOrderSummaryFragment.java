@@ -226,7 +226,7 @@ public class FinalOrderSummaryFragment extends Fragment {
                     jsonObjectToSend.add("object_id", idList);
                     jsonObjectToSend.addProperty("axis_banned", false);
                     jsonObjectToSend.addProperty("type", "ps");
-                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders");
+                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel");
                     jsonObjectToSend.addProperty("ps_fee", shoppreTotal);
 
 
