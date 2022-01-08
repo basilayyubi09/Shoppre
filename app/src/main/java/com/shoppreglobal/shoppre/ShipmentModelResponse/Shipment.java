@@ -42,7 +42,7 @@ public class Shipment {
     private Integer isMembershipPlanApplied;
     @SerializedName("final_amount")
     @Expose
-    private Integer finalAmount;
+    private Double finalAmount;
     @SerializedName("volumetric_weight")
     @Expose
     private Float volumetricWeight;
@@ -241,11 +241,11 @@ public class Shipment {
         this.createdAt = createdAt;
     }
 
-    public Integer getFinalAmount() {
+    public Double getFinalAmount() {
         return finalAmount;
     }
 
-    public void setFinalAmount(Integer finalAmount) {
+    public void setFinalAmount(Double finalAmount) {
         this.finalAmount = finalAmount;
     }
 

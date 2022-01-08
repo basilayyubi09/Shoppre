@@ -52,39 +52,25 @@ public class PackageUpdateAdapter extends RecyclerView.Adapter<PackageUpdateAdap
         if (list.get(position).getUser()!=null){
             holder.name.setText(list.get(position).getUser().getName());
         }
-        if (list.get(position).getUser().getGroupId()==1){
+        if (list.get(position).getUser().getGroupId()!=null){
+            if (list.get(position).getUser().getGroupId()==1){
 
-            firstLetter = list.get(position).getUser().getFirstName().charAt(0);
-            textDrawable = TextDrawable.builder()
-                    .beginConfig().endConfig()
-                    .beginConfig().withBorder(0)
-                    .bold().toUpperCase()
-                    .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
+                firstLetter = list.get(position).getUser().getFirstName().charAt(0);
+                textDrawable = TextDrawable.builder()
+                        .beginConfig().endConfig()
+                        .beginConfig().withBorder(0)
+                        .bold().toUpperCase()
+                        .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
 
-            holder.profileImage.setImageDrawable(textDrawable);
-            holder.name.setTextColor(context.getResources().getColor(R.color.text_red));
+                holder.profileImage.setImageDrawable(textDrawable);
+                holder.name.setTextColor(context.getResources().getColor(R.color.text_red));
 
-
-//            TextDrawable textDrawable;
-//            ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
-
-//            holder.profileImage.setImageResource(R.drawable.shoppre_ic);
-//            char firstLetter = list.get(position).getUser().getName().charAt(0);
-//
-//            ////Profile RoundImage with Letter
-//
-//            textDrawable = TextDrawable.builder()
-//                    .beginConfig().endConfig()
-//                    .beginConfig().bold().toUpperCase()
-//                    .endConfig().buildRound(String.valueOf(firstLetter), R.color.text_red);
-//
-//            Glide.with(context)
-//                    .load(textDrawable)
-//                    .into(holder.profileImage);
-        }else {
-            holder.profileImage.setImageResource(R.drawable.shoppre_ic);
-            holder.name.setTextColor(context.getResources().getColor(R.color.text_blue));
+            }else {
+                holder.profileImage.setImageResource(R.drawable.shoppre_ic);
+                holder.name.setTextColor(context.getResources().getColor(R.color.text_blue));
+            }
         }
+
         holder.packageStatus.setText(list.get(position).getComments());
         holder.date.setText(list.get(position).getCreatedAt());
 

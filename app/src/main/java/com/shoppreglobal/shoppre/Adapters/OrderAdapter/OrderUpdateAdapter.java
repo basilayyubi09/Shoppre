@@ -47,23 +47,27 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
         if (list.get(position).getUser()!=null){
             holder.profileName.setText(list.get(position).getUser().getName());
         }
-        if (list.get(position).getUser().getGroupId()==1){
 
-            firstLetter = list.get(position).getUser().getFirstName().charAt(0);
-            textDrawable = TextDrawable.builder()
-                    .beginConfig().endConfig()
-                    .beginConfig().withBorder(0)
-                    .bold().toUpperCase()
-                    .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
+        if (list.get(position).getUser().getGroupId()!=null){
+            if (list.get(position).getUser().getGroupId()==1){
+
+                firstLetter = list.get(position).getUser().getFirstName().charAt(0);
+                textDrawable = TextDrawable.builder()
+                        .beginConfig().endConfig()
+                        .beginConfig().withBorder(0)
+                        .bold().toUpperCase()
+                        .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
 
 
-            holder.profileName.setTextColor(context.getResources().getColor(R.color.text_red));
-            holder.profileImage.setImageDrawable(textDrawable);
+                holder.profileName.setTextColor(context.getResources().getColor(R.color.text_red));
+                holder.profileImage.setImageDrawable(textDrawable);
 
-        }else {
-            holder.profileImage.setImageResource(R.drawable.shoppre_ic);
-            holder.profileName.setTextColor(context.getResources().getColor(R.color.text_blue));
+            }else {
+                holder.profileImage.setImageResource(R.drawable.shoppre_ic);
+                holder.profileName.setTextColor(context.getResources().getColor(R.color.text_blue));
+            }
         }
+
         holder.orderStatus.setText(list.get(position).getComments());
         holder.dateAndTime.setText(list.get(position).getCreatedAt());
 

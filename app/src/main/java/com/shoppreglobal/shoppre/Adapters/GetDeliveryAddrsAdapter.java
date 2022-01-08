@@ -103,19 +103,6 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
                     }
                 }
 
-
-
-//                if (position == lastSelectedposition){
-//
-//                    holder.addrsRadioBtn.setChecked(true);
-//                    lastSelectedposition = -1;
-//
-//                }else {
-//                    lastSelectedposition = position;
-//                    notifyDataSetChanged();
-//
-//                }
-
             }
         });
 
