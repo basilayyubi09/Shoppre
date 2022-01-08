@@ -33,7 +33,7 @@ public class ViewPhotoDialog {
         final Dialog dialog = new Dialog(context);
         Click click = this.click;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.view_photo_dialog);
 

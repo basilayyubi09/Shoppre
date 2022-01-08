@@ -1,7 +1,13 @@
 package com.shoppreglobal.shoppre.UI.Locker;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
@@ -23,20 +31,28 @@ import com.shoppreglobal.shoppre.LockerModelResponse.ViewPackageResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
+import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageDetails;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageUpdates;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
+import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,6 +73,14 @@ public class LockerViewPackage extends Fragment {
     ViewPackageViewPager viewPackageViewPagerAdapter;
     LinearLayout viewPackageViewMore;
     String orderCode;
+    MaterialButton uploadInvoiceBtn;
+    byte[] byteArray;
+    String encodedFile;
+    String file;
+    String responseUrl;
+    String responseObject;
+    String splitUrl;
+    int strResponse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +98,7 @@ public class LockerViewPackage extends Fragment {
         websiteName = view.findViewById(R.id.websiteName);
         uploadInvoiceCard = view.findViewById(R.id.uploadInvoiceCard);
         viewPackageViewMore = view.findViewById(R.id.viewPackageViewMore);
+        uploadInvoiceBtn = view.findViewById(R.id.uploadInvoiceBtn);
         sharedPrefManager = new SharedPrefManager(getActivity());
         OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.lockerMenu).setChecked(true);
@@ -94,6 +119,13 @@ public class LockerViewPackage extends Fragment {
             callViewPackage();
 
         }
+
+        uploadInvoiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadInvoiceApi();
+            }
+        });
 
         viewPackageViewMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +151,131 @@ public class LockerViewPackage extends Fragment {
         return view;
     }
 
+    private void uploadInvoiceApi() {
+
+        Intent intent = new Intent();
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        // Set your required file type
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "DEMO"), 1001);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1001) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                Uri selectedInvoice = data.getData();
+                String selectedFilePath = data.getData().getPath();
+                String string = selectedFilePath;
+                String[] parts = string.split("/");
+                file = parts[parts.length - 1];
+                Log.d("Path", file);
+
+                try {
+                    InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedInvoice);
+                    byteArray = new byte[inputStream.available()];
+                    inputStream.read(byteArray);
+                    encodedFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+                    Log.d("Encoded String", encodedFile);
+
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
+                    callMinioUploadApi(byteArray);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    private void callMinioUploadApi(byte[] byteArray) {
+        Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer " + sharedPrefManager.getBearerToken(),
+                file);
+        call.enqueue(new Callback<MinioUploadModelResponse>() {
+            @Override
+            public void onResponse(Call<MinioUploadModelResponse> call, Response<MinioUploadModelResponse> response) {
+                if (response.code() == 200) {
+                    responseObject = response.body().getObject();
+
+                    responseUrl = response.body().getUrl();
+                    String[] parts = responseUrl.split("/");
+                    splitUrl = parts[parts.length - 1];
+
+//                    Toast.makeText(getActivity(), splitUrl, Toast.LENGTH_SHORT).show();
+
+                    Log.d("splitUrl", splitUrl);
+                    LoadingDialog.cancelLoading();
+
+//                    callMinioUpload2Api(responseUrl , encodedFile);
+                    MinioUploading minioUploading = new MinioUploading();
+                    minioUploading.execute();
+
+
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi();
+                    LoadingDialog.cancelLoading();
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    LoadingDialog.cancelLoading();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MinioUploadModelResponse> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                LoadingDialog.cancelLoading();
+            }
+        });
+    }
+
+
+    public class MinioUploading extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+
+
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("application/octet");
+            RequestBody body = RequestBody.create(mediaType, byteArray);
+            Request request = new Request.Builder()
+                    .url(responseUrl)
+                    .method("PUT", body)
+                    .addHeader("Content-Type", "application/octet-stream")
+                    .build();
+            try {
+                okhttp3.Response response = client.newCall(request).execute();
+                Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
+                strResponse = response.code();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String message) {
+            //process message
+            if (strResponse == 200) {
+                Toast.makeText(getActivity(), "Invoice upload successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Invoice upload Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void callViewPackage() {
         Call<ViewPackageResponse> call = RetrofitClient3
                 .getInstance3()
@@ -135,6 +292,7 @@ public class LockerViewPackage extends Fragment {
                     bundle1.putSerializable("list", (Serializable) list);
                     orderCode = String.valueOf(response.body().getOrderCode());
                     packageDetails.setArguments(bundle1);
+
 
                     Bundle bundle = new Bundle();
 

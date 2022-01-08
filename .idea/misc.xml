@@ -95,7 +95,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/create_shipment_delivery_address.xml" value="0.6" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/dropdown_items.xml" value="0.4" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/dropdown_text_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_add_adress.xml" value="0.536" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_cancelled_order.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_change_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/fragment_create_ship_request.xml" value="0.46080760095011875" />
@@ -176,7 +176,7 @@
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_item_single_layout.xml" value="0.8" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/upload_invoice_single_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_order_single_layout.xml" value="0.4" />
-        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_photo_dialog.xml" value="0.2" />
+        <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_photo_dialog.xml" value="0.536" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/view_sample_dialog.xml" value="0.36678200692041524" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/wallet_fragment_spinner_text.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/CROFT/shoppre-android/app/src/main/res/layout/yellow_toast.xml" value="0.12224797219003476" />

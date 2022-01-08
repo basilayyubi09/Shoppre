@@ -47,22 +47,26 @@ public class ShipmentUpdateAdapter extends RecyclerView.Adapter<ShipmentUpdateAd
 
         if (response.getUser()!=null){
             holder.shipmentCommentName.setText(response.getUser().getName());
-            if (response.getUser().getGroupId()==1){
 
-                firstLetter = list.get(position).getUser().getFirstName().charAt(0);
-                textDrawable = TextDrawable.builder()
-                        .beginConfig().endConfig()
-                        .beginConfig().withBorder(0)
-                        .bold().toUpperCase()
-                        .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
+            if (response.getUser().getGroupId()!=null){
+                if (response.getUser().getGroupId()==1){
 
-                holder.profileImage.setImageDrawable(textDrawable);
+                    firstLetter = list.get(position).getUser().getFirstName().charAt(0);
+                    textDrawable = TextDrawable.builder()
+                            .beginConfig().endConfig()
+                            .beginConfig().withBorder(0)
+                            .bold().toUpperCase()
+                            .endConfig().buildRound(String.valueOf(firstLetter), Color.RED);
+
+                    holder.profileImage.setImageDrawable(textDrawable);
 
 
-                holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_red));
-            }else {
-                holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_blue));
+                    holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_red));
+                }else {
+                    holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_blue));
+                }
             }
+
         }
 
         holder.shipmentCommentStatus.setText(response.getComments());

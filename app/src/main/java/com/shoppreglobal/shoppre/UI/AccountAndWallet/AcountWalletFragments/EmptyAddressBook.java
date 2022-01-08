@@ -496,6 +496,7 @@ public class EmptyAddressBook extends Fragment {
                             deliveryAddress = list.get(i);
                             boolean isBilling = response.body().getAddresses().get(i).getBillingAddress();
 
+
                             if (isBilling) {
                                 billingAddressBox.setVisibility(View.VISIBLE);
                                 billingAddressText.setVisibility(View.GONE);
