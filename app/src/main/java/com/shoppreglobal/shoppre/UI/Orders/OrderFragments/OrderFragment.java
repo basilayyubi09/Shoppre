@@ -28,6 +28,7 @@ import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.ReferralHistoryResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.AccountResponse.SubmitReferralResponse;
+import com.shoppreglobal.shoppre.AccountResponse.VerifyEmailDeepLinkResponse;
 import com.shoppreglobal.shoppre.Adapters.OrdersAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.IncomingPkg;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
@@ -123,8 +124,7 @@ public class OrderFragment extends Fragment {
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
             if (scheme.equals("https")) {
-                String token = uri.getQueryParameter("token");
-                Toast.makeText(getActivity(), token, Toast.LENGTH_SHORT).show();
+               callVerifyEmailApi();
             }
 
         }
@@ -299,6 +299,29 @@ public class OrderFragment extends Fragment {
         return view;
     }
 
+    private void callVerifyEmailApi() {
+        Call<VerifyEmailDeepLinkResponse> call =  RetrofitClient.getInstance()
+                .getApi().confirmEmail("Bearer "+sharedPrefManager.getBearerToken()
+                ,"");
+        call.enqueue(new Callback<VerifyEmailDeepLinkResponse>() {
+            @Override
+            public void onResponse(Call<VerifyEmailDeepLinkResponse> call, Response<VerifyEmailDeepLinkResponse> response) {
+                if (response.code()==200){
+                    Toast.makeText(getActivity(), "Email Verified successfully", Toast.LENGTH_SHORT).show();
+                }
+                else  if (response.code()==401){
+                    callRefreshTokenApi("email");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VerifyEmailDeepLinkResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void callSubmitReferralApi() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("referral_code", referralET.getText().toString());
@@ -319,7 +342,7 @@ public class OrderFragment extends Fragment {
                         LoadingDialog.cancelLoading();
                     }
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -388,7 +411,7 @@ public class OrderFragment extends Fragment {
                     callReferralApi();
 //                    LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
 
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -434,7 +457,7 @@ public class OrderFragment extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
@@ -489,7 +512,7 @@ public class OrderFragment extends Fragment {
                     }
                     callGetOrderListing();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -521,7 +544,7 @@ public class OrderFragment extends Fragment {
         return days;
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String where) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -532,7 +555,13 @@ public class OrderFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callMeApi(sharedPrefManager.getBearerToken());
+                    if (where.equals("email")){
+                        callVerifyEmailApi();
+                    }
+                    else {
+                        callMeApi(sharedPrefManager.getBearerToken());
+                    }
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);

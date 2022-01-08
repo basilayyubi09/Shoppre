@@ -24,6 +24,7 @@ import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ParentFinalOrderSummaryAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.CartModelResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
+import com.shoppreglobal.shoppre.OrderModuleResponses.OrderItem;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
@@ -174,14 +175,30 @@ public class FinalOrderSummaryFragment extends Fragment {
             public void onResponse(Call<CartModelResponse> call, Response<CartModelResponse> response) {
                 if (response.code() == 200) {
                     list = response.body().getOrders();
+
                     JsonArray idList = new JsonArray();
+                     for (int i=0;i< list.size();i++){
+                         for (int j=0 ; j<list.get(i).getOrderItems().size() ; j++)
+                         {
+                             idList.add(list.get(i).getOrderItems().get(j).getId());
+                         }
+
+                     }
+
+
+
+//                     for (int i=0;i< itemList.size();i++){
+//                         idList.add(itemList.get(i).get(i).getId());
+//                     }
+
 
                     JsonArray jsonArray = new JsonArray();
                     JsonArray idArray = new JsonArray();
 
                     for (int i = 0; i < list.size(); i++) {
 
-                        idList.add(list.get(i).getOrderItems().get(i).getId());
+
+//                        idList.add(list.get(i).getOrderItems().get(i).getId());
                         shoppreTotal = shoppreTotal + list.get(i).getPersonalShopperCost();
                         totalCount = totalCount + list.get(i).getSubTotal();
                         subTotal = subTotal + list.get(i).getPriceAmount();

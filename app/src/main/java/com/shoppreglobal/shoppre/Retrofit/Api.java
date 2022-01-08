@@ -4,6 +4,7 @@ import com.shoppreglobal.shoppre.AccountResponse.AccessTokenResponse;
 import com.shoppreglobal.shoppre.AccountResponse.ChangePasswordResponse;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
+import com.shoppreglobal.shoppre.AccountResponse.VerifyEmailDeepLinkResponse;
 import com.shoppreglobal.shoppre.AccountResponse.VerifyEmailResponse;
 import com.shoppreglobal.shoppre.AuthenticationModel.ForgotPasswordResponse;
 import com.shoppreglobal.shoppre.AuthenticationModel.RegisterVerifyResponse;
@@ -167,5 +168,13 @@ public interface Api {
 
             @Path("id") Integer id
             ,@Body String object
+    );
+
+    //https://uat-login.shoppreglobal.com/api/users/me
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PUT("api/password_reset/{id}")
+    Call<VerifyEmailDeepLinkResponse> confirmEmail(
+            @Header("Authorization") String auth,
+            @Body String object
     );
 }

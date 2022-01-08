@@ -51,17 +51,21 @@
                     android:scheme="https" />
             </intent-filter>
 
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 <!--                //paymentorders://Orders?status=success/failed-->
+                <data
+                    android:host="Shipments"
+                    android:scheme="paymentshipments"
+                    tools:ignore="AppLinkUrlError" />
                 <data
                     android:host="Orders"
                     android:scheme="paymentorders"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".UI.OnBoarding.OnBoardingActivity"
