@@ -267,7 +267,7 @@ public class PaymentSummary extends Fragment {
                 jsonObject.addProperty("object_id", modelResponse.getShipment().getOrderCode());
                 jsonObject.addProperty("customer_id", modelResponse.getShipment().getCustomerId());
                 jsonObject.addProperty("axis_banned", false);
-                jsonObject.addProperty("cancelUrl", "paymentorders://Orders");
+                jsonObject.addProperty("cancelUrl", "paymentshipments://Shipments?status=cancel");
                 jsonObject.addProperty("offer_parameters", "");
 
                 Log.d("json to send", jsonObject.toString());
