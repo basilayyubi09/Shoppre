@@ -91,7 +91,7 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order, container, false);
-        
+
         OrderActivity.bottomNavigationView.setVisibility(View.VISIBLE);
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         sharedPrefManager = new SharedPrefManager(getActivity());

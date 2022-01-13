@@ -376,7 +376,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("type", "selfOrder");
                     bundle.putString("shopName", storeName);
-                    bundle.putInt("id", response.body().getId());
+                    bundle.putString("id", String.valueOf(response.body().getId()));
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle);
                     OrderActivity.fragmentManager.beginTransaction()

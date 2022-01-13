@@ -280,6 +280,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/howItWork1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -391,6 +392,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/howItWork2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"

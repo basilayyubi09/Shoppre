@@ -28,12 +28,12 @@ public class ThankYouFragment extends Fragment {
 
 
     LinearLayout address;
-    TextView shipment, order, shipment24, orderId, oneShopText;
+    TextView shipment, order, shipment24, orderId, oneShopText , paymentShipment;
     MaterialButton invite;
     MaterialCardView note, addressCard, oneShop;
     LinearLayout viewOrder, viewShipment;
     MaterialButton wtspBtn;
-    Integer id;
+    String id;
     String shopName;
     CircleImageView facebook, instagram, youtube, linkedin, twitter;
 
@@ -46,6 +46,7 @@ public class ThankYouFragment extends Fragment {
         OrderActivity.bottomNavigationView.getMenu().findItem(R.id.orderMenu).setChecked(true);
         address = view.findViewById(R.id.address);
         oneShop = view.findViewById(R.id.oneShop);
+        paymentShipment = view.findViewById(R.id.paymentShipment);
         facebook = view.findViewById(R.id.facebook);
         instagram = view.findViewById(R.id.instagram);
         youtube = view.findViewById(R.id.youtube);
@@ -77,26 +78,37 @@ public class ThankYouFragment extends Fragment {
                 shipment.setVisibility(View.VISIBLE);
                 shipment24.setVisibility(View.VISIBLE);
             } else if (bundle.getString("type").equals("order")) {
-                id = bundle.getInt("id");
+                id = bundle.getString("id");
             } else if (bundle.getString("type").equals("selfOrder")) {
-                id = bundle.getInt("id");
+                id = bundle.getString("id");
                 shopName = bundle.getString("shopName");
                 oneShop.setVisibility(View.VISIBLE);
                 oneShopText.setText("Looks like you’ve added products only from " + shopName);
+            }else if (bundle.getString("type").equals("shipment")) {
+                addressCard.setVisibility(View.GONE);
+                note.setVisibility(View.GONE);
+                order.setVisibility(View.GONE);
+                viewOrder.setVisibility(View.GONE);
+                viewShipment.setVisibility(View.VISIBLE);
+                orderId.setVisibility(View.GONE);
+                shipment.setVisibility(View.VISIBLE);
+                shipment24.setVisibility(View.VISIBLE);
             }
 
         }
         if (id != null) {
             orderId.setText("Order ID: " + "#" + String.valueOf(id));
-            viewOrder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
-                            , new OrderFragment(), null)
-                            .addToBackStack(null).commit();
-                }
-            });
+
         }
+        viewOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
+                        , new OrderFragment(), null).commit();
+            }
+        });
+
+
         instagram.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,8 +164,7 @@ public class ThankYouFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout
-                        , new ShipmentListingFragment(), null)
-                        .addToBackStack(null).commit();
+                        , new ShipmentListingFragment(), null).commit();
             }
         });
         invite.setOnClickListener(new View.OnClickListener() {

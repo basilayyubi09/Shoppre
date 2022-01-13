@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -13,9 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.R;
@@ -36,7 +41,7 @@ import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
 
-    MaterialCardView locker, shipment, account, order;
+    boolean isFirstTime = false;
     FrameLayout frameLayout;
     public static FragmentManager fragmentManager;
     SharedPrefManager sharedPrefManager;
@@ -58,7 +63,9 @@ public class OrderActivity extends AppCompatActivity {
         bottomNavigationView.setItemIconTintList(null);
 
 
-        internetCheck();
+
+
+
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -67,10 +74,11 @@ public class OrderActivity extends AppCompatActivity {
             String scheme = uri.getScheme();
             if (scheme.equals("paymentorders")) {
                 String status = uri.getQueryParameter("status");
+                String orderId = uri.getQueryParameter("orderId");
                 if (status.equals("success")) {
-
+                    Log.d("kaha ruka" , orderId);
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id", 123);
+                    bundle1.putString("id", orderId);
                     bundle1.putString("type", "order");
                     ThankYouFragment thankYouFragment = new ThankYouFragment();
                     thankYouFragment.setArguments(bundle1);
@@ -78,10 +86,30 @@ public class OrderActivity extends AppCompatActivity {
                             .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
                 } else {
-                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+//                    Bundle bundle1 = new Bundle();
+//                    bundle1.putString("type", "summary");
+//                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+//                    thankYouFragment.setArguments(bundle1);
+//                    OrderActivity.fragmentManager.beginTransaction()
+//                            .replace(R.id.orderFrameLayout, thankYouFragment)
+//                            .addToBackStack(null).commit();
+                }
+            }
+            else if (scheme.equals("paymentshipments")){
+                String status = uri.getQueryParameter("status");
+                if (status.equals("success")) {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("type", "shipment");
+                    ThankYouFragment thankYouFragment = new ThankYouFragment();
+                    thankYouFragment.setArguments(bundle1);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
                 }
             }
+        }
+        else {
+            internetCheck();
         }
 
 
@@ -121,8 +149,6 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
-
-
     private void callMeApi() {
 
         Call<MeResponse> call = RetrofitClient3
@@ -147,6 +173,7 @@ public class OrderActivity extends AppCompatActivity {
                     sharedPrefManager.storeGroupId(response.body().getGroupId());
                     sharedPrefManager.storePhone(response.body().getPhone());
                     sharedPrefManager.storeCreateDate(response.body().getCreatedAt());
+                    isFirstTime = true;
                     fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
                             .commit();
 
@@ -223,8 +250,15 @@ public class OrderActivity extends AppCompatActivity {
             snackbar.show();
         } else {
 
-            LoadingDialog.showLoadingDialog(OrderActivity.this, "");
-            callMeApi();
+            if (isFirstTime|| getIntent()==null){
+                fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
+                        .commit();
+            }
+            else {
+                LoadingDialog.showLoadingDialog(OrderActivity.this, "");
+                callMeApi();
+            }
+
         }
 
     }

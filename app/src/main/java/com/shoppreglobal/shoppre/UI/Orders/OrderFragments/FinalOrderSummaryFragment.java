@@ -138,7 +138,7 @@ public class FinalOrderSummaryFragment extends Fragment {
 //                    pay.setArguments(bundle);
 //                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, pay, null)
 //                            .addToBackStack(null).commit();
-
+//
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url + "&type=ps&params=" + base64));
                     startActivity(i);
@@ -226,8 +226,10 @@ public class FinalOrderSummaryFragment extends Fragment {
                     jsonObjectToSend.add("object_id", idList);
                     jsonObjectToSend.addProperty("axis_banned", false);
                     jsonObjectToSend.addProperty("type", "ps");
-                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel");
+                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel&orderId="+"0");
                     jsonObjectToSend.addProperty("ps_fee", shoppreTotal);
+                    jsonObjectToSend.addProperty("redirectUri", "paymentorders://Orders");
+                    jsonObjectToSend.addProperty("businessType", "android");
 
 
                     Log.d("json to send", jsonObjectToSend.toString());

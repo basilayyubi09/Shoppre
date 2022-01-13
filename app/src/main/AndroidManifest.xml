@@ -58,13 +58,16 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+
                     android:host="Shipments"
                     android:scheme="paymentshipments"
                     tools:ignore="AppLinkUrlError" />
                 <data
+
                     android:host="Orders"
                     android:scheme="paymentorders"
                     tools:ignore="AppLinkUrlError" />
+
             </intent-filter>
 
         </activity>

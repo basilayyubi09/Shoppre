@@ -21,6 +21,7 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.VertualAddress;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Shipment.ShippingCalculator;
+import com.shoppreglobal.shoppre.Utils.HowItWorksDialog;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class SelfShopper extends Fragment {
 
     SharedPrefManager sharedPrefManager;
-    LinearLayout shopForMeBorder, shopForMySelfBorder;
+    LinearLayout shopForMeBorder, shopForMySelfBorder , howItWork1 ,howItWork2;
     ImageView shopForMeCheckImage, shopForMySelfCheckImage;
     MaterialButton personalShopProceedBtn;
     CardView selfShopperVirtualAddress, selfShopperShippingCalculator, selfShopperFaqAndHelp;
@@ -51,6 +52,8 @@ public class SelfShopper extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
         sharedPrefManager.fragmentValue("orders");
 
+        howItWork1 = view.findViewById(R.id.howItWork1);
+        howItWork2 = view.findViewById(R.id.howItWork2);
         shopForMeBorder = view.findViewById(R.id.shopForMeBorder);
         shopForMySelfBorder = view.findViewById(R.id.shopForMySelfBorder);
         shopForMeCheckImage = view.findViewById(R.id.shopForMeCheckImage);
@@ -94,6 +97,19 @@ public class SelfShopper extends Fragment {
             }
         });
 
+
+        howItWork1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HowItWorksDialog.showLoadingDialog(getActivity() , "ps");
+            }
+        });
+        howItWork2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HowItWorksDialog.showLoadingDialog(getActivity() , "");
+            }
+        });
         shopForMySelfBorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
