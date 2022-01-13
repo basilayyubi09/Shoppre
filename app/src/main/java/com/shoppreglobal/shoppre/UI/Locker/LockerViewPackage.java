@@ -354,7 +354,13 @@ public class LockerViewPackage extends Fragment {
 
         packageId.setText("#" + String.valueOf(list.getId()));
         weight.setText(String.valueOf(list.getWeight()));
-        amount.setText("₹ " + String.valueOf(list.getPriceAmount()));
+
+        int sum = 0;
+        for (int i=0; i<list.getPackageItems().size(); i++){
+            sum = sum + list.getPackageItems().get(i).getPriceAmount();
+        }
+
+        amount.setText("₹ " + String.valueOf(sum));
 
 
         if (list.getStateNameAndColor().getStateName() != null) {

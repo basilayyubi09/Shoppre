@@ -98,6 +98,7 @@
             android:layout_marginLeft="2dp"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:layout_marginRight="4dp"
             android:src="@drawable/ic_arrow"/>
 
         </LinearLayout>

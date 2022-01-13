@@ -60,10 +60,12 @@
                 <data
                     android:host="Shipments"
                     android:scheme="paymentshipments"
+                    android:pathPattern=".*"
                     tools:ignore="AppLinkUrlError" />
                 <data
                     android:host="Orders"
                     android:scheme="paymentorders"
+                    android:pathPattern=".*"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
 

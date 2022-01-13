@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -65,6 +66,8 @@ public class OrderActivity extends AppCompatActivity {
         if (action != null && action.equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
+            Log.d("schememmmmmm", scheme);
+            Toast.makeText(getApplicationContext(), scheme, Toast.LENGTH_SHORT).show();
             if (scheme.equals("paymentorders")) {
                 String status = uri.getQueryParameter("status");
                 if (status.equals("success")) {
