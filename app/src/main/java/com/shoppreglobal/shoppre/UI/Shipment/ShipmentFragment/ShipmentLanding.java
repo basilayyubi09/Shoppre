@@ -49,7 +49,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
-import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.BoxAdapter;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.CancelShipmentModelResponse;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.ShipmentLandingViewPager;
 import com.shoppreglobal.shoppre.Adapters.ShipmentAdapters.UploadInvoiceAdapter;
@@ -127,7 +126,8 @@ public class ShipmentLanding extends Fragment {
     Dialog dialog1;
     DownloadManager downloadManager;
     long downloadId;
-
+    RecyclerView uploadInvoiceRecycler;
+    Dialog dialog;
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
 
@@ -318,12 +318,12 @@ public class ShipmentLanding extends Fragment {
         });
 
 
-        uploadInvoicePackagesApi(uploadInvoiceRecycler, dialog);
+        uploadInvoicePackagesApi();
 
 
     }
 
-    private void uploadInvoicePackagesApi(RecyclerView uploadInvoiceRecycler, Dialog dialog) {
+    private void uploadInvoicePackagesApi() {
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
@@ -360,7 +360,7 @@ public class ShipmentLanding extends Fragment {
                     dialog.show();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("invoice");
                     LoadingDialog.cancelLoading();
                 }
             }
@@ -532,7 +532,7 @@ public class ShipmentLanding extends Fragment {
                     }).check();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("download");
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -592,7 +592,7 @@ public class ShipmentLanding extends Fragment {
                     Toast.makeText(getActivity(), "You can not cancel shipment after 1 hour from shipment creation", Toast.LENGTH_LONG).show();
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("cancel");
                 } else {
                     Toast.makeText(getContext(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
@@ -639,7 +639,7 @@ public class ShipmentLanding extends Fragment {
 //                    }
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("shipmentDetails");
 
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -769,7 +769,7 @@ public class ShipmentLanding extends Fragment {
 //
 //    }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -780,6 +780,17 @@ public class ShipmentLanding extends Fragment {
 
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    if (whichApi.equals("shipmentDetails")) {
+                        shipmentDetailsApi();
+                    } else if (whichApi.equals("minioUpload")) {
+                        callMinioUploadApi();
+                    } else if (whichApi.equals("cancel")) {
+                        cancelShipmentApi();
+                    } else if (whichApi.equals("download")) {
+                        downloadInvoiceApi();
+                    } else if (whichApi.equals("invoice")) {
+                        uploadInvoicePackagesApi();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -1066,7 +1077,7 @@ public class ShipmentLanding extends Fragment {
                     Log.d("Encoded String", encodedFile);
 
                     LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callMinioUploadApi(byteArray);
+                    callMinioUploadApi();
 
 
                 } catch (IOException e) {
@@ -1076,7 +1087,7 @@ public class ShipmentLanding extends Fragment {
         }
     }
 
-    private void callMinioUploadApi(byte[] encodedFile) {
+    private void callMinioUploadApi() {
 
         Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer " + sharedPrefManager.getBearerToken(),
                 file);
@@ -1101,7 +1112,7 @@ public class ShipmentLanding extends Fragment {
 
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("minioUpload");
                     LoadingDialog.cancelLoading();
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
