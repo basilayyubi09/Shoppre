@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -137,6 +138,22 @@ public class OrderFragment extends Fragment {
         }
 
 
+        Bundle bundle = getArguments();
+        if (bundle!=null){
+            String type = bundle.getString("type");
+            if (type.equals("order")){
+                LayoutInflater inflater1 = getLayoutInflater();
+                View layout = inflater1.inflate(R.layout.yellow_toast,
+                        (ViewGroup) view.findViewById(R.id.toast_layout_root));
+                TextView toastText = (TextView) layout.findViewById(R.id.toastText);
+                toastText.setText("Payment failed try again!");
+                Toast toast = new Toast(getContext());
+                toast.setGravity(Gravity.TOP, 0, 200);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
+            }
+        }
         list = new ArrayList<>();
         list1 = new ArrayList<>();
 

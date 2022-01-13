@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -35,7 +34,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -99,7 +97,6 @@ public class ShipmentLanding extends Fragment {
     TextView filePathGlobal;
     String picturePath;
     List<ShipmentBox> boxList;
-    BoxAdapter boxAdapter;
     RecyclerView boxRecycle;
     LinearLayoutManager linearLayoutManager;
     TextView deliverToName, shipmentId, deliveryAddress, requestDate, contactNumber, packageTotalWeight, dimension, volumetricWeight, finalWeight, totalCost;
@@ -116,13 +113,9 @@ public class ShipmentLanding extends Fragment {
     CardView inReview, verifyPaymentTag, paymentConfirmTag, deliveredTag, dispatchedTagCard;
     LinearLayout firstLayout, secondLayout;
     TextView totalWeight, totalCharge;
-    NestedScrollView nestedScrollView;
-    Bitmap bitmap;
-    Uri selectedImage, selectedInvoice;
+    Uri selectedImage;
     String url;
     String encodedFile;
-    String encodedString;
-    String getUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
     String responseObject;
     String splitUrl;
     String responseUrl;
@@ -138,8 +131,6 @@ public class ShipmentLanding extends Fragment {
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
 
-    Intent myFileIntent;
-    String strFile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -290,6 +281,18 @@ public class ShipmentLanding extends Fragment {
             }
         });
 
+        retryPaymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("shipmentId", id);
+                bundle2.putInt("size", size);
+                PaymentSummary paymentSummary = new PaymentSummary();
+                paymentSummary.setArguments(bundle2);
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, paymentSummary, null)
+                        .addToBackStack(null).commit();
+            }
+        });
         return view;
     }
 
@@ -637,7 +640,7 @@ public class ShipmentLanding extends Fragment {
 
                 } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
@@ -774,7 +777,7 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                 } else {

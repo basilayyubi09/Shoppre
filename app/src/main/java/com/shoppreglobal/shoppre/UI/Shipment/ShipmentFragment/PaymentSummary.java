@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,6 +195,18 @@ public class PaymentSummary extends Fragment {
 
         }
 
+        if (size==0){
+            LayoutInflater inflater1 = getLayoutInflater();
+            View layout = inflater1.inflate(R.layout.yellow_toast,
+                    (ViewGroup) view.findViewById(R.id.toast_layout_root));
+            TextView toastText = (TextView) layout.findViewById(R.id.toastText);
+            toastText.setText("Payment failed try again!");
+            Toast toast = new Toast(getContext());
+            toast.setGravity(Gravity.TOP, 0, 200);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+        }
         paymentSummaryTabLayout = view.findViewById(R.id.paymentSumaryTabLayout);
         viewPager = view.findViewById(R.id.paymentSummaryViewPager);
 
@@ -247,6 +260,7 @@ public class PaymentSummary extends Fragment {
             }
         });
 
+
         makePaymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,18 +282,11 @@ public class PaymentSummary extends Fragment {
                 jsonObject.addProperty("customer_id", modelResponse.getShipment().getCustomerId());
                 jsonObject.addProperty("axis_banned", false);
                 jsonObject.addProperty("type", "shipment");
-                jsonObject.addProperty("cancelUrl", "paymentshipments://Shipments?status=cancel");
+                jsonObject.addProperty("cancelUrl", "paymentshipments://Shipments?status=cancel&shipmentId="+shipmentId);
                 jsonObject.addProperty("offer_parameters", "");
                 jsonObject.addProperty("businessType", "android");
                 jsonObject.addProperty("redirectUri", "paymentshipments://Shipments");
 
-
-//                sonObjectToSend.addProperty("axis_banned", false);
-//                jsonObjectToSend.addProperty("type", "ps");
-//                jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel&orderId="+"0");
-//                jsonObjectToSend.addProperty("ps_fee", shoppreTotal);
-//                jsonObjectToSend.addProperty("redirectUri", "paymentorders://Orders");
-//                jsonObjectToSend.addProperty("businessType", "android");
 
                 Log.d("json to send", jsonObject.toString());
 

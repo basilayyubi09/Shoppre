@@ -30,6 +30,7 @@ import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewP
 import com.shoppreglobal.shoppre.UI.Locker.LockerReadyToShip;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ThankYouFragment;
+import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.PaymentSummary;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -72,8 +73,6 @@ public class OrderActivity extends AppCompatActivity {
         if (action != null && action.equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
-            Log.d("schememmmmmm", scheme);
-            Toast.makeText(getApplicationContext(), scheme, Toast.LENGTH_SHORT).show();
             if (scheme.equals("paymentorders")) {
                 String status = uri.getQueryParameter("status");
                 String orderId = uri.getQueryParameter("orderId");
@@ -88,17 +87,18 @@ public class OrderActivity extends AppCompatActivity {
                             .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
                 } else {
-//                    Bundle bundle1 = new Bundle();
-//                    bundle1.putString("type", "summary");
-//                    ThankYouFragment thankYouFragment = new ThankYouFragment();
-//                    thankYouFragment.setArguments(bundle1);
-//                    OrderActivity.fragmentManager.beginTransaction()
-//                            .replace(R.id.orderFrameLayout, thankYouFragment)
-//                            .addToBackStack(null).commit();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("type", "order");
+                    OrderFragment orderFragment = new OrderFragment();
+                    orderFragment.setArguments(bundle1);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, orderFragment)
+                            .addToBackStack(null).commit();
                 }
             }
             else if (scheme.equals("paymentshipments")){
                 String status = uri.getQueryParameter("status");
+                Integer id = Integer.valueOf(uri.getQueryParameter("shipmentId"));
                 if (status.equals("success")) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("type", "shipment");
@@ -106,6 +106,16 @@ public class OrderActivity extends AppCompatActivity {
                     thankYouFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
+                            .addToBackStack(null).commit();
+                }
+                else {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putInt( "shipmentId" , id);
+                    bundle1.putInt( "size" , 0);
+                    PaymentSummary paymentSummary = new PaymentSummary();
+                    paymentSummary.setArguments(bundle1);
+                    OrderActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.orderFrameLayout, paymentSummary)
                             .addToBackStack(null).commit();
                 }
             }
