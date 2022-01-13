@@ -73,7 +73,7 @@ public class OrderActivity extends AppCompatActivity {
             Uri uri = intent.getData();
             String scheme = uri.getScheme();
             Log.d("schememmmmmm", scheme);
-            Toast.makeText(getApplicationContext(), scheme, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), scheme, Toast.LENGTH_SHORT).show();
             if (scheme.equals("paymentorders")) {
                 String status = uri.getQueryParameter("status");
                 String orderId = uri.getQueryParameter("orderId");
