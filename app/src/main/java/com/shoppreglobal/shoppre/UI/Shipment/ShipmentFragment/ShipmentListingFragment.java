@@ -111,8 +111,9 @@ public class ShipmentListingFragment extends Fragment {
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 400) {
                     callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+
                 } else {
+                    LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -162,11 +163,12 @@ public class ShipmentListingFragment extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     callShipmentIndexApi();
                 } else {
+                    LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
