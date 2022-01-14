@@ -48,22 +48,19 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
         if (list.get(position).getColor().equals("") || list.get(position).getColor() == null && list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
             holder.productColor.setVisibility(View.GONE);
 //            holder.colorHeading.setVisibility(View.GONE);
-        } else if(list.get(position).getColor().equals("") || list.get(position).getColor() == null) {
-            holder.productColor.setText("Size: "+list.get(position).getSize());
+        } else if (list.get(position).getColor().equals("") || list.get(position).getColor() == null) {
+            holder.productColor.setText("Size: " + list.get(position).getSize());
 
-        } else if(list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
-            holder.productColor.setText("Color: "+list.get(position).getColor());
+        } else if (list.get(position).getSize().equals("") || list.get(position).getSize() == null) {
+            holder.productColor.setText("Color: " + list.get(position).getColor());
 
-        }
-
-        else
-         {
-            holder.productColor.setText("Color & Size: "+list.get(position).getColor()+" "+list.get(position).getSize());
+        } else {
+            holder.productColor.setText("Color & Size: " + list.get(position).getColor() + " " + list.get(position).getSize());
         }
 
         holder.productQuantity.setText(String.valueOf(list.get(position).getQuantity()));
 
-        holder.productRate.setText("₹ "+String.valueOf(list.get(position).getPriceAmount()));
+        holder.productRate.setText("₹ " + String.valueOf(list.get(position).getPriceAmount()));
 //
 
         holder.webView.setOnClickListener(new View.OnClickListener() {
@@ -79,17 +76,15 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
             }
         });
         holder.btn.setVisibility(View.VISIBLE);
-        if (list.get(position).getOrderItemState()!=null){
-            if (list.get(position).getOrderItemState().getState()!=null){
+        if (list.get(position).getOrderItemState() != null) {
+            if (list.get(position).getOrderItemState().getState() != null) {
                 holder.btn.setText(list.get(position).getOrderItemState().getState().getName());
-            }else {
+            } else {
                 holder.btn.setText("");
             }
-        }else {
+        } else {
             holder.btn.setText("");
         }
-
-
 
 
         holder.toolTip.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +106,8 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
 
     public class viewHolder extends RecyclerView.ViewHolder {
 
-        ImageView productImage , webView, toolTip;
-        TextView productName, productColor, productQuantity, productRate, colorHeading , btn;
+        ImageView productImage, webView, toolTip;
+        TextView productName, productColor, productQuantity, productRate, colorHeading, btn;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -130,7 +125,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.view
         }
     }
 
-    public void showToolTip(View v){
+    public void showToolTip(View v) {
         ImageView tooltipImage = (ImageView) v;
         @SuppressLint("ResourceAsColor") Tooltip tooltip = new Tooltip.Builder(tooltipImage)
                 .setText("Cancel this item & purchase\nall the other available items")

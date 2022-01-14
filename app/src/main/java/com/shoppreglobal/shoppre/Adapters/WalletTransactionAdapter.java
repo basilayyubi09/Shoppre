@@ -34,7 +34,7 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.wallet_transaction_single_layout , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.wallet_transaction_single_layout, parent, false);
 
         return new viewHolder(view);
     }
@@ -57,20 +57,15 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
 //        }
 //        else
 //            holder.messageText.setText(list.get(position).getMessageText());
-        if (list.get(position).getAmount().toString().startsWith("-")){
+        if (list.get(position).getAmount().toString().startsWith("-")) {
             String value = list.get(position).getAmount().toString();
             value = value.substring(1);
             holder.price.setTextColor(Color.parseColor("#EF5261"));
-            holder.price.setText("- ₹ "+value);
-        }
-        else{
+            holder.price.setText("- ₹ " + value);
+        } else {
             holder.price.setTextColor(Color.parseColor("#17B28F"));
-            holder.price.setText("+"+" ₹ "+list.get(position).getAmount().toString());
+            holder.price.setText("+" + " ₹ " + list.get(position).getAmount().toString());
         }
-
-
-
-
 
 
         String date1 = list.get(position).getCreatedAt();
@@ -91,9 +86,10 @@ public class WalletTransactionAdapter extends RecyclerView.Adapter<WalletTransac
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView date , mainText , messageText , price;
+        TextView date, mainText, messageText, price;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);

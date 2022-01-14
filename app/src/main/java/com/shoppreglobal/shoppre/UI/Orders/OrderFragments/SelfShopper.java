@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class SelfShopper extends Fragment {
 
     SharedPrefManager sharedPrefManager;
-    LinearLayout shopForMeBorder, shopForMySelfBorder , howItWork1 ,howItWork2;
+    LinearLayout shopForMeBorder, shopForMySelfBorder, howItWork1, howItWork2;
     ImageView shopForMeCheckImage, shopForMySelfCheckImage;
     MaterialButton personalShopProceedBtn;
     CardView selfShopperVirtualAddress, selfShopperShippingCalculator, selfShopperFaqAndHelp;
@@ -101,13 +101,13 @@ public class SelfShopper extends Fragment {
         howItWork1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HowItWorksDialog.showLoadingDialog(getActivity() , "ps");
+                HowItWorksDialog.showLoadingDialog(getActivity(), "ps");
             }
         });
         howItWork2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HowItWorksDialog.showLoadingDialog(getActivity() , "");
+                HowItWorksDialog.showLoadingDialog(getActivity(), "");
             }
         });
         shopForMySelfBorder.setOnClickListener(new View.OnClickListener() {

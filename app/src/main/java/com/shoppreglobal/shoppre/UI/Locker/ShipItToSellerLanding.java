@@ -84,8 +84,8 @@ public class ShipItToSellerLanding extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Object item = adapterView.getItemAtPosition(i);
                 if (item instanceof Item) {
-                    Item item1 = (Item) item;
-                    String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
+//                    Item item1 = (Item) item;
+//                    String str = ((Item) item).getCountryCode().toString().split("[\\(\\)]")[1];
                     countryId = ((Item) item).getId();
                 }
                 shipToSellerCountryTextView.setText(adapterView.getItemAtPosition(i).toString());

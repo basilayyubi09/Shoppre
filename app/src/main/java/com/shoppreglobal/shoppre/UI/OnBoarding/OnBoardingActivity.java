@@ -19,10 +19,8 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     public static FragmentManager fragmentManager;
     SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     LinearLayout on;
-    SharedPrefManager sharedPrefManager ;
-    String token;
+    SharedPrefManager sharedPrefManager;
 
 
     @Override
@@ -52,11 +50,11 @@ public class OnBoardingActivity extends AppCompatActivity {
         }
 
     }
+
     public void onBackPressed() {
-        if (fragmentManager.getBackStackEntryCount()>0){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             super.onBackPressed();
-        }
-        else {
+        } else {
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure want to exit?")
                     .setCancelable(true)
@@ -66,55 +64,11 @@ public class OnBoardingActivity extends AppCompatActivity {
                             finish();
                         }
                     })
-                    .setNegativeButton("No",null)
+                    .setNegativeButton("No", null)
                     .show();
         }
 
     }
-//    private void callMeApi() {
-//        String bearer = sharedPrefManager.getBearerToken();
-//        Toast.makeText(getApplicationContext(), "Bearer " + bearer, Toast.LENGTH_SHORT).show();
-//        Call<MeResponse> call =
-//                RetrofitClient3
-//                        .getInstance3()
-//                        .getAppApi()
-//                        .getUser("Bearer " + bearer);
-//        call.enqueue(new Callback<MeResponse>() {
-//            @Override
-//            public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
-//                LoadingDialog.cancelLoading();
-//                if (response.code() == 200) {
-//                    Toast.makeText(getApplicationContext(), response.body().getFirstName(), Toast.LENGTH_SHORT).show();
-////                    sharedPrefManager.storeFullName(response.body().getFirstName()+" "+response.body().getLastName());
-////                    sharedPrefManager.storeId(response.body().getId());
-////                    sharedPrefManager.storeSalutation(response.body().getSalutation());
-////                    sharedPrefManager.storeFirstName(response.body().getFirstName());
-////                    sharedPrefManager.storeLastName(response.body().getLastName());
-////                    sharedPrefManager.storeEmail(response.body().getEmail());
-////                    sharedPrefManager.setLogin();
-////                    sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
-////                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.onboarding_container), "Code has expired",Snackbar.LENGTH_LONG);
-////                    snackbar.show();
-//                } else if (response.code() == 400) {
-//
-//                    Toast.makeText(OnBoardingActivity.this, response.body().getErrorDescription(), Toast.LENGTH_SHORT).show();
-////                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.onboarding_container), response.body().getErrorDescription(),Snackbar.LENGTH_LONG);
-////                    snackbar.show();
-//                } else {
-//
-//                    Toast.makeText(OnBoardingActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-////                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.onboarding_container), "Something Went Wrong",Snackbar.LENGTH_LONG);
-////                    snackbar.show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MeResponse> call, Throwable t) {
-//                LoadingDialog.cancelLoading();
-//                Snackbar snackbar = Snackbar.make(OnBoardingActivity.this.findViewById(R.id.onboarding_container), t.toString(), Snackbar.LENGTH_LONG);
-//                snackbar.show();
-//            }
-//        });
-//    }
+
 
 }

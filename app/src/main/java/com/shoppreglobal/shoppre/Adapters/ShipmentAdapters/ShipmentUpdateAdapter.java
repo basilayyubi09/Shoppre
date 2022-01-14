@@ -45,11 +45,11 @@ public class ShipmentUpdateAdapter extends RecyclerView.Adapter<ShipmentUpdateAd
 
         ShipmentCommentModelResponse response = list.get(position);
 
-        if (response.getUser()!=null){
+        if (response.getUser() != null) {
             holder.shipmentCommentName.setText(response.getUser().getName());
 
-            if (response.getUser().getGroupId()!=null){
-                if (response.getUser().getGroupId()==1){
+            if (response.getUser().getGroupId() != null) {
+                if (response.getUser().getGroupId() == 1) {
 
                     firstLetter = list.get(position).getUser().getFirstName().charAt(0);
                     textDrawable = TextDrawable.builder()
@@ -62,7 +62,7 @@ public class ShipmentUpdateAdapter extends RecyclerView.Adapter<ShipmentUpdateAd
 
 
                     holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_red));
-                }else {
+                } else {
                     holder.shipmentCommentName.setTextColor(context.getResources().getColor(R.color.text_blue));
                 }
             }
@@ -78,7 +78,7 @@ public class ShipmentUpdateAdapter extends RecyclerView.Adapter<ShipmentUpdateAd
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView shipmentCommentName, shipmentCommentStatus, shipmentCommentDate;
         ImageView profileImage;

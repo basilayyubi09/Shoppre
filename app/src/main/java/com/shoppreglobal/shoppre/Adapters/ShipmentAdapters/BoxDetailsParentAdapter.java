@@ -27,17 +27,17 @@ public class BoxDetailsParentAdapter extends RecyclerView.Adapter<BoxDetailsPare
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.box_details_single_layout , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.box_details_single_layout, parent, false);
         return new viewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        if (list.get(position)!= null){
-            int plus = position+1;
-            holder.boxHeading.setText("Box "+ plus);
-            BoxDetailsChildAdapter adapter = new BoxDetailsChildAdapter(context , list);
+        if (list.get(position) != null) {
+            int plus = position + 1;
+            holder.boxHeading.setText("Box " + plus);
+            BoxDetailsChildAdapter adapter = new BoxDetailsChildAdapter(context, list);
         }
 
 //        holder.boxElementRecycle.setAdapter();
@@ -48,10 +48,11 @@ public class BoxDetailsParentAdapter extends RecyclerView.Adapter<BoxDetailsPare
         return list.size();
     }
 
-    public class viewHolder extends  RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView boxHeading ;
+        TextView boxHeading;
         RecyclerView boxRecycle;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             boxHeading = itemView.findViewById(R.id.boxHeading);

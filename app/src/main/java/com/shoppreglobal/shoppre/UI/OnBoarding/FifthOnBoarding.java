@@ -63,7 +63,7 @@ public class FifthOnBoarding extends Fragment {
         startShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity() , OrderActivity.class);
+                Intent intent = new Intent(getActivity(), OrderActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -78,12 +78,11 @@ public class FifthOnBoarding extends Fragment {
         });
 
 
-
         return view;
     }
 
     private void begin() {
-        LoadingDialog.showLoadingDialog(getActivity() , "");
+        LoadingDialog.showLoadingDialog(getActivity(), "");
         callMeApi();
     }
 
@@ -93,12 +92,12 @@ public class FifthOnBoarding extends Fragment {
         Call<MeResponse> call = RetrofitClient3
                 .getInstance3()
                 .getAppApi()
-                .getUser("Bearer "+sharedPrefManager.getBearerToken());
+                .getUser("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
 
-                if (response.code() == 200){
+                if (response.code() == 200) {
 
                     lockerNo.setText(response.body().getVirtualAddressCode());
                     sharedPrefManager.storeFirstName(response.body().getFirstName());
@@ -108,13 +107,12 @@ public class FifthOnBoarding extends Fragment {
                     sharedPrefManager.storeId(response.body().getId());
                     sharedPrefManager.storeSalutation(response.body().getSalutation());
                     sharedPrefManager.storeVirtualAddressCode(response.body().getVirtualAddressCode());
-                    LoadingDialog.cancelLoading();
                     virtualAddressName.setText(sharedPrefManager.getFullName());
-                }
-                else  if(response.code() == 401){
+                    LoadingDialog.cancelLoading();
+
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -128,6 +126,7 @@ public class FifthOnBoarding extends Fragment {
             }
         });
     }
+
     private void callRefreshTokenApi() {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()

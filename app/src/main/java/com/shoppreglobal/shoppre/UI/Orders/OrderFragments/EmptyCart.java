@@ -437,10 +437,9 @@ public class EmptyCart extends Fragment {
                             productCount.setText(String.valueOf(totalBadgeQuantity + 1));
 
                         }
-                        if (productCountInt>=14){
+                        if (productCountInt >= 14) {
                             fifteen.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             fifteen.setVisibility(View.GONE);
                         }
                         badgeTextView.setText(String.valueOf(totalBadgeQuantity));
@@ -585,10 +584,9 @@ public class EmptyCart extends Fragment {
                             productCount.setText(String.valueOf(totalBadgeQuantity + 1));
 
                         }
-                        if (productCountInt>14){
+                        if (productCountInt > 14) {
                             fifteen.setVisibility(View.VISIBLE);
-                        }
-                        else {
+                        } else {
                             fifteen.setVisibility(View.GONE);
                         }
                         badgeTextView.setText(String.valueOf(totalBadgeQuantity));
@@ -677,7 +675,7 @@ public class EmptyCart extends Fragment {
 
                     callCartApi(id);
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi("");
+                    callRefreshTokenApi("delete");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

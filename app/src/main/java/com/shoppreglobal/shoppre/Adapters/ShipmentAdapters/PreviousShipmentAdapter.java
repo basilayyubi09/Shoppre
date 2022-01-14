@@ -41,13 +41,13 @@ public class PreviousShipmentAdapter extends RecyclerView.Adapter<PreviousShipme
     public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
         Shipment response = list.get(position);
 
-        holder.previousShipmentName.setText(response.getCustomerName()+" ("+response.getPackages().size()+")");
-        holder.previousShipmentId.setText("Shipment ID #"+String.valueOf(response.getId()));
-        if (response.getStateName().equals("Delivered")){
+        holder.previousShipmentName.setText(response.getCustomerName() + " (" + response.getPackages().size() + ")");
+        holder.previousShipmentId.setText("Shipment ID #" + String.valueOf(response.getId()));
+        if (response.getStateName().equals("Delivered")) {
             holder.previousShipmentStatus.setText(response.getStateName());
             holder.previousShipmentStatus.setTextColor(context.getColor(R.color.dispatched_blue_color));
             holder.previousShipmentStatus.setBackground(context.getDrawable(R.drawable.dispatched_background));
-        }else {
+        } else {
             holder.previousShipmentStatus.setText(response.getStateName());
         }
         holder.viewShipment.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,6 @@ public class PreviousShipmentAdapter extends RecyclerView.Adapter<PreviousShipme
         });
 
 
-
     }
 
     @Override
@@ -84,7 +83,7 @@ public class PreviousShipmentAdapter extends RecyclerView.Adapter<PreviousShipme
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView previousShipmentName, previousShipmentId, previousShipmentStatus;
         LinearLayout viewShipment;

@@ -27,7 +27,7 @@ public class ChildFinalOrderSummaryAdapter extends RecyclerView.Adapter<ChildFin
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.single_child_final_order_summary , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_child_final_order_summary, parent, false);
         return new viewHolder(view);
     }
 
@@ -35,9 +35,9 @@ public class ChildFinalOrderSummaryAdapter extends RecyclerView.Adapter<ChildFin
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
 
-        holder.number.setText(String.valueOf(position+1));
+        holder.number.setText(String.valueOf(position + 1));
         holder.mainText.setText(list.get(position).getName());
-        holder.price.setText("₹ "+String.valueOf(list.get(position).getPriceAmount()));
+        holder.price.setText("₹ " + String.valueOf(list.get(position).getPriceAmount()));
     }
 
     @Override
@@ -45,9 +45,10 @@ public class ChildFinalOrderSummaryAdapter extends RecyclerView.Adapter<ChildFin
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView number , mainText , price;
+        TextView number, mainText, price;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             number = itemView.findViewById(R.id.number);

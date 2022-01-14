@@ -45,8 +45,6 @@ import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,7 +57,7 @@ public class ShippingCalculator extends Fragment {
 
     TextView yesButton, noButton, chooseCountry;
     LinearLayout yesNoButtonLayout;
-    ArrayAdapter arrayAdapterKg, arrayAdapterCm, arrayAdapterChooseCategory, arrayAdapterChooseCountry;
+    ArrayAdapter arrayAdapterKg, arrayAdapterCm;
     List<Item> list, duplicateList;
     List<ProductCategoryResponse> listCategory;
     ArrayAdapter<Item> arrayAdapter;
@@ -77,8 +75,6 @@ public class ShippingCalculator extends Fragment {
     LinearLayout kgLinearLayout, cmLinearLayout, chooseCategoryLinearLayout;
     String[] kgDropdownItem = {"Kilogram (KG)", "Pounds (lb)"};
     String[] cmDropdownItem = {"Centimeter (CM)", "Inches (in)"};
-    String[] chooseCategoryItem = {"Choose Category", "Clothing", "Footwear, Accessories & Jewelry", "Electronics, Mobiles, Computers & Accessories", "Home, Kitchen & Furniture", "Food & Groceries", "Medicines", "Daily Essentials & Pooja Items", "Bike / Car Accessories", "Books & Stationaries", "Sports & Fitness", "Music Instruments", "Beauty Products", "Industrial Specific", "Pet Supplies", "Others"};
-    final ArrayList<String> chooseCategoryArrayList = new ArrayList<>(Arrays.asList(chooseCategoryItem));
 
     TextView packageMinus, packagePlus, packageTextView, lenghtPlus, lenghtMinus, lengthTextView, heightPlus, heightMinus, heightTextView, widthPlus, widthMinus, widthTextView;
     float widthCount = (float) 0.5, heightCount = (float) 0.5, lengthCount = (float) 0.5, weightCount = (float) 0.5;

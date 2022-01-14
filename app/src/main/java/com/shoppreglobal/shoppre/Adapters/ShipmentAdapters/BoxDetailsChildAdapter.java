@@ -29,7 +29,7 @@ public class BoxDetailsChildAdapter extends RecyclerView.Adapter<BoxDetailsChild
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.box_detail_child_single_layout , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.box_detail_child_single_layout, parent, false);
         return new viewHolder(view);
     }
 
@@ -44,9 +44,10 @@ public class BoxDetailsChildAdapter extends RecyclerView.Adapter<BoxDetailsChild
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
-        TextView websiteName , orderId,noInvoiceFoundText , date , weight , viewPackage;
+        TextView websiteName, orderId, noInvoiceFoundText, date, weight, viewPackage;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 

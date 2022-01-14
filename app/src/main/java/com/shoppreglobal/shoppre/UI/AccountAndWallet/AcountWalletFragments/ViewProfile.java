@@ -178,7 +178,6 @@ public class ViewProfile extends Fragment {
             }
 
 
-
             @Override
             public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view1 = super.getDropDownView(position, convertView, parent);
@@ -418,16 +417,15 @@ public class ViewProfile extends Fragment {
         call.enqueue(new Callback<WalletTransactionResponse>() {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
-                if (response.code()==200) {
+                if (response.code() == 200) {
 
                     User user = response.body().getUser();
                     profilePrice.setText("₹ " + String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi("wallet");
-                }else {
+                } else {
 
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
@@ -459,10 +457,9 @@ public class ViewProfile extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getError(), Snackbar.LENGTH_LONG);
                     snackbar.show();
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi("email");
-                }else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
                     snackbar.show();
@@ -488,18 +485,17 @@ public class ViewProfile extends Fragment {
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
                 if (response.code() == 200) {
 
-                    if (response.body().getIsEmailVerified()!=null){
-                        if (response.body().getIsEmailVerified()==0){
+                    if (response.body().getIsEmailVerified() != null) {
+                        if (response.body().getIsEmailVerified() == 0) {
                             unverified.setVisibility(View.VISIBLE);
                             resend.setVisibility(View.VISIBLE);
-                        }
-                        else if (response.body().getIsEmailVerified()==1){
+                        } else if (response.body().getIsEmailVerified() == 1) {
 
                             unverified.setVisibility(View.GONE);
                             resend.setVisibility(View.GONE);
                             emailCheck.setVisibility(View.VISIBLE);
                         }
-                    }else {
+                    } else {
                         unverified.setVisibility(View.VISIBLE);
                         resend.setVisibility(View.VISIBLE);
                     }
@@ -534,16 +530,13 @@ public class ViewProfile extends Fragment {
                     LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    if (where.equals("waller")){
+                    if (where.equals("waller")) {
                         callApi();
-                    }
-                    else if (where.equals("me")){
+                    } else if (where.equals("me")) {
                         callMeApi();
-                    }
-                    else if (where.equals("update")){
+                    } else if (where.equals("update")) {
                         callUpdateProfileApi();
-                    }
-                    else {
+                    } else {
                         callVerifyEmailId();
                     }
                 } else {

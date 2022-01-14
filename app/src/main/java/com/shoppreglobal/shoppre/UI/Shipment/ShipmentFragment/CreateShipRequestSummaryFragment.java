@@ -87,6 +87,8 @@ public class CreateShipRequestSummaryFragment extends Fragment {
     String[] title = {"Title", "Mr", "Ms", "Mrs"};
     boolean isBilling = false;
     Integer countryId;
+    RecyclerView showAddressPopupRecycler;
+    Dialog dialog;
     DeliveryListModel.Address deliveryAddress;
     TextView addressError, cityError, stateError, pinCodeError, nameError, phoneError, countryError, titleError, change, editAddress, addAddress;
     ShipmentMeta meta;
@@ -855,7 +857,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
-        showAllAddressApi(showAddressPopupRecycler, dialog);
+        showAllAddressApi();
 
 
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -867,7 +869,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
         });
     }
 
-    private void showAllAddressApi(RecyclerView showAddressPopupRecycler, Dialog dialog) {
+    private void showAllAddressApi() {
         Call<DeliveryListModel> call = RetrofitClient3.getInstance3().getAppApi().getAddresses("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<DeliveryListModel>() {
             @Override
@@ -925,7 +927,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
 
                 } else if (response.code() == 401) {
                     JsonObject jsonObject = new JsonObject();
-                    callRefreshTokenApi("", jsonObject);
+                    callRefreshTokenApi("address", jsonObject);
 
                 } else {
 
@@ -1294,7 +1296,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 } else if (response.code() == 401) {
 //
                     JsonObject jsonObject = new JsonObject();
-                    callRefreshTokenApi("", jsonObject);
+                    callRefreshTokenApi("billing", jsonObject);
 
                 } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
@@ -1383,7 +1385,7 @@ public class CreateShipRequestSummaryFragment extends Fragment {
                 } else if (response.code() == 401) {
 //
                     JsonObject jsonObject = new JsonObject();
-                    callRefreshTokenApi("", jsonObject);
+                    callRefreshTokenApi("callApi", jsonObject);
 
                 } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
@@ -1414,16 +1416,20 @@ public class CreateShipRequestSummaryFragment extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     if (type.equals("create")) {
                         callCreateShipmentApi(jsonObject);
-                    } else if (type.equals("update")) {
-                        Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong! Please Try Again.", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    } else {
+                    } else if (type.equals("billing")) {
+                        callBillingUpdateApi();
+                    } else if (type.equals("callApi")) {
                         callApi();
+                    } else if (type.equals("address")) {
+                        showAllAddressApi();
+                    } else {
+                        LoadingDialog.cancelLoading();
+                        Toast.makeText(getActivity(), "Something went wrong try again!", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {

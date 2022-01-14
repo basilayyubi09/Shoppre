@@ -1,14 +1,13 @@
 package com.shoppreglobal.shoppre.UI.OnBoarding;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
 
 import com.shoppreglobal.shoppre.R;
 
@@ -32,7 +31,7 @@ public class FourthOnBoarding extends Fragment {
 
                 OnBoardingActivity.fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.entry_right_to_left, R.anim.exit_right_to_left, R.anim.entry_left_to_right, R.anim.exit_left_to_right)
-                        .replace(R.id.onboarding_container,new FifthOnBoarding(),null).addToBackStack(null).commit();
+                        .replace(R.id.onboarding_container, new FifthOnBoarding(), null).addToBackStack(null).commit();
 
             }
         });

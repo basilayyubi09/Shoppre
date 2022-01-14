@@ -18,7 +18,7 @@ import java.util.List;
 public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.viewHolder> {
 
     Context context;
-    List<ReferralHistory> list ;
+    List<ReferralHistory> list;
 
     public ReferralAdapter(Context context, List<ReferralHistory> list) {
         this.context = context;
@@ -28,7 +28,7 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.viewHo
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.refer_single_layout, parent ,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.refer_single_layout, parent, false);
         return new viewHolder(view);
     }
 
@@ -45,9 +45,10 @@ public class ReferralAdapter extends RecyclerView.Adapter<ReferralAdapter.viewHo
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView date , mainText;
+        TextView date, mainText;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);

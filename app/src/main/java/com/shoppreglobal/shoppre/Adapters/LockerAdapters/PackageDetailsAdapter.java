@@ -40,8 +40,6 @@ import com.shoppreglobal.shoppre.LockerModelResponse.ReturnPackageResponse;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
-import com.shoppreglobal.shoppre.UI.Locker.ShipWithinIndiaFragment;
-import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
 import com.shoppreglobal.shoppre.Utils.ViewPhotoDialog;
@@ -150,7 +148,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             public void onClick(View v) {
                 Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenu);
 
-                PopupMenu popupMenu = new PopupMenu(wrapper, v );
+                PopupMenu popupMenu = new PopupMenu(wrapper, v);
 
                 popupMenu.setGravity(Gravity.RIGHT);
                 popupMenu.getMenuInflater().inflate(R.menu.three_dots_menu, popupMenu.getMenu());
@@ -313,7 +311,6 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
             , TextView orText, Integer id, String obj, ImageView mainPhoto, TextView popUpAdditionalText) {
         LoadingDialog.showLoadingDialog(context, "");
 
-        LoadingDialog.showLoadingDialog(context, "");
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(id);
         JsonObject jsonObject = new JsonObject();

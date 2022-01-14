@@ -157,7 +157,7 @@ public class LockerReadyToShip extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, createShipRequestFragment, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("ready");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -195,7 +195,7 @@ public class LockerReadyToShip extends Fragment {
 
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("listing");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -210,7 +210,7 @@ public class LockerReadyToShip extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -218,10 +218,15 @@ public class LockerReadyToShip extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callListingApi();
+                    if (whichApi.equals("ready")) {
+                        callReadyToSendApi();
+                    } else if (whichApi.equals("listing")) {
+                        callListingApi();
+                    }
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

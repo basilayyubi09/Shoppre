@@ -29,9 +29,6 @@ import java.util.List;
 public class OrderSummaryAdapter extends RecyclerView.Adapter<OrderSummaryAdapter.viewHolder> {
     List<Order> list;
     Context context;
-    ArrayAdapter arrayAdapterDropdown;
-
-
     String[] optionSelection = {"Select an option", "250", "500", "750", "1000", "1000+", "Cancel all if the cost is increased"};
 
     final ArrayList<String> optionSelectList = new ArrayList<>(Arrays.asList(optionSelection));

@@ -36,7 +36,6 @@ import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageDetails;
 import com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout.PackageUpdates;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
-import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -185,7 +184,7 @@ public class LockerViewPackage extends Fragment {
                     Log.d("Encoded String", encodedFile);
 
                     LoadingDialog.showLoadingDialog(getActivity(), "");
-                    callMinioUploadApi(byteArray);
+                    callMinioUploadApi();
 
 
                 } catch (IOException e) {
@@ -196,7 +195,7 @@ public class LockerViewPackage extends Fragment {
         }
     }
 
-    private void callMinioUploadApi(byte[] byteArray) {
+    private void callMinioUploadApi() {
         Call<MinioUploadModelResponse> call = RetrofitClient3.getInstance3().getAppApi().minioUpload("Bearer " + sharedPrefManager.getBearerToken(),
                 file);
         call.enqueue(new Callback<MinioUploadModelResponse>() {
@@ -220,8 +219,8 @@ public class LockerViewPackage extends Fragment {
 
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+                    callRefreshTokenApi("minio");
+
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
@@ -316,7 +315,7 @@ public class LockerViewPackage extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("view");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -356,7 +355,7 @@ public class LockerViewPackage extends Fragment {
         weight.setText(String.valueOf(list.getWeight()));
 
         int sum = 0;
-        for (int i=0; i<list.getPackageItems().size(); i++){
+        for (int i = 0; i < list.getPackageItems().size(); i++) {
             sum = sum + list.getPackageItems().get(i).getPriceAmount();
         }
 
@@ -385,7 +384,7 @@ public class LockerViewPackage extends Fragment {
 
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -395,7 +394,11 @@ public class LockerViewPackage extends Fragment {
                 if (response.code() == 200) {
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    callViewPackage();
+                    if (whichApi.equals("minio")) {
+                        callMinioUploadApi();
+                    } else if (whichApi.equals("view")) {
+                        callViewPackage();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

@@ -62,7 +62,7 @@ public class ReferralFragment extends Fragment {
     MaterialButton copyBtn;
     TextView refer, share, use, faq;
     EditText have;
-    boolean isReferred = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -14,13 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.shoppreglobal.shoppre.AccountResponse.MeResponse;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.R;
@@ -64,10 +59,6 @@ public class OrderActivity extends AppCompatActivity {
         bottomNavigationView.setItemIconTintList(null);
 
 
-
-
-
-
         Intent intent = getIntent();
         String action = intent.getAction();
         if (action != null && action.equals(Intent.ACTION_VIEW)) {
@@ -77,7 +68,7 @@ public class OrderActivity extends AppCompatActivity {
                 String status = uri.getQueryParameter("status");
                 String orderId = uri.getQueryParameter("orderId");
                 if (status.equals("success")) {
-                    Log.d("kaha ruka" , orderId);
+                    Log.d("kaha ruka", orderId);
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("id", orderId);
                     bundle1.putString("type", "order");
@@ -95,8 +86,7 @@ public class OrderActivity extends AppCompatActivity {
                             .replace(R.id.orderFrameLayout, orderFragment)
                             .addToBackStack(null).commit();
                 }
-            }
-            else if (scheme.equals("paymentshipments")){
+            } else if (scheme.equals("paymentshipments")) {
                 String status = uri.getQueryParameter("status");
                 Integer id = Integer.valueOf(uri.getQueryParameter("shipmentId"));
                 if (status.equals("success")) {
@@ -107,11 +97,10 @@ public class OrderActivity extends AppCompatActivity {
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
                             .addToBackStack(null).commit();
-                }
-                else {
+                } else {
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt( "shipmentId" , id);
-                    bundle1.putInt( "size" , 0);
+                    bundle1.putInt("shipmentId", id);
+                    bundle1.putInt("size", 0);
                     PaymentSummary paymentSummary = new PaymentSummary();
                     paymentSummary.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
@@ -119,8 +108,7 @@ public class OrderActivity extends AppCompatActivity {
                             .addToBackStack(null).commit();
                 }
             }
-        }
-        else {
+        } else {
             internetCheck();
         }
 
@@ -262,11 +250,10 @@ public class OrderActivity extends AppCompatActivity {
             snackbar.show();
         } else {
 
-            if (isFirstTime|| getIntent()==null){
+            if (isFirstTime || getIntent() == null) {
                 fragmentManager.beginTransaction().add(R.id.orderFrameLayout, new OrderFragment(), null)
                         .commit();
-            }
-            else {
+            } else {
                 LoadingDialog.showLoadingDialog(OrderActivity.this, "");
                 callMeApi();
             }

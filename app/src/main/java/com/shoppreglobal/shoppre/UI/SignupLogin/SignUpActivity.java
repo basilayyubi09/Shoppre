@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 100;
     private CallbackManager callbackManager;
     SharedPrefManager sharedPrefManager;
-    LinearLayout main , loginText;
+    LinearLayout main, loginText;
     String checkLogin;
     String personId;
 
@@ -558,6 +557,7 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         }
     }
+
     private void callAuthApi(String bearer) {
         String bearerToken = bearer;
 
@@ -572,28 +572,25 @@ public class SignUpActivity extends AppCompatActivity {
         Call<String> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAuth("Bearer "+bearerToken , paramObject.toString());
+                .getAuth("Bearer " + bearerToken, paramObject.toString());
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if (response.code()==200){
+                if (response.code() == 200) {
                     String code = response.body();
                     //split string from = sign
                     String[] parts = code.split("=");
                     String part1 = parts[0]; // https://staging-app1.shoppreglobal.com/access/oauth?code
                     String part2 = parts[1]; // 8b625060eba82f7fe1905303bed8c67638b7587b
 //                    Log.d("Auth api response ",code);
-                    callAccessTokenApi(part2 , bearerToken);
+                    callAccessTokenApi(part2, bearerToken);
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(SignUpActivity.this, "Invalid Token", Toast.LENGTH_SHORT).show();
 
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(SignUpActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
 
@@ -611,37 +608,32 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void callAccessTokenApi(String part2, String bearer1) {
 
-        String auth =bearer1;
+        String auth = bearer1;
         Call<AccessTokenResponse> call = RetrofitClient
                 .getInstance()
                 .getApi()
-                .getAccessToken(part2 , auth);
+                .getAccessToken(part2, auth);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 //                  callMeApi(response.body().getAccessToken());
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     sharedPrefManager.setLogin();
                     LoadingDialog.cancelLoading();
-                    if (checkLogin.equals("login")){
-                        startActivity(new Intent(SignUpActivity.this , OrderActivity.class));
+                    if (checkLogin.equals("login")) {
+                        startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
+                        finishAffinity();
+                    } else {
+                        startActivity(new Intent(SignUpActivity.this, OnBoardingActivity.class));
                         finishAffinity();
                     }
-                    else{
-                        startActivity(new Intent(SignUpActivity.this , OnBoardingActivity.class));
-                        finishAffinity();
-                    }
-                }
-
-                else if (response.code()==400){
+                } else if (response.code() == 400) {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(SignUpActivity.this, "Code has expired", Toast.LENGTH_SHORT).show();
 
-                }
-                else
-                {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(SignUpActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }

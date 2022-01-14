@@ -224,7 +224,7 @@ public class PackageDetails extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("view");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -241,13 +241,7 @@ public class PackageDetails extends Fragment {
 
 
     private void callAdditionalPhoto() {
-        /*
-        {
-	"comments": "Advanced Photo Requested",
-    "itemId": [664],
-    "state_id": 53,
-    "type": "advanced_photo"
-         */
+
         LoadingDialog.showLoadingDialog(getActivity(), "");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("comments", "Advanced Photo Requested");
@@ -274,7 +268,7 @@ public class PackageDetails extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("additional");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -335,7 +329,7 @@ public class PackageDetails extends Fragment {
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     LoadingDialog.cancelLoading();
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(),
@@ -392,7 +386,7 @@ public class PackageDetails extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("exchange");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -448,7 +442,7 @@ public class PackageDetails extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("discard");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -505,7 +499,7 @@ public class PackageDetails extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("split");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -550,7 +544,7 @@ public class PackageDetails extends Fragment {
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, lockerReadyToShip, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("return");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -609,7 +603,7 @@ public class PackageDetails extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -617,10 +611,28 @@ public class PackageDetails extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    Toast.makeText(getActivity(), "Something Went Wrong Please try again!", Toast.LENGTH_SHORT).show();
+                    if (whichApi.equals("return")){
+                        callReturnPackageApi();
+                    }
+                    else if (whichApi.equals("split")){
+                        callSplitPackageApi();
+                    }else if (whichApi.equals("discard")){
+                        callDiscardPackageApi();
+                    }
+                    else if (whichApi.equals("exchange")){
+                        callExchangePackageApi();
+                    }
+                    else if (whichApi.equals("additional")){
+                        callAdditionalPhoto();
+                    } else if (whichApi.equals("view")){
+                        callViewPackage();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "Something went wrong try again!", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

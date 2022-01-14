@@ -1,11 +1,6 @@
 package com.shoppreglobal.shoppre.UI.Locker.ViewPackageTabLayout;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
@@ -46,8 +43,6 @@ public class PackageUpdates extends Fragment {
     SharedPrefManager sharedPrefManager;
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,7 +56,7 @@ public class PackageUpdates extends Fragment {
         text = view.findViewById(R.id.text);
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             id = bundle.getInt("id");
         }
         LoadingDialog.showLoadingDialog(getActivity(), "");
@@ -74,14 +69,11 @@ public class PackageUpdates extends Fragment {
                 if (!validateBtn()) {
                     return;
                 } else {
-                    LoadingDialog.showLoadingDialog(getActivity() , "");
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
                     callAddComment();
                 }
             }
         });
-
-
-
 
 
         return view;
@@ -99,23 +91,21 @@ public class PackageUpdates extends Fragment {
 
     private void callAddComment() {
         JsonObject object = new JsonObject();
-        object.addProperty("comments" , textString);
+        object.addProperty("comments", textString);
 
         Call<AddCommentResponse> call = EngageRetrofitClient
-                .getInstance3().getAppApi().addPackageComment("Bearer "+sharedPrefManager.getBearerToken()
-                        ,id  ,object.toString());
+                .getInstance3().getAppApi().addPackageComment("Bearer " + sharedPrefManager.getBearerToken()
+                        , id, object.toString());
         call.enqueue(new Callback<AddCommentResponse>() {
             @Override
             public void onResponse(Call<AddCommentResponse> call, Response<AddCommentResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     text.setText("");
                     callGetCommentsApi();
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -159,25 +149,23 @@ public class PackageUpdates extends Fragment {
     }
 
     private void callGetCommentsApi() {
-        Call<List<GetCommentsResponse>> call= EngageRetrofitClient
+        Call<List<GetCommentsResponse>> call = EngageRetrofitClient
                 .getInstance3().getAppApi().getPackageComments(id);
 
         call.enqueue(new Callback<List<GetCommentsResponse>>() {
             @Override
             public void onResponse(Call<List<GetCommentsResponse>> call, Response<List<GetCommentsResponse>> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
                     list = response.body();
 
 
-
                     packageUpdateAdapter = new PackageUpdateAdapter(list, getContext());
                     packageUpdatesRecycler.setAdapter(packageUpdateAdapter);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
                     layoutManager.scrollToPosition(0);
                     packageUpdatesRecycler.smoothScrollToPosition(0);
                     packageUpdatesRecycler.setLayoutManager(layoutManager);
-
 
 
                     LoadingDialog.cancelLoading();

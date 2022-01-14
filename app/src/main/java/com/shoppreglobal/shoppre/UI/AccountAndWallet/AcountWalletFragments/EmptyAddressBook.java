@@ -487,16 +487,10 @@ public class EmptyAddressBook extends Fragment {
                     if (response.code() == 200) {
 
                         LoadingDialog.cancelLoading();
-
-
                         list = response.body().getAddresses();
-
-
                         for (int i = 0; i < list.size(); i++) {
                             deliveryAddress = list.get(i);
                             boolean isBilling = response.body().getAddresses().get(i).getBillingAddress();
-
-
                             if (isBilling) {
                                 billingAddressBox.setVisibility(View.VISIBLE);
                                 billingAddressText.setVisibility(View.GONE);
@@ -581,10 +575,7 @@ public class EmptyAddressBook extends Fragment {
 
                     } else if (response.code() == 401) {
 
-                        LoadingDialog.cancelLoading();
-                        String error = response.errorBody().toString();
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-
+                        callRefreshTokenApi("fetch", 0);
 
                     }
                 } catch (Exception e) {
@@ -618,11 +609,7 @@ public class EmptyAddressBook extends Fragment {
                     snackbar.show();
                     getDeliveryAddrsAdapter.notifyDataSetChanged();
                 } else if (response.code() == 401) {
-                    LoadingDialog.cancelLoading();
-
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getErrorDescription(),
-                            Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    callRefreshTokenApi("delete", id);
                 } else {
                     LoadingDialog.cancelLoading();
 
@@ -652,5 +639,36 @@ public class EmptyAddressBook extends Fragment {
         allAddressSpinner.setAdapter(arrayAdapter);
     }
 
+    private void callRefreshTokenApi(String whichApi, int i) {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
 
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    if (whichApi.equals("fetch")) {
+                        fetchAddress();
+                    } else if (whichApi.equals("delete")) {
+                        callDeleteApi(i);
+                    }
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+    }
 }

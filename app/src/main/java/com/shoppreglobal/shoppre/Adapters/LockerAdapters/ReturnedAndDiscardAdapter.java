@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.LockerModelResponse.ReturnedAndDiscardResponse;
+import com.shoppreglobal.shoppre.R;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class ReturnedAndDiscardAdapter extends RecyclerView.Adapter<ReturnedAndD
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         ImageView returnedAndDiscardImage;
         TextView returnedAndDiscardWebName, returnedAndDiscardPackageId;

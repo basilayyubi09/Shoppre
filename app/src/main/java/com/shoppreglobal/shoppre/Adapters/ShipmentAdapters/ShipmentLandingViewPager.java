@@ -28,7 +28,7 @@ public class ShipmentLandingViewPager extends FragmentPagerAdapter {
         return fragmentTitle.size();
     }
 
-    public void addFragments(Fragment addFragment, String tabTitle){
+    public void addFragments(Fragment addFragment, String tabTitle) {
         fragmentArrayList.add(addFragment);
         fragmentTitle.add(tabTitle);
     }

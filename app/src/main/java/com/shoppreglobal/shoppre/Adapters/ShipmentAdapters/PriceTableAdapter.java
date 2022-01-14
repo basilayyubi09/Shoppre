@@ -40,7 +40,7 @@ public class PriceTableAdapter extends RecyclerView.Adapter<PriceTableAdapter.vi
 
         String part2 = parts[1]; // 034556
         holder.pricingTableKg.setText(String.valueOf(list.get(position).getWeight()));
-        holder.priceInr.setText( list.get(position).getRate());
+        holder.priceInr.setText(list.get(position).getRate());
         holder.priceUsd.setText(parts[1]);
 
 
@@ -51,7 +51,7 @@ public class PriceTableAdapter extends RecyclerView.Adapter<PriceTableAdapter.vi
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView pricingTableKg, priceInr, priceUsd;
 

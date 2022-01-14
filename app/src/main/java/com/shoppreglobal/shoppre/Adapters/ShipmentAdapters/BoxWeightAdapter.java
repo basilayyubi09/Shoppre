@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.BoxWeight;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 
 import java.util.List;
 
@@ -37,8 +35,8 @@ public class BoxWeightAdapter extends RecyclerView.Adapter<BoxWeightAdapter.view
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
 
-        holder.tvBoxNumber.setText("Box "+String.valueOf(position+1));
-        holder.tvBoxWeight.setText(String.valueOf(list.get(position).getFinalWeight())+" Kg");
+        holder.tvBoxNumber.setText("Box " + String.valueOf(position + 1));
+        holder.tvBoxWeight.setText(String.valueOf(list.get(position).getFinalWeight()) + " Kg");
 
     }
 
@@ -47,7 +45,7 @@ public class BoxWeightAdapter extends RecyclerView.Adapter<BoxWeightAdapter.view
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView tvBoxNumber, tvBoxWeight;
 
