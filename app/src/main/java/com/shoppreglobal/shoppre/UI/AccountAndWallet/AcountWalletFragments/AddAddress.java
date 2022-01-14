@@ -254,7 +254,7 @@ public class AddAddress extends Fragment {
                 callUpdateApi(id);
             } else {
                 LoadingDialog.showLoadingDialog(getActivity(), "");
-                callApi(view13);
+                callApi();
             }
 
         });
@@ -334,6 +334,8 @@ public class AddAddress extends Fragment {
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.body().getMessage(), Snackbar.LENGTH_LONG);
                     snackbar.show();
                     getActivity().getSupportFragmentManager().popBackStack();
+                } else if (response.code() == 401) {
+                    callRefreshTokenApi("update", i);
                 } else {
                     LoadingDialog.cancelLoading();
 
@@ -424,7 +426,7 @@ public class AddAddress extends Fragment {
     }
 
 
-    private void callApi(View view) {
+    private void callApi() {
 
         String firstName, lastName = "";
 
@@ -467,7 +469,7 @@ public class AddAddress extends Fragment {
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else if (response.code() == 401) {
 
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("callApi", 0);
 
                 } else if (response.code() == 406) {
                     LoadingDialog.cancelLoading();
@@ -492,7 +494,7 @@ public class AddAddress extends Fragment {
 
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi, int i) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -500,11 +502,14 @@ public class AddAddress extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong! Please try again!!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    if (whichApi.equals("callApi")) {
+                        callApi();
+                    } else if (whichApi.equals("update")) {
+                        callUpdateApi(i);
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);

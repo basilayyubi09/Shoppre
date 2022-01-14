@@ -14,10 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.CreateShipAdapters.DeliveryAddressAdapter;
 import com.shoppreglobal.shoppre.AuthenticationModel.DeliveryListModel;
 import com.shoppreglobal.shoppre.LockerModelResponse.ShipmentMeta;
 import com.shoppreglobal.shoppre.R;
+import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.AddAddress;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
@@ -153,13 +156,12 @@ public class CreateShipmentDeliveryAddress extends Fragment {
 //                    forSendList = list1;
                     list1 = new ArrayList<>();
 
-                    for (int i = 0; i<list.size(); i++){
-                        if (!list.get(i).getBillingAddress()){
+                    for (int i = 0; i < list.size(); i++) {
+                        if (!list.get(i).getBillingAddress()) {
                             list1.add(list.get(i));
                         }
 
                     }
-
 
 
                     deliveryAddressAdapter = new DeliveryAddressAdapter(list1, getContext(), new DeliveryAddressAdapter.Interface() {
@@ -190,13 +192,7 @@ public class CreateShipmentDeliveryAddress extends Fragment {
 
                     LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    LoadingDialog.cancelLoading();
-
-                    emptyAddressCard.setVisibility(View.GONE);
-                    createShipmentDeliveryAddressCard.setVisibility(View.GONE);
-
-                    String error = response.errorBody().toString();
-                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                    callRefreshTokenApi();
                 }
 
             }
@@ -205,6 +201,34 @@ public class CreateShipmentDeliveryAddress extends Fragment {
             public void onFailure(Call<DeliveryListModel> call, Throwable t) {
                 LoadingDialog.cancelLoading();
                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void callRefreshTokenApi() {
+        Call<RefreshTokenResponse> call = RetrofitClient
+                .getInstance().getApi()
+                .getRefreshToken(sharedPrefManager.getRefreshToken());
+        call.enqueue(new Callback<RefreshTokenResponse>() {
+            @Override
+            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                if (response.code() == 200) {
+                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
+                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    allAddressesApi();
+                } else {
+                    LoadingDialog.cancelLoading();
+                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                LoadingDialog.cancelLoading();
+                Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), t.toString(), Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 

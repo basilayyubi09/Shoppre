@@ -7,22 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
 import com.shoppreglobal.shoppre.OrderModuleResponses.OrderItem;
 import com.shoppreglobal.shoppre.R;
-import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
-import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.viewHolder> {
 
@@ -32,8 +24,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
     Interface interfaceObject;
 
 
-
-    public CartItemsAdapter(Order productItemList, Context context , Interface interfaceObject) {
+    public CartItemsAdapter(Order productItemList, Context context, Interface interfaceObject) {
         this.productItemList = productItemList;
         this.context = context;
         this.interfaceObject = interfaceObject;
@@ -43,7 +34,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.cart_item_single_layout, parent, false);
-        return new viewHolder(view , interfaceObject);
+        return new viewHolder(view, interfaceObject);
     }
 
     @Override
@@ -60,22 +51,18 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
         holder.productDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interfaceObject.delete(productItemList.getId() , productItemList.getOrderItems().get(position).getId());
-//                LoadingDialog.showLoadingDialog(context, "");
-//                callDeleteApi(position, productItemList.getId(), productItemList.getOrderItems().get(position).getId());
-
+                interfaceObject.delete(productItemList.getId(), productItemList.getOrderItems().get(position).getId());
             }
         });
 
         holder.productEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interfaceObject.getData(productItemList.getOrderItems().get(position) , productItemList.getId());
+                interfaceObject.getData(productItemList.getOrderItems().get(position), productItemList.getId());
             }
         });
 
     }
-
 
 
     @Override
@@ -102,34 +89,9 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.view
         }
     }
 
-    private void callRefreshTokenApi(int position, Integer id, Integer itemId) {
-        Call<RefreshTokenResponse> call = RetrofitClient
-                .getInstance().getApi()
-                .getRefreshToken(sharedPrefManager.getRefreshToken());
-        call.enqueue(new Callback<RefreshTokenResponse>() {
-            @Override
-            public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
-                if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
-                    sharedPrefManager.storeBearerToken(response.body().getAccessToken());
-                    sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-//                    callDeleteApi(position, id, itemId);
-                } else {
-                    LoadingDialog.cancelLoading();
-                    Toast.makeText(context.getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
-                LoadingDialog.cancelLoading();
-                Toast.makeText(context.getApplicationContext(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-    public interface Interface{
+    public interface Interface {
         void getData(OrderItem order, Integer id);
+
         void delete(Integer orderId, Integer itemId);
     }
 }

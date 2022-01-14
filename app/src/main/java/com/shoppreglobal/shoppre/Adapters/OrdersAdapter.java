@@ -42,14 +42,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.single_order_layout, parent, false);
 //        return new viewHolder(view);
-        if (viewType == FIRST_LIST){
+        if (viewType == FIRST_LIST) {
             return new FirstListViewHolder(view);
         }
-        if (viewType == SECOND_LIST){
+        if (viewType == SECOND_LIST) {
             return new SecondListViewHolder(view);
         }
         return null;
@@ -61,11 +61,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
 
-        if(holder instanceof FirstListViewHolder){
+        if (holder instanceof FirstListViewHolder) {
             ((FirstListViewHolder) holder).populate(list.get(position));
         }
 
-        if(holder instanceof SecondListViewHolder){
+        if (holder instanceof SecondListViewHolder) {
 
             ((SecondListViewHolder) holder).populate(list1.get(position - list.size()));
         }
@@ -103,13 +103,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        });
 
     }
+
     @Override
-    public int getItemViewType(int position){
-        if(position < list.size()){
+    public int getItemViewType(int position) {
+        if (position < list.size()) {
             return FIRST_LIST;
         }
 
-        if(position - list.size() < list1.size()){
+        if (position - list.size() < list1.size()) {
             return SECOND_LIST;
         }
 
@@ -120,7 +121,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemCount() {
         return list.size() + list1.size();
     }
-
 
 
 //    public class viewHolder extends RecyclerView.ViewHolder {
@@ -143,13 +143,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //    }
 
 
-
     public class FirstListViewHolder extends RecyclerView.ViewHolder {
         ImageView orderImage;
         TextView orderWebsiteName, orderNo, orderDate;
         LinearLayout viewMore;
 
-        public FirstListViewHolder(View itemView){
+        public FirstListViewHolder(View itemView) {
             super(itemView);
 
             orderImage = itemView.findViewById(R.id.singleOrderImage);
@@ -160,41 +159,41 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void populate(Order order){
+        public void populate(Order order) {
 
-        orderWebsiteName.setText(order.getStore().getName());
-        orderNo.setText("Order No: " + "#" + order.getOrderCode());
+            orderWebsiteName.setText(order.getStore().getName());
+            orderNo.setText("Order No: " + "#" + order.getOrderCode());
 
-        String date1 = order.getCreatedAt();
-        String[] split = date1.split("T");
-        String date = split[0];
+            String date1 = order.getCreatedAt();
+            String[] split = date1.split("T");
+            String date = split[0];
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
-        LocalDate ld = LocalDate.parse(date, dtf);
-        String month_name = dtf2.format(ld);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+            DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH);
+            LocalDate ld = LocalDate.parse(date, dtf);
+            String month_name = dtf2.format(ld);
 
-        orderDate.setText(month_name);
-        orderImage.setImageResource(R.drawable.ic_personal_shopper);
+            orderDate.setText(month_name);
+            orderImage.setImageResource(R.drawable.ic_personal_shopper);
 
-        viewMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            viewMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
+                    Bundle bundle = new Bundle();
 
-                bundle.putString("orderCode", order.getOrderCode());
-                bundle.putString("id", String.valueOf(order.getId()));
-                bundle.putString("type" , "ps");
+                    bundle.putString("orderCode", order.getOrderCode());
+                    bundle.putString("id", String.valueOf(order.getId()));
+                    bundle.putString("type", "ps");
 
 
-                ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
-                viewOrderPersonalShop.setArguments(bundle);
-                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)
-                        .addToBackStack(null).commit();
+                    ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
+                    viewOrderPersonalShop.setArguments(bundle);
+                    OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, viewOrderPersonalShop, null)
+                            .addToBackStack(null).commit();
 
-            }
-        });
+                }
+            });
         }
     }
 
@@ -204,7 +203,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView orderWebsiteName, orderNo, orderDate;
         LinearLayout viewMore;
 
-        public SecondListViewHolder(View itemView){
+        public SecondListViewHolder(View itemView) {
             super(itemView);
 
             orderImage = itemView.findViewById(R.id.singleOrderImage);
@@ -215,9 +214,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public void populate(IncomingPkg incomingPkg){
+        public void populate(IncomingPkg incomingPkg) {
 
-            orderWebsiteName.setText("Incoming Package Id #"+incomingPkg.getId());
+            orderWebsiteName.setText("Incoming Package Id #" + incomingPkg.getId());
             orderNo.setVisibility(View.GONE);
 
             String date1 = incomingPkg.getCreatedAt();
@@ -241,7 +240,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     bundle.putString("orderCode", String.valueOf(incomingPkg.getOrderCode()));
                     bundle.putString("id", String.valueOf(incomingPkg.getId()));
                     bundle.putString("date", incomingPkg.getCreatedAt());
-                    bundle.putString("type" , "ss");
+                    bundle.putString("type", "ss");
 
                     ViewOrderPersonalShop viewOrderPersonalShop = new ViewOrderPersonalShop();
                     viewOrderPersonalShop.setArguments(bundle);

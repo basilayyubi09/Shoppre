@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,9 +47,9 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         holder.quantity.setText("(" + String.valueOf(list.get(position).getPackageItems().size()) + ")");
         holder.packageId.setText("Package ID #" + (String.valueOf(list.get(position).getId())));
 
-        if (list.get(position).getStore()!=null){
+        if (list.get(position).getStore() != null) {
             holder.readyToShipWebSiteName.setText(list.get(position).getStore().getName());
-        }else {
+        } else {
             holder.readyToShipWebSiteName.setText("");
         }
 
@@ -70,7 +69,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
         } else {
 
         }
-        if (list.get(position).getStateName()!=null){
+        if (list.get(position).getStateName() != null) {
             if (list.get(position).getStateName().equals("In Review")) {
                 holder.lockerViewMore.setVisibility(View.GONE);
                 holder.process.setVisibility(View.VISIBLE);
@@ -95,8 +94,7 @@ public class ReadyToShipAdapter extends RecyclerView.Adapter<ReadyToShipAdapter.
                 holder.action.setText("Package Returned");
                 holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
                 holder.action.setBackground(context.getDrawable(R.drawable.order_placed_background));
-            }
-            else {
+            } else {
                 holder.lockerViewMore.setVisibility(View.VISIBLE);
                 holder.process.setVisibility(View.GONE);
                 holder.action.setText(list.get(position).getStateName());

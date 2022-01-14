@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shoppreglobal.shoppre.LockerModelResponse.PackageItem;
-import com.shoppreglobal.shoppre.LockerModelResponse.PackageModel;
 import com.shoppreglobal.shoppre.R;
-import com.shoppreglobal.shoppre.ShipmentModelResponse.UploadInvoiceProductResponse;
 
 import java.util.List;
 

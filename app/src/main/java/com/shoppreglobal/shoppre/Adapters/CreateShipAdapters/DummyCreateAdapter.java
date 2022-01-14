@@ -27,7 +27,7 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
     Context context;
     MyInterface myInterface;
 
-    public DummyCreateAdapter(List<PackageModel> list, Context context , MyInterface myInterface) {
+    public DummyCreateAdapter(List<PackageModel> list, Context context, MyInterface myInterface) {
         this.list = list;
         this.context = context;
         this.myInterface = myInterface;
@@ -36,31 +36,29 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.create_ship_single_layout , parent , false);
-        return new DummyCreateAdapter.viewHolder(view , myInterface);
+        View view = LayoutInflater.from(context).inflate(R.layout.create_ship_single_layout, parent, false);
+        return new DummyCreateAdapter.viewHolder(view, myInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         PackageModel model = list.get(position);
-        if (holder.check.isChecked()){
+        if (holder.check.isChecked()) {
             holder.check.setChecked(true);
-        }
-
-        else{
+        } else {
             holder.check.setChecked(false);
         }
         holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                myInterface.getCheckBox(model.getId() , holder.check , model.getPriceAmount() , model.getInvoice() , model);
+                myInterface.getCheckBox(model.getId(), holder.check, model.getPriceAmount(), model.getInvoice(), model);
             }
 
         });
         holder.website.setText(model.getStore().getName());
-        holder.quantity.setText("("+model.getPackageItems().size()+")");
-        holder.packageId.setText("Package ID #"+model.getId());
+        holder.quantity.setText("(" + model.getPackageItems().size() + ")");
+        holder.packageId.setText("Package ID #" + model.getId());
         if (list.get(position).getIsRestrictedItem() != null && list.get(position).getIsWrongItem() != null) {
             holder.both.setVisibility(View.VISIBLE);
             holder.restricted.setVisibility(View.GONE);
@@ -121,13 +119,13 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         CheckBox check;
-        TextView website , quantity , packageId , action
-                ,both , damaged , restricted;
+        TextView website, quantity, packageId, action, both, damaged, restricted;
         LinearLayout viewPackage;
         MyInterface myInterface;
+
         public viewHolder(@NonNull View itemView, MyInterface myInterface) {
             super(itemView);
 
@@ -143,7 +141,8 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
             restricted = itemView.findViewById(R.id.restricted);
         }
     }
-    public interface MyInterface{
-       void getCheckBox(Integer id, CheckBox check, Integer priceAmount, Object invoice, PackageModel model);
+
+    public interface MyInterface {
+        void getCheckBox(Integer id, CheckBox check, Integer priceAmount, Object invoice, PackageModel model);
     }
 }

@@ -1,11 +1,6 @@
 package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
@@ -59,7 +56,7 @@ public class ShipmentUpdates extends Fragment {
         sharedPrefManager = new SharedPrefManager(getActivity());
 
         Bundle bundle = this.getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             id = bundle.getInt("id");
 //            Toast.makeText(getActivity(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         }
@@ -71,9 +68,9 @@ public class ShipmentUpdates extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (!validateBtn()){
+                if (!validateBtn()) {
                     return;
-                }else {
+                } else {
                     LoadingDialog.showLoadingDialog(getActivity(), "");
                     postCommentApi();
                 }
@@ -87,19 +84,19 @@ public class ShipmentUpdates extends Fragment {
         jsonObject.addProperty("comments", textString);
 
         Call<PostShipmentCommentModelResponse> call = EngageRetrofitClient.getInstance3()
-                .getAppApi().postShipmentComment("Bearer "+sharedPrefManager.getBearerToken(), id, jsonObject.toString());
+                .getAppApi().postShipmentComment("Bearer " + sharedPrefManager.getBearerToken(), id, jsonObject.toString());
 
         call.enqueue(new Callback<PostShipmentCommentModelResponse>() {
             @Override
             public void onResponse(Call<PostShipmentCommentModelResponse> call, Response<PostShipmentCommentModelResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     shipmentCommentEditText.setText("");
                     getShipmentCommentApi();
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }
@@ -116,9 +113,9 @@ public class ShipmentUpdates extends Fragment {
 
     private boolean validateBtn() {
         textString = shipmentCommentEditText.getText().toString();
-        if (textString.equals("")){
+        if (textString.equals("")) {
             return false;
-        }else {
+        } else {
             return true;
         }
 
@@ -126,23 +123,23 @@ public class ShipmentUpdates extends Fragment {
 
     private void getShipmentCommentApi() {
         Call<List<ShipmentCommentModelResponse>> call = EngageRetrofitClient.getInstance3().
-                getAppApi().shipmentGetComment("Bearer "+sharedPrefManager.getBearerToken(), id);
+                getAppApi().shipmentGetComment("Bearer " + sharedPrefManager.getBearerToken(), id);
         call.enqueue(new Callback<List<ShipmentCommentModelResponse>>() {
             @Override
             public void onResponse(Call<List<ShipmentCommentModelResponse>> call, Response<List<ShipmentCommentModelResponse>> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
                     list = response.body();
                     shipmentUpdateAdapter = new ShipmentUpdateAdapter(list, getContext());
                     shipmentUpdateRecycler.setAdapter(shipmentUpdateAdapter);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
                     layoutManager.scrollToPosition(0);
                     shipmentUpdateRecycler.smoothScrollToPosition(0);
                     shipmentUpdateRecycler.setLayoutManager(layoutManager);
                     LoadingDialog.cancelLoading();
-                }else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
                     LoadingDialog.cancelLoading();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
                 }

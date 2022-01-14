@@ -47,7 +47,7 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
         holder.name.setText(shipment.getCustomerName());
         holder.quantity.setText("(" + String.valueOf(shipment.getPackages().size()) + ")");
 
-        if (shipment.getStateName()!=null){
+        if (shipment.getStateName() != null) {
             if (shipment.getStateName().equals("Awaiting Payment")) {
                 holder.action.setText(shipment.getStateName());
                 holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
@@ -77,7 +77,7 @@ public class ShipmentListingAdapter extends RecyclerView.Adapter<ShipmentListing
                 holder.action.setTextColor(context.getColor(R.color.dispatched_blue_color));
                 holder.action.setBackground(context.getDrawable(R.drawable.dispatched_background));
             }
-        }else {
+        } else {
             holder.action.setText("   ");
             holder.action.setTextColor(context.getColor(R.color.action_required_yellow_color));
             holder.action.setBackground(context.getDrawable(R.drawable.action_required_background));

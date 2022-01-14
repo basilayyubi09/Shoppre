@@ -139,9 +139,9 @@ public class OrderFragment extends Fragment {
 
 
         Bundle bundle = getArguments();
-        if (bundle!=null){
+        if (bundle != null) {
             String type = bundle.getString("type");
-            if (type.equals("order")){
+            if (type.equals("order")) {
                 LayoutInflater inflater1 = getLayoutInflater();
                 View layout = inflater1.inflate(R.layout.yellow_toast,
                         (ViewGroup) view.findViewById(R.id.toast_layout_root));
@@ -166,7 +166,7 @@ public class OrderFragment extends Fragment {
             snackbar.show();
         } else {
             LoadingDialog.showLoadingDialog(getActivity(), "");
-            callMeApi(sharedPrefManager.getBearerToken());
+            callMeApi();
         }
 
         bannerVirtualAddress.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +368,7 @@ public class OrderFragment extends Fragment {
                         LoadingDialog.cancelLoading();
                     }
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi("");
+                    callRefreshTokenApi("submit");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -437,7 +437,7 @@ public class OrderFragment extends Fragment {
                     callReferralApi();
 //                    LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi("");
+                    callRefreshTokenApi("listing");
 
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -483,7 +483,7 @@ public class OrderFragment extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi("");
+                    callRefreshTokenApi("referral");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_SHORT);
@@ -500,11 +500,11 @@ public class OrderFragment extends Fragment {
         });
     }
 
-    private void callMeApi(String bearerToken) {
+    private void callMeApi() {
 
         Call<MeResponse> call = RetrofitClient
                 .getInstance().getApi()
-                .getUser("Bearer " + bearerToken);
+                .getUser("Bearer " + sharedPrefManager.getBearerToken());
         call.enqueue(new Callback<MeResponse>() {
             @Override
             public void onResponse(Call<MeResponse> call, Response<MeResponse> response) {
@@ -538,7 +538,7 @@ public class OrderFragment extends Fragment {
                     }
                     callGetOrderListing();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi("");
+                    callRefreshTokenApi("me");
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -583,8 +583,14 @@ public class OrderFragment extends Fragment {
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     if (where.equals("email")) {
                         callVerifyEmailApi();
-                    } else {
-                        callMeApi(sharedPrefManager.getBearerToken());
+                    } else if (where.equals("me")) {
+                        callMeApi();
+                    } else if (where.equals("submit")) {
+                        callSubmitReferralApi();
+                    } else if (where.equals("listing")) {
+                        callGetOrderListing();
+                    } else if (where.equals("referral")) {
+                        callReferralApi();
                     }
 
                 } else {

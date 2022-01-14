@@ -24,7 +24,7 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
     OrderItem order1;
     SecondInterface secondInterface;
 
-    public CartGroupAdapter(List<Order> list, Context context , SecondInterface secondInterface) {
+    public CartGroupAdapter(List<Order> list, Context context, SecondInterface secondInterface) {
         this.list = list;
         this.context = context;
         this.secondInterface = secondInterface;
@@ -37,7 +37,7 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
 
         View view = LayoutInflater.from(context).inflate(R.layout.cart_single_layout, parent, false);
 
-        return new viewHolder(view , secondInterface);
+        return new viewHolder(view, secondInterface);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
 
         Order order = list.get(position);
 
-        if (position==0){
+        if (position == 0) {
             holder.line.setVisibility(View.GONE);
         }
         holder.weSiteName.setText(list.get(position).getStore().getName());
@@ -54,19 +54,18 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
             public void getData(OrderItem order, Integer id) {
 
                 order1 = order;
-                secondInterface.second(order1 , id);
+                secondInterface.second(order1, id);
             }
 
             @Override
             public void delete(Integer orderId, Integer itemId) {
-                secondInterface.delete(orderId , itemId);
+                secondInterface.delete(orderId, itemId);
             }
         });
         holder.productItemRecycler.setAdapter(cartItemsAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         holder.productItemRecycler.setLayoutManager(linearLayoutManager);
-
 
 
     }
@@ -94,8 +93,9 @@ public class CartGroupAdapter extends RecyclerView.Adapter<CartGroupAdapter.view
         }
     }
 
-    public interface SecondInterface{
+    public interface SecondInterface {
         void second(OrderItem order, Integer id);
-        void delete(Integer orderId , Integer itemId);
+
+        void delete(Integer orderId, Integer itemId);
     }
 }

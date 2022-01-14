@@ -29,7 +29,7 @@ public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentF
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view  = LayoutInflater.from(context).inflate(R.layout.single_final_order_summary , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.single_final_order_summary, parent, false);
         return new viewHolder(view);
     }
 
@@ -40,13 +40,13 @@ public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentF
         Order order = list.get(position);
 
         holder.websiteName.setText(order.getStore().getName());
-        holder.personal.setText("₹ "+order.getPersonalShopperCost());
-        holder.additional.setText("₹ "+order.getAdditionalCharges());
+        holder.personal.setText("₹ " + order.getPersonalShopperCost());
+        holder.additional.setText("₹ " + order.getAdditionalCharges());
 
         List<OrderItem> list1 = list.get(position).getOrderItems();
 
-        ChildFinalOrderSummaryAdapter adapter = new ChildFinalOrderSummaryAdapter(list1 , context);
-        if( position == getItemCount() - 1 ){
+        ChildFinalOrderSummaryAdapter adapter = new ChildFinalOrderSummaryAdapter(list1, context);
+        if (position == getItemCount() - 1) {
 
             holder.view1.setVisibility(View.GONE);
         }
@@ -58,10 +58,11 @@ public class ParentFinalOrderSummaryAdapter extends RecyclerView.Adapter<ParentF
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
-        TextView websiteName , personal , additional;
+    public class viewHolder extends RecyclerView.ViewHolder {
+        TextView websiteName, personal, additional;
         RecyclerView childRecycle;
         View view1;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 

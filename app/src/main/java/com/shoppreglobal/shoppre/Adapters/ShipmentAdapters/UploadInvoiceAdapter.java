@@ -53,16 +53,15 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
     public void onBindViewHolder(@NonNull viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
 
-
         PackageModel packageModel = list.get(position);
 
-        holder.webSiteName.setText(packageModel.getStore().getName()+" ("+list.size()+")");
-        holder.packageId.setText(String.valueOf("Package ID #"+packageModel.getId()));
+        holder.webSiteName.setText(packageModel.getStore().getName() + " (" + list.size() + ")");
+        holder.packageId.setText(String.valueOf("Package ID #" + packageModel.getId()));
 
-        if (packageModel.getIsFullInvoiceReceived()==false){
+        if (packageModel.getIsFullInvoiceReceived() == false) {
             holder.uploadInvoiceArrow.setVisibility(View.VISIBLE);
             holder.invoiceUploaded.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.uploadInvoiceArrow.setVisibility(View.GONE);
             holder.invoiceUploaded.setVisibility(View.VISIBLE);
         }
@@ -78,11 +77,11 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
         holder.expandBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flag == 1){
+                if (flag == 1) {
                     holder.uploadInvoiceItemsRecycler.setVisibility(View.VISIBLE);
 
                     flag = 2;
-                }else if (flag == 2){
+                } else if (flag == 2) {
                     holder.uploadInvoiceItemsRecycler.setVisibility(View.GONE);
                     flag = 1;
                 }
@@ -95,7 +94,7 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
             public void onClick(View v) {
 
 
-                    mCallback.onSelection(holder.uploadInvoiceArrow, holder.invoiceUploaded);
+                mCallback.onSelection(holder.uploadInvoiceArrow, holder.invoiceUploaded);
 
             }
         });
@@ -126,7 +125,7 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView webSiteName, packageId;
         RecyclerView uploadInvoiceItemsRecycler;
@@ -148,7 +147,7 @@ public class UploadInvoiceAdapter extends RecyclerView.Adapter<UploadInvoiceAdap
         }
     }
 
-    public interface CallbackInterface{
+    public interface CallbackInterface {
         void onSelection(LinearLayout uploadInvoiceArrow, TextView invoiceUploaded);
     }
 }

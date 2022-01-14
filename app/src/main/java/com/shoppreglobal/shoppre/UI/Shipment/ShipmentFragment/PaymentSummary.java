@@ -195,7 +195,7 @@ public class PaymentSummary extends Fragment {
 
         }
 
-        if (size==0){
+        if (size == 0) {
             LayoutInflater inflater1 = getLayoutInflater();
             View layout = inflater1.inflate(R.layout.yellow_toast,
                     (ViewGroup) view.findViewById(R.id.toast_layout_root));
@@ -282,7 +282,7 @@ public class PaymentSummary extends Fragment {
                 jsonObject.addProperty("customer_id", modelResponse.getShipment().getCustomerId());
                 jsonObject.addProperty("axis_banned", false);
                 jsonObject.addProperty("type", "shipment");
-                jsonObject.addProperty("cancelUrl", "paymentshipments://Shipments?status=cancel&shipmentId="+shipmentId);
+                jsonObject.addProperty("cancelUrl", "paymentshipments://Shipments?status=cancel&shipmentId=" + shipmentId);
                 jsonObject.addProperty("offer_parameters", "");
                 jsonObject.addProperty("businessType", "android");
                 jsonObject.addProperty("redirectUri", "paymentshipments://Shipments");
@@ -349,8 +349,8 @@ public class PaymentSummary extends Fragment {
 
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+                    callRefreshTokenApi("auth");
+
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
@@ -380,8 +380,7 @@ public class PaymentSummary extends Fragment {
                     LoadingDialog.cancelLoading();
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+                    callRefreshTokenApi("summary");
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -924,7 +923,7 @@ public class PaymentSummary extends Fragment {
 
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -932,9 +931,14 @@ public class PaymentSummary extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
+                    if (whichApi.equals("auth")) {
+                        payAuthorizeApi();
+                    } else if (whichApi.equals("summary")) {
+                        callPaymentSummaryApi();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);

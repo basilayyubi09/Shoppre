@@ -24,7 +24,6 @@ import com.shoppreglobal.shoppre.AccountResponse.RefreshTokenResponse;
 import com.shoppreglobal.shoppre.Adapters.OrderAdapter.ParentFinalOrderSummaryAdapter;
 import com.shoppreglobal.shoppre.OrderModuleResponses.CartModelResponse;
 import com.shoppreglobal.shoppre.OrderModuleResponses.Order;
-import com.shoppreglobal.shoppre.OrderModuleResponses.OrderItem;
 import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
@@ -177,14 +176,12 @@ public class FinalOrderSummaryFragment extends Fragment {
                     list = response.body().getOrders();
 
                     JsonArray idList = new JsonArray();
-                     for (int i=0;i< list.size();i++){
-                         for (int j=0 ; j<list.get(i).getOrderItems().size() ; j++)
-                         {
-                             idList.add(list.get(i).getOrderItems().get(j).getId());
-                         }
+                    for (int i = 0; i < list.size(); i++) {
+                        for (int j = 0; j < list.get(i).getOrderItems().size(); j++) {
+                            idList.add(list.get(i).getOrderItems().get(j).getId());
+                        }
 
-                     }
-
+                    }
 
 
 //                     for (int i=0;i< itemList.size();i++){
@@ -226,7 +223,7 @@ public class FinalOrderSummaryFragment extends Fragment {
                     jsonObjectToSend.add("object_id", idList);
                     jsonObjectToSend.addProperty("axis_banned", false);
                     jsonObjectToSend.addProperty("type", "ps");
-                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel&orderId="+"0");
+                    jsonObjectToSend.addProperty("cancelUrl", "paymentorders://Orders?status=cancel&orderId=" + "0");
                     jsonObjectToSend.addProperty("ps_fee", shoppreTotal);
                     jsonObjectToSend.addProperty("redirectUri", "paymentorders://Orders");
                     jsonObjectToSend.addProperty("businessType", "android");

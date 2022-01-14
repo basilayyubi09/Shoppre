@@ -196,8 +196,6 @@ public class ShippingCalculatorResultFragment extends Fragment {
             public void onResponse(Call<List<SlabResponse>> call, Response<List<SlabResponse>> response) {
                 if (response.code() == 200) {
                     slabResponse = response.body();
-
-
                     LoadingDialog.cancelLoading();
 
                 } else {

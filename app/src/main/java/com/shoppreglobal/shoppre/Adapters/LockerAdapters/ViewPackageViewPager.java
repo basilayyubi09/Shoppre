@@ -28,7 +28,7 @@ public class ViewPackageViewPager extends FragmentPagerAdapter {
         return fragmentTitle.size();
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, String title) {
 
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);

@@ -27,17 +27,17 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.viewHolder> {
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.box_single_layout , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.box_single_layout, parent, false);
         return new viewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        if (list.get(position)!= null){
-            holder.boxHeading.setText("Box "+ String.valueOf(position+1));
-            holder.dimension.setText(String.valueOf(list.get(position).getBoxLength())+" cm x "+ String.valueOf(list.get(position).getBoxWidth())+" cm x " +String.valueOf(list.get(position).getBoxHeight())+" cm ");
-            holder.finalWeight.setText(String.valueOf(list.get(position).getFinalWeight())+" KG");
+        if (list.get(position) != null) {
+            holder.boxHeading.setText("Box " + String.valueOf(position + 1));
+            holder.dimension.setText(String.valueOf(list.get(position).getBoxLength()) + " cm x " + String.valueOf(list.get(position).getBoxWidth()) + " cm x " + String.valueOf(list.get(position).getBoxHeight()) + " cm ");
+            holder.finalWeight.setText(String.valueOf(list.get(position).getFinalWeight()) + " KG");
         }
 
 //        holder.boxElementRecycle.setAdapter();
@@ -48,9 +48,10 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.viewHolder> {
         return list.size();
     }
 
-    public class viewHolder extends  RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
-        TextView boxHeading , dimension , finalWeight;
+        TextView boxHeading, dimension, finalWeight;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             boxHeading = itemView.findViewById(R.id.boxHeading);

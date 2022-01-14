@@ -46,8 +46,8 @@ public class ShipmentDetailsAdapter extends RecyclerView.Adapter<ShipmentDetails
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         PackageModel packageModel = list.get(position);
 
-        holder.ShippingDetailsWebsiteName.setText(packageModel.getStore().getName()+"("+packageModel.getPackageItems().size()+")");
-        holder.shippingDetailsOrderId.setText("Package ID #"+String.valueOf(packageModel.getId()));
+        holder.ShippingDetailsWebsiteName.setText(packageModel.getStore().getName() + "(" + packageModel.getPackageItems().size() + ")");
+        holder.shippingDetailsOrderId.setText("Package ID #" + String.valueOf(packageModel.getId()));
 
         String s = packageModel.getCreatedAt();
         String[] split = s.split("T");
@@ -62,13 +62,13 @@ public class ShipmentDetailsAdapter extends RecyclerView.Adapter<ShipmentDetails
 
         holder.shippingDetailsWeight.setText(String.valueOf(packageModel.getWeight()));
 
-        if (packageModel.getIsFullInvoiceReceived()!=null){
-            if (packageModel.getIsFullInvoiceReceived()==false){
+        if (packageModel.getIsFullInvoiceReceived() != null) {
+            if (packageModel.getIsFullInvoiceReceived() == false) {
                 holder.noInvoiceFoundText.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.noInvoiceFoundText.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             holder.noInvoiceFoundText.setVisibility(View.VISIBLE);
         }
 
@@ -92,7 +92,7 @@ public class ShipmentDetailsAdapter extends RecyclerView.Adapter<ShipmentDetails
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         ImageView shipmentDetailsImage;
         TextView ShippingDetailsWebsiteName, shippingDetailsOrderId, shippingDetailsDate, shippingDetailsWeight, noInvoiceFoundText;

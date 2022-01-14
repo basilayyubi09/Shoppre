@@ -28,7 +28,7 @@ public class ThankYouFragment extends Fragment {
 
 
     LinearLayout address;
-    TextView shipment, order, shipment24, orderId, oneShopText , paymentShipment;
+    TextView shipment, order, shipment24, orderId, oneShopText, paymentShipment;
     MaterialButton invite;
     MaterialCardView note, addressCard, oneShop;
     LinearLayout viewOrder, viewShipment;
@@ -84,7 +84,7 @@ public class ThankYouFragment extends Fragment {
                 shopName = bundle.getString("shopName");
                 oneShop.setVisibility(View.VISIBLE);
                 oneShopText.setText("Looks like you’ve added products only from " + shopName);
-            }else if (bundle.getString("type").equals("shipment")) {
+            } else if (bundle.getString("type").equals("shipment")) {
                 addressCard.setVisibility(View.GONE);
                 note.setVisibility(View.GONE);
                 order.setVisibility(View.GONE);

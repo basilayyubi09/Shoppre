@@ -281,8 +281,8 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
 
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
-                    LoadingDialog.cancelLoading();
+                    callRefreshTokenApi("minio");
+
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                     LoadingDialog.cancelLoading();
@@ -298,7 +298,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         });
     }
 
-    private void callRefreshTokenApi() {
+    private void callRefreshTokenApi(String whichApi) {
         Call<RefreshTokenResponse> call = RetrofitClient
                 .getInstance().getApi()
                 .getRefreshToken(sharedPrefManager.getRefreshToken());
@@ -306,11 +306,15 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), "Something went wrong please try again!", Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    if (whichApi.equals("minio")){
+                        callMinioUploadApi();
+                    }
+                    else if (whichApi.equals("self")){
+                        callSelfShopperApi();
+                    }
                 } else {
                     LoadingDialog.cancelLoading();
                     Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.orderFrameLayout), response.message(), Snackbar.LENGTH_LONG);
@@ -345,7 +349,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
 
                 okhttp3.Response response = client.newCall(request).execute();
                 Log.d("Codeeeeeeeeeeeeeee", String.valueOf(response.code()));
-                callSelfShopperApi(body);
+                callSelfShopperApi();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -360,7 +364,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
         }
     }
 
-    private void callSelfShopperApi(RequestBody body) {
+    private void callSelfShopperApi() {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("invoice", responseObject);
@@ -383,7 +387,7 @@ public class SelfShopperPlaceOrderFargment extends Fragment {
                             .replace(R.id.orderFrameLayout, thankYouFragment, null)
                             .addToBackStack(null).commit();
                 } else if (response.code() == 401) {
-                    callRefreshTokenApi();
+                    callRefreshTokenApi("self");
                 } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();

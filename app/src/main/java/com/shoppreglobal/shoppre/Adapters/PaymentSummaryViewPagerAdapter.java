@@ -28,7 +28,7 @@ public class PaymentSummaryViewPagerAdapter extends FragmentPagerAdapter {
         return fragmentTitle.size();
     }
 
-    public void addFragment(Fragment fragment, String tabTitle){
+    public void addFragment(Fragment fragment, String tabTitle) {
         fragmentArrayList.add(fragment);
         fragmentTitle.add(tabTitle);
     }

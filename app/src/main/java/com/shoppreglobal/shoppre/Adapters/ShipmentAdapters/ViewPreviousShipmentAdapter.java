@@ -19,7 +19,7 @@ import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
 
 import java.util.List;
 
-public class ViewPreviousShipmentAdapter extends RecyclerView.Adapter<ViewPreviousShipmentAdapter.viewHolder>{
+public class ViewPreviousShipmentAdapter extends RecyclerView.Adapter<ViewPreviousShipmentAdapter.viewHolder> {
 
     List<PackageModel> list;
     Context context;
@@ -64,7 +64,7 @@ public class ViewPreviousShipmentAdapter extends RecyclerView.Adapter<ViewPrevio
             holder.action.setText(list.get(position).getStateName());
             holder.action.setTextColor(context.getColor(R.color.ready_to_ship_green_color));
             holder.action.setBackground(context.getDrawable(R.drawable.ready_to_ship_background));
-        }else {
+        } else {
             holder.viewShipment.setVisibility(View.VISIBLE);
 
             holder.action.setText(list.get(position).getStateName());
@@ -94,7 +94,7 @@ public class ViewPreviousShipmentAdapter extends RecyclerView.Adapter<ViewPrevio
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView webSiteName, shipmentId, quantity, action;
         LinearLayout viewShipment;

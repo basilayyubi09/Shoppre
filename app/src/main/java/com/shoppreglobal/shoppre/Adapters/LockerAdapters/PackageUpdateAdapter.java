@@ -44,16 +44,15 @@ public class PackageUpdateAdapter extends RecyclerView.Adapter<PackageUpdateAdap
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
 
-
 //        holder.name.setText(packageUpdateResponse.getName());
 //        holder.packageStatus.setText(packageUpdateResponse.getOrderStatus());
 //        holder.date.setText(packageUpdateResponse.getDate());
 
-        if (list.get(position).getUser()!=null){
+        if (list.get(position).getUser() != null) {
             holder.name.setText(list.get(position).getUser().getName());
         }
-        if (list.get(position).getUser().getGroupId()!=null){
-            if (list.get(position).getUser().getGroupId()==1){
+        if (list.get(position).getUser().getGroupId() != null) {
+            if (list.get(position).getUser().getGroupId() == 1) {
 
                 firstLetter = list.get(position).getUser().getFirstName().charAt(0);
                 textDrawable = TextDrawable.builder()
@@ -65,7 +64,7 @@ public class PackageUpdateAdapter extends RecyclerView.Adapter<PackageUpdateAdap
                 holder.profileImage.setImageDrawable(textDrawable);
                 holder.name.setTextColor(context.getResources().getColor(R.color.text_red));
 
-            }else {
+            } else {
                 holder.profileImage.setImageResource(R.drawable.shoppre_ic);
                 holder.name.setTextColor(context.getResources().getColor(R.color.text_blue));
             }
@@ -81,10 +80,11 @@ public class PackageUpdateAdapter extends RecyclerView.Adapter<PackageUpdateAdap
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         TextView name, packageStatus, date;
         ImageView profileImage;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 

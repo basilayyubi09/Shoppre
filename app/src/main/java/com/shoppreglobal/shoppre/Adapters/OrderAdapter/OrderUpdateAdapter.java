@@ -44,12 +44,12 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
 
-        if (list.get(position).getUser()!=null){
+        if (list.get(position).getUser() != null) {
             holder.profileName.setText(list.get(position).getUser().getName());
         }
 
-        if (list.get(position).getUser().getGroupId()!=null){
-            if (list.get(position).getUser().getGroupId()==1){
+        if (list.get(position).getUser().getGroupId() != null) {
+            if (list.get(position).getUser().getGroupId() == 1) {
 
                 firstLetter = list.get(position).getUser().getFirstName().charAt(0);
                 textDrawable = TextDrawable.builder()
@@ -62,7 +62,7 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
                 holder.profileName.setTextColor(context.getResources().getColor(R.color.text_red));
                 holder.profileImage.setImageDrawable(textDrawable);
 
-            }else {
+            } else {
                 holder.profileImage.setImageResource(R.drawable.shoppre_ic);
                 holder.profileName.setTextColor(context.getResources().getColor(R.color.text_blue));
             }
@@ -78,7 +78,7 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         ImageView profileImage;
         TextView profileName, orderStatus, dateAndTime;
@@ -86,7 +86,7 @@ public class OrderUpdateAdapter extends RecyclerView.Adapter<OrderUpdateAdapter.
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
-            profileImage =itemView.findViewById(R.id.profileImage);
+            profileImage = itemView.findViewById(R.id.profileImage);
             profileName = itemView.findViewById(R.id.profileName);
             orderStatus = itemView.findViewById(R.id.orderStatus);
             dateAndTime = itemView.findViewById(R.id.dateAndTime);

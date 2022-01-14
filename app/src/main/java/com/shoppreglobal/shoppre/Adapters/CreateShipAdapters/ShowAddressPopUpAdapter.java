@@ -43,7 +43,7 @@ public class ShowAddressPopUpAdapter extends RecyclerView.Adapter<ShowAddressPop
 
         holder.showAddressName.setText(address.getName());
         holder.showAddressPhoneNo.setText(address.getPhone());
-        holder.showAddressLine1.setText(address.getLine1()+" - "+"\n"+address.getState()+" - "+address.getCity()+" - "+"\n"+address.getCountry().getName());
+        holder.showAddressLine1.setText(address.getLine1() + " - " + "\n" + address.getState() + " - " + address.getCity() + " - " + "\n" + address.getCountry().getName());
 
         holder.showAddressRadioButton.setChecked(lastSelectedPosition == position);
         holder.showAddressRadioButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +69,7 @@ public class ShowAddressPopUpAdapter extends RecyclerView.Adapter<ShowAddressPop
         return list.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder{
+    public class viewHolder extends RecyclerView.ViewHolder {
 
         RadioButton showAddressRadioButton;
         TextView showAddressName, showAddressPhoneNo, showAddressLine1;
@@ -87,7 +87,7 @@ public class ShowAddressPopUpAdapter extends RecyclerView.Adapter<ShowAddressPop
         }
     }
 
-    public interface Interface{
+    public interface Interface {
         public void popUpRadioButtonOperation(DeliveryListModel.Address address, RadioButton showAddressRadioButton);
     }
 }
