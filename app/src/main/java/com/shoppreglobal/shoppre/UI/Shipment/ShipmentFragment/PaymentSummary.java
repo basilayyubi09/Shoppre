@@ -1,11 +1,13 @@
 package com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +33,9 @@ import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient3;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.BoxWeight;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
+import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ChangePasswordFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -195,18 +199,7 @@ public class PaymentSummary extends Fragment {
 
         }
 
-        if (size == 0) {
-            LayoutInflater inflater1 = getLayoutInflater();
-            View layout = inflater1.inflate(R.layout.yellow_toast,
-                    (ViewGroup) view.findViewById(R.id.toast_layout_root));
-            TextView toastText = (TextView) layout.findViewById(R.id.toastText);
-            toastText.setText("Payment failed try again!");
-            Toast toast = new Toast(getContext());
-            toast.setGravity(Gravity.TOP, 0, 200);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setView(layout);
-            toast.show();
-        }
+
         paymentSummaryTabLayout = view.findViewById(R.id.paymentSumaryTabLayout);
         viewPager = view.findViewById(R.id.paymentSummaryViewPager);
 
@@ -317,7 +310,9 @@ public class PaymentSummary extends Fragment {
 
 
         return view;
+
     }
+
 
     private void payAuthorizeApi() {
         JsonObject jsonObject = new JsonObject();

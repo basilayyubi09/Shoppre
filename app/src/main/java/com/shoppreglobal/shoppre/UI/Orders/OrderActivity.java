@@ -26,6 +26,7 @@ import com.shoppreglobal.shoppre.UI.Locker.LockerReadyToShip;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ThankYouFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.PaymentSummary;
+import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
@@ -76,7 +77,7 @@ public class OrderActivity extends AppCompatActivity {
                     thankYouFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
-                            .addToBackStack(null).commit();
+                           .commit();
                 } else {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("type", "order");
@@ -84,11 +85,12 @@ public class OrderActivity extends AppCompatActivity {
                     orderFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, orderFragment)
-                            .addToBackStack(null).commit();
+                            .commit();
                 }
             } else if (scheme.equals("paymentshipments")) {
                 String status = uri.getQueryParameter("status");
                 Integer id = Integer.valueOf(uri.getQueryParameter("shipmentId"));
+                Log.d("kaha ruka", String.valueOf(id));
                 if (status.equals("success")) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("type", "shipment");
@@ -96,16 +98,18 @@ public class OrderActivity extends AppCompatActivity {
                     thankYouFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
-                            .addToBackStack(null).commit();
+                            .commit();
                 } else {
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt("shipmentId", id);
-                    bundle1.putInt("size", 0);
-                    PaymentSummary paymentSummary = new PaymentSummary();
-                    paymentSummary.setArguments(bundle1);
+                    bundle1.putInt("id", id);
+                    bundle1.putBoolean("toast", true);
+//                    bundle1.putInt("size", 0);
+
+                    ShipmentLanding shipmentLanding = new ShipmentLanding();
+                    shipmentLanding.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
-                            .replace(R.id.orderFrameLayout, paymentSummary)
-                            .addToBackStack(null).commit();
+                            .replace(R.id.orderFrameLayout, shipmentLanding)
+                            .commit();
                 }
             }
         } else {

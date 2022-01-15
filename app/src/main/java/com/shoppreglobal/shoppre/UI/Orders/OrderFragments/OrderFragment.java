@@ -82,7 +82,7 @@ public class OrderFragment extends Fragment {
     EditText referralET;
     Integer shoppreId, id;
     boolean isEmailVerified;
-
+    String showToast;
     String scheme;
     YouTubePlayerView youTubePlayerView;
 
@@ -140,8 +140,8 @@ public class OrderFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String type = bundle.getString("type");
-            if (type.equals("order")) {
+            showToast = bundle.getString("type");
+            if (showToast.equals("order")) {
                 LayoutInflater inflater1 = getLayoutInflater();
                 View layout = inflater1.inflate(R.layout.yellow_toast,
                         (ViewGroup) view.findViewById(R.id.toast_layout_root));
@@ -152,6 +152,8 @@ public class OrderFragment extends Fragment {
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setView(layout);
                 toast.show();
+
+                showToast = "";
             }
         }
         list = new ArrayList<>();

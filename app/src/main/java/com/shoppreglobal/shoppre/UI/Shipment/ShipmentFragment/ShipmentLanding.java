@@ -20,6 +20,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +63,7 @@ import com.shoppreglobal.shoppre.ShipmentModelResponse.MinioUploadModelResponse;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentBox;
 import com.shoppreglobal.shoppre.ShipmentModelResponse.ShipmentDetailsModelResponse;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentDetails;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentTabLayout.ShipmentUpdates;
@@ -127,9 +130,10 @@ public class ShipmentLanding extends Fragment {
     DownloadManager downloadManager;
     long downloadId;
     RecyclerView uploadInvoiceRecycler;
-    Dialog dialog;
+//    Dialog dialog;
     UploadInvoiceAdapter uploadInvoiceAdapter;
     List<PackageModel> list2;
+    boolean showToast = false;
 
 
     @Override
@@ -144,12 +148,25 @@ public class ShipmentLanding extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             id = bundle.getInt("id");
-            size = bundle.getInt("size");
-            stateId = bundle.getInt("stateId");
-            stateName = bundle.getString("stateName");
-            list = (List<PackageModel>) bundle.getSerializable("packages");
+            showToast = bundle.getBoolean("toast");
+//            size = bundle.getInt("size");
+//            stateId = bundle.getInt("stateId");
+//            stateName = bundle.getString("stateName");
+//            list = (List<PackageModel>) bundle.getSerializable("packages");
         }
-
+        if (showToast) {
+            LayoutInflater inflater1 = getLayoutInflater();
+            View layout = inflater1.inflate(R.layout.yellow_toast,
+                    (ViewGroup) view.findViewById(R.id.toast_layout_root));
+            TextView toastText = (TextView) layout.findViewById(R.id.toastText);
+            toastText.setText("Payment failed try again!");
+            Toast toast = new Toast(getContext());
+            toast.setGravity(Gravity.TOP, 0, 200);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(layout);
+            toast.show();
+            showToast= false;
+        }
         boxList = new ArrayList<>();
         list2 = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -197,24 +214,14 @@ public class ShipmentLanding extends Fragment {
 
         PRDownloader.initialize(getActivity());
 
-        viewPagerAdapter = new ShipmentLandingViewPager(getChildFragmentManager());
         LoadingDialog.showLoadingDialog(getActivity(), "");
         shipmentDetailsApi();
-        Bundle bundle1 = new Bundle();
-        bundle1.putInt("id", id);
-        shipmentDetails.setArguments(bundle1);
-        shipmentUpdates.setArguments(bundle1);
 
 
-        viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details" + " (" + String.valueOf(size) + ")");
-        viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
-        viewPager.setAdapter(viewPagerAdapter);
-
-        shipmentTabLayout.setupWithViewPager(viewPager);
 
 
-        LoadingDialog.showLoadingDialog(getActivity(), "");
-        shipmentDetailsApi();
+
+//        shipmentDetailsApi();
 
         uploadWireTransferText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,7 +310,7 @@ public class ShipmentLanding extends Fragment {
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.upload_invoice_dialog_box);
 
-        RecyclerView uploadInvoiceRecycler;
+
         ImageView closeBtn;
 
 
@@ -318,12 +325,12 @@ public class ShipmentLanding extends Fragment {
         });
 
 
-        uploadInvoicePackagesApi();
+        uploadInvoicePackagesApi(dialog);
 
 
     }
 
-    private void uploadInvoicePackagesApi() {
+    private void uploadInvoicePackagesApi(Dialog dialog) {
 
         LoadingDialog.showLoadingDialog(getActivity(), "");
         Call<ShipmentDetailsModelResponse> call = RetrofitClient3.getInstance3()
@@ -374,6 +381,34 @@ public class ShipmentLanding extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    // handle back button's click listener
+                    int backCount = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+                    if (backCount == 0) {
+
+                        OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, new OrderFragment(), null)
+                                .commit();
+
+                    } else {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                    return true;
+
+                }
+                return true;
+            }
+        });
+
+    }
 
     private void downloadFile(String url) {
 
@@ -617,12 +652,25 @@ public class ShipmentLanding extends Fragment {
             @Override
             public void onResponse(Call<ShipmentDetailsModelResponse> call, Response<ShipmentDetailsModelResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
+
                     modelResponse = response.body();
-
-
+                    list = response.body().getPackages();
+                    stateId = response.body().getShipment().getShipmentState().getStateId();
+                    size = response.body().getPackages().size();
                     setShipmentDetailsValue();
+                    viewPagerAdapter = new ShipmentLandingViewPager(getChildFragmentManager());
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putInt("id", id);
+                    shipmentDetails.setArguments(bundle1);
+                    shipmentUpdates.setArguments(bundle1);
 
+                    viewPagerAdapter.addFragments(shipmentDetails, "Shipment Details" + " (" + String.valueOf(size) + ")");
+
+
+                    viewPagerAdapter.addFragments(shipmentUpdates, "Shipment Updates");
+                    viewPager.setAdapter(viewPagerAdapter);
+
+                    shipmentTabLayout.setupWithViewPager(viewPager);
 //                    if (modelResponse.getShipment().getShipmentBoxes().isEmpty()) {
 //                        firstLayout.setVisibility(View.VISIBLE);
 //                        secondLayout.setVisibility(View.GONE);
@@ -637,7 +685,7 @@ public class ShipmentLanding extends Fragment {
 //
 //
 //                    }
-
+                    LoadingDialog.cancelLoading();
                 } else if (response.code() == 401) {
                     callRefreshTokenApi("shipmentDetails");
 
@@ -788,8 +836,8 @@ public class ShipmentLanding extends Fragment {
                         cancelShipmentApi();
                     } else if (whichApi.equals("download")) {
                         downloadInvoiceApi();
-                    } else if (whichApi.equals("invoice")) {
-                        uploadInvoicePackagesApi();
+                    } else {
+                        Toast.makeText(getActivity(), "Something went wrong, try again!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     LoadingDialog.cancelLoading();
