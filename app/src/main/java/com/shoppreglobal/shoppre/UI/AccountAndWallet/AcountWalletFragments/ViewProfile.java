@@ -28,6 +28,8 @@ import androidx.fragment.app.Fragment;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -398,9 +400,9 @@ public class ViewProfile extends Fragment {
                 GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions
                         .DEFAULT_SIGN_IN).build();
                 GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity(), googleSignInOptions);
-
+                FacebookSdk.sdkInitialize(getActivity());
                 googleSignInClient.signOut();
-
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(getActivity(), SignUpActivity.class));
                 getActivity().finishAffinity();
             }

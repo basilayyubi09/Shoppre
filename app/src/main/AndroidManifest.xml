@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Shoppre"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".UI.SignupLogin.WebViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".UI.SignupLogin.LockAccountActivity"
             android:exported="true" />
 
@@ -50,28 +53,23 @@
                     android:path="/api/users/public/verify"
                     android:scheme="https" />
             </intent-filter>
-
             <intent-filter android:autoVerify="true">
-
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-
                     android:host="Shipments"
-                    android:scheme="paymentshipments"
                     android:pathPattern=".*"
+                    android:scheme="paymentshipments"
                     tools:ignore="AppLinkUrlError" />
                 <data
-
                     android:host="Orders"
-                    android:scheme="paymentorders"
                     android:pathPattern=".*"
+                    android:scheme="paymentorders"
                     tools:ignore="AppLinkUrlError" />
-
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UI.OnBoarding.OnBoardingActivity"

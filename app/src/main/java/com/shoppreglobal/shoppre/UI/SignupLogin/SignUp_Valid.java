@@ -29,6 +29,7 @@ import com.shoppreglobal.shoppre.R;
 import com.shoppreglobal.shoppre.Retrofit.RetrofitClient;
 import com.shoppreglobal.shoppre.UI.OnBoarding.OnBoardingActivity;
 import com.shoppreglobal.shoppre.UI.Orders.OrderActivity;
+import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.WebViewFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
 import com.shoppreglobal.shoppre.Utils.LoadingDialog;
 import com.shoppreglobal.shoppre.Utils.SharedPrefManager;
@@ -41,7 +42,7 @@ public class SignUp_Valid extends AppCompatActivity {
 
     Button sendBtn;
     protected EditText passwordField;
-    TextView signUpValdAlrdyAcnt, passwordErrorText, helperText;
+    TextView signUpValdAlrdyAcnt, passwordErrorText, helperText , privacy , terms;
     TextInputLayout firstlNameField, lastNameField, emailIdField,
             confirmPasswordField, referalCodeField;
     String emailId, password, confirmPassword, checkLogin, referalCode, firstName, lastName, emailIdFromIntent;
@@ -66,6 +67,8 @@ public class SignUp_Valid extends AppCompatActivity {
         //Hooks
 
         sendBtn = findViewById(R.id.signUpBtn);
+        terms = findViewById(R.id.terms);
+        privacy = findViewById(R.id.privacy);
         backArrow = findViewById(R.id.backArrow);
         firstlNameField = findViewById(R.id.firstNameField);
         lastNameField = findViewById(R.id.lastName);
@@ -112,6 +115,23 @@ public class SignUp_Valid extends AppCompatActivity {
             }
         });
 
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent1 = new Intent(SignUp_Valid.this , WebViewActivity.class);
+               intent1.putExtra("url" , "https://help.shoppreparcels.com/support/solutions/articles/81000399110-privacy-policy");
+               startActivity(intent1);
+            }
+        });
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(SignUp_Valid.this , WebViewActivity.class);
+                intent1.putExtra("url" , "https://help.shoppreparcels.com/support/solutions/articles/81000399109-terms-of-use");
+                startActivity(intent1);
+            }
+        });
         //Text Watcher on Password Field
         passwordField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -160,12 +180,85 @@ public class SignUp_Valid extends AppCompatActivity {
                 //get texts from field
                 getStringFromFields();
 
-                //Validation functions
-                if (!validateFirstName() || !validateLastName() || !validateEmailField()
-                        || !validatePasswordField() || !validateConfirmPasswordField()) {
-                    getStringFromFields();
-                    return;
-                } else {
+
+
+
+
+                if (firstName.isEmpty()) {
+                    firstlNameField.setBoxStrokeWidth(2);
+                    firstlNameField.setBoxStrokeWidthFocused(2);
+                    firstlNameField.setError("This is a required field");
+                }
+                if (!firstName.isEmpty()) {
+                    firstlNameField.setError(null);
+                    firstlNameField.setBoxStrokeWidth(0);
+                }
+                if (lastName.isEmpty()) {
+                    lastNameField.setBoxStrokeWidth(2);
+                    lastNameField.setBoxStrokeWidthFocused(2);
+                    lastNameField.setError("This is a required field");
+
+                }
+                if (!lastName.isEmpty()) {
+                    lastNameField.setError(null);
+                    lastNameField.setBoxStrokeWidth(0);
+                }
+                String emailPattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (emailId.isEmpty()) {
+                    emailIdField.setBoxStrokeWidth(2);
+                    emailIdField.setBoxStrokeWidthFocused(2);
+                    emailIdField.setError("This is a required field");
+
+                }
+                if (!emailId.isEmpty()) {
+                    emailIdField.setError(null);
+                    emailIdField.setBoxStrokeWidth(0);
+                }
+                if (emailId.matches(emailPattern)) {
+                    emailIdField.setError(null);
+                    emailIdField.setBoxStrokeWidth(0);
+                }
+                if (!emailId.matches(emailPattern)) {
+                    emailIdField.setBoxStrokeWidth(2);
+                    emailIdField.setBoxStrokeWidthFocused(2);
+                    emailIdField.setError("Enter Valid email");
+                }
+                if (password.isEmpty()) {
+                    passwordErrorText.setVisibility(View.VISIBLE);
+                    helperText.setVisibility(View.GONE);
+                    strengthImage.setImageResource(R.drawable.ic_weak);
+                }
+                if (password.matches(passwordPattern)) {
+                    helperText.setVisibility(View.VISIBLE);
+                    passwordErrorText.setVisibility(View.GONE);
+                }
+                if (!password.matches(passwordPattern)) {
+                    helperText.setVisibility(View.GONE);
+                    passwordErrorText.setVisibility(View.VISIBLE);
+                    strengthImage.setImageResource(R.drawable.ic_weak);
+
+                }
+//                if (confirmPassword.isEmpty()) {
+//
+//                    confirmPasswordField.setBoxStrokeWidth(2);
+//                    confirmPasswordField.setBoxStrokeWidthFocused(2);
+//                    confirmPasswordField.setError("This is a required field");
+//
+//                }
+                if (!confirmPassword.isEmpty()) {
+                    confirmPasswordField.setError(null);
+                    confirmPasswordField.setBoxStrokeWidth(0);
+                }
+                if (!confirmPassword.equals(password)) {
+                    confirmPasswordField.setBoxStrokeWidth(2);
+                    confirmPasswordField.setBoxStrokeWidthFocused(2);
+                    confirmPasswordField.setError("Password does not match");
+
+
+                }
+                
+                if (!firstName.isEmpty()&&!lastName.isEmpty()&&!emailId.isEmpty()&&!password.isEmpty()&&password.matches(passwordPattern)
+                &&!confirmPassword.isEmpty()&&confirmPassword.equals(password)){
                     if (!CheckNetwork.isInternetAvailable(getApplicationContext())) //if connection not available
                     {
 
@@ -179,14 +272,25 @@ public class SignUp_Valid extends AppCompatActivity {
                                 referalCode,
                                 lastName);
 
-                        //Show Alerts
-                        LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
+
                     }
+                }
+                else {
+
+                }
+                //Validation functions
+//                if (!validateFirstName() && !validateLastName() && !validateEmailField()
+//                        && !validatePasswordField() && !validateConfirmPasswordField()) {
+//                    
+////                    validateAllFields();
+//                    return;
+//                } else {
+
 
                 }
 
 
-            }
+
         });
 
         signUpValdAlrdyAcnt.setOnClickListener(new View.OnClickListener() {
@@ -198,12 +302,14 @@ public class SignUp_Valid extends AppCompatActivity {
         });
     }
 
+
     private void registerVerifyApi(String first_Name,
                                    String emailId,
                                    String password,
                                    String referalCode,
                                    String lastName) {
-
+        //Show Alerts
+        LoadingDialog.showLoadingDialog(SignUp_Valid.this, "Loading...");
         //For sending data in JSON
         JsonObject paramObject = new JsonObject();
 
@@ -354,6 +460,10 @@ public class SignUp_Valid extends AppCompatActivity {
         referalCodeField.getEditText().setText("");
     }
 
+    private void validateAllFields() {
+     
+
+    }
 
     private Boolean validateFirstName() {
 
