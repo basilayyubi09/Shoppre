@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/orderMenu"
-        android:title="Order"
+        android:title="Orders"
         android:enabled="true"
         android:icon="@drawable/bottom_order_selector"/>
 

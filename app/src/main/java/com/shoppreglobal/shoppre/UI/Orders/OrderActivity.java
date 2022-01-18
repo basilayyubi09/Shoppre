@@ -25,7 +25,6 @@ import com.shoppreglobal.shoppre.UI.AccountAndWallet.AcountWalletFragments.ViewP
 import com.shoppreglobal.shoppre.UI.Locker.LockerReadyToShip;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.OrderFragment;
 import com.shoppreglobal.shoppre.UI.Orders.OrderFragments.ThankYouFragment;
-import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.PaymentSummary;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentLanding;
 import com.shoppreglobal.shoppre.UI.Shipment.ShipmentFragment.ShipmentListingFragment;
 import com.shoppreglobal.shoppre.Utils.CheckNetwork;
@@ -77,7 +76,7 @@ public class OrderActivity extends AppCompatActivity {
                     thankYouFragment.setArguments(bundle1);
                     OrderActivity.fragmentManager.beginTransaction()
                             .replace(R.id.orderFrameLayout, thankYouFragment)
-                           .commit();
+                            .commit();
                 } else {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("type", "order");
