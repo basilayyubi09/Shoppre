@@ -15,7 +15,7 @@
 
     <item
         android:id="@+id/shipmentMenu"
-        android:title="Shipment"
+        android:title="Shipments"
         android:enabled="true"
         android:icon="@drawable/bottom_shipment_selector"/>
 

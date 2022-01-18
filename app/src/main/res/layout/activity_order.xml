@@ -31,6 +31,7 @@
             android:layout_height="58dp"
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
+            android:menuCategory="secondary"
             app:itemIconTint="@drawable/bottomnav_selector"
             app:itemTextColor="@drawable/bottomnav_selector"
             app:labelVisibilityMode="labeled"
