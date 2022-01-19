@@ -448,7 +448,6 @@ public class EmptyAddressBook extends Fragment {
             @Override
             public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
                 if (response.code() == 200) {
-                    LoadingDialog.cancelLoading();
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
                     fetchAddress();
@@ -499,10 +498,11 @@ public class EmptyAddressBook extends Fragment {
                                 billingAddressName.setText(response.body().getAddresses().get(i).getName());
                                 billingAddressContactNumber.setText(response.body().getAddresses().get(i).getPhone());
                                 String line1A = response.body().getAddresses().get(i).getLine1();
+                                String city1A = response.body().getAddresses().get(i).getCity();
                                 String stateA = response.body().getAddresses().get(i).getState();
                                 String countryA = response.body().getAddresses().get(i).getCountry().getName();
 
-                                billingAddress.setText(line1A + " " + "\n" + stateA + " " + "\n" + countryA);
+                                billingAddress.setText(line1A + " " + "\n" +city1A + "\n" +stateA + " " + "\n" + countryA);
                                 list.remove(i);
                             }
 

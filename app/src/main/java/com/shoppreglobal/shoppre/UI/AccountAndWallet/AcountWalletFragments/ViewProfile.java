@@ -420,7 +420,6 @@ public class ViewProfile extends Fragment {
             @Override
             public void onResponse(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 if (response.code() == 200) {
-
                     User user = response.body().getUser();
                     profilePrice.setText("₹ " + String.valueOf(user.getWalletAmount()));
                     LoadingDialog.cancelLoading();

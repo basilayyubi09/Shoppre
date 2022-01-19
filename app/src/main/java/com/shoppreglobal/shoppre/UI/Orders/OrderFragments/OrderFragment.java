@@ -401,6 +401,7 @@ public class OrderFragment extends Fragment {
                     list1 = response.body().getIncomingPkgs();
                     ordersAdapter = new OrdersAdapter(list, list1, getContext());
                     orderRecycler.setAdapter(ordersAdapter);
+                    ordersAdapter.notifyDataSetChanged();
                     int number = orderRecycler.getAdapter().getItemCount();
                     if (number == 0) {
                         banner.setVisibility(View.VISIBLE);

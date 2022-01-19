@@ -120,6 +120,7 @@ public class CancelledOrderFragment extends Fragment {
                     ordersAdapter = new OrdersAdapter(list, list1, getContext());
                     recycle.setLayoutManager(linearLayoutManager);
                     recycle.setAdapter(ordersAdapter);
+                    ordersAdapter.notifyDataSetChanged();
 
                     int number = recycle.getAdapter().getItemCount();
                     if (number == 0) {
