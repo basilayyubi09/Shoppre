@@ -14,34 +14,34 @@ public class ServiceChargesSummary {
     private ActualPlcCharges actualPlcCharges;
     @SerializedName("serviceChargesTotal")
     @Expose
-    private Integer serviceChargesTotal;
+    private Double serviceChargesTotal;
     @SerializedName("shipmentMeta")
     @Expose
     private ShipmentMeta shipmentMeta;
     @SerializedName("membershipShippingDiscount")
     @Expose
-    private Integer membershipShippingDiscount;
+    private Double membershipShippingDiscount;
     @SerializedName("membershipServiceChargeDiscount")
     @Expose
-    private Integer membershipServiceChargeDiscount;
+    private Double membershipServiceChargeDiscount;
     @SerializedName("membershipTotalDiscount")
     @Expose
-    private Integer membershipTotalDiscount;
+    private Double membershipTotalDiscount;
     @SerializedName("delayCharges")
     @Expose
-    private Integer delayCharges;
+    private Double delayCharges;
     @SerializedName("originalPlcChargesTotal")
     @Expose
-    private Integer originalPlcChargesTotal;
+    private Double originalPlcChargesTotal;
     @SerializedName("shipmentLevelChargesAmount")
     @Expose
-    private Integer shipmentLevelChargesAmount;
+    private Double shipmentLevelChargesAmount;
     @SerializedName("packageLevelDiscount")
     @Expose
-    private Integer packageLevelDiscount;
+    private Double packageLevelDiscount;
     @SerializedName("discountOrAdditionalCharges")
     @Expose
-    private Integer discountOrAdditionalCharges;
+    private Double discountOrAdditionalCharges;
 
     public OriginalPlcCharges getOriginalPlcCharges() {
         return originalPlcCharges;
@@ -59,11 +59,11 @@ public class ServiceChargesSummary {
         this.actualPlcCharges = actualPlcCharges;
     }
 
-    public Integer getServiceChargesTotal() {
+    public Double getServiceChargesTotal() {
         return serviceChargesTotal;
     }
 
-    public void setServiceChargesTotal(Integer serviceChargesTotal) {
+    public void setServiceChargesTotal(Double serviceChargesTotal) {
         this.serviceChargesTotal = serviceChargesTotal;
     }
 
@@ -75,67 +75,67 @@ public class ServiceChargesSummary {
         this.shipmentMeta = shipmentMeta;
     }
 
-    public Integer getMembershipShippingDiscount() {
+    public Double getMembershipShippingDiscount() {
         return membershipShippingDiscount;
     }
 
-    public void setMembershipShippingDiscount(Integer membershipShippingDiscount) {
+    public void setMembershipShippingDiscount(Double membershipShippingDiscount) {
         this.membershipShippingDiscount = membershipShippingDiscount;
     }
 
-    public Integer getMembershipServiceChargeDiscount() {
+    public Double getMembershipServiceChargeDiscount() {
         return membershipServiceChargeDiscount;
     }
 
-    public void setMembershipServiceChargeDiscount(Integer membershipServiceChargeDiscount) {
+    public void setMembershipServiceChargeDiscount(Double membershipServiceChargeDiscount) {
         this.membershipServiceChargeDiscount = membershipServiceChargeDiscount;
     }
 
-    public Integer getMembershipTotalDiscount() {
+    public Double getMembershipTotalDiscount() {
         return membershipTotalDiscount;
     }
 
-    public void setMembershipTotalDiscount(Integer membershipTotalDiscount) {
+    public void setMembershipTotalDiscount(Double membershipTotalDiscount) {
         this.membershipTotalDiscount = membershipTotalDiscount;
     }
 
-    public Integer getDelayCharges() {
+    public Double getDelayCharges() {
         return delayCharges;
     }
 
-    public void setDelayCharges(Integer delayCharges) {
+    public void setDelayCharges(Double delayCharges) {
         this.delayCharges = delayCharges;
     }
 
-    public Integer getOriginalPlcChargesTotal() {
+    public Double getOriginalPlcChargesTotal() {
         return originalPlcChargesTotal;
     }
 
-    public void setOriginalPlcChargesTotal(Integer originalPlcChargesTotal) {
+    public void setOriginalPlcChargesTotal(Double originalPlcChargesTotal) {
         this.originalPlcChargesTotal = originalPlcChargesTotal;
     }
 
-    public Integer getShipmentLevelChargesAmount() {
+    public Double getShipmentLevelChargesAmount() {
         return shipmentLevelChargesAmount;
     }
 
-    public void setShipmentLevelChargesAmount(Integer shipmentLevelChargesAmount) {
+    public void setShipmentLevelChargesAmount(Double shipmentLevelChargesAmount) {
         this.shipmentLevelChargesAmount = shipmentLevelChargesAmount;
     }
 
-    public Integer getPackageLevelDiscount() {
+    public Double getPackageLevelDiscount() {
         return packageLevelDiscount;
     }
 
-    public void setPackageLevelDiscount(Integer packageLevelDiscount) {
+    public void setPackageLevelDiscount(Double packageLevelDiscount) {
         this.packageLevelDiscount = packageLevelDiscount;
     }
 
-    public Integer getDiscountOrAdditionalCharges() {
+    public Double getDiscountOrAdditionalCharges() {
         return discountOrAdditionalCharges;
     }
 
-    public void setDiscountOrAdditionalCharges(Integer discountOrAdditionalCharges) {
+    public void setDiscountOrAdditionalCharges(Double discountOrAdditionalCharges) {
         this.discountOrAdditionalCharges = discountOrAdditionalCharges;
     }
 }

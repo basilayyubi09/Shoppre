@@ -109,7 +109,7 @@ public class ShipmentListingFragment extends Fragment {
                         recyclerView.setVisibility(View.VISIBLE);
                     }
                     LoadingDialog.cancelLoading();
-                } else if (response.code() == 400) {
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
 
                 } else {

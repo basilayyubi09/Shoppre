@@ -7,112 +7,112 @@ public class OriginalCharges {
 
     @SerializedName("standard_photo_charges")
     @Expose
-    private Integer standardPhotoCharges;
+    private Double standardPhotoCharges;
     @SerializedName("advanced_photo_charges")
     @Expose
-    private Integer advancedPhotoCharges;
+    private Double advancedPhotoCharges;
     @SerializedName("split_package")
     @Expose
-    private Integer splitPackage;
+    private Double splitPackage;
     @SerializedName("wrong_address_amount")
     @Expose
-    private Integer wrongAddressAmount;
+    private Double wrongAddressAmount;
     @SerializedName("scan_document_amount")
     @Expose
-    private Integer scanDocumentAmount;
+    private Double scanDocumentAmount;
     @SerializedName("receive_mail_amount")
     @Expose
-    private Integer receiveMailAmount;
+    private Double receiveMailAmount;
     @SerializedName("pickup_amount")
     @Expose
-    private Integer pickupAmount;
+    private Double pickupAmount;
     @SerializedName("special_handling_amount")
     @Expose
-    private Integer specialHandlingAmount;
+    private Double specialHandlingAmount;
     @SerializedName("consolidation_charge")
     @Expose
-    private Integer consolidationCharge;
+    private Double consolidationCharge;
     @SerializedName("package_return")
     @Expose
-    private Integer packageReturn;
+    private Double packageReturn;
 
-    public Integer getStandardPhotoCharges() {
+    public Double getStandardPhotoCharges() {
         return standardPhotoCharges;
     }
 
-    public void setStandardPhotoCharges(Integer standardPhotoCharges) {
+    public void setStandardPhotoCharges(Double standardPhotoCharges) {
         this.standardPhotoCharges = standardPhotoCharges;
     }
 
-    public Integer getAdvancedPhotoCharges() {
+    public Double getAdvancedPhotoCharges() {
         return advancedPhotoCharges;
     }
 
-    public void setAdvancedPhotoCharges(Integer advancedPhotoCharges) {
+    public void setAdvancedPhotoCharges(Double advancedPhotoCharges) {
         this.advancedPhotoCharges = advancedPhotoCharges;
     }
 
-    public Integer getSplitPackage() {
+    public Double getSplitPackage() {
         return splitPackage;
     }
 
-    public void setSplitPackage(Integer splitPackage) {
+    public void setSplitPackage(Double splitPackage) {
         this.splitPackage = splitPackage;
     }
 
-    public Integer getWrongAddressAmount() {
+    public Double getWrongAddressAmount() {
         return wrongAddressAmount;
     }
 
-    public void setWrongAddressAmount(Integer wrongAddressAmount) {
+    public void setWrongAddressAmount(Double wrongAddressAmount) {
         this.wrongAddressAmount = wrongAddressAmount;
     }
 
-    public Integer getScanDocumentAmount() {
+    public Double getScanDocumentAmount() {
         return scanDocumentAmount;
     }
 
-    public void setScanDocumentAmount(Integer scanDocumentAmount) {
+    public void setScanDocumentAmount(Double scanDocumentAmount) {
         this.scanDocumentAmount = scanDocumentAmount;
     }
 
-    public Integer getReceiveMailAmount() {
+    public Double getReceiveMailAmount() {
         return receiveMailAmount;
     }
 
-    public void setReceiveMailAmount(Integer receiveMailAmount) {
+    public void setReceiveMailAmount(Double receiveMailAmount) {
         this.receiveMailAmount = receiveMailAmount;
     }
 
-    public Integer getPickupAmount() {
+    public Double getPickupAmount() {
         return pickupAmount;
     }
 
-    public void setPickupAmount(Integer pickupAmount) {
+    public void setPickupAmount(Double pickupAmount) {
         this.pickupAmount = pickupAmount;
     }
 
-    public Integer getSpecialHandlingAmount() {
+    public Double getSpecialHandlingAmount() {
         return specialHandlingAmount;
     }
 
-    public void setSpecialHandlingAmount(Integer specialHandlingAmount) {
+    public void setSpecialHandlingAmount(Double specialHandlingAmount) {
         this.specialHandlingAmount = specialHandlingAmount;
     }
 
-    public Integer getConsolidationCharge() {
+    public Double getConsolidationCharge() {
         return consolidationCharge;
     }
 
-    public void setConsolidationCharge(Integer consolidationCharge) {
+    public void setConsolidationCharge(Double consolidationCharge) {
         this.consolidationCharge = consolidationCharge;
     }
 
-    public Integer getPackageReturn() {
+    public Double getPackageReturn() {
         return packageReturn;
     }
 
-    public void setPackageReturn(Integer packageReturn) {
+    public void setPackageReturn(Double packageReturn) {
         this.packageReturn = packageReturn;
     }
 }
