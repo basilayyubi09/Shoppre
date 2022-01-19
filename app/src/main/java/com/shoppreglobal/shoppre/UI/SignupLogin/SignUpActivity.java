@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -81,6 +82,15 @@ public class SignUpActivity extends AppCompatActivity {
             startActivity(new Intent(SignUpActivity.this, OrderActivity.class));
             finish();
         }
+
+        //A5:D4:A6:B0:5B:49:CB:9F:C8:5C:6A:02:80:54:92:3E:80:3D:45:FC
+
+//        byte[] sha1 = {
+//                (byte) 0xA5, (byte) 0xD4, (byte) 0xA6, (byte) 0xB0, 0x5B, 0x49, (byte) 0xCB, (byte) 0x9F, (byte) 0xC8, 0x5C, 0x6A, 0x02, (byte) 0x80, 0x54, (byte) 0x92, 0x3E, (byte) 0x80, 0x3D, 0x45, (byte) 0xFC
+//
+//        };
+//        System.out.println("keyhashGooglePlaySignIn:"+ Base64.encodeToString(sha1, Base64.NO_WRAP));
+//        Log.d("keyhashGooglePlaySignIn", Base64.encodeToString(sha1, Base64.NO_WRAP));
 
 
         FirebaseApp.initializeApp(getApplicationContext());
