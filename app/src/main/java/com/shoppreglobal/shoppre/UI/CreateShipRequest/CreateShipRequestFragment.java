@@ -51,7 +51,7 @@ public class CreateShipRequestFragment extends Fragment {
     List<Integer> list1;
     MaterialButton choosePackageProceedBtn;
     MaterialCardView totalValue, containDamage;
-    Integer total = 0;
+    Double total;
     boolean isContainInvoice = false;
 
 
@@ -91,7 +91,7 @@ public class CreateShipRequestFragment extends Fragment {
         adapter = new DummyCreateAdapter(list, getActivity(), new DummyCreateAdapter.MyInterface() {
             @SuppressLint("ResourceAsColor")
             @Override
-            public void getCheckBox(Integer id, CheckBox check1, Integer priceAmount1, Object invoice, PackageModel model) {
+            public void getCheckBox(Integer id, CheckBox check1, Double priceAmount1, Object invoice, PackageModel model) {
                 if (check1.isChecked()) {
 
                     if (list1.contains(id)) {
@@ -124,7 +124,7 @@ public class CreateShipRequestFragment extends Fragment {
                         }
                         if (list.size() == list1.size()) {
                             checkBox.setChecked(true);
-                            total = 0;
+                            total = Double.valueOf(0);
                             for (int i = 0; i < list.size(); i++) {
                                 if (list.get(i).getInvoice() == null) {
                                     isContainInvoice = true;
@@ -188,7 +188,7 @@ public class CreateShipRequestFragment extends Fragment {
                             containDamage.setVisibility(View.GONE);
                         }
                         if (list1.isEmpty()) {
-                            total = 0;
+                            total = Double.valueOf(0);
                             totalAmount.setText("₹ " + String.valueOf(total));
                             containDamage.setVisibility(View.GONE);
                             totalValue.setVisibility(View.GONE);
@@ -300,7 +300,7 @@ public class CreateShipRequestFragment extends Fragment {
                     CreateShipmentDeliveryAddress address = new CreateShipmentDeliveryAddress();
                     address.setArguments(bundle);
 
-                    total = 0;
+                    total = Double.valueOf(0);
                     checkBox.setChecked(false);
                     totalAmount.setText("₹ " + String.valueOf(total));
                     OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, address, null)

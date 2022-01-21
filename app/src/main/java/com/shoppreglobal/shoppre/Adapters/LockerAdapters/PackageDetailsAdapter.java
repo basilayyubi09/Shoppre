@@ -442,7 +442,7 @@ public class PackageDetailsAdapter extends RecyclerView.Adapter<PackageDetailsAd
 
         void singleProceed(String type, Integer id);
 
-        void click(Integer quantity, Integer packageId, Integer id, int position, LinearLayout secondLayoutBg, LinearLayout LayoutBg, EditText thirdPriceEditText, EditText s);
+        void click(Double quantity, Integer packageId, Integer id, int position, LinearLayout secondLayoutBg, LinearLayout LayoutBg, EditText thirdPriceEditText, EditText s);
 
         void callApi();
 

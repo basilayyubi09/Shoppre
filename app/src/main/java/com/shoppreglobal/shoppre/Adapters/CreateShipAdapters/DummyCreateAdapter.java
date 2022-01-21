@@ -143,6 +143,6 @@ public class DummyCreateAdapter extends RecyclerView.Adapter<DummyCreateAdapter.
     }
 
     public interface MyInterface {
-        void getCheckBox(Integer id, CheckBox check, Integer priceAmount, Object invoice, PackageModel model);
+        void getCheckBox(Integer id, CheckBox check, Double priceAmount, Object invoice, PackageModel model);
     }
 }

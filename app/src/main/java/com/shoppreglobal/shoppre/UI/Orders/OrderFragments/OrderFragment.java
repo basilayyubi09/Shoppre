@@ -399,7 +399,7 @@ public class OrderFragment extends Fragment {
 
                     list = response.body().getOrders();
                     list1 = response.body().getIncomingPkgs();
-                    ordersAdapter = new OrdersAdapter(list, list1, getContext());
+                    ordersAdapter = new OrdersAdapter(list, list1, getActivity());
                     orderRecycler.setAdapter(ordersAdapter);
                     ordersAdapter.notifyDataSetChanged();
                     int number = orderRecycler.getAdapter().getItemCount();

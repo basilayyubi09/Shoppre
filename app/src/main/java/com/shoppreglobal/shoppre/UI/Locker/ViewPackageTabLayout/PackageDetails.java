@@ -188,7 +188,7 @@ public class PackageDetails extends Fragment {
                         }
 
                         @Override
-                        public void click(Integer quantity, Integer packageId, Integer id, int position,
+                        public void click(Double quantity, Integer packageId, Integer id, int position,
                                           LinearLayout secondLayoutBg,
                                           LinearLayout layoutBg, EditText thirdPriceEditText, EditText editText1) {
                             LoadingDialog.showLoadingDialog(getActivity(), "");
@@ -283,7 +283,7 @@ public class PackageDetails extends Fragment {
         });
     }
 
-    private void callUpdatePriceApi(Integer quantity,
+    private void callUpdatePriceApi(Double quantity,
                                     LinearLayout secondLayoutBg,
                                     LinearLayout layoutBg,
                                     String s, Integer id,

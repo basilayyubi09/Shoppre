@@ -15,13 +15,13 @@ public class PackageItem implements Serializable {
     private String name;
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private Double quantity;
     @SerializedName("price_amount")
     @Expose
-    private Integer priceAmount;
+    private Double priceAmount;
     @SerializedName("total_amount")
     @Expose
-    private Integer totalAmount;
+    private Double totalAmount;
     @SerializedName("object")
     @Expose
     private String object;
@@ -68,7 +68,7 @@ public class PackageItem implements Serializable {
     private Object psTotalPrice;
     @SerializedName("ps_total_quantity")
     @Expose
-    private Integer psTotalQuantity;
+    private Double psTotalQuantity;
     @SerializedName("package_item_state_id")
     @Expose
     private Integer packageItemStateId;
@@ -100,27 +100,27 @@ public class PackageItem implements Serializable {
         this.name = name;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Integer getPriceAmount() {
+    public Double getPriceAmount() {
         return priceAmount;
     }
 
-    public void setPriceAmount(Integer priceAmount) {
+    public void setPriceAmount(Double priceAmount) {
         this.priceAmount = priceAmount;
     }
 
-    public Integer getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -228,11 +228,11 @@ public class PackageItem implements Serializable {
         this.psTotalPrice = psTotalPrice;
     }
 
-    public Integer getPsTotalQuantity() {
+    public Double getPsTotalQuantity() {
         return psTotalQuantity;
     }
 
-    public void setPsTotalQuantity(Integer psTotalQuantity) {
+    public void setPsTotalQuantity(Double psTotalQuantity) {
         this.psTotalQuantity = psTotalQuantity;
     }
 

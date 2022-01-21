@@ -20,7 +20,7 @@ public class PackageModel implements Serializable {
     private Object weight;
     @SerializedName("price_amount")
     @Expose
-    private Integer priceAmount;
+    private Double priceAmount;
     @SerializedName("order_code")
     @Expose
     private Object orderCode;
@@ -97,11 +97,11 @@ public class PackageModel implements Serializable {
         this.weight = weight;
     }
 
-    public Integer getPriceAmount() {
+    public Double getPriceAmount() {
         return priceAmount;
     }
 
-    public void setPriceAmount(Integer priceAmount) {
+    public void setPriceAmount(Double priceAmount) {
         this.priceAmount = priceAmount;
     }
 

@@ -76,7 +76,7 @@ public class OrderUpdates extends Fragment {
                 if (!validateBtn()) {
                     return;
                 } else {
-                    LoadingDialog.showLoadingDialog(getActivity() , "");
+                    LoadingDialog.showLoadingDialog(getActivity(), "");
                     callAddComment();
                 }
             }
@@ -87,25 +87,24 @@ public class OrderUpdates extends Fragment {
     }
 
     private void callSendChatApi() {
-        Call<List<GetCommentsResponse>> call= EngageRetrofitClient
+        Call<List<GetCommentsResponse>> call = EngageRetrofitClient
                 .getInstance3().getAppApi().getComments(id);
 
         call.enqueue(new Callback<List<GetCommentsResponse>>() {
             @Override
             public void onResponse(Call<List<GetCommentsResponse>> call, Response<List<GetCommentsResponse>> response) {
-                if (response.code()==200){
+                if (response.code() == 200) {
 
-                     list = response.body();
+                    list = response.body();
                     orderUpdateAdapter = new OrderUpdateAdapter(list, getContext());
                     orderUpdatesRecycler.setAdapter(orderUpdateAdapter);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
                     layoutManager.scrollToPosition(0);
                     orderUpdatesRecycler.smoothScrollToPosition(0);
                     orderUpdatesRecycler.setLayoutManager(layoutManager);
 
                     LoadingDialog.cancelLoading();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -118,6 +117,7 @@ public class OrderUpdates extends Fragment {
             }
         });
     }
+
     private boolean validateBtn() {
         textString = text.getText().toString();
         if (textString.equals("")) {
@@ -131,23 +131,21 @@ public class OrderUpdates extends Fragment {
 
     private void callAddComment() {
         JsonObject object = new JsonObject();
-        object.addProperty("comments" , textString);
+        object.addProperty("comments", textString);
 
         Call<AddCommentResponse> call = EngageRetrofitClient
-                .getInstance3().getAppApi().addComment("Bearer "+sharedPrefManager.getBearerToken()
-              ,id  ,object.toString());
+                .getInstance3().getAppApi().addComment("Bearer " + sharedPrefManager.getBearerToken()
+                        , id, object.toString());
         call.enqueue(new Callback<AddCommentResponse>() {
             @Override
             public void onResponse(Call<AddCommentResponse> call, Response<AddCommentResponse> response) {
-                if (response.code()==201){
+                if (response.code() == 201) {
                     text.setText("");
                     callSendChatApi();
 
-                }
-                else if (response.code()==401){
+                } else if (response.code() == 401) {
                     callRefreshTokenApi();
-                }
-                else {
+                } else {
                     LoadingDialog.cancelLoading();
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }
