@@ -16,7 +16,7 @@ public class CancelItemDialog {
     public void showDialog(Context context) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.return_item_dialog_box);
 
@@ -27,7 +27,12 @@ public class CancelItemDialog {
         proceedWith1ItemBtn = dialog.findViewById(R.id.proceedWith1ItemBtn);
         close = dialog.findViewById(R.id.close);
 
-
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         addMoreProductBtn.setOnClickListener(new View.OnClickListener() {
             @Override
