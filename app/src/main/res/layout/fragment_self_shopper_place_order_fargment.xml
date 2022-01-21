@@ -218,7 +218,6 @@
                                 android:layout_width="5dp"
                                 android:layout_height="138dp"
                                 android:layout_marginLeft="15dp"
-
                                 android:background="@drawable/dashed_line_vertical" />
 
                             <TextView
