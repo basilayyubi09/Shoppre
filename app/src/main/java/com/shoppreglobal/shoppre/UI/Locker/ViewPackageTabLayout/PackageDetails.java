@@ -614,23 +614,19 @@ public class PackageDetails extends Fragment {
 
                     sharedPrefManager.storeBearerToken(response.body().getAccessToken());
                     sharedPrefManager.storeRefreshToken(response.body().getRefreshToken());
-                    if (whichApi.equals("return")){
+                    if (whichApi.equals("return")) {
                         callReturnPackageApi();
-                    }
-                    else if (whichApi.equals("split")){
+                    } else if (whichApi.equals("split")) {
                         callSplitPackageApi();
-                    }else if (whichApi.equals("discard")){
+                    } else if (whichApi.equals("discard")) {
                         callDiscardPackageApi();
-                    }
-                    else if (whichApi.equals("exchange")){
+                    } else if (whichApi.equals("exchange")) {
                         callExchangePackageApi();
-                    }
-                    else if (whichApi.equals("additional")){
+                    } else if (whichApi.equals("additional")) {
                         callAdditionalPhoto();
-                    } else if (whichApi.equals("view")){
+                    } else if (whichApi.equals("view")) {
                         callViewPackage();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getActivity(), "Something went wrong try again!", Toast.LENGTH_LONG).show();
                     }
                 } else {

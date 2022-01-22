@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_weight="1"
+        android:layout_marginRight="2dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -110,6 +111,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginLeft="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -156,6 +158,7 @@
             android:gravity="center_horizontal">
 
             <TextView
+                android:paddingLeft="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View Package"
@@ -167,6 +170,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="2dp"
+                android:paddingRight="3dp"
                 android:src="@drawable/ic_arrow" />
 
         </LinearLayout>

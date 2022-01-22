@@ -43,11 +43,15 @@
                         android:padding="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
+
                             android:id="@+id/discardShoeCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -149,11 +153,14 @@
                         android:paddingHorizontal="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/addExtraCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -256,11 +263,14 @@
                         android:paddingHorizontal="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/shipInOrignalCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -352,11 +362,14 @@
                         android:paddingHorizontal="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/giftWrapCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -458,11 +471,14 @@
                         android:paddingHorizontal="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/giftNoteCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -573,10 +589,14 @@
                         android:paddingHorizontal="25dp">
 
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/expressProcessingCheckBox"
-                            android:layout_width="30dp"
-                            android:layout_height="27dp" />
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+
+                            android:button="@drawable/check_bg"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -682,10 +702,10 @@
                             android:textColor="@color/white"
                             android:textFontWeight="700"
                             android:textSize="12sp"
-                            app:iconSize="14dp"
                             app:backgroundTint="@color/grey"
                             app:icon="@drawable/return_arrow"
                             app:iconGravity="end"
+                            app:iconSize="14dp"
                             app:iconTint="@color/white" />
                     </LinearLayout>
                 </LinearLayout>

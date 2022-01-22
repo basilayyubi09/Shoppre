@@ -46,7 +46,7 @@ public class FinalOrderSummaryFragment extends Fragment {
     SharedPrefManager sharedPrefManager;
     List<Order> list = new ArrayList<>();
     RecyclerView recyclerView;
-    TextView orderTotal, shoppreFee, total;
+    TextView orderTotal, shoppreFee, total , terms;
     ParentFinalOrderSummaryAdapter adapter;
     MaterialButton proceedToPayBtn;
     Integer shoppreId;
@@ -68,6 +68,7 @@ public class FinalOrderSummaryFragment extends Fragment {
         orderTotal = view.findViewById(R.id.orderTotal);
         total = view.findViewById(R.id.total);
         check = view.findViewById(R.id.check);
+        terms = view.findViewById(R.id.terms);
         recyclerView = view.findViewById(R.id.recycleFinal);
         proceedToPayBtn = view.findViewById(R.id.proceedToPayBtn);
         shoppreFee = view.findViewById(R.id.shoppreFee);
@@ -84,6 +85,19 @@ public class FinalOrderSummaryFragment extends Fragment {
         callCartApi();
 
 
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("url", "https://help.shoppreparcels.com/support/solutions");
+                WebViewFragment cash = new WebViewFragment();
+                cash.setArguments(bundle);
+                if (savedInstanceState != null) return;
+                OrderActivity.fragmentManager.beginTransaction().replace(R.id.orderFrameLayout, cash, null)
+                        .addToBackStack(null).commit();
+            }
+        });
+        //https://help.shoppreparcels.com/support/solutions
         proceedToPayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

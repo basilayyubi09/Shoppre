@@ -106,8 +106,6 @@ public class CreateShippingPrefrenceFragment extends Fragment {
 
                     if (!list.contains("gift")) {
                         giftNoteEditText.setVisibility(View.VISIBLE);
-
-
                         addItemInList("gift");
 
                     }

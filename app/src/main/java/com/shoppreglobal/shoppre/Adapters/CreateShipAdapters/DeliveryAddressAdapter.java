@@ -44,13 +44,19 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
         DeliveryListModel.Address address = list.get(position);
 
-
+        String countryName;
+        if (address.getCountry()==null){
+             countryName = "";
+        }
+        else {
+            countryName = address.getCountry().getName();
+        }
         holder.createShipmentAddressName.setText(address.getName());
         holder.createShipmentPhoneNo.setText(address.getPhone());
         holder.createShipmentAddress.setText(address.getLine1() +
                 "\n" + address.getCity() + " - " + address.getState() +
                 "\n" + address.getPincode() +
-                "\n" + address.getCountry().getName());
+                "\n" + countryName);
         holder.createShipmentAddressRadioBtn.setChecked(position == mCheckedPosition);
         holder.createShipmentAddressRadioBtn.setOnClickListener(v -> {
             if (position == mCheckedPosition) {

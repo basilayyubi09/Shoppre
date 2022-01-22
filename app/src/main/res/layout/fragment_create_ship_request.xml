@@ -88,11 +88,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp">
 
-                    <CheckBox
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dp" />
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="25dp"
+                        android:button="@drawable/check_bg"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8" />
 
                     <TextView
                         android:id="@+id/selectedNumber"

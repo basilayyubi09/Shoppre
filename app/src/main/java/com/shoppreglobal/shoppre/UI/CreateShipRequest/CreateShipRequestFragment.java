@@ -51,7 +51,7 @@ public class CreateShipRequestFragment extends Fragment {
     List<Integer> list1;
     MaterialButton choosePackageProceedBtn;
     MaterialCardView totalValue, containDamage;
-    Double total;
+    Double total = Double.valueOf(0);
     boolean isContainInvoice = false;
 
 
@@ -100,6 +100,10 @@ public class CreateShipRequestFragment extends Fragment {
                         list1.add(id);
                         tempList.add(model);
                         selectedNumber.setText(String.valueOf(list1.size()));
+//                        if (priceAmount1!=null){
+//                            total = total + priceAmount1;
+//                            totalAmount.setText("₹ " + String.valueOf(total));
+//                        }
                         total = total + priceAmount1;
                         totalAmount.setText("₹ " + String.valueOf(total));
                         if (list1.size() < 1) {

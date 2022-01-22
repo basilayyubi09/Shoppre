@@ -39,6 +39,7 @@ public class ViewPhotoDialog {
 
 
         ImageView viewPhotoCloseBtn = dialog.findViewById(R.id.viewPhotoCloseBtn);
+        ImageView close = dialog.findViewById(R.id.close);
         MaterialButton unlockPhotoBtn = dialog.findViewById(R.id.unlockPhotoBtn);
         MaterialButton addMoreProductBtn = dialog.findViewById(R.id.addMoreProductBtn);
         MaterialButton proceedWith1ItemBtn = dialog.findViewById(R.id.proceedWith1ItemBtn);
@@ -176,7 +177,12 @@ public class ViewPhotoDialog {
                 click.Dismiss(dialog);
             }
         });
-
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         unlockPhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

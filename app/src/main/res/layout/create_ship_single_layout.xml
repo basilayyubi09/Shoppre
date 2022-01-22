@@ -7,11 +7,15 @@
     android:padding="25dp">
 
 
-    <CheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
+        android:layout_width="24dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/check_bg"
+        android:scaleX="0.8"
+        android:scaleY="0.8"  />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -157,7 +161,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:paddingRight="4dp"
+                android:paddingRight="5dp"
                 android:src="@drawable/ic_arrow" />
 
         </LinearLayout>

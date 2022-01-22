@@ -311,7 +311,7 @@ public class AddAddress extends Fragment {
             object.addProperty("phone", phoneNumberString);
 
         } else {
-            object.addProperty("phone", cc + phoneNumberString);
+            object.addProperty("phone", "+"+cc + phoneNumberString);
 
         }
 //        Toast.makeText(getActivity(), String.valueOf(cc), Toast.LENGTH_SHORT).show();

@@ -51,9 +51,14 @@ public class GetDeliveryAddrsAdapter extends RecyclerView.Adapter<GetDeliveryAdd
         holder.deliverToName.setText(address.getName());
         holder.line1.setText(address.getLine1());
         holder.state.setText(address.getState());
-        if (address.getCountry().getName() != null) {
-            holder.country.setText(address.getCountry().getName());
-        } else {
+        if (address.getCountry()!= null){
+            if (address.getCountry().getName() != null) {
+                holder.country.setText(address.getCountry().getName());
+            } else {
+                holder.country.setText("");
+            }
+        }
+        else {
             holder.country.setText("");
         }
 
