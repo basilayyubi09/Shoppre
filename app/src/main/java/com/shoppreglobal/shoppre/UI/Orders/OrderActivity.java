@@ -241,7 +241,6 @@ public class OrderActivity extends AppCompatActivity {
                     .setNegativeButton("No", null)
                     .show();
         }
-
     }
 
     private void internetCheck() {

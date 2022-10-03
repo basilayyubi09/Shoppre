@@ -244,6 +244,7 @@ public class ViewProfile extends Fragment {
                 .bold().toUpperCase()
                 .endConfig().buildRound(String.valueOf(firstLetter), randomColor);
 
+
         profileImage.setImageDrawable(textDrawable);
         setProfileCredentials();
 

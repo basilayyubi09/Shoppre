@@ -1223,7 +1223,7 @@ public class ShipmentLanding extends Fragment {
             Request request = new Request.Builder()
                     .url(responseUrl)
                     .method("PUT", body)
-                    .addHeader("Content-Type", "application/octet-stream")
+                    .addHeader("Content-Type", "application/Foctet-stream")
                     .build();
             try {
                 okhttp3.Response response = client.newCall(request).execute();
